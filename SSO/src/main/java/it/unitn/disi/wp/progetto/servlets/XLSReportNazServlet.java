@@ -61,6 +61,22 @@ public class XLSReportNazServlet extends HttpServlet {
         Sheet sheet = workbook.createSheet();
 
         int rowCount = -1;
+        Row row_titoli = sheet.createRow(++rowCount);
+
+        Cell cell_titoli = row_titoli.createCell(0);
+        cell_titoli.setCellValue("PROVINCIA gdsgdsgfdsgsdg");
+
+        cell_titoli = row_titoli.createCell(1);
+        cell_titoli.setCellValue("CF MEDICO");
+
+        cell_titoli = row_titoli.createCell(2);
+        cell_titoli.setCellValue("NOME MEDICO");
+
+        cell_titoli = row_titoli.createCell(3);
+        cell_titoli.setCellValue("COGNOME MEDICO");
+
+        cell_titoli = row_titoli.createCell(4);
+        cell_titoli.setCellValue("SPESA MEDICO");
 
         for (ElemReportNazionale report : listReport) {
             Row row = sheet.createRow(++rowCount);
@@ -72,8 +88,35 @@ public class XLSReportNazServlet extends HttpServlet {
             cell.setCellValue(report.getCfMedico());
 
             cell = row.createCell(2);
+            cell.setCellValue(report.getNomeMedico());
+
+            cell = row.createCell(3);
+            cell.setCellValue(report.getCognomeMedico());
+
+            cell = row.createCell(4);
             cell.setCellValue(report.getSpesa());
         }
+
+/*
+        for (int i=0 ; i<5 ; i++) {
+            Row row = sheet.createRow(++rowCount);
+
+            Cell cell = row.createCell(0);
+            cell.setCellValue("ciaoffffffffffdsffafsdfff");
+
+            cell = row.createCell(1);
+            cell.setCellValue("Cd/r)m3s3333333m");
+
+            cell = row.createCell(2);
+            cell.setCellValue("13352345434534353$");
+
+        }*/
+
+        sheet.autoSizeColumn(0);
+        sheet.autoSizeColumn(1);
+        sheet.autoSizeColumn(2);
+        sheet.autoSizeColumn(3);
+        sheet.autoSizeColumn(4);
 
         workbook.write(response.getOutputStream());
     }
