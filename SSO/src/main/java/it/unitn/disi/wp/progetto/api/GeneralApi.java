@@ -108,7 +108,9 @@ public class GeneralApi extends Api{
 
         Response res;
         HttpSession session = request.getSession(false);
-        if(session == null || !(((Utente)session.getAttribute("utente")).getRuolo().equals(Utilities.PAZIENTE_RUOLO) && !idProvincia.equals(((Utente)session.getAttribute("utente")).getProv()))) {
+        if(session == null || session.getAttribute("utente") == null ||
+                !(((Utente)session.getAttribute("utente")).getRuolo().equals(Utilities.PAZIENTE_RUOLO) &&
+                        !idProvincia.equals(((Utente)session.getAttribute("utente")).getProv()))) {
             try {
                 UtenteDAO utenteDAO = daoFactory.getDAO(UtenteDAO.class);
                 List<Utente> mediciBase = utenteDAO.getMediciBaseBySuggestionAndProvincia(term, idProvincia);

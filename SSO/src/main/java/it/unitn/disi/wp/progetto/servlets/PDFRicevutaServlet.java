@@ -74,8 +74,8 @@ public class PDFRicevutaServlet extends HttpServlet {
                 return;
             }
 
-            if (session != null && !checkAuthZ(tipo, id, (Utente) session.getAttribute("utente"))) {
-                response.sendError(HttpServletResponse.SC_FORBIDDEN, "You are trying to access to someone else's ricetta");
+            if (session != null && session.getAttribute("utente") != null && !checkAuthZ(tipo, id, (Utente) session.getAttribute("utente"))) {
+                response.sendError(HttpServletResponse.SC_FORBIDDEN, "You are trying to access to someone else's data");
                 return;
             }
 

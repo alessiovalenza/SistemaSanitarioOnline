@@ -154,7 +154,7 @@ public class PazienteApi extends Api {
         HttpSession session = request.getSession(false);
         Response res;
         
-        if(session == null || !( ((Utente)session.getAttribute("utente")).getRuolo().equals(Utilities.FARMACIA_RUOLO) && !nonEvaseOnly )) {
+        if(session == null || session.getAttribute("utente") == null || !( ((Utente)session.getAttribute("utente")).getRuolo().equals(Utilities.FARMACIA_RUOLO) && !nonEvaseOnly )) {
             if(evaseOnly == null || nonEvaseOnly == null || (nonEvaseOnly && evaseOnly)) {
                 return badRequestResponse;
             }
@@ -340,7 +340,7 @@ public class PazienteApi extends Api {
         }
 
         HttpSession session = request.getSession(false);
-        if(session == null || ( (Utente)session.getAttribute("utente") ).getId() == idFarmacia) {
+        if(session == null || session.getAttribute("utente") == null || ( (Utente)session.getAttribute("utente") ).getId() == idFarmacia) {
 
             try {
                 RicettaDAO ricettaDAO = daoFactory.getDAO(RicettaDAO.class);
@@ -379,7 +379,7 @@ public class PazienteApi extends Api {
 
         Response res;
         HttpSession session = request.getSession(false);
-        if(session == null ||
+        if(session == null || session.getAttribute("utente") == null ||
                 ((Utente)session.getAttribute("utente")).getProv().equals(idProvincia)) {
             try {
                 EsamePrescrittoDAO esamePrescrittoDAO = daoFactory.getDAO(EsamePrescrittoDAO.class);
@@ -413,7 +413,7 @@ public class PazienteApi extends Api {
         Response res;
         HttpSession session = request.getSession(false);
 
-        if(session == null || ( (Utente)session.getAttribute("utente") ).getProv().equals(idProvincia)) {
+        if(session == null || session.getAttribute("utente") == null || ( (Utente)session.getAttribute("utente") ).getProv().equals(idProvincia)) {
             try {
                 EsamePrescrittoDAO esamePrescrittoDAO = daoFactory.getDAO(EsamePrescrittoDAO.class);
                 List<Utente> richiamati = esamePrescrittoDAO.richiamoSuccessivoMinEta(infEta, idProvincia, idEsame, new Timestamp(System.currentTimeMillis()));
@@ -446,7 +446,7 @@ public class PazienteApi extends Api {
 
         Response res;
         HttpSession session = request.getSession(false);
-        if(session == null || ( (Utente)session.getAttribute("utente") ).getId() == idMedicoSpec) {
+        if(session == null || session.getAttribute("utente") == null || ( (Utente)session.getAttribute("utente") ).getId() == idMedicoSpec) {
 
             try {
                 VisitaMedicoSpecialistaDAO visitaMedicoSpecialistaDAO = daoFactory.getDAO(VisitaMedicoSpecialistaDAO.class);
@@ -486,7 +486,7 @@ public class PazienteApi extends Api {
         Response res;
         HttpSession session = request.getSession(false);
 
-        if(session == null || ( (Utente)session.getAttribute("utente") ).getId() == idMedicoBase) {
+        if(session == null || session.getAttribute("utente") == null || ( (Utente)session.getAttribute("utente") ).getId() == idMedicoBase) {
             try {
                 UtenteDAO utenteDAO = daoFactory.getDAO(UtenteDAO.class);
                 Utente paziente = utenteDAO.getByPrimaryKey(idPaziente);
@@ -528,7 +528,7 @@ public class PazienteApi extends Api {
         Response res;
         HttpSession session = request.getSession(false);
 
-        if(session == null || ( (Utente)session.getAttribute("utente") ).getId() == idMedicoBase) {
+        if(session == null || session.getAttribute("utente") == null || ( (Utente)session.getAttribute("utente") ).getId() == idMedicoBase) {
             try {
                 UtenteDAO utenteDAO = daoFactory.getDAO(UtenteDAO.class);
                 Utente paziente = utenteDAO.getByPrimaryKey(idPaziente);
@@ -567,7 +567,7 @@ public class PazienteApi extends Api {
 
         Response res;
         HttpSession session = request.getSession(false);
-        if(session == null ||
+        if(session == null || session.getAttribute("utente") == null ||
                 ((Utente)session.getAttribute("utente")).getId() == idMedicoBase) {
             try {
                 UtenteDAO utenteDAO = daoFactory.getDAO(UtenteDAO.class);
@@ -607,7 +607,7 @@ public class PazienteApi extends Api {
         Response res;
         HttpSession session = request.getSession(false);
 
-        if(session == null || ( (Utente)session.getAttribute("utente") ).getId() == idMedicoBase) {
+        if(session == null || session.getAttribute("utente") == null || ( (Utente)session.getAttribute("utente") ).getId() == idMedicoBase) {
             try {
                 UtenteDAO utenteDAO = daoFactory.getDAO(UtenteDAO.class);
                 Utente paziente = utenteDAO.getByPrimaryKey(idPaziente);

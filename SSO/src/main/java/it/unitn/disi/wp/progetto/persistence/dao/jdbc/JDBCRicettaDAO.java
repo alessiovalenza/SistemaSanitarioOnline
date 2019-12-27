@@ -138,16 +138,15 @@ public class JDBCRicettaDAO extends JDBCDAO<Ricetta, Long> implements RicettaDAO
     }
 
     @Override
-    public List<ElemReportNazionale> reportNazionale(String idProvincia) throws DAOException {
+    public List<ElemReportNazionale> reportNazionale() throws DAOException {
         List<ElemReportNazionale> report = new ArrayList<>();
 
         try (PreparedStatement stm = CON.prepareStatement("SELECT m.idprovincia, m.codicefiscale, m.nome, m.cognome, sum(f.prezzo) " +
                 "FROM ricetta r " +
                 "JOIN utente m ON r.medicobase = m.id " +
                 "JOIN farmaco f ON r.farmaco = f.id " +
-                "WHERE not (r.farmacia = NULL) " +
+                "WHERE r.farmacia IS NOT NULL " +
                 "GROUP BY m.idprovincia, m.id, m.codicefiscale, m.nome, m.cognome;")){
-            stm.setString(1, idProvincia); // 1-based indexing
 
             try (ResultSet rs = stm.executeQuery()) {
                 while(rs.next()){

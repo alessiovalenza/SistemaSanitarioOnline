@@ -37,11 +37,14 @@ public class Utilities {
     public final static Response noContentResponse = Response.status(204).build();
     public final static Response createdResponse = Response.status(201).build();
 
-    public final static String USER_IMAGE_EXT_REGEX = "[\\S]+.jp[/]?g";
+    public final static String USER_IMAGE_EXT_REGEX = "(.*/)*.+\\.(jpg|jpeg)$";
     public final static String USER_IMAGE_EXT = "jpeg";
     public final static String USER_IMAGES_FOLDER = "foto";
     public final static int USER_IMAGES_WIDTH = 1024;
     public final static int USER_IMAGES_HEIGHT = 1024;
+
+    public final static String TEMP_FOLDER = "tmp";
+    public static long tempFileCount = 0;
 
     //salt per i token
     public final static long tokenSalt = 69696969;

@@ -20,12 +20,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @WebServlet(name = "XLSReportNazServlet", urlPatterns = {"/docs/reportnazionale"})
 public class XLSReportNazServlet extends HttpServlet {
-
-    private final String RICETTA = "ricetta";
 
     private RicettaDAO ricettaDAO;
 
@@ -45,18 +45,14 @@ public class XLSReportNazServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String id = request.getParameter("idrovincia");
-        List<ElemReportNazionale> listReport = null;
+        List<ElemReportNazionale> listReport = Collections.emptyList();
 
-        //ho letteralmente copiato e incollato le seguenti 3 righe da PDFRicevutaSerlvet, dato che è l'unica parte di codice che mi sembra sia utile al mio fine
-        //e prima che tu mi chieda se l'ho testato, la risposta è no, perchè devo mettere a cuocere i funghi
-        //e probabilmente tutto ciò che c'è dalla riga 83 in poi non credo serva perchè è per scriverlo lato server ma io non lo tolgo
         response.setContentType("application/xls");
-        String excelFilePath = "ReportNazionale.xls";
-        response.addHeader("Content-Disposition", "inline; filename=" + excelFilePath);
+        String fileName = "report_nazionale.xls";
+        response.addHeader("Content-Disposition", "inline; filename=" + fileName);
 
         try {
-            listReport = ricettaDAO.reportNazionale(id);
+            listReport = ricettaDAO.reportNazionale();
         } catch (DAOException e) {
             e.printStackTrace();
         }
@@ -80,14 +76,6 @@ public class XLSReportNazServlet extends HttpServlet {
 
         }
 
-        try (FileOutputStream outputStream = new FileOutputStream(excelFilePath)){
-            workbook.write(outputStream);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-
-        }
-
+        workbook.write(response.getOutputStream());
     }
 }
