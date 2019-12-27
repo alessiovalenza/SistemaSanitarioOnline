@@ -60,20 +60,19 @@ public class XLSReportNazServlet extends HttpServlet {
         Workbook workbook = new HSSFWorkbook();
         Sheet sheet = workbook.createSheet();
 
-        int rowCount = 0;
+        int rowCount = -1;
 
         for (ElemReportNazionale report : listReport) {
             Row row = sheet.createRow(++rowCount);
 
-            Cell cell = row.createCell(1);
+            Cell cell = row.createCell(0);
             cell.setCellValue(report.getProvincia());
 
-            cell = row.createCell(2);
+            cell = row.createCell(1);
             cell.setCellValue(report.getCfMedico());
 
-            cell = row.createCell(3);
+            cell = row.createCell(2);
             cell.setCellValue(report.getSpesa());
-
         }
 
         workbook.write(response.getOutputStream());
