@@ -1,13 +1,12 @@
 package it.unitn.disi.wp.progetto.api;
 
+import it.unitn.disi.wp.progetto.api.exceptions.ApiException;
 import it.unitn.disi.wp.progetto.commons.Utilities;
 import it.unitn.disi.wp.progetto.persistence.dao.*;
 import it.unitn.disi.wp.progetto.persistence.dao.exceptions.DAOException;
 import it.unitn.disi.wp.progetto.persistence.dao.exceptions.DAOFactoryException;
 import it.unitn.disi.wp.progetto.persistence.entities.*;
-import jdk.jshell.execution.Util;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.*;

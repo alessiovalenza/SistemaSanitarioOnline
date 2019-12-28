@@ -2,12 +2,12 @@
          pageEncoding="UTF-8" isErrorPage="true" %>
 <html>
 <head>
-    <title>Error page - 500</title>
+    <title>Error page - 405</title>
 </head>
 <body>
-<h1>500</h1>
+<h1>405</h1>
 <p>
-    Internal server error
+    Method not allowed
 </p>
 </body>
 </html>

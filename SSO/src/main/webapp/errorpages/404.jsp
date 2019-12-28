@@ -1,9 +1,13 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8" isErrorPage="true" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>Error page - 404</title>
 </head>
 <body>
-    <h1>404</h1>
-    <p>TODO: mostrare il messaggio di errore inviato con la response dalle api.</p>
+<h1>404</h1>
+<p>
+    Not found
+</p>
 </body>
 </html>

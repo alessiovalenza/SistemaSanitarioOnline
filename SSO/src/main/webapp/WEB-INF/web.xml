@@ -20,16 +20,29 @@
 
   <!-- error pages config -->
   <error-page>
-    <error-code>404</error-code>
-    <location>/errorpages/404.jsp</location>
+    <exception-type>it.unitn.disi.wp.progetto.api.exceptions.ApiException</exception-type>
+    <location>/errorpages/api_error_page.jsp</location>
+  </error-page>
+  <error-page>
+    <exception-type>it.unitn.disi.wp.progetto.servlets.exceptions.SSOServletException</exception-type>
+    <location>/errorpages/servlet_error_page.jsp</location>
+  </error-page>
+
+  <error-page>
+    <error-code>400</error-code>
+    <location>/errorpages/400.jsp</location>
   </error-page>
   <error-page>
     <error-code>403</error-code>
     <location>/errorpages/403.jsp</location>
   </error-page>
   <error-page>
-    <error-code>400</error-code>
-    <location>/errorpages/400.jsp</location>
+    <error-code>404</error-code>
+    <location>/errorpages/404.jsp</location>
+  </error-page>
+  <error-page>
+    <error-code>405</error-code>
+    <location>/errorpages/405.jsp</location>
   </error-page>
   <error-page>
     <error-code>500</error-code>
