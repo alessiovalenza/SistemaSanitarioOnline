@@ -7,10 +7,9 @@ import it.unitn.disi.wp.progetto.persistence.dao.factories.DAOFactory;
 import it.unitn.disi.wp.progetto.persistence.entities.ElemReportNazionale;
 import it.unitn.disi.wp.progetto.persistence.entities.ElemReportProv;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.sl.usermodel.ColorStyle;
+import org.apache.poi.ss.format.CellNumberStringMod;
+import org.apache.poi.ss.usermodel.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -60,23 +59,32 @@ public class XLSReportNazServlet extends HttpServlet {
         Workbook workbook = new HSSFWorkbook();
         Sheet sheet = workbook.createSheet();
 
+        CellStyle background = workbook.createCellStyle();
+        background.setFillBackgroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
+        background.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+
         int rowCount = -1;
         Row row_titoli = sheet.createRow(++rowCount);
 
         Cell cell_titoli = row_titoli.createCell(0);
-        cell_titoli.setCellValue("PROVINCIA gdsgdsgfdsgsdg");
+        cell_titoli.setCellValue("PROVINCIA");
+        cell_titoli.setCellStyle(background);
 
         cell_titoli = row_titoli.createCell(1);
         cell_titoli.setCellValue("CF MEDICO");
+        cell_titoli.setCellStyle(background);
 
         cell_titoli = row_titoli.createCell(2);
         cell_titoli.setCellValue("NOME MEDICO");
+        cell_titoli.setCellStyle(background);
 
         cell_titoli = row_titoli.createCell(3);
         cell_titoli.setCellValue("COGNOME MEDICO");
+        cell_titoli.setCellStyle(background);
 
         cell_titoli = row_titoli.createCell(4);
         cell_titoli.setCellValue("SPESA MEDICO");
+        cell_titoli.setCellStyle(background);
 
         for (ElemReportNazionale report : listReport) {
             Row row = sheet.createRow(++rowCount);

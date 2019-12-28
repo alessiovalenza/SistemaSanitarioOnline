@@ -10,10 +10,7 @@ import it.unitn.disi.wp.progetto.persistence.dao.factories.DAOFactory;
 import it.unitn.disi.wp.progetto.persistence.entities.ElemReportProv;
 import it.unitn.disi.wp.progetto.persistence.entities.Provincia;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -84,38 +81,52 @@ public class XLSReportProvServlet extends HttpServlet {
         Workbook workbook = new HSSFWorkbook();
         Sheet sheet = workbook.createSheet();
 
+        CellStyle background = workbook.createCellStyle();
+        background.setFillBackgroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
+        background.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+
         int rowCount = -1;
         Row row_titoli = sheet.createRow(++rowCount);
 
         Cell cell_titoli = row_titoli.createCell(0);
         cell_titoli.setCellValue("EMISSIONE");
+        cell_titoli.setCellStyle(background);
 
         cell_titoli = row_titoli.createCell(1);
         cell_titoli.setCellValue("CF MEDICO");
+        cell_titoli.setCellStyle(background);
 
         cell_titoli = row_titoli.createCell(2);
         cell_titoli.setCellValue("NOME MEDICO");
+        cell_titoli.setCellStyle(background);
 
         cell_titoli = row_titoli.createCell(3);
         cell_titoli.setCellValue("COGNOME MEDICO");
+        cell_titoli.setCellStyle(background);
 
         cell_titoli = row_titoli.createCell(4);
         cell_titoli.setCellValue("CF PAZIENTE");
+        cell_titoli.setCellStyle(background);
 
         cell_titoli = row_titoli.createCell(5);
         cell_titoli.setCellValue("NOME PAZIENTE");
+        cell_titoli.setCellStyle(background);
 
         cell_titoli = row_titoli.createCell(6);
         cell_titoli.setCellValue("COGNOME PAZIENTE");
+        cell_titoli.setCellStyle(background);
 
         cell_titoli = row_titoli.createCell(7);
         cell_titoli.setCellValue("FARMACO");
+        cell_titoli.setCellStyle(background);
 
         cell_titoli = row_titoli.createCell(8);
         cell_titoli.setCellValue("PREZZO");
+        cell_titoli.setCellStyle(background);
 
         cell_titoli = row_titoli.createCell(9);
         cell_titoli.setCellValue("FARMACIA");
+        cell_titoli.setCellStyle(background);
 
         for (ElemReportProv report : listReport) {
             Row row = sheet.createRow(++rowCount);
