@@ -9,6 +9,8 @@ import it.unitn.disi.wp.progetto.persistence.dao.factories.DAOFactory;
 import it.unitn.disi.wp.progetto.persistence.dao.factories.jdbc.JDBCDAOFactory;
 import it.unitn.disi.wp.progetto.persistence.entities.TokenRememberMe;
 import it.unitn.disi.wp.progetto.persistence.entities.Utente;
+import it.unitn.disi.wp.progetto.servlets.exceptions.SSOServletException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
@@ -21,6 +23,7 @@ public class LoginServlet extends HttpServlet {
     private String password;
     private String rememberMe;
     private String loginUrl = "/login.jsp";
+    private final int REMEMBER_ME_EXPIRE_TIME = 60 * 60 * 24 * 30; // 30 giorni
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         email = request.getParameter("email");
@@ -62,8 +65,14 @@ public class LoginServlet extends HttpServlet {
             DAOFactory daoFactory = JDBCDAOFactory.getInstance();
             UtenteDAO userdao = daoFactory.getDAO(UtenteDAO.class);
             utente = userdao.getUserByEmail(email);
-        } catch (DAOFactoryException | DAOException ex) {
-            ex.printStackTrace();
+        }
+        catch (DAOFactoryException e) {
+            throw new SSOServletException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                    e.getMessage() + " - Impossible to get dao interface for storage system");
+        }
+        catch (DAOException e) {
+            throw new SSOServletException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                    e.getMessage() + " - Errors occurred when accessing storage system");
         }
 
         return utente;
@@ -129,12 +138,14 @@ public class LoginServlet extends HttpServlet {
                 id = tokenRememberMe.getIdUtente();
                 utente = utenteDAO.getByPrimaryKey(id);
             }
-        }catch (DAOFactoryException e) {
-            e.printStackTrace();
-            throw new RuntimeException(new ServletException("Impossible to get dao interface for storage system"));
-        } catch (DAOException e) {
-            e.printStackTrace();
-            throw new RuntimeException(new ServletException("Impossible to get requested data from storage system"));
+        }
+        catch (DAOFactoryException e) {
+            throw new SSOServletException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                    e.getMessage() + " - Impossible to get dao interface for storage system");
+        }
+        catch (DAOException e) {
+            throw new SSOServletException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                    e.getMessage() + " - Errors occurred when accessing storage system");
         }
         return utente;
     }
@@ -148,14 +159,16 @@ public class LoginServlet extends HttpServlet {
                 TokenRememberMeDAO tokenRememberMeDAO = daoFactory.getDAO(TokenRememberMeDAO.class);
                 tokenRememberMeDAO.creaToken(hashedToken, utente.getId());
                 Cookie rm = new Cookie("rememberMe", token);
-                rm.setMaxAge(60 * 60 * 24 * 30); //un mese
+                rm.setMaxAge(REMEMBER_ME_EXPIRE_TIME);
                 response.addCookie(rm);
-            }catch (DAOFactoryException e) {
-                e.printStackTrace();
-                throw new RuntimeException(new ServletException("Impossible to get dao interface for storage system"));
-            } catch (DAOException e) {
-                e.printStackTrace();
-                throw new RuntimeException(new ServletException("Impossible to get requested data from storage system"));
+            }
+            catch (DAOFactoryException e) {
+                throw new SSOServletException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                        e.getMessage() + " - Impossible to get dao interface for storage system");
+            }
+            catch (DAOException e) {
+                throw new SSOServletException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                        e.getMessage() + " - Errors occurred when accessing storage system");
             }
         }
     }

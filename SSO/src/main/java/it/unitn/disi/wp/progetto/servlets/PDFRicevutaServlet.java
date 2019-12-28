@@ -20,6 +20,7 @@ import it.unitn.disi.wp.progetto.persistence.dao.exceptions.DAOException;
 import it.unitn.disi.wp.progetto.persistence.dao.exceptions.DAOFactoryException;
 import it.unitn.disi.wp.progetto.persistence.dao.factories.DAOFactory;
 import it.unitn.disi.wp.progetto.persistence.entities.*;
+import it.unitn.disi.wp.progetto.servlets.exceptions.SSOServletException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -47,12 +48,14 @@ public class PDFRicevutaServlet extends HttpServlet {
                 ricettaDAO = daoFactory.getDAO(RicettaDAO.class);
                 esameDAO = daoFactory.getDAO(EsamePrescrittoDAO.class);
                 visitaDAO = daoFactory.getDAO(VisitaMedicoSpecialistaDAO.class);
-            } catch (DAOFactoryException ex) {
-                throw new ServletException("Impossible to get dao factory for storage system");
+            }
+            catch (DAOFactoryException e) {
+                throw new SSOServletException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                        e.getMessage() + " - Impossible to get dao interface for storage system");
             }
         }
         else {
-            throw new ServletException("Impossible to get dao factory for storage system");
+            throw new SSOServletException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Impossible to get dao factory for storage system");
         }
     }
 
@@ -60,9 +63,12 @@ public class PDFRicevutaServlet extends HttpServlet {
         String tipo = request.getParameter("tipo");
         String idStr = request.getParameter("id");
 
-        if(tipo == null || idStr == null || (!tipo.equals(RICETTA) && !tipo.equals(ESAME) && !tipo.equals(VISITA))) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing parameters, or the type you specfied is not valid");
-            return;
+        if(tipo == null || idStr == null) {
+            throw new SSOServletException(HttpServletResponse.SC_BAD_REQUEST, "Missing parameters, you must specify type and id");
+        }
+
+        if(!tipo.equals(RICETTA) && !tipo.equals(ESAME) && !tipo.equals(VISITA)) {
+            throw new SSOServletException(HttpServletResponse.SC_BAD_REQUEST, "The type must be either \"ricetta\" or \"esame\" or \"visita\"");
         }
 
         long id = Long.parseLong(idStr);
@@ -70,13 +76,11 @@ public class PDFRicevutaServlet extends HttpServlet {
 
         try {
             if(checkBadRequest(tipo, id)) {
-                response.sendError(HttpServletResponse.SC_NOT_FOUND, "The specified id is not valid");
-                return;
+                throw new SSOServletException(HttpServletResponse.SC_NOT_FOUND, "Id not found");
             }
 
             if (session != null && session.getAttribute("utente") != null && !checkAuthZ(tipo, id, (Utente) session.getAttribute("utente"))) {
-                response.sendError(HttpServletResponse.SC_FORBIDDEN, "You are trying to access to someone else's data");
-                return;
+                throw new SSOServletException(HttpServletResponse.SC_FORBIDDEN, "You are trying to access someone else's data");
             }
 
             response.setContentType("application/pdf");
@@ -302,8 +306,10 @@ public class PDFRicevutaServlet extends HttpServlet {
             }
 
             document.close();
-        } catch (DAOException exc) {
-            throw new ServletException("Impossibile to get the needed data from storage system", exc);
+        }
+        catch (DAOException e) {
+            throw new SSOServletException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                    e.getMessage() + " - Errors occurred when accessing storage system");
         }
     }
 

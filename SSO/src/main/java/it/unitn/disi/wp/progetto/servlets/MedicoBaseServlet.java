@@ -15,7 +15,4 @@ public class MedicoBaseServlet extends HttpServlet {
         String homePage = request.getServletContext().getInitParameter("homeMedicoBase");
         getServletContext().getRequestDispatcher(homePage).forward(request, response);
     }
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-        System.out.println("in medicobaseServlet doPost method");
-    }
 }

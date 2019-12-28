@@ -1,5 +1,6 @@
 package it.unitn.disi.wp.progetto.api;
 
+import it.unitn.disi.wp.progetto.api.exceptions.ApiException;
 import it.unitn.disi.wp.progetto.commons.Utilities;
 import it.unitn.disi.wp.progetto.persistence.dao.UtenteDAO;
 import it.unitn.disi.wp.progetto.persistence.dao.exceptions.DAOException;
@@ -8,6 +9,7 @@ import it.unitn.disi.wp.progetto.persistence.entities.Utente;
 import it.unitn.disi.wp.progetto.persistence.entities.UtenteView;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -43,12 +45,15 @@ public class MedicoBaseApi extends Api {
                 res = Response.ok(jsonResult).build();
             }
             else {
-                return notFoundResponse;
+                throw new ApiException(HttpServletResponse.SC_NOT_FOUND, "Medico with such an id not found");
             }
-        }catch (DAOFactoryException e) {
-            res = daoFactoryErrorResponse;
+        }
+        catch (DAOFactoryException e) {
+            throw new ApiException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                    e.getMessage() + " - Impossible to get dao interface for storage system");
         } catch (DAOException e) {
-            res = daoErrorResponse;
+            throw new ApiException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                    e.getMessage() + " - Errors occurred when accessing storage system");
         }
 
         return res;

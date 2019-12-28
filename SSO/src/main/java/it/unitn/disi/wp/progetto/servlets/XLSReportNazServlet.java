@@ -6,6 +6,7 @@ import it.unitn.disi.wp.progetto.persistence.dao.exceptions.DAOFactoryException;
 import it.unitn.disi.wp.progetto.persistence.dao.factories.DAOFactory;
 import it.unitn.disi.wp.progetto.persistence.entities.ElemReportNazionale;
 import it.unitn.disi.wp.progetto.persistence.entities.ElemReportProv;
+import it.unitn.disi.wp.progetto.servlets.exceptions.SSOServletException;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.sl.usermodel.ColorStyle;
 import org.apache.poi.ss.format.CellNumberStringMod;
@@ -34,12 +35,14 @@ public class XLSReportNazServlet extends HttpServlet {
         if (daoFactory != null) {
             try {
                 ricettaDAO = daoFactory.getDAO(RicettaDAO.class);
-            } catch (DAOFactoryException ex) {
-                throw new ServletException("Impossible to get dao factory for storage system");
+            }
+            catch (DAOFactoryException e) {
+                throw new SSOServletException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                        e.getMessage() + " - Impossible to get dao interface for storage system");
             }
         }
         else {
-            throw new ServletException("Impossible to get dao factory for storage system");
+            throw new SSOServletException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Impossible to get dao factory for storage system");
         }
     }
 
@@ -52,8 +55,10 @@ public class XLSReportNazServlet extends HttpServlet {
 
         try {
             listReport = ricettaDAO.reportNazionale();
-        } catch (DAOException e) {
-            e.printStackTrace();
+        }
+        catch (DAOException e) {
+            throw new SSOServletException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                    e.getMessage() + " - Errors occurred when accessing storage system");
         }
 
         Workbook workbook = new HSSFWorkbook();

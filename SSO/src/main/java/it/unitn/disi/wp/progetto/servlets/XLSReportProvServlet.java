@@ -9,6 +9,8 @@ import it.unitn.disi.wp.progetto.persistence.dao.exceptions.DAOFactoryException;
 import it.unitn.disi.wp.progetto.persistence.dao.factories.DAOFactory;
 import it.unitn.disi.wp.progetto.persistence.entities.ElemReportProv;
 import it.unitn.disi.wp.progetto.persistence.entities.Provincia;
+import it.unitn.disi.wp.progetto.persistence.entities.Utente;
+import it.unitn.disi.wp.progetto.servlets.exceptions.SSOServletException;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 
@@ -17,6 +19,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -38,23 +41,23 @@ public class XLSReportProvServlet extends HttpServlet {
             try {
                 ricettaDAO = daoFactory.getDAO(RicettaDAO.class);
                 provinciaDAO = daoFactory.getDAO(ProvinciaDAO.class);
-            } catch (DAOFactoryException ex) {
-                throw new ServletException("Impossible to get dao factory for storage system");
+            }
+            catch (DAOFactoryException e) {
+                throw new SSOServletException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                        e.getMessage() + " - Impossible to get dao interface for storage system");
             }
         }
         else {
-            throw new ServletException("Impossible to get dao factory for storage system");
+            throw new SSOServletException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Impossible to get dao factory for storage system");
         }
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String id = request.getParameter("idprovincia");
-        //System.out.println("l'id è " + id);
 
         if(id == null) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing parameters");
-            return;
+            throw new SSOServletException(HttpServletResponse.SC_BAD_REQUEST, "You must specify the id of the provincia");
         }
 
 
@@ -63,14 +66,20 @@ public class XLSReportProvServlet extends HttpServlet {
         try {
 
             if(provinciaDAO.getByPrimaryKey(id) == null) {
-                response.sendError(HttpServletResponse.SC_NOT_FOUND, "The specified id is not valid");
-                return;
+                throw new SSOServletException(HttpServletResponse.SC_NOT_FOUND, "Provincia not found");
+            }
+
+            HttpSession session = request.getSession(false);
+            if(session != null && session.getAttribute("utente") != null && !((Utente)session.getAttribute("utente")).getProv().equals(id)) {
+                throw new SSOServletException(HttpServletResponse.SC_FORBIDDEN, "You are trying to access another provincia's data");
             }
 
             listReport = ricettaDAO.reportProvinciale(id);
 
-        } catch (DAOException e) {
-            e.printStackTrace();
+        }
+        catch (DAOException e) {
+            throw new SSOServletException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                    e.getMessage() + " - Errors occurred when accessing storage system");
         }
 
 

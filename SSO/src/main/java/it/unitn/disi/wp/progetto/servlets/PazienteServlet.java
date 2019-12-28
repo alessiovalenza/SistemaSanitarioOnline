@@ -9,9 +9,7 @@ import java.io.IOException;
 
 @WebServlet(name = "PazienteServlet", urlPatterns = {"/paziente"})
 public class PazienteServlet extends HttpServlet {
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-    }
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String homePage = request.getServletContext().getInitParameter("homePaziente");
         getServletContext().getRequestDispatcher(homePage).forward(request, response);

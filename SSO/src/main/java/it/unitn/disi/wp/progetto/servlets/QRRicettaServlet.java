@@ -20,6 +20,7 @@ import it.unitn.disi.wp.progetto.persistence.dao.factories.DAOFactory;
 import it.unitn.disi.wp.progetto.persistence.entities.Ricetta;
 import it.unitn.disi.wp.progetto.persistence.entities.Utente;
 import it.unitn.disi.wp.progetto.persistence.entities.UtenteView;
+import it.unitn.disi.wp.progetto.servlets.exceptions.SSOServletException;
 import net.glxn.qrgen.QRCode;
 import net.glxn.qrgen.image.ImageType;
 
@@ -41,12 +42,14 @@ public class QRRicettaServlet extends HttpServlet {
         if (daoFactory != null) {
             try {
                 ricettaDAO = daoFactory.getDAO(RicettaDAO.class);
-            } catch (DAOFactoryException ex) {
-                throw new ServletException("Impossible to get dao factory for storage system");
+            }
+            catch (DAOFactoryException e) {
+                throw new SSOServletException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                        e.getMessage() + " - Impossible to get dao interface for storage system");
             }
         }
         else {
-            throw new ServletException("Impossible to get dao factory for storage system");
+            throw new SSOServletException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Impossible to get dao factory for storage system");
         }
     }
 
@@ -54,8 +57,7 @@ public class QRRicettaServlet extends HttpServlet {
         String idStr = request.getParameter("id");
 
         if(idStr == null) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing parameters");
-            return;
+            throw new SSOServletException(HttpServletResponse.SC_BAD_REQUEST, "You must specify an id");
         }
 
         long id = Long.parseLong(idStr);
@@ -63,14 +65,12 @@ public class QRRicettaServlet extends HttpServlet {
         try {
             Ricetta ricetta = ricettaDAO.getByPrimaryKey(id);
             if(ricetta == null) {
-                response.sendError(HttpServletResponse.SC_NOT_FOUND, "The specified id is not valid");
-                return;
+                throw new SSOServletException(HttpServletResponse.SC_NOT_FOUND, "Id not found");
             }
 
             HttpSession session = request.getSession(false);
             if(session != null && session.getAttribute("utente") != null && ((Utente)session.getAttribute("utente")).getId() != ricetta.getPaziente().getId()) {
-                response.sendError(HttpServletResponse.SC_FORBIDDEN, "You are trying to access to someone else's data");
-                return;
+                throw new SSOServletException(HttpServletResponse.SC_FORBIDDEN, "You are trying to access someone else's data");
             }
 
             File fileQR = new File(getServletContext().getRealPath(File.separator + Utilities.TEMP_FOLDER + File.separator + (Utilities.tempFileCount++) + ".jpg"));
@@ -176,8 +176,10 @@ public class QRRicettaServlet extends HttpServlet {
 
             document.close();
 
-        } catch (DAOException exc) {
-            throw new ServletException("Impossibile to get the needed data from storage system", exc);
+        }
+        catch (DAOException e) {
+            throw new SSOServletException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                    e.getMessage() + " - Errors occurred when accessing storage system");
         }
     }
 }

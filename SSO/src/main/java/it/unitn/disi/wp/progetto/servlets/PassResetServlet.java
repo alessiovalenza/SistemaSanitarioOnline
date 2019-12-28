@@ -8,6 +8,7 @@ import it.unitn.disi.wp.progetto.persistence.dao.exceptions.DAOFactoryException;
 import it.unitn.disi.wp.progetto.persistence.dao.factories.DAOFactory;
 import it.unitn.disi.wp.progetto.persistence.entities.TokenPsw;
 import it.unitn.disi.wp.progetto.persistence.entities.Utente;
+import it.unitn.disi.wp.progetto.servlets.exceptions.SSOServletException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -49,14 +50,16 @@ public class PassResetServlet extends HttpServlet {
                     request.setAttribute("msg", "La password è stata modificata con successo");
                     response.sendRedirect("LoginServlet?rp=1");
                 }else{
-                    response.sendError(404, "id non trovato");
+                    throw new SSOServletException(HttpServletResponse.SC_NOT_FOUND, "Id not found");
                 }
-            } catch (DAOFactoryException e) {
-                e.printStackTrace();
-                throw new RuntimeException(new ServletException("Impossible to get dao interface for storage system"));
-            } catch (DAOException e) {
-                e.printStackTrace();
-                throw new RuntimeException(new ServletException("Impossible to get requested data from storage system"));
+            }
+            catch (DAOFactoryException e) {
+                throw new SSOServletException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                        e.getMessage() + " - Impossible to get dao interface for storage system");
+            }
+            catch (DAOException e) {
+                throw new SSOServletException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                        e.getMessage() + " - Errors occurred when accessing storage system");
             }
         }
     }
@@ -70,8 +73,7 @@ public class PassResetServlet extends HttpServlet {
         }else if (email == null && token != null){
             resetStep(token, request, response);
         }else{
-            System.out.println("please provide one between email and token");
-            response.sendError(400);
+            throw new SSOServletException(HttpServletResponse.SC_BAD_REQUEST, "You must supply either email or token");
         }
     }
 
@@ -93,12 +95,16 @@ public class PassResetServlet extends HttpServlet {
                 request.setAttribute("msg", emailSentMessage);
                 request.getRequestDispatcher(sendEmailUrl).include(request, response);
             }else{
-                System.out.println("l'email inviata non appartiene a nessun utente.");
+                throw new SSOServletException(HttpServletResponse.SC_NOT_FOUND, "Email not found");
             }
-        }catch (DAOFactoryException e) {
-            throw new RuntimeException(new ServletException("Impossible to get dao interface for storage system"));
-        } catch (DAOException e) {
-            throw new RuntimeException(new ServletException("Impossible to get requested data from storage system"));
+        }
+        catch (DAOFactoryException e) {
+            throw new SSOServletException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                    e.getMessage() + " - Impossible to get dao interface for storage system");
+        }
+        catch (DAOException e) {
+            throw new SSOServletException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                    e.getMessage() + " - Errors occurred when accessing storage system");
         }
     }
 
@@ -109,8 +115,7 @@ public class PassResetServlet extends HttpServlet {
             TokenPswDAO tokenPswDAO = daoFactory.getDAO(TokenPswDAO.class);
             TokenPsw tokenPsw = tokenPswDAO.getTokenByToken(sha512(token));
             if (tokenPsw == null){
-                System.out.println("nessun token trovato. X");
-                response.sendError(404, "X");
+                throw new SSOServletException(HttpServletResponse.SC_NOT_FOUND, "Token not found");
             }else{
                 long id = tokenPsw.getIdUtente();
                 System.out.println("Token trovato, corrisponde all'id: " + id);
@@ -118,17 +123,20 @@ public class PassResetServlet extends HttpServlet {
                 session.setAttribute("id", id);
                 request.getRequestDispatcher(resetUrl).include(request, response);
             }
-        }catch (DAOFactoryException e) {
-            throw new RuntimeException(new ServletException("Impossible to get dao interface for storage system"));
-        } catch (DAOException e) {
-            throw new RuntimeException(new ServletException("Impossible to get requested data from storage system"));
+        }
+        catch (DAOFactoryException e) {
+            throw new SSOServletException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                    e.getMessage() + " - Impossible to get dao interface for storage system");
+        }
+        catch (DAOException e) {
+            throw new SSOServletException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                    e.getMessage() + " - Errors occurred when accessing storage system");
         }
     }
 
     private void createAndSendEmail(Utente utente, String token){
         String link = "http://localhost:8080/SSO_war_exploded/passreset?token=" + token;
-        String testo = String.format("Ciao %s,\neccoti il link per ripristinare la password: %s", utente.getNome(), link);
+        String testo = String.format("Gentile utente %s %s,\npuò recuperare la password al seguente link:\n%s\nDistinti saluti", utente.getCognome(), utente.getNome(), link);
         Utilities.sendEmail(utente.getEmail(), "Password Recovery", testo);
     }
-
 }
