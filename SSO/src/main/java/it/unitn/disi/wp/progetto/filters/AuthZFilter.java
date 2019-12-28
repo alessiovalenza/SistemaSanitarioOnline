@@ -6,6 +6,7 @@ import it.unitn.disi.wp.progetto.persistence.dao.exceptions.DAOException;
 import it.unitn.disi.wp.progetto.persistence.dao.exceptions.DAOFactoryException;
 import it.unitn.disi.wp.progetto.persistence.dao.factories.DAOFactory;
 import it.unitn.disi.wp.progetto.persistence.entities.Utente;
+import it.unitn.disi.wp.progetto.servlets.exceptions.SSOServletException;
 import org.apache.thrift.protocol.TField;
 
 import javax.servlet.*;
@@ -47,8 +48,10 @@ public class AuthZFilter implements Filter {
         DAOFactory daoFactory = (DAOFactory)context.getAttribute("daoFactory");
         try {
             utenteDAO = daoFactory.getDAO(UtenteDAO.class);
-        } catch (DAOFactoryException e) {
-            throw new ServletException("Impossible to get the dao object", e);
+        }
+        catch (DAOFactoryException e) {
+            throw new SSOServletException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                    e.getMessage() + " - Impossible to get dao interface for storage system");
         }
     }
 
@@ -72,16 +75,16 @@ public class AuthZFilter implements Filter {
                     //httpResponse.sendRedirect(httpRequest.getContextPath() + Utilities.getMainPageFromRole(utente.getRuolo()));
 
                     if(Utilities.urlIsLike(field, urlsUnion)) {
-                        System.out.println("Utente non autorizzato ad accedere alla risorsa " + field + ". Mando errore 403");
-                        httpResponse.sendError(HttpServletResponse.SC_FORBIDDEN, "Non hai i permessi per accedere alla risorsa richista");
+                        throw new SSOServletException(HttpServletResponse.SC_FORBIDDEN, "You do not have the permission to access this resource");
                     }
                     else {
-                        System.out.println("L'utente ha richiesto una risorsa in inesistente' " + field + ". Mando errore 404");
-                        httpResponse.sendError(HttpServletResponse.SC_NOT_FOUND, "La risorsa richiesta non è stata trovata");
+                        chain.doFilter(request, response);
                     }
                 }
-            } catch (DAOException e) {
-                throw new ServletException("Some dao-related error occurred", e);
+            }
+            catch (DAOException e) {
+                throw new SSOServletException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                        e.getMessage() + " - Errors occurred when accessing storage system");
             }
         }else {
             chain.doFilter(request, response);
