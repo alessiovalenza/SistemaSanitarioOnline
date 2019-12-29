@@ -6,7 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<body>
+
 <head>
     <title>Title</title>
     <!-- Latest compiled and minified CSS -->
@@ -24,8 +24,12 @@
 
 
 
+
+<%--    var urlCambioMedico = 'http://localhost:8080/SSO_war_exploded/api/general/medicibase/?idprovincia='+'${sessionScope.utente.prov}'+'&'--%>
 </head>
-<select id="esame" placeholder="Cerca Esami" type="text" data-ajax--url="http://localhost:8080/SSO_war_exploded/api/general/esami" data-ajax--cache="true"></select><br>
+<body>
+<div class="spinner-border"></div>
+<select id="esame" placeholder="Cerca Esami" type="text" data-ajax--url="http://localhost:8080/SSO_war_exploded/api/general/medicibase/?idprovincia=TA" data-ajax--cache="true"></select><br>
 <button id="btn">elemento selezionato</button>
 <script>
         (document.getElementById("btn")).onclick = function() {
@@ -33,12 +37,13 @@
             alert("hai selezionato " + idSelected);
         };
         $(document).ready(function(){
+
             $("#esame").select2({
                 placeholder: 'Cerca Esami',
                 width: 300,
                 allowClear: true,
                 ajax: {
-                    url: "http://localhost:8080/SSO_war_exploded/api/general/esami",
+                    url: "http://localhost:8080/SSO_war_exploded/api/general/medicibase/?idprovincia=TA",
                     datatype: "json",
                     data: function (params) {
                         var query = {
@@ -63,6 +68,35 @@
                 }
             });
             $("#esame").val(null).trigger("change");
+            $('#esame').on("select2:opening", function(e) {
+                $("#esame").select2({
+                ajax: {
+                    url: "http://localhost:8080/SSO_war_exploded/api/general/medicibase/?idprovincia=TA&term=",
+                    datatype: "json",
+                    // data: function (params) {
+                    //     var query = {
+                    //         term: "",
+                    //         type: 'public',
+                    //         page: params.page || 1
+                    //     }
+                    //     return query;
+                    // },
+                    processResults: function (data) {
+                        var myResults = [];
+                        $.each(data, function (index, item) {
+                            myResults.push({
+                                'id': item.id,
+                                'text': item.nome
+                            });
+                        });
+                        return {
+                            results: myResults
+                        };
+                    }
+                }
+            });
+            });
+
         });
     </script>
     <!--<select class="js-example-basic-single" name="state">
