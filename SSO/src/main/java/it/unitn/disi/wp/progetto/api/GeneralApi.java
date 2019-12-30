@@ -114,8 +114,8 @@ public class GeneralApi extends Api{
     @Produces(MediaType.APPLICATION_JSON)
     public Response getMediciBaseSuggestion(@QueryParam("idprovincia") String idProvincia,
                                             @QueryParam("term") String term) {
-        if(term == null || idProvincia == null) {
-            throw new ApiException(HttpServletResponse.SC_BAD_REQUEST, "You must specify term and id of the provincia");
+        if(idProvincia == null) {
+            throw new ApiException(HttpServletResponse.SC_BAD_REQUEST, "You must specify id of the provincia");
         }
 
         Response res;
