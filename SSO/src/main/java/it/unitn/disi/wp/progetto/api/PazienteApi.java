@@ -27,17 +27,12 @@ public class PazienteApi extends Api {
     public Response getUtentiSuggestion(@QueryParam("term") String term) {
         Response res;
 
-        /* parameter consistency check */
-        if(term == null) {
-            return badRequestResponse;
-        }
-
         try {
             UtenteDAO utenteDAO = daoFactory.getDAO(UtenteDAO.class);
             List<Utente> utenti;
             List<UtenteView> utentiView;
 
-            utenti = utenteDAO.getUsersBySuggestion(term);
+            utenti = utenteDAO.getUsersBySuggestion(term == null ? "" : term);
             utentiView = new ArrayList<>();
             for (Utente utente : utenti) {
                 utentiView.add(Utilities.fromUtenteToUtenteView(utente));

@@ -163,7 +163,7 @@ public class JDBCUtenteDAO extends JDBCDAO<Utente, Long> implements UtenteDAO {
     public List<Utente> getMediciBaseBySuggestionAndProvincia(String suggestion, String provincia) throws DAOException {
         List<Utente> listPazienti = new ArrayList<>();
 
-        if (provincia == null) {
+        if (suggestion == null || provincia == null) {
             throw new DAOException("Suggestion and provincia are mandatory field", new NullPointerException("Suggestion is null"));
         }
 
@@ -171,8 +171,8 @@ public class JDBCUtenteDAO extends JDBCDAO<Utente, Long> implements UtenteDAO {
         try (PreparedStatement stm = CON.prepareStatement("SELECT * FROM utente " +
                 "WHERE (lower(cognome || ' ' || nome) LIKE lower(?) OR lower(nome || ' ' || cognome) LIKE lower(?)) " +
                 "AND idprovincia = ? AND ruolo = 'mb';")) {
-            stm.setString(1, (suggestion == null ? "" : suggestion) +"%"); // 1-based indexing
-            stm.setString(2, (suggestion == null ? "" : suggestion) +"%"); // 1-based indexing
+            stm.setString(1, suggestion + "%"); // 1-based indexing
+            stm.setString(2, suggestion + "%"); // 1-based indexing
             stm.setString(3, provincia);
 
             try (ResultSet rs = stm.executeQuery()) {
