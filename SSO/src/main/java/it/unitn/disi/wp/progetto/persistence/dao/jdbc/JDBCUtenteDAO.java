@@ -163,7 +163,7 @@ public class JDBCUtenteDAO extends JDBCDAO<Utente, Long> implements UtenteDAO {
     public List<Utente> getMediciBaseBySuggestionAndProvincia(String suggestion, String provincia) throws DAOException {
         List<Utente> listPazienti = new ArrayList<>();
 
-        if (suggestion == null || provincia == null) {
+        if (provincia == null) {
             throw new DAOException("Suggestion and provincia are mandatory field", new NullPointerException("Suggestion is null"));
         }
 
