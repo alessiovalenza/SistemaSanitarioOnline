@@ -32,6 +32,28 @@
 
         HEREPlaces.prototype.getPlaces = function(query, onSuccessCallback) {
             var onSuccess, onError;
+            function notifyMe() {
+                // Let's check if the browser supports notifications
+                if (!("Notification" in window)) {
+                    alert("This browser does not support desktop notification");
+                }
+
+                // Let's check whether notification permissions have already been granted
+                else if (Notification.permission === "granted") {
+                    // If it's okay let's create a notification
+                    var notification = new Notification("Hai delle ricette non evase; se vuoi qui vicino c'è una farmacia ;)");
+                }
+
+                // Otherwise, we need to ask the user for permission
+                else if (Notification.permission !== "denied") {
+                    Notification.requestPermission().then(function (permission) {
+                        // If the user accepts, let's create a notification
+                        if (permission === "granted") {
+                        var notification = new Notification("Hai delle ricette non evase; se vuoi qui vicino c'è una farmacia ;)");
+                        }
+                    });
+                }
+            }
 
             onSuccess = function(data) {
                 if (data.results && data.results.items) {
@@ -43,15 +65,15 @@
                         return place;
                     });
 
-                    var ricette = [];
+                    /*var ricette = [];
                     ricette =  $.ajax({
                         type: "GET",
                         url: "http://localhost:8080/SSO_war_exploded/api/pazienti/"+ ${sessionScope.utente.id} +"/ricette?evaseonly=false&nonevaseonly=true"
                     });
-                    console.log(ricette);
+                    console.log(ricette);*/
 
                     if(data.results.items[0].distance < 900){
-                        alert('Vai a comprare le medicine');
+                        notifyMe();
                     }
 
                     onSuccessCallback(data.results.items);
