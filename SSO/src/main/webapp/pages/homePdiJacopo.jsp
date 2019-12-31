@@ -394,7 +394,7 @@
                         <h1>form nostro</h1>
                     </div>
                     <div class="form-content">
-                        <form method="post" action="http://localhost:8080/SSO_war_exploded/api/medicobase/esameprescritto">
+                        <form method="post" action="http://localhost:8080/SSO_war_exploded/api/pazienti/<idpaziente>/ricette">
                             <div class="form-group">
                                 <label for="idesame">Username</label>
                                 <input type="text" id="idesame" name="idesame" required="required"/>
@@ -430,15 +430,15 @@
 
                     <div data-interval="false" id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                         <div  id="prova" class="carousel-inner">
-<%--                            <div class="carousel-item active">--%>
-<%--                                <img class="img-fluid" src="propic.jpeg" alt="First slide">--%>
-<%--                            </div>--%>
-<%--                            <div class="carousel-item">--%>
-<%--                                <img class="img-fluid" src="3.jpeg" alt="Second slide">--%>
-<%--                            </div>--%>
-<%--                            <div class="carousel-item">--%>
-<%--                                <img class="img-fluid" src="2.jpeg" alt="Third slide">--%>
-<%--                            </div>--%>
+                            <%--                            <div class="carousel-item active">--%>
+                            <%--                                <img class="img-fluid" src="propic.jpeg" alt="First slide">--%>
+                            <%--                            </div>--%>
+                            <%--                            <div class="carousel-item">--%>
+                            <%--                                <img class="img-fluid" src="3.jpeg" alt="Second slide">--%>
+                            <%--                            </div>--%>
+                            <%--                            <div class="carousel-item">--%>
+                            <%--                                <img class="img-fluid" src="2.jpeg" alt="Third slide">--%>
+                            <%--                            </div>--%>
                         </div>
                         <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>

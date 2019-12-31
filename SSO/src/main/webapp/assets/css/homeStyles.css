@@ -396,3 +396,6 @@ only screen and (max-width: 760px),
     font-weight: 700;
     text-transform: uppercase;
 }
+select2 {
+    width:100%!important;
+}

@@ -29,7 +29,7 @@
 </head>
 <body>
 <div class="spinner-border"></div>
-<select id="esame" placeholder="Cerca Esami" type="text" data-ajax--url="http://localhost:8080/SSO_war_exploded/api/general/medicibase/?idprovincia=TA" data-ajax--cache="true"></select><br>
+<select class="form-control select2-allow-clear" id="esame" placeholder="Cerca Esami" type="text" data-ajax--url="http://localhost:8080/SSO_war_exploded/api/general/medicibase/?idprovincia=TA" data-ajax--cache="true"></select><br>
 <button id="btn">elemento selezionato</button>
 <script>
         (document.getElementById("btn")).onclick = function() {
@@ -58,7 +58,7 @@
                         $.each(data, function (index, item) {
                             myResults.push({
                                 'id': item.id,
-                                'text': item.nome
+                                'text': item.nome+" "+item.cognome
                             });
                         });
                         return {
@@ -68,34 +68,34 @@
                 }
             });
             $("#esame").val(null).trigger("change");
-            $('#esame').on("select2:opening", function(e) {
-                $("#esame").select2({
-                ajax: {
-                    url: "http://localhost:8080/SSO_war_exploded/api/general/medicibase/?idprovincia=TA&term=",
-                    datatype: "json",
-                    // data: function (params) {
-                    //     var query = {
-                    //         term: "",
-                    //         type: 'public',
-                    //         page: params.page || 1
-                    //     }
-                    //     return query;
-                    // },
-                    processResults: function (data) {
-                        var myResults = [];
-                        $.each(data, function (index, item) {
-                            myResults.push({
-                                'id': item.id,
-                                'text': item.nome
-                            });
-                        });
-                        return {
-                            results: myResults
-                        };
-                    }
-                }
-            });
-            });
+            // $('#esame').on("select2:opening", function(e) {
+            //     $("#esame").select2({
+            //     ajax: {
+            //         url: "http://localhost:8080/SSO_war_exploded/api/general/medicibase/?idprovincia=TA&term=",
+            //         datatype: "json",
+            //         // data: function (params) {
+            //         //     var query = {
+            //         //         term: "",
+            //         //         type: 'public',
+            //         //         page: params.page || 1
+            //         //     }
+            //         //     return query;
+            //         // },
+            //         processResults: function (data) {
+            //             var myResults = [];
+            //             $.each(data, function (index, item) {
+            //                 myResults.push({
+            //                     'id': item.id,
+            //                     'text': item.nome
+            //                 });
+            //             });
+            //             return {
+            //                 results: myResults
+            //             };
+            //         }
+            //     }
+            // });
+            // });
 
         });
     </script>
