@@ -32,14 +32,10 @@ public class GeneralApi extends Api{
     @Path("visite")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getVisiteSuggestion(@QueryParam("term") String term) {
-        if(term == null) {
-            throw new ApiException(HttpServletResponse.SC_BAD_REQUEST, "You must specify term");
-        }
-
         Response res;
         try {
             VisitaDAO visitaDAO = daoFactory.getDAO(VisitaDAO.class);
-            List<Visita> visite = visitaDAO.getVisiteBySuggestionNome(term);
+            List<Visita> visite = visitaDAO.getVisiteBySuggestionNome(term == null ? "" : term);
             String jsonResult = gson.toJson(visite);
             res = Response.ok(jsonResult).build();
         }
@@ -58,15 +54,11 @@ public class GeneralApi extends Api{
     @Path("esami")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getEsamiSuggestion(@QueryParam("term") String term) {
-        if (term == null) {
-            throw new ApiException(HttpServletResponse.SC_BAD_REQUEST, "You must specify term");
-        }
-
         Response res;
 
         try {
             EsameDAO esameDAO = daoFactory.getDAO(EsameDAO.class);
-            List<Esame> esami = esameDAO.getEsamiBySuggestionNome(term);
+            List<Esame> esami = esameDAO.getEsamiBySuggestionNome(term == null ? "" : term);
             String jsonResult = gson.toJson(esami);
             res = Response.ok(jsonResult).build();
         }
@@ -85,16 +77,11 @@ public class GeneralApi extends Api{
     @Path("farmaci")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getFarmaciSuggestion(@QueryParam("term") String term) {
-
-        if(term == null) {
-            throw new ApiException(HttpServletResponse.SC_BAD_REQUEST, "You must specify term");
-        }
-
         Response res;
 
         try {
             FarmacoDAO farmacoDAO = daoFactory.getDAO(FarmacoDAO.class);
-            List<Farmaco> farmaci = farmacoDAO.getFarmaciBySuggestionNome(term);
+            List<Farmaco> farmaci = farmacoDAO.getFarmaciBySuggestionNome(term == null ? "" : term);
             String jsonResult = gson.toJson(farmaci);
             res = Response.ok(jsonResult).build();
         }
@@ -114,8 +101,8 @@ public class GeneralApi extends Api{
     @Produces(MediaType.APPLICATION_JSON)
     public Response getMediciBaseSuggestion(@QueryParam("idprovincia") String idProvincia,
                                             @QueryParam("term") String term) {
-        if(term == null || idProvincia == null) {
-            throw new ApiException(HttpServletResponse.SC_BAD_REQUEST, "You must specify term and id of the provincia");
+        if(idProvincia == null) {
+            throw new ApiException(HttpServletResponse.SC_BAD_REQUEST, "You must specify id of the provincia");
         }
 
         Response res;
@@ -125,7 +112,7 @@ public class GeneralApi extends Api{
                         !idProvincia.equals(((Utente)session.getAttribute("utente")).getProv()))) {
             try {
                 UtenteDAO utenteDAO = daoFactory.getDAO(UtenteDAO.class);
-                List<Utente> mediciBase = utenteDAO.getMediciBaseBySuggestionAndProvincia(term, idProvincia);
+                List<Utente> mediciBase = utenteDAO.getMediciBaseBySuggestionAndProvincia(term == null ? "" : term, idProvincia);
                 List<UtenteView> mediciBaseView = new ArrayList<>();
                 for (Utente medico: mediciBase) {
                     mediciBaseView.add(Utilities.fromUtenteToUtenteView(medico));
