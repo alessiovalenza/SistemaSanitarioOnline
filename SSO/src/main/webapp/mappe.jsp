@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
-    <title>Map at user's position</title>
+    <title>Map at user's position funzionante</title>
     <link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel = "stylesheet">
     <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.0/mapsjs-ui.css" />
     <script type="text/javascript" charset="UTF-8" src="https://js.api.here.com/v3/3.0/mapsjs-core.js"></script>
@@ -16,209 +16,208 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
 <body>
-    <div id="mapContainer"></div>
-    <script>
-        <%@page import="it.unitn.disi.wp.progetto.commons.Utilities" %><%@ page import="static it.unitn.disi.wp.progetto.commons.Utilities.sendEmail"%>
+<div id="mapContainer"></div>
+<script>
+    <%@ page import="static it.unitn.disi.wp.progetto.commons.Utilities.sendEmail"%>
 
-        function HEREPlaces (map, platform) {
-            this.map = map;
-            this.placeSearch = new H.places.Search (platform.getPlacesService());
-            this.searchResults = [];
+    function HEREPlaces (map, platform) {
+        this.map = map;
+        this.placeSearch = new H.places.Search (platform.getPlacesService());
+        this.searchResults = [];
+    }
+
+    HEREPlaces.prototype.searchPlaces = function(query) {
+        this.getPlaces(query, function(places) {
+            this.updatePlaces(places);
+        }.bind(this));
+    };
+
+    HEREPlaces.prototype.getPlaces = function(query, onSuccessCallback) {
+        var onSuccess, onError;
+        function notifyMe() {
+            // Let's check if the browser supports notifications
+            if (!("Notification" in window)) {
+                alert("This browser does not support desktop notification");
+            }
+
+            // Let's check whether notification permissions have already been granted
+            else if (Notification.permission === "granted") {
+                // If it's okay let's create a notification
+                var notification = new Notification("Hai delle ricette non evase; se vuoi qui vicino trovi una farmacia ;)");
+            }
+
+            // Otherwise, we need to ask the user for permission
+            else if (Notification.permission !== "denied") {
+                Notification.requestPermission().then(function (permission) {
+                    // If the user accepts, let's create a notification
+                    if (permission === "granted") {
+                        var notification = new Notification("Hai delle ricette non evase; se vuoi qui vicino trovi una farmacia ;)");
+                    }
+                });
+            }
         }
 
-        HEREPlaces.prototype.searchPlaces = function(query) {
-            this.getPlaces(query, function(places) {
-                this.updatePlaces(places);
-            }.bind(this));
-        };
+        onSuccess = function(data) {
+            if (data.results && data.results.items) {
+                var places = data.results.items.map(function(place){
+                    place.coordinates = {
+                        lat: place.position[0],
+                        lng: place.position[1]
+                    };
+                    return place;
+                });
 
-        HEREPlaces.prototype.getPlaces = function(query, onSuccessCallback) {
-            var onSuccess, onError;
-            function notifyMe() {
-                // Let's check if the browser supports notifications
-                if (!("Notification" in window)) {
-                    alert("This browser does not support desktop notification");
-                }
+                console.log("la prima farmacia dista "+data.results.items[0].distance)
 
-                // Let's check whether notification permissions have already been granted
-                else if (Notification.permission === "granted") {
-                    // If it's okay let's create a notification
-                    var notification = new Notification("Hai delle ricette non evase; se vuoi qui vicino trovi una farmacia ;)");
-                }
-
-                // Otherwise, we need to ask the user for permission
-                else if (Notification.permission !== "denied") {
-                    Notification.requestPermission().then(function (permission) {
-                        // If the user accepts, let's create a notification
-                        if (permission === "granted") {
-                        var notification = new Notification("Hai delle ricette non evase; se vuoi qui vicino trovi una farmacia ;)");
+                $.ajax({
+                    type: "GET",
+                    url: "http://localhost:8080/SSO_war_exploded/api/pazienti/"+ ${sessionScope.utente.id} +"/ricette?evaseonly=false&nonevaseonly=true",
+                        success: function (data) {
+                            if (data[0]) {
+                                notifyMe();
+                                <% sendEmail("frapava98@gmail.com", "Promemoria", "Hai delle ricette non evase; se vuoi qui vicino trovi una farmacia"); %>
+                                console.log("mail ok");
+                            }
                         }
                     });
-                }
+
+                onSuccessCallback(data.results.items);
+
+            } else {
+                onError(data);
+            }
+        };
+
+        onError = function(error) {
+            console.error('Error happened when fetching places!', error);
+        };
+
+        this.placeSearch.request(query, {}, onSuccess, onError);
+    };
+
+    HEREPlaces.prototype.clearSearch = function() {
+        this.searchResults.forEach(function(marker){
+            this.map.removeObject(marker);
+        }.bind(this));
+        this.searchResults = [];
+    };
+
+    HEREPlaces.prototype.updatePlaces = function(places) {
+        this.clearSearch();
+        this.searchResults = places.map(function(place){
+
+            var iconUrl = './images/1.jpg';
+
+            var iconOptions = {
+                // The icon's size in pixel:
+                size: new H.math.Size(46, 58),
+                // The anchorage point in pixel,
+                // defaults to bottom-center
+                anchor: new H.math.Point(14, 34)
+            };
+
+            var markerOptions = {
+                icon: new H.map.Icon(iconUrl, iconOptions)
+            };
+
+            var marker = new H.map.Marker(place.coordinates, markerOptions);
+            this.map.addObject(marker,'red');
+            return marker;
+        }.bind(this));
+    };
+
+</script>
+<script>
+    function HEREMap (mapContainer, platform, mapOptions) {
+        this.platform = platform;
+        this.position = mapOptions.center;
+
+        var defaultLayers = platform.createDefaultLayers();
+
+        // Instantiate wrapped HERE map
+        this.map = new H.Map(mapContainer, defaultLayers.normal.map, mapOptions);
+
+        // Basic behavior: Zooming and panning
+        var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(this.map));
+
+        // Watch the user's geolocation and display it
+        navigator.geolocation.watchPosition(this.updateMyPosition.bind(this));
+
+        // Resize the map when the window is resized
+        window.addEventListener('resize', this.resizeToFit.bind(this));
+
+        this.places = new HEREPlaces(this.map, this.platform);
+
+
+    }
+
+    HEREMap.prototype.updateMyPosition = function(event) {
+
+        if (event.coords.latitude < (this.position.lat-0.0001) ||
+            event.coords.latitude > (this.position.lat+0.0001) ||
+            event.coords.longitude < (this.position.lng-0.0001) ||
+            event.coords.longitude > (this.position.lng+0.0001)) {
+
+            this.position = {
+                lat: event.coords.latitude,
+                lng: event.coords.longitude
+            };
+
+            if (this.myLocationMarker) {
+                this.removeMarker(this.myLocationMarker);
             }
 
-            onSuccess = function(data) {
-                if (data.results && data.results.items) {
-                    var places = data.results.items.map(function(place){
-                        place.coordinates = {
-                            lat: place.position[0],
-                            lng: place.position[1]
-                        };
-                        return place;
-                    });
-
-                    console.log("la prima farmacia dista "+data.results.items[0].distance)
-
-                    /*var ricette = [];
-                    ricette =  $.ajax({
-                        type: "GET",
-                        url: "http://localhost:8080/SSO_war_exploded/api/pazienti/"+ ${sessionScope.utente.id} +"/ricette?evaseonly=false&nonevaseonly=true"
-                    });
-                    console.log(ricette);*/
-
-                    if(data.results.items[0].distance < 900){
-                        notifyMe();
-                        <% sendEmail("frapava98@gmail.com", "Farmacia vicina", "Hai delle ricette non evase; se vuoi qui vicino trovi una farmacia"); %>
-
-                    }
-
-                    onSuccessCallback(data.results.items);
-
-                } else {
-                    onError(data);
-                }
-            };
-
-            onError = function(error) {
-                console.error('Error happened when fetching places!', error);
-            };
-
-            this.placeSearch.request(query, {}, onSuccess, onError);
-        };
-
-        HEREPlaces.prototype.clearSearch = function() {
-            this.searchResults.forEach(function(marker){
-                this.map.removeObject(marker);
-            }.bind(this));
-            this.searchResults = [];
-        };
-
-        HEREPlaces.prototype.updatePlaces = function(places) {
-            this.clearSearch();
-            this.searchResults = places.map(function(place){
-
-                var iconUrl = './images/1.jpg';
-
-                var iconOptions = {
-                    // The icon's size in pixel:
-                    size: new H.math.Size(46, 58),
-                    // The anchorage point in pixel,
-                    // defaults to bottom-center
-                    anchor: new H.math.Point(14, 34)
-                };
-
-                var markerOptions = {
-                    icon: new H.map.Icon(iconUrl, iconOptions)
-                };
-
-                var marker = new H.map.Marker(place.coordinates, markerOptions);
-                this.map.addObject(marker,'red');
-                return marker;
-            }.bind(this));
-        };
-
-    </script>
-    <script>
-        function HEREMap (mapContainer, platform, mapOptions) {
-            this.platform = platform;
-            this.position = mapOptions.center;
-
-            var defaultLayers = platform.createDefaultLayers();
-
-            // Instantiate wrapped HERE map
-            this.map = new H.Map(mapContainer, defaultLayers.normal.map, mapOptions);
-
-            // Basic behavior: Zooming and panning
-            var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(this.map));
-
-            // Watch the user's geolocation and display it
-            navigator.geolocation.watchPosition(this.updateMyPosition.bind(this));
-
-            // Resize the map when the window is resized
-            window.addEventListener('resize', this.resizeToFit.bind(this));
-
-            this.places = new HEREPlaces(this.map, this.platform);
-
+            this.myLocationMarker = this.addMarker(this.position);
+            this.map.setCenter(this.position);
+            this.searchForPharmacies();
 
         }
+    };
 
-        HEREMap.prototype.updateMyPosition = function(event) {
+    HEREMap.prototype.addMarker = function(coordinates) {
+        var marker = new H.map.Marker(coordinates);
+        this.map.addObject(marker);
 
-            if (event.coords.latitude < (this.position.lat-0.0001) ||
-                event.coords.latitude > (this.position.lat+0.0001) ||
-                event.coords.longitude < (this.position.lng-0.0001) ||
-                event.coords.longitude > (this.position.lng+0.0001)) {
+        return marker;
+    };
 
-                this.position = {
-                    lat: event.coords.latitude,
-                    lng: event.coords.longitude
-                };
+    HEREMap.prototype.removeMarker = function(marker) {
+        this.map.removeObject(marker);
+    };
 
-                if (this.myLocationMarker) {
-                    this.removeMarker(this.myLocationMarker);
-                }
+    HEREMap.prototype.resizeToFit = function() {
+        this.map.getViewPort().resize();
+    };
 
-                this.myLocationMarker = this.addMarker(this.position);
-                this.map.setCenter(this.position);
-                this.searchForPharmacies();
+    HEREMap.prototype.searchForPharmacies = function(){
 
-            }
+        var query = {
+            'q': 'pharmacies',
+            'at': this.position.lat + ',' + this.position.lng
         };
 
-        HEREMap.prototype.addMarker = function(coordinates) {
-            var marker = new H.map.Marker(coordinates);
-            this.map.addObject(marker);
+        this.places.searchPlaces(query);
+    };
+</script>
+<script>
+    var mapContainer = document.getElementById('mapContainer');
 
-            return marker;
-        };
+    var platform = new H.service.Platform({
+        //apikey: '9ZZLQaMKUi1q7AIY9burFElLlUtLunmqcYc6w4JbQN8'
+        app_id: 'eXyeKXjLMDyo92pFfzNf', // // <-- ENTER YOUR APP ID HERE
+        app_code: 'QuU-fH5ZjNfHHzf2IZHEkg' // <-- ENTER YOUR APP CODE HERE
+    });
 
-        HEREMap.prototype.removeMarker = function(marker) {
-            this.map.removeObject(marker);
-        };
+    var coordinates = {
+        lat: 0,
+        lng: 0
+    };
 
-        HEREMap.prototype.resizeToFit = function() {
-            this.map.getViewPort().resize();
-        };
+    var mapOptions = {
+        center: coordinates,
+        zoom: 15
+    };
 
-        HEREMap.prototype.searchForPharmacies = function(){
-
-            var query = {
-                'q': 'pharmacies',
-                'at': this.position.lat + ',' + this.position.lng
-            };
-
-            this.places.searchPlaces(query);
-        };
-    </script>
-    <script>
-        var mapContainer = document.getElementById('mapContainer');
-
-        var platform = new H.service.Platform({
-            //apikey: '9ZZLQaMKUi1q7AIY9burFElLlUtLunmqcYc6w4JbQN8'
-            app_id: 'eXyeKXjLMDyo92pFfzNf', // // <-- ENTER YOUR APP ID HERE
-            app_code: 'QuU-fH5ZjNfHHzf2IZHEkg' // <-- ENTER YOUR APP CODE HERE
-        });
-
-        var coordinates = {
-            lat: 52.530974,
-            lng: 13.384944
-        };
-
-        var mapOptions = {
-            center: coordinates,
-            zoom: 14
-        };
-
-        var map = new HEREMap(mapContainer, platform, mapOptions);
-    </script>
+    var map = new HEREMap(mapContainer, platform, mapOptions);
+</script>
 </body>
