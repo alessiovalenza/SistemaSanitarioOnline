@@ -18,6 +18,8 @@
 <body>
     <div id="mapContainer"></div>
     <script>
+        <%@page import="it.unitn.disi.wp.progetto.commons.Utilities" %><%@ page import="static it.unitn.disi.wp.progetto.commons.Utilities.sendEmail"%>
+
         function HEREPlaces (map, platform) {
             this.map = map;
             this.placeSearch = new H.places.Search (platform.getPlacesService());
@@ -41,7 +43,7 @@
                 // Let's check whether notification permissions have already been granted
                 else if (Notification.permission === "granted") {
                     // If it's okay let's create a notification
-                    var notification = new Notification("Hai delle ricette non evase; se vuoi qui vicino c'è una farmacia ;)");
+                    var notification = new Notification("Hai delle ricette non evase; se vuoi qui vicino trovi una farmacia ;)");
                 }
 
                 // Otherwise, we need to ask the user for permission
@@ -49,7 +51,7 @@
                     Notification.requestPermission().then(function (permission) {
                         // If the user accepts, let's create a notification
                         if (permission === "granted") {
-                        var notification = new Notification("Hai delle ricette non evase; se vuoi qui vicino c'è una farmacia ;)");
+                        var notification = new Notification("Hai delle ricette non evase; se vuoi qui vicino trovi una farmacia ;)");
                         }
                     });
                 }
@@ -65,6 +67,8 @@
                         return place;
                     });
 
+                    console.log("la prima farmacia dista "+data.results.items[0].distance)
+
                     /*var ricette = [];
                     ricette =  $.ajax({
                         type: "GET",
@@ -74,6 +78,8 @@
 
                     if(data.results.items[0].distance < 900){
                         notifyMe();
+                        <% sendEmail("frapava98@gmail.com", "Farmacia vicina", "Hai delle ricette non evase; se vuoi qui vicino trovi una farmacia"); %>
+
                     }
 
                     onSuccessCallback(data.results.items);
