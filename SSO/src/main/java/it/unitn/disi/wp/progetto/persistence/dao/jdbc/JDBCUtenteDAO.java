@@ -2,7 +2,9 @@ package it.unitn.disi.wp.progetto.persistence.dao.jdbc;
 
 import it.unitn.disi.wp.progetto.persistence.dao.UtenteDAO;
 import it.unitn.disi.wp.progetto.persistence.dao.exceptions.DAOException;
+import it.unitn.disi.wp.progetto.persistence.entities.ElemPazienteMB;
 import it.unitn.disi.wp.progetto.persistence.entities.Utente;
+import it.unitn.disi.wp.progetto.persistence.entities.UtenteView;
 
 import java.math.BigInteger;
 import java.sql.*;
@@ -210,6 +212,32 @@ public class JDBCUtenteDAO extends JDBCDAO<Utente, Long> implements UtenteDAO {
     }
 
     @Override
+    public List<ElemPazienteMB> getPazientiDateMB(long idMedicoBase) throws DAOException {
+        List<ElemPazienteMB> listOfPazienti = new ArrayList<>();
+
+        try (PreparedStatement stm = CON.prepareStatement("SELECT p.id, p.email, p.idprovincia, p.ruolo, p.nome, p.cognome, p.sesso, p.datanascita, p.luogonascita, p.codicefiscale, p.medicobase, max(r.emissione), max(v.erogazione) " +
+                "FROM utente p LEFT JOIN ricetta r ON p.id = r.paziente LEFT JOIN visita_base v ON p.id = v.paziente " +
+                "WHERE p.medicobase = ? " +
+                "GROUP BY p.id, p.email, p.idprovincia, p.ruolo, p.nome, p.cognome, p.sesso, p.datanascita, p.luogonascita, p.codicefiscale, p.medicobase;")) {
+            stm.setLong(1, idMedicoBase); // 1-based indexing
+
+            try (ResultSet rs = stm.executeQuery()) {
+
+                while(rs.next()){
+                    ElemPazienteMB elemPazienteMB = makeElemPazienteMBFromRs(rs);
+                    listOfPazienti.add(elemPazienteMB);
+                }
+
+            }
+
+            return  listOfPazienti;
+
+        } catch (SQLException ex) {
+            throw new DAOException("Impossible to get the list", ex);
+        }
+    }
+
+    @Override
     public Long getCount() throws DAOException {
         PreparedStatement stmt = null;
         try {
@@ -296,5 +324,28 @@ public class JDBCUtenteDAO extends JDBCDAO<Utente, Long> implements UtenteDAO {
         }
 
         return user;
+    }
+
+    private ElemPazienteMB makeElemPazienteMBFromRs(ResultSet rs) throws SQLException {
+        ElemPazienteMB elemPazienteMB = new ElemPazienteMB();
+
+        UtenteView paziente = new UtenteView();
+        paziente.setId(rs.getLong(1));
+        paziente.setEmail(rs.getString(2));
+        paziente.setProv(rs.getString(3));
+        paziente.setRuolo(rs.getString(4));
+        paziente.setNome(rs.getString(5));
+        paziente.setCognome(rs.getString(6));
+        paziente.setSesso(rs.getString(7).charAt(0));
+        paziente.setDataNascita(rs.getDate(8));
+        paziente.setLuogoNascita(rs.getString(9));
+        paziente.setCodiceFiscale(rs.getString(10));
+        paziente.setIdMedicoBase(rs.getLong(11));
+
+        elemPazienteMB.setPaziente(paziente);
+        elemPazienteMB.setGetDataUltimaRicetta(rs.getTimestamp(12));
+        elemPazienteMB.setDataUltimaVisitaBase(rs.getTimestamp(13));
+
+        return elemPazienteMB;
     }
 }

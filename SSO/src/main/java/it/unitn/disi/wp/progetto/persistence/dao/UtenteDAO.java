@@ -22,4 +22,5 @@ public interface UtenteDAO extends DAO<Utente, Long> {
     public List<Utente> getUsersBySuggestion(String suggestion) throws DAOException;
     public List<Utente> getMediciBaseBySuggestionAndProvincia(String suggestion, String provincia) throws DAOException;
     public Utente getMedicoBaseByPaziente(long idPaziente) throws DAOException;
+    public List<ElemPazienteMB> getPazientiDateMB(long idMedicoBase) throws DAOException;
 }

@@ -36,12 +36,15 @@
 ### getPazientiByMedicoBase
 * *Description:* restituisce i pazienti di un medico base
 * *Method:* `GET`
-* *Path:* `/api/medicibase/<idmedico>/pazienti`
+* *Path:* `/api/medicibase/<idmedico>/pazienti?datericettavisita=<boolean>`
+* *Notes:* `se il parametro datericettavisita è omesso o settato a false, viene semplicemente mostrata la lista di pazienti del medico di base; se è settato a true, viene ritornato l'elenco dei pazienti e per ognuno la data dell'ultima ricetta e visita di base`
 * *Consumes:* `nothing`
 * *Produces:* `JSON`
 * *Output Example:* 
 
 ```
+//con datericettavisita omesso o false
+
 [
     {
         "id": 5,
@@ -55,6 +58,43 @@
         "luogoNascita": "Canneto Sull'Oglio",
         "codiceFiscale": "CSTGNN59M06B612X",
         "idMedicoBase": 4
+    }
+]
+
+// con datericettavisita = true
+
+[
+    {
+        "paziente": {
+            "id": 36,
+            "email": "oder.dimarco@yahoo.com",
+            "prov": "RE",
+            "ruolo": "ms",
+            "nome": "Oder",
+            "cognome": "Di Marco",
+            "sesso": "M",
+            "dataNascita": "1985-05-05 12:00:00.0",
+            "luogoNascita": "Creazzo",
+            "codiceFiscale": "DMRDRO85E05D136P",
+            "idMedicoBase": 16
+        },
+        "dataUltimaVisitaBase": "2020-01-01 07:35:17.637",
+        "getDataUltimaRicetta": "2020-01-01 07:35:42.111"
+    },
+    {
+        "paziente": {
+            "id": 51,
+            "email": "bino.filipek@libero.it",
+            "prov": "RE",
+            "ruolo": "p",
+            "nome": "Bino",
+            "cognome": "Filipek",
+            "sesso": "M",
+            "dataNascita": "1963-10-14 12:00:00.0",
+            "luogoNascita": "Manduria",
+            "codiceFiscale": "FLPBNI63R14E882Y",
+            "idMedicoBase": 16
+        }
     }
 ]
 ```

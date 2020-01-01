@@ -159,10 +159,6 @@ public class AuthZFilter implements Filter {
                     res = true;
                 }
                 else if(request.getMethod().equals("POST")) {
-                    Enumeration<String> e = request.getParameterNames();
-                    while(e.hasMoreElements()) {
-                        System.out.println(e.nextElement());
-                    }
                     res = true;
                 }
             }
