@@ -18,7 +18,6 @@
 <body>
 <div id="mapContainer"></div>
 <script>
-    <%@ page import="static it.unitn.disi.wp.progetto.commons.Utilities.sendEmail"%>
 
     function HEREPlaces (map, platform) {
         this.map = map;
@@ -59,6 +58,7 @@
 
         onSuccess = function(data) {
             if (data.results && data.results.items) {
+
                 var places = data.results.items.map(function(place){
                     place.coordinates = {
                         lat: place.position[0],
@@ -67,19 +67,22 @@
                     return place;
                 });
 
-                console.log("la prima farmacia dista "+data.results.items[0].distance)
+                var distance = data.results.items[0].distance;
+
+                function sendEmail(){
+                    $.get("mappeEmail.jsp")
+                }
 
                 $.ajax({
                     type: "GET",
                     url: "http://localhost:8080/SSO_war_exploded/api/pazienti/"+ ${sessionScope.utente.id} +"/ricette?evaseonly=false&nonevaseonly=true",
                         success: function (data) {
-                            if (data[0]) {
-                                notifyMe();
-                                <% sendEmail("frapava98@gmail.com", "Promemoria", "Hai delle ricette non evase; se vuoi qui vicino trovi una farmacia"); %>
-                                console.log("mail ok");
-                            }
+                        if (data[0] && distance <= 2000) {
+                            notifyMe();
+                            $(sendEmail());
                         }
-                    });
+                    }
+                });
 
                 onSuccessCallback(data.results.items);
 

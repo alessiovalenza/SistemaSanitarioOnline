@@ -78,8 +78,7 @@ public class Utilities {
             msg.setSubject(Subject);
             msg.setText(Text);
             msg.setSentDate(new Date());
-
-            //Transport.send(msg);
+            Transport.send(msg);
         } catch (MessagingException me) {
             me.printStackTrace(System.err);
         }
