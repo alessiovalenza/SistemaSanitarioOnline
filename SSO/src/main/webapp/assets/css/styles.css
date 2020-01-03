@@ -1,0 +1,31 @@
+@import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+body, html{
+    height: 100%;
+    font-family: 'Roboto','Poppins', sans-serif;
+}
+
+#holder{
+    min-height: 100%;
+    position:relative;
+}
+
+#body{
+    padding-bottom: 50px;     /* height of footer */
+}
+#container-table{
+    overflow-x:auto;
+}
+
+footer{
+    height: 50px;
+    width:100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    color: rgb(255,255,255);
+    background-color: #1e88e5;
+    font-size: 1vmax;
+    border-style: groove;
+    border-width: 1px;
+    line-height: 50px;
+}
