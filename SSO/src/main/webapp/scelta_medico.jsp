@@ -7,6 +7,7 @@
     <title>Scelta Medico</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
@@ -14,46 +15,57 @@
 </head>
 
 <body>
-
-    <nav class="navbar-expand-md sticky-top"
-        style="background-color: #51b5e0;font-family: 'Open Sans', sans-serif;padding: 11px;">
-        <div class="container-fluid"><img src="assets/img/logoebbasta.png"
-                style="height: 42px;padding: 0px;margin: 0px;">
-            <a class="navbar-brand" href="index.jsp"
-                style="padding: 3px;font-family: default;color: rgb(255,255,255);">
-                Ministero della salute
-            </a>
-        </div>
-    </nav>
-
-
-    <div class="row">
-        <div class="col-md-6">
-            <a href="">
-                <div class="card">
-                    <div class="card-body" style="text-align: center">
-                        <p style="font-size:25; font-size: 3vw;">Medico</p> <img style="width: 60%"
-                            src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.ashclinicalnews.org%2Fwp-content%2Fuploads%2F2017%2F02%2FHealth-symbol-medicine.jpg&f=1&nofb=1">
-                    </div>
+<div id="holder">
+    <header>
+        <nav class="navbar-expand-md sticky-top"
+             style="background-color: #1e88e5;padding: 11px;">
+            <div class="container-fluid"><img src="assets/img/logoebbasta.png"
+                                              style="height: 42px;padding: 0px;margin: 0px;">
+                <a class="navbar-brand" href="index.jsp"
+                   style="padding: 3px;color: rgb(255,255,255);">
+                    Ministero della salute
+                </a>
+            </div>
+        </nav>
+    </header>
+    <br>
+    <br>
+    <div id="body">
+        <div class="container-fluid" style="padding-bottom: 3%;padding-top: 3%;">
+            <div class="row">
+                <div class="col-md-6">
+                    <a href="">
+                        <div class="card">
+                            <div class="card-body" style="text-align: center">
+                                <h2>Medico</h2> <img style="height: 15rem"
+                                                                                         src="assets/img/logo_medico.jpeg">
+                            </div>
+                        </div>
+                    </a>
                 </div>
 
-            </a>
-        </div>
+                <br>
 
-        <div class="col-md-6">
-            <a href="">
-                <div class="card">
-                    <div class="card-body" style="text-align:center;">
-                        <p style="font-size:25; font-size: 3vw;">Paziente</p><img style="width: 60%"
-                            src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.choc.org%2Fwp%2Fwp-content%2Fuploads%2F2018%2F11%2Fchoc-icons-refer-patient.png&f=1&nofb=1">
-                    </div>
+                <div class="col-md-6">
+                    <a href="">
+                        <div class="card">
+                            <div class="card-body" style="text-align:center;">
+                                <h2>Paziente</h2><img style="height: 15rem"
+                                                                                          src="assets/img/logo_paziente.png">
+                            </div>
+                        </div>
+                    </a>
                 </div>
-
-            </a>
+            </div>
         </div>
     </div>
-
-
+    <footer>
+        via Sommarive, 5 - 38123 Trento (Povo)
+        Tel. +39 1234 567890
+        CF e P.IVA 12345678901
+        Numero verde 800 12345
+    </footer>
+</div>
 </body>
 
 </html>
