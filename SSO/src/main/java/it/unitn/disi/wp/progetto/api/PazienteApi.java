@@ -153,8 +153,6 @@ public class PazienteApi extends Api {
                 return badRequestResponse;
             }
 
-            
-
             try {
                 UtenteDAO utenteDAO = daoFactory.getDAO(UtenteDAO.class);
                 Utente paziente = utenteDAO.getByPrimaryKey(idPaziente);

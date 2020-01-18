@@ -145,15 +145,15 @@ public class Utilities {
         if(utente != null) {
             utenteView = new UtenteView();
             utenteView.setId(utente.getId());
-            utenteView.setEmail(utente.getEmail().strip());
-            utenteView.setProv(utente.getProv().strip());
-            utenteView.setRuolo(utente.getRuolo().strip());
-            utenteView.setNome(utente.getNome().strip());
-            utenteView.setCognome(utente.getCognome().strip());
+            utenteView.setEmail(utente.getEmail());
+            utenteView.setProv(utente.getProv());
+            utenteView.setRuolo(utente.getRuolo());
+            utenteView.setNome(utente.getNome());
+            utenteView.setCognome(utente.getCognome());
             utenteView.setSesso(utente.getSesso());
             utenteView.setDataNascita(utente.getDataNascita());
-            utenteView.setLuogoNascita(utente.getLuogoNascita().strip());
-            utenteView.setCodiceFiscale(utente.getCodiceFiscale().strip());
+            utenteView.setLuogoNascita(utente.getLuogoNascita());
+            utenteView.setCodiceFiscale(utente.getCodiceFiscale());
             utenteView.setIdMedicoBase(utente.getIdMedicoBase());
         }
 
