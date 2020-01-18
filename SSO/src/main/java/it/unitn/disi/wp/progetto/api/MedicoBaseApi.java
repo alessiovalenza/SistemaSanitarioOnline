@@ -26,7 +26,8 @@ public class MedicoBaseApi extends Api {
     @Path("{idmedico}/pazienti")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getPazientiByMedicoBase(@PathParam("idmedico") long idMedicoBase,
-                                            @QueryParam("datericettavisita") Boolean dateRicVis) {
+                                            @QueryParam("datericettavisita") Boolean dateRicVis,
+                                            @QueryParam("term") String term) {
         Response res;
 
         if(dateRicVis == null || dateRicVis == false) {
@@ -37,7 +38,7 @@ public class MedicoBaseApi extends Api {
                 Utente medico = utenteDAO.getByPrimaryKey(idMedicoBase);
 
                 if (medico != null) {
-                    List<Utente> list = utenteDAO.getPazientiByMedicoBase(idMedicoBase);
+                    List<Utente> list = utenteDAO.getPazientiByMedicoBase(idMedicoBase, term == null ? "" : term);
                     ArrayList<UtenteView> jsonList = new ArrayList<>();
                     for (Utente user : list) {
                         jsonList.add(Utilities.fromUtenteToUtenteView(user));
@@ -62,7 +63,7 @@ public class MedicoBaseApi extends Api {
                 Utente medico = utenteDAO.getByPrimaryKey(idMedicoBase);
 
                 if (medico != null) {
-                    List<ElemPazienteMB> list = utenteDAO.getPazientiDateMB(idMedicoBase);
+                    List<ElemPazienteMB> list = utenteDAO.getPazientiDateMB(idMedicoBase, term == null ? "" : term);
                     String jsonResult = gson.toJson(list);
                     res = Response.ok(jsonResult).build();
                 } else {

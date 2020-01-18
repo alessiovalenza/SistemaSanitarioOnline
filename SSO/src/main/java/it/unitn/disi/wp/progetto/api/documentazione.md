@@ -36,8 +36,9 @@
 ### getPazientiByMedicoBase
 * *Description:* restituisce i pazienti di un medico base
 * *Method:* `GET`
-* *Path:* `/api/medicibase/<idmedico>/pazienti?datericettavisita=<boolean>`
+* *Path:* `/api/medicibase/<idmedico>/pazienti?datericettavisita=<boolean>&term=<string>`
 * *Notes:* `se il parametro datericettavisita è omesso o settato a false, viene semplicemente mostrata la lista di pazienti del medico di base; se è settato a true, viene ritornato l'elenco dei pazienti e per ognuno la data dell'ultima ricetta e visita di base`
+* *Notes 2: `il parametro term serve per fare ricerche by suggestion, può essere omesso`
 * *Consumes:* `nothing`
 * *Produces:* `JSON`
 * *Output Example:* 

@@ -63,11 +63,19 @@ public class JDBCUtenteDAO extends JDBCDAO<Utente, Long> implements UtenteDAO {
     }
 
     @Override
-    public List<Utente> getPazientiByMedicoBase(long id) throws DAOException {
+    public List<Utente> getPazientiByMedicoBase(long id, String suggestion) throws DAOException {
         List<Utente> listOfPazienti = new ArrayList<>();
 
-        try (PreparedStatement stm = CON.prepareStatement("SELECT * FROM utente WHERE medicobase = ?")) {
+        try (PreparedStatement stm = CON.prepareStatement("SELECT * FROM utente " +
+                "WHERE medicobase = ?" +
+                "AND (lower(cognome || ' ' || nome) LIKE lower(?) OR lower(nome || ' ' || cognome) LIKE lower(?)" +
+                     "OR lower(email) LIKE lower(?) OR lower(codicefiscale) LIKE lower(?));")) {
             stm.setLong(1, id); // 1-based indexing
+            stm.setString(2, suggestion + "%");
+            stm.setString(3, suggestion + "%");
+            stm.setString(4, suggestion + "%");
+            stm.setString(5, suggestion + "%");
+
 
             try (ResultSet rs = stm.executeQuery()) {
 
@@ -212,14 +220,20 @@ public class JDBCUtenteDAO extends JDBCDAO<Utente, Long> implements UtenteDAO {
     }
 
     @Override
-    public List<ElemPazienteMB> getPazientiDateMB(long idMedicoBase) throws DAOException {
+    public List<ElemPazienteMB> getPazientiDateMB(long idMedicoBase, String suggestion) throws DAOException {
         List<ElemPazienteMB> listOfPazienti = new ArrayList<>();
 
         try (PreparedStatement stm = CON.prepareStatement("SELECT p.id, p.email, p.idprovincia, p.ruolo, p.nome, p.cognome, p.sesso, p.datanascita, p.luogonascita, p.codicefiscale, p.medicobase, max(r.emissione), max(v.erogazione) " +
                 "FROM utente p LEFT JOIN ricetta r ON p.id = r.paziente LEFT JOIN visita_base v ON p.id = v.paziente " +
                 "WHERE p.medicobase = ? " +
+                "AND (lower(p.cognome || ' ' || p.nome) LIKE lower(?) OR lower(p.nome || ' ' || p.cognome) LIKE lower(?) " +
+                "OR lower(p.email) LIKE lower(?) OR lower(p.codicefiscale) LIKE lower(?)) " +
                 "GROUP BY p.id, p.email, p.idprovincia, p.ruolo, p.nome, p.cognome, p.sesso, p.datanascita, p.luogonascita, p.codicefiscale, p.medicobase;")) {
             stm.setLong(1, idMedicoBase); // 1-based indexing
+            stm.setString(2, suggestion + "%");
+            stm.setString(3, suggestion + "%");
+            stm.setString(4, suggestion + "%");
+            stm.setString(5, suggestion + "%");
 
             try (ResultSet rs = stm.executeQuery()) {
 
