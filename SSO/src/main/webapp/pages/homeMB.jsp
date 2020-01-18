@@ -262,26 +262,148 @@
 
             $("#formScheda").submit(function(event){
                 event.preventDefault();
-                $('#dataPazienteScheda').DataTable().destroy()
-                let url = "http://localhost:8080/SSO_war_exploded/api/pazienti/"+$('#idpazienteScheda').val()
-                $('#dataPazienteScheda').DataTable( {
+                // $('#dataPazienteScheda').DataTable().destroy()
+                // let url = "http://localhost:8080/SSO_war_exploded/api/pazienti/"+$('#idpazienteScheda').val()
+                // $('#dataPazienteScheda').DataTable( {
+                //     "processing": true,
+                //     "serverSide": true,
+                //     "ajax": {
+                //         "url": url,
+                //         "type":"GET",
+                //         "dataSrc": ""
+                //     },
+                //     "columns": [
+                //         { "data": "nome" },//qua ovviamente va cambiato i
+                //         { "data": "cognome" },
+                //         { "data": "dataNascita" },
+                //         { "data": "luogoNascita" },
+                //         { "data": "codiceFiscale" },
+                //         { "data": "sesso" },
+                //         { "data": "email" }
+                //     ]
+                // } );
+                $('#visiteBasePazienteScheda').DataTable().destroy()
+                let urlVisiteBase = "http://localhost:8080/SSO_war_exploded/api/pazienti/"+$('#idpazienteScheda').val()+"/visitebase"
+                $('#visiteBasePazienteScheda').DataTable( {
                     "processing": true,
                     "serverSide": true,
                     "ajax": {
-                        "url": url,
+                        "url": urlVisiteBase,
                         "type":"GET",
                         "dataSrc": ""
                     },
                     "columns": [
-                        { "data": "nome" },//qua ovviamente va cambiato i
-                        { "data": "cognome" },
-                        { "data": "dataNascita" },
-                        { "data": "luogoNascita" },
-                        { "data": "codiceFiscale" },
-                        { "data": "sesso" },
-                        { "data": "email" }
+                        { "data": "medicoBase.nome" },//qua ovviamente va cambiato i
+                        { "data": "medicoBase.cognome" },
+                        { "data": "erogazione" },
+                        { "data": "anamnesi" }
                     ]
                 } );
+
+
+                $('#visiteSpecialisticheErogatePazienteScheda').DataTable().destroy()
+                let urlVisiteSpacialisticheErogate = "http://localhost:8080/SSO_war_exploded/api/pazienti/"+$('#idpazienteScheda').val()+"/visitespecialistiche/?erogateonly=true&nonerogateonly=false"
+                $('#visiteSpecialisticheErogatePazienteScheda').DataTable( {
+                    "processing": true,
+                    "serverSide": true,
+                    "ajax": {
+                        "url": urlVisiteSpacialisticheErogate,
+                        "type":"GET",
+                        "dataSrc": ""
+                    },
+                    "columns": [
+                        { "data": "visita.nome" },//qua ovviamente va cambiato i
+                        { "data": "medicoSpecialista.nome" },
+                        { "data": "medicoSpecialista.cognome" },
+                        { "data": "medicoBase.nome" },
+                        { "data": "medicoBase.cognome" },
+                        { "data": "prescrizione" },
+                        { "data": "erogazione" },
+                        { "data": "anamnesi" }
+                    ]
+                } );
+
+                $('#visiteSpecialisticheNonErogatePazienteScheda').DataTable().destroy()
+                let urlVisiteSpacialisticheNonErogate = "http://localhost:8080/SSO_war_exploded/api/pazienti/"+$('#idpazienteScheda').val()+"/visitespecialistiche/?erogateonly=false&nonerogateonly=true"
+                $('#visiteSpecialisticheNonErogatePazienteScheda').DataTable( {
+                    "processing": true,
+                    "serverSide": true,
+                    "ajax": {
+                        "url": urlVisiteSpacialisticheNonErogate,
+                        "type":"GET",
+                        "dataSrc": ""
+                    },
+                    "columns": [
+                        { "data": "visita.nome" },//qua ovviamente va cambiato i
+                        { "data": "medicoSpecialista.nome" },
+                        { "data": "medicoSpecialista.cognome" },
+                        { "data": "medicoBase.nome" },
+                        { "data": "medicoBase.cognome" },
+                        { "data": "prescrizione" }
+                    ]
+                } );
+
+                $('#ricetteEvasePazienteScheda').DataTable().destroy()
+                let urlRicetteEvase = "http://localhost:8080/SSO_war_exploded/api/pazienti/"+$('#idpazienteScheda').val()+"/ricette/?evaseonly=true&nonevaseonly=false"
+                $('#ricetteEvasePazienteScheda').DataTable( {
+                    "processing": true,
+                    "serverSide": true,
+                    "ajax": {
+                        "url": urlRicetteEvase,
+                        "type":"GET",
+                        "dataSrc": ""
+                    },
+                    "columns": [
+                        { "data": "farmaco.nome" },//qua ovviamente va cambiato i
+                        { "data": "farmaco.descrizione" },
+                        { "data": "medicoBase.cognome" },
+                        { "data": "medicoBase.nome" },
+                        { "data": "emissione" },
+                        { "data": "evasione" }
+                    ]
+                } );
+
+                $('#ricetteNonEvasePazienteScheda').DataTable().destroy()
+                let urlRicetteNonEvase = "http://localhost:8080/SSO_war_exploded/api/pazienti/"+$('#idpazienteScheda').val()+"/ricette/?evaseonly=false&nonevaseonly=true"
+                $('#ricetteNonEvasePazienteScheda').DataTable( {
+                    "processing": true,
+                    "serverSide": true,
+                    "ajax": {
+                        "url": urlRicetteNonEvase,
+                        "type":"GET",
+                        "dataSrc": ""
+                    },
+                    "columns": [
+                        { "data": "farmaco.nome" },//qua ovviamente va cambiato i
+                        { "data": "farmaco.descrizione" },
+                        { "data": "medicoBase.cognome" },
+                        { "data": "medicoBase.nome" },
+                        { "data": "emissione" }
+                    ]
+                } );
+
+
+                $('#esamiErogatiPazienteScheda').DataTable().destroy()
+                let urlEsamiErogati = "http://localhost:8080/SSO_war_exploded/api/pazienti/"+$('#idpazienteScheda').val()+"/esamiprescritti/?erogationly=true&nonerogationly=false"
+                $('#esamiErogatiPazienteScheda').DataTable( {
+                    "processing": true,
+                    "serverSide": true,
+                    "ajax": {
+                        "url": urlEsamiErogati,
+                        "type":"GET",
+                        "dataSrc": ""
+                    },
+                    "columns": [
+                        { "data": "esame.nome" },
+                        { "data": "esame.descrizione" },
+                        { "data": "medicoBase.cognome" },
+                        { "data": "medicoBase.nome" },
+                        { "data": "prescrizione" },
+                        { "data": "erogazione" },
+                        { "data": "esito" }
+                    ]
+                } );
+
             });
 
 
@@ -731,7 +853,7 @@
                             <table id="dataPazienteScheda" class="table table-striped table-hover ">
                                 <thead>
                                 <tr>
-                                    <th>Nome</th>
+                                    <th >Nome</th>
                                     <th>Cognome</th>
                                     <th>Data di Nascita</th>
                                     <th>Luogo di Nascita</th>
@@ -745,37 +867,25 @@
                         </div>
                     </div>
 
+
                     <div class="col-md-12">
-                        <h5>Visite</h5>
+                        <h5>Visite di base</h5>
                         <div class="table table-responsive">
-                            <table id="visitePazienteScheda" class="table table-striped table-hover ">
+                            <table id="visiteBasePazienteScheda" class="table table-striped table-hover ">
                                 <thead>
                                 <tr>
-                                    <th>Prescrizione</th>
-                                    <th>Erogazione</th>
+                                    <th>Nome medico</th>
+                                    <th>Cognome medico</th>
+                                    <th>Data Erogazione</th>
                                     <th>Anamnesi</th>
-                                    <th>Id</th>
-                                    <th>Nome</th>
                                 </tr>
                                 </thead>
-                                <tbody>
-                                <tr>
-                                    <td>2019-12-22 11:27:37.237</td>
-                                    <td>2019-12-22 11:30:18.930</td>
-                                    <td>di cal vaga a laurà</td>
-                                    <td>4</td>
-                                    <td>Consulenza anatomopatologica per revisione diagnostica di preparati
-                                        allestiti in altra sede (prescrivibile una sola volta per lo stesso
-                                        episodio patologico)</td>
-                                </tr>
-                                </tbody>
                                 <tfoot>
                                 <tr>
-                                    <th>Prescrizione</th>
-                                    <th>Erogazione</th>
+                                    <th>Nome medico</th>
+                                    <th>Cognome medico</th>
+                                    <th>Data Erogazione</th>
                                     <th>Anamnesi</th>
-                                    <th>Id</th>
-                                    <th>Nome</th>
                                 </tr>
                                 </tfoot>
                             </table>
@@ -783,34 +893,171 @@
                     </div>
 
                     <div class="col-md-12">
-                        <h5>Ricette</h5>
+                        <h5>Visite Specialistiche erogate</h5>
                         <div class="table table-responsive">
-                            <table id="ricettePazienteScheda" class="table table-striped table-hover ">
+                            <table id="visiteSpecialisticheErogatePazienteScheda" class="table table-striped table-hover ">
                                 <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Nome</th>
-                                    <th>Descrizione</th>
-                                    <th>Prezzo</th>
-                                    <th>Emissione</th>
+                                    <th>Nome Visita</th>
+                                    <th>Nome Medico specialista</th>
+                                    <th>Cognome Medico specialista</th>
+                                    <th>Nome medico di base</th>
+                                    <th>Cognome medico di base</th>
+                                    <th>Prescrizione</th>
+                                    <th>Erogazione</th>
+                                    <th>Anamnesi</th>
                                 </tr>
                                 </thead>
-                                <tbody>
-                                <tr class='clickable-row '>
-                                    <td>50</td>
-                                    <td>Esomeprazolo Doc</td>
-                                    <td>Esomeprazolo - 14 unita' 40 mg - uso orale</td>
-                                    <td>7.64</td>
-                                    <td>2019-12-22 11:27:13.907</td>
-                                </tr>
-                                </tbody>
                                 <tfoot>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Nome</th>
-                                    <th>Descrizione</th>
-                                    <th>Prezzo</th>
-                                    <th>Emissione</th>
+                                    <th>Nome Visita</th>
+                                    <th>Nome Medico specialista</th>
+                                    <th>Cognome Medico specialista</th>
+                                    <th>Nome medico di base</th>
+                                    <th>Cognome medico di base</th>
+                                    <th>Prescrizione</th>
+                                    <th>Erogazione</th>
+                                    <th>Anamnesi</th>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <h5>Visite Specialistiche non erogate</h5>
+                        <div class="table table-responsive">
+                            <table id="visiteSpecialisticheNonErogatePazienteScheda" class="table table-striped table-hover ">
+                                <thead>
+                                <tr>
+                                    <th>Nome Visita</th>
+                                    <th>Nome Medico specialista</th>
+                                    <th>Cognome Medico specialista</th>
+                                    <th>Nome medico di base</th>
+                                    <th>Cognome medico di base</th>
+                                    <th>Prescrizione</th>
+                                </tr>
+                                </thead>
+                                <tfoot>
+                                <tr>
+                                    <th>Nome Visita</th>
+                                    <th>Nome Medico specialista</th>
+                                    <th>Cognome Medico specialista</th>
+                                    <th>Nome medico di base</th>
+                                    <th>Cognome medico di base</th>
+                                    <th>Prescrizione</th>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12">
+                        <h5>Ricette evase  ASDSADASDASDASDSADASDASDADSAD</h5>
+                        <div class="table table-responsive">
+                            <table id="ricetteEvasePazienteScheda" class="table table-striped table-hover ">
+                                <thead>
+                                <tr>
+                                    <th>Nome Farmaco</th>
+                                    <th>Descrizione farmaco</th>
+                                    <th>Nome medico</th>
+                                    <th>Cognome medico</th>
+                                    <th>Prescrizione</th>
+                                    <th>Evasione</th>
+                                </tr>
+                                </thead>
+                                <tfoot>
+                                <tr>
+                                    <th>Nome Farmaco</th>
+                                    <th>Descrizione farmaco</th>
+                                    <th>Nome medico</th>
+                                    <th>Cognome medico</th>
+                                    <th>Prescrizione</th>
+                                    <th>Evasione</th>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <h5>Ricette non evase  ASDSADASDASDASDSADASDASDADSAD</h5>
+                        <div class="table table-responsive">
+                            <table id="ricetteNonEvasePazienteScheda" class="table table-striped table-hover ">
+                                <thead>
+                                <tr>
+                                    <th>Nome Farmaco</th>
+                                    <th>Descrizione farmaco</th>
+                                    <th>Nome medico</th>
+                                    <th>Cognome medico</th>
+                                    <th>Prescrizione</th>
+                                </tr>
+                                </thead>
+                                <tfoot>
+                                <tr>
+                                    <th>Nome Farmaco</th>
+                                    <th>Descrizione farmaco</th>
+                                    <th>Nome medico</th>
+                                    <th>Cognome medico</th>
+                                    <th>Prescrizione</th>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <h5>Esami erogati  ASDSADASDASDASDSADASDASDADSAD</h5>
+                        <div class="table table-responsive">
+                            <table id="esamiErogatiPazienteScheda" class="table table-striped table-hover ">
+                                <thead>
+                                <tr>
+                                    <th>Nome Esame</th>
+                                    <th>Descrizione esame</th>
+                                    <th>Nome medico</th>
+                                    <th>Cognome medico</th>
+                                    <th>Prescrizione</th>
+                                    <th>Erogazione</th>
+                                    <th>Esito</th>
+                                </tr>
+                                </thead>
+                                <tfoot>
+                                <tr>
+                                    <th>Nome Esame</th>
+                                    <th>Descrizione esame</th>
+                                    <th>Nome medico</th>
+                                    <th>Cognome medico</th>
+                                    <th>Prescrizione</th>
+                                    <th>Erogazione</th>
+                                    <th>Esito</th>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <h5>Ricette evase  ASDSADASDASDASDSADASDASDADSAD</h5>
+                        <div class="table table-responsive">
+                            <table id="ricetteEvasePazienteScheda" class="table table-striped table-hover ">
+                                <thead>
+                                <tr>
+                                    <th>Nome Farmaco</th>
+                                    <th>Descrizione farmaco</th>
+                                    <th>Nome medico</th>
+                                    <th>Cognome medico</th>
+                                    <th>Prescrizione</th>
+                                    <th>Evasione</th>
+                                </tr>
+                                </thead>
+                                <tfoot>
+                                <tr>
+                                    <th>Nome Farmaco</th>
+                                    <th>Descrizione farmaco</th>
+                                    <th>Nome medico</th>
+                                    <th>Cognome medico</th>
+                                    <th>Prescrizione</th>
+                                    <th>Evasione</th>
                                 </tr>
                                 </tfoot>
                             </table>
