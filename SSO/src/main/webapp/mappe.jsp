@@ -139,13 +139,10 @@
 
         // Instantiate wrapped HERE map
         this.map = new H.Map(mapContainer, defaultLayers.normal.map, mapOptions);
-
         // Basic behavior: Zooming and panning
         var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(this.map));
-
         // Watch the user's geolocation and display it
         navigator.geolocation.watchPosition(this.updateMyPosition.bind(this));
-
         // Resize the map when the window is resized
         window.addEventListener('resize', this.resizeToFit.bind(this));
 
@@ -173,7 +170,6 @@
             this.myLocationMarker = this.addMarker(this.position);
             this.map.setCenter(this.position);
             this.searchForPharmacies();
-
         }
     };
 
@@ -206,14 +202,13 @@
     var mapContainer = document.getElementById('mapContainer');
 
     var platform = new H.service.Platform({
-        //apikey: '9ZZLQaMKUi1q7AIY9burFElLlUtLunmqcYc6w4JbQN8'
         app_id: 'eXyeKXjLMDyo92pFfzNf', // // <-- ENTER YOUR APP ID HERE
         app_code: 'QuU-fH5ZjNfHHzf2IZHEkg' // <-- ENTER YOUR APP CODE HERE
     });
 
     var coordinates = {
-        lat: 0,
-        lng: 0
+        lat: 45.365349,
+        lng: 10.923873
     };
 
     var mapOptions = {

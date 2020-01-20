@@ -352,6 +352,9 @@
             <li>
                 <a href="#" id ="formControl">Visualizza form nostro</a>
             </li>
+            <li>
+                <a href="../mappe.jsp" id="mappeControl">Visualizza mappe</a>
+            </li>
 
         </ul>
     </nav>
