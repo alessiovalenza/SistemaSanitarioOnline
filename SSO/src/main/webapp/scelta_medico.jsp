@@ -29,15 +29,14 @@
         </nav>
     </header>
     <br>
-    <br>
     <div id="body">
-        <div class="container-fluid" style="padding-bottom: 3%;padding-top: 3%;">
+        <div class="container-fluid" >
             <div class="row">
                 <div class="col-md-6">
                     <a href="">
                         <div class="card">
                             <div class="card-body" style="text-align: center">
-                                <h2>Medico</h2> <img style="height: 15rem"
+                                <h2>Medico</h2> <img style="height: 25rem;max-width: 100%;object-fit:contain; "
                                                                                          src="assets/img/logo_medico.jpeg">
                             </div>
                         </div>
@@ -50,7 +49,7 @@
                     <a href="">
                         <div class="card">
                             <div class="card-body" style="text-align:center;">
-                                <h2>Paziente</h2><img style="height: 15rem"
+                                <h2>Paziente</h2><img style="height: 25rem;max-width: 100%;object-fit:contain; "
                                                                                           src="assets/img/logo_paziente.png">
                             </div>
                         </div>
@@ -59,6 +58,7 @@
             </div>
         </div>
     </div>
+    <br>
     <footer>
         via Sommarive, 5 - 38123 Trento (Povo)
         Tel. +39 1234 567890
