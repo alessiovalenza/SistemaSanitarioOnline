@@ -10,14 +10,14 @@ body, html{
 }
 
 #body{
-    padding-bottom: 50px;     /* height of footer */
+    padding-bottom: 40pt;     /* height of footer */
 }
 #container-table{
     overflow-x:auto;
 }
 
 footer{
-    height: 50px;
+    height: 40pt;
     width:100%;
     position: absolute;
     bottom: 0;
@@ -26,6 +26,7 @@ footer{
     background-color: #1e88e5;
     font-size: 1vmax;
     border-style: groove;
-    border-width: 1px;
-    line-height: 50px;
+    border-width: 1pt;
+    line-height: 40pt
+
 }

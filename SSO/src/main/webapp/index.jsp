@@ -24,7 +24,7 @@
 <div id="holder">
     <header>
         <nav class="navbar-expand-md sticky-top "
-             style="background-color: #1e88e5;padding: 11px;border-style: groove; border-width: 1px; border-color:lightgray">
+             style="background-color: #1e88e5;padding: 11px;border-style: groove; border-width: 1pt; border-color:lightgray">
             <div class="container-fluid"><img src="assets/img/logoebbasta.png"
                                               style="height: 42px;padding: 0px;margin: 0px;">
                 <a class="navbar-brand" href="index.jsp"
@@ -48,7 +48,7 @@
                     <fmt message>Benvenuto sul sistema universale <br> per il servizio Sanitario</fmt>
                 </p>
                 <div> <a href="login.jsp"><button type="button" class="btn btn-primary"
-                                                   style="box-shadow: 1px 1px black;font-size: 20;font-size:2vw ; width: 30%;">Login</button></a>
+                                                   style="box-shadow: 1pt 1pt black;font-size:2vw ; width: 30%;">Login</button></a>
                 </div>
             </div>
         </div>
@@ -56,10 +56,10 @@
         <div class="container-fluid">
             <div class="row" style="background-color:#1e88e5;color: white;">
                 <div class="col-md-12" style="text-align: center;">
-                    <h2 style="text-shadow: 1px 1px black; padding-top: 2%;padding-bottom: 2%;font-family: 'Roboto','Poppins', sans-serif;">
+                    <h3 style="text-shadow: 1px 1px black; padding-top: 2%;padding-bottom: 2%;font-family: 'Roboto','Poppins', sans-serif;">
                         Da qui
                         potrai usufruire di tutti i servizi
-                        disponibili a tutti gli utenti.</h2>
+                        disponibili a tutti gli utenti.</h3>
                 </div>
             </div>
         </div>
