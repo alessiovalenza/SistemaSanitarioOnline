@@ -154,7 +154,7 @@ public class AuthZFilter implements Filter {
         if(!res && url.matches(urlPatterns.get(5))) {
             long idUrl = Long.parseLong(url.replaceAll(urlPatterns.get(5), "$1"));
             Utente paziente = utenteDAO.getByPrimaryKey(idUrl);
-            if(paziente.getIdMedicoBase() == utente.getId()) {
+            if(paziente != null && paziente.getIdMedicoBase() == utente.getId()) {
                 if(request.getMethod().equals("GET")) {
                     res = true;
                 }
@@ -166,7 +166,7 @@ public class AuthZFilter implements Filter {
         if(!res && url.matches(urlPatterns.get(6))) {
             long idUrl = Long.parseLong(url.replaceAll(urlPatterns.get(6), "$1"));
             Utente paziente = utenteDAO.getByPrimaryKey(idUrl);
-            if(paziente.getIdMedicoBase() == utente.getId() && request.getMethod().equals("GET")) {
+            if(paziente != null && paziente.getIdMedicoBase() == utente.getId() && request.getMethod().equals("GET")) {
                 res = true;
             }
             else if(idUrl == utente.getId()) {
@@ -180,7 +180,7 @@ public class AuthZFilter implements Filter {
             }
             else {
                 Utente paziente = utenteDAO.getByPrimaryKey(idUrl);
-                if(paziente.getIdMedicoBase() == utente.getId()) {
+                if(paziente != null && paziente.getIdMedicoBase() == utente.getId()) {
                     res = true;
                 }
             }
@@ -326,7 +326,7 @@ public class AuthZFilter implements Filter {
             if(request.getMethod().equals("PUT") || request.getMethod().equals("GET")) {
                 long idUrl = Long.parseLong(url.replaceAll(urlPatterns.get(6), "$1"));
                 Utente paziente = utenteDAO.getByPrimaryKey(idUrl);
-                if(paziente.getProv().equals(utente.getProv())) {
+                if(paziente != null && paziente.getProv().equals(utente.getProv())) {
                     res = true;
                 }
             }
@@ -337,7 +337,7 @@ public class AuthZFilter implements Filter {
         if(!res && url.matches(urlPatterns.get(9))) {
             long idUrl = Long.parseLong(url.replaceAll(urlPatterns.get(9), "$1"));
             Utente paziente = utenteDAO.getByPrimaryKey(idUrl);
-            if(paziente.getProv().equals(utente.getProv())) {
+            if(paziente != null && paziente.getProv().equals(utente.getProv())) {
                 res = true;
             }
         }

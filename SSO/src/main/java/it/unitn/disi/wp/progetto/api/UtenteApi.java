@@ -1,5 +1,6 @@
 package it.unitn.disi.wp.progetto.api;
 
+import it.unitn.disi.wp.progetto.api.exceptions.ApiException;
 import it.unitn.disi.wp.progetto.commons.Utilities;
 import it.unitn.disi.wp.progetto.persistence.dao.FotoDAO;
 import it.unitn.disi.wp.progetto.persistence.dao.UtenteDAO;
@@ -48,12 +49,14 @@ public class UtenteApi extends Api {
                 res = Response.ok(jsonResult).build();
             }
             else {
-                res = notFoundResponse;
+                throw new ApiException(HttpServletResponse.SC_NOT_FOUND, "Utente with such an id not found");
             }
         } catch (DAOFactoryException e) {
-            res = daoFactoryErrorResponse;
+            throw new ApiException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                    e.getMessage() + " - Impossible to get dao interface for storage system");
         } catch (DAOException e) {
-            res = daoErrorResponse;
+            throw new ApiException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                    e.getMessage() + " - Errors occurred when accessing storage system");
         }
 
         return res;
@@ -66,7 +69,7 @@ public class UtenteApi extends Api {
                                  @FormDataParam("foto") InputStream fotoIS,
                                  @FormDataParam("foto") FormDataContentDisposition fotoDetail) {
         if(fotoIS == null || fotoDetail == null) {
-            return badRequestResponse;
+            throw new ApiException(HttpServletResponse.SC_BAD_REQUEST, "You must provide the photo to upload");
         }
 
         Response res;
@@ -98,23 +101,25 @@ public class UtenteApi extends Api {
                         ImageIO.write(outFoto, Utilities.USER_IMAGE_EXT, new File(path));
                         fotoIS.close();
                         res = createdResponse;
-                    } catch (IOException e) { //500
+                    } catch (IOException e) {
                         fotoDAO.deleteFoto(maxFound);
-                        e.printStackTrace();
-                        res = ioErrorResponse;
+                        throw new ApiException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                                e.getMessage() + " - Errors occurred while saving photo");
                     }
                 }
                 else {
-                    res = notFoundResponse;
+                    throw new ApiException(HttpServletResponse.SC_NOT_FOUND, "Utente with such an id not found");
                 }
             } catch (DAOFactoryException e) {
-                res = daoFactoryErrorResponse;
+                throw new ApiException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                        e.getMessage() + " - Impossible to get dao interface for storage system");
             } catch (DAOException e) {
-                res = daoErrorResponse;
+                throw new ApiException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                        e.getMessage() + " - Errors occurred when accessing storage system");
             }
         }
         else {
-            res = badRequestResponse;
+            throw new ApiException(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE, "The photo must be a jpg file");
         }
 
         return res;
@@ -126,7 +131,7 @@ public class UtenteApi extends Api {
     public Response changePassword(@PathParam("idutente") long idUtente,
                                    @FormParam("password") String password) {
         if(password == null) {
-            return badRequestResponse;
+            throw new ApiException(HttpServletResponse.SC_BAD_REQUEST, "You must provide the new password");
         }
 
         Response res;
@@ -144,12 +149,14 @@ public class UtenteApi extends Api {
                 res = noContentResponse;
             }
             else {
-                res = notFoundResponse;
+                throw new ApiException(HttpServletResponse.SC_NOT_FOUND, "Utente with such an id not found");
             }
         } catch (DAOFactoryException e) {
-            res = daoFactoryErrorResponse;
+            throw new ApiException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                    e.getMessage() + " - Impossible to get dao interface for storage system");
         } catch (DAOException e) {
-            res = daoErrorResponse;
+            throw new ApiException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                    e.getMessage() + " - Errors occurred when accessing storage system");
         }
 
         return res;

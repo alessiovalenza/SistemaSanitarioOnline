@@ -40,9 +40,11 @@ public class PazienteApi extends Api {
             String jsonResult = gson.toJson(utentiView);
             res = Response.ok(jsonResult).build();
         } catch (DAOFactoryException e) {
-            res = daoFactoryErrorResponse;
+            throw new ApiException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                    e.getMessage() + " - Impossible to get dao interface for storage system");
         } catch (DAOException e) {
-            res = daoErrorResponse;
+            throw new ApiException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                    e.getMessage() + " - Errors occurred when accessing storage system");
         }
 
         return res;
@@ -64,12 +66,14 @@ public class PazienteApi extends Api {
                 res = Response.ok(jsonResult).build();
             }
             else {
-                res = notFoundResponse;
+                throw new ApiException(HttpServletResponse.SC_NOT_FOUND, "Paziente with such an id not found");
             }
         } catch (DAOFactoryException e) {
-            res = daoFactoryErrorResponse;
+            throw new ApiException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                    e.getMessage() + " - Impossible to get dao interface for storage system");
         } catch (DAOException e) {
-            res = daoErrorResponse;
+            throw new ApiException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                    e.getMessage() + " - Errors occurred when accessing storage system");
         }
 
         return res;
@@ -84,7 +88,9 @@ public class PazienteApi extends Api {
         Response res;
 
         if(erogatiOnly == null || nonErogatiOnly == null || (nonErogatiOnly && erogatiOnly)) {
-            return notFoundResponse;
+            throw new ApiException(HttpServletResponse.SC_BAD_REQUEST,
+                    "You must specificy both erogationly and nonerogationly parameters, " +
+                            "with possible pair values (false, false), (false, true), or (true, false)");
         }
 
         try {
@@ -98,12 +104,14 @@ public class PazienteApi extends Api {
                 res = Response.ok(jsonResult).build();;
             }
             else {
-                res = notFoundResponse;
+                throw new ApiException(HttpServletResponse.SC_NOT_FOUND, "Paziente with such an id not found");
             }
         } catch (DAOFactoryException e) {
-            res = daoFactoryErrorResponse;
+            throw new ApiException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                    e.getMessage() + " - Impossible to get dao interface for storage system");
         } catch (DAOException e) {
-            res = daoErrorResponse;
+            throw new ApiException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                    e.getMessage() + " - Errors occurred when accessing storage system");
         }
 
         return res;
@@ -126,18 +134,19 @@ public class PazienteApi extends Api {
                 res = Response.ok(jsonResult).build();;
             }
             else {
-                res = notFoundResponse;
+                throw new ApiException(HttpServletResponse.SC_NOT_FOUND, "Paziente with such an id not found");
             }
         } catch (DAOFactoryException e) {
-            res = daoFactoryErrorResponse;
+            throw new ApiException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                    e.getMessage() + " - Impossible to get dao interface for storage system");
         } catch (DAOException e) {
-            res = daoErrorResponse;
+            throw new ApiException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                    e.getMessage() + " - Errors occurred when accessing storage system");
         }
 
         return res;
     }
 
-    // da rivedere con davide
     @GET
     @Path("{idpaziente}/ricette")
     @Produces(MediaType.APPLICATION_JSON)
@@ -150,7 +159,9 @@ public class PazienteApi extends Api {
         
         if(session == null || session.getAttribute("utente") == null || !( ((Utente)session.getAttribute("utente")).getRuolo().equals(Utilities.FARMACIA_RUOLO) && !nonEvaseOnly )) {
             if(evaseOnly == null || nonEvaseOnly == null || (nonEvaseOnly && evaseOnly)) {
-                return badRequestResponse;
+                throw new ApiException(HttpServletResponse.SC_BAD_REQUEST,
+                        "You must specificy both evaseonly and nonevaseonly parameters, " +
+                                "with possible pair values (false, false), (false, true), or (true, false)");
             }
 
             try {
@@ -164,18 +175,19 @@ public class PazienteApi extends Api {
                     res = Response.ok(jsonResult).build();;
                 }
                 else {
-                    //404
-                    res = notFoundResponse;
+                    throw new ApiException(HttpServletResponse.SC_NOT_FOUND, "Paziente with such an id not found");
                 }
-            } catch (DAOFactoryException e) { //500
-                res = daoFactoryErrorResponse;
-            } catch (DAOException e) { //500
-                res = daoErrorResponse;
+            } catch (DAOFactoryException e) {
+                throw new ApiException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                        e.getMessage() + " - Impossible to get dao interface for storage system");
+            } catch (DAOException e) {
+                throw new ApiException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                        e.getMessage() + " - Errors occurred when accessing storage system");
             }
         }
         else {
-            //403
-            return requestForbiddenResponse;
+            throw new ApiException(HttpServletResponse.SC_FORBIDDEN,
+                    "Request forbidden due to unauthorized request. Farmacia can only access nonevaseonly ricette");
         }
         return res;
     }
@@ -187,7 +199,9 @@ public class PazienteApi extends Api {
                                   @QueryParam("erogateonly") Boolean erogateOnly,
                                   @QueryParam("nonerogateonly") Boolean nonErogateOnly) {
         if(erogateOnly == null || nonErogateOnly == null || (nonErogateOnly && erogateOnly)) {
-            return badRequestResponse;
+            throw new ApiException(HttpServletResponse.SC_BAD_REQUEST,
+                    "You must specificy both erogateonly and nonerogateonly parameters, " +
+                            "with possible pair values (false, false), (false, true), or (true, false)");
         }
 
         Response res;
@@ -202,12 +216,14 @@ public class PazienteApi extends Api {
                 res = Response.ok(jsonResult).build();
             }
             else {
-                res = notFoundResponse;
+                throw new ApiException(HttpServletResponse.SC_NOT_FOUND, "Paziente with such an id not found");
             }
         } catch (DAOFactoryException e) {
-            res = daoFactoryErrorResponse;
-        } catch (DAOException e) { //500
-            res = daoErrorResponse;
+            throw new ApiException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                    e.getMessage() + " - Impossible to get dao interface for storage system");
+        } catch (DAOException e) {
+            throw new ApiException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                    e.getMessage() + " - Errors occurred when accessing storage system");
         }
 
         return res;
@@ -226,12 +242,14 @@ public class PazienteApi extends Api {
             if (mb != null){
                 res = Response.ok(jsonResult).build();
             }else{
-                res = Response.status(404, String.format("user %d not found", idPaziente)).build();
+                throw new ApiException(HttpServletResponse.SC_NOT_FOUND, "Paziente with such an id not found");
             }
         } catch (DAOFactoryException e) {
-            res = daoFactoryErrorResponse;
+            throw new ApiException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                    e.getMessage() + " - Impossible to get dao interface for storage system");
         } catch (DAOException e) {
-            res = daoErrorResponse;
+            throw new ApiException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                    e.getMessage() + " - Errors occurred when accessing storage system");
         }
 
         return res;
@@ -246,7 +264,7 @@ public class PazienteApi extends Api {
         Response res;
 
         if(idMedicoBase == null ) {
-            return badRequestResponse;
+            throw new ApiException(HttpServletResponse.SC_BAD_REQUEST, "You must provide the id of the new medico di base");
         }
 
         try {
@@ -271,16 +289,26 @@ public class PazienteApi extends Api {
                     String jsonResult = gson.toJson(Utilities.fromUtenteToUtenteView(pazienteUpdated));
                     res = Response.ok(jsonResult).build();
                 } else {
-                    res = requestForbiddenResponse;
+                    throw new ApiException(HttpServletResponse.SC_FORBIDDEN,
+                            "Request forbidden due to unauthorized request. " +
+                                    "You can only have a medico di base who operates in your provincia and who is not yourself. " +
+                                    "Oh, almost forget to say that your medico di base must be an actual medico di base");
                 }
             }
             else {
-                res = notFoundResponse;
+                if(paziente == null) {
+                    throw new ApiException(HttpServletResponse.SC_NOT_FOUND, "Paziente with such an id not found");
+                }
+                else { //medicoBase == null
+                    throw new ApiException(HttpServletResponse.SC_NOT_FOUND, "Medico di base with such an id not found");
+                }
             }
         } catch (DAOFactoryException e) {
-            res = daoFactoryErrorResponse;
+            throw new ApiException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                    e.getMessage() + " - Impossible to get dao interface for storage system");
         } catch (DAOException e) {
-            res = daoErrorResponse;
+            throw new ApiException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                    e.getMessage() + " - Errors occurred when accessing storage system");
         }
 
         return res;
@@ -295,7 +323,7 @@ public class PazienteApi extends Api {
         Response res;
 
         if(esito == null) {
-            return badRequestResponse;
+            throw new ApiException(HttpServletResponse.SC_BAD_REQUEST, "You must provide the esito of the esame");
         }
 
         try {
@@ -308,12 +336,19 @@ public class PazienteApi extends Api {
                 res = noContentResponse;
             }
             else {
-                res = notFoundResponse;
+                if(esamePrescritto == null) {
+                    throw new ApiException(HttpServletResponse.SC_NOT_FOUND, "Esame prescritto with such an id not found");
+                }
+                else { //esamePrescritto.getPaziente().getId() != idPaziente
+                    throw new ApiException(HttpServletResponse.SC_NOT_FOUND, "This esame prescritto is not of the specified paziente");
+                }
             }
         } catch (DAOFactoryException e) {
-            res = daoFactoryErrorResponse;
+            throw new ApiException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                    e.getMessage() + " - Impossible to get dao interface for storage system");
         } catch (DAOException e) {
-            res = daoErrorResponse;
+            throw new ApiException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                    e.getMessage() + " - Errors occurred when accessing storage system");
         }
 
         return res;
@@ -328,11 +363,12 @@ public class PazienteApi extends Api {
         Response res;
 
         if(idFarmacia == null) {
-            return badRequestResponse;
+            throw new ApiException(HttpServletResponse.SC_BAD_REQUEST, "You must provide the id of the farmacia");
         }
 
         HttpSession session = request.getSession(false);
-        if(session == null || session.getAttribute("utente") == null || ( (Utente)session.getAttribute("utente") ).getId() == idFarmacia) {
+        if(session == null || session.getAttribute("utente") == null ||
+                ( (Utente)session.getAttribute("utente") ).getId() == idFarmacia) {
 
             try {
                 RicettaDAO ricettaDAO = daoFactory.getDAO(RicettaDAO.class);
@@ -343,16 +379,26 @@ public class PazienteApi extends Api {
                     res = noContentResponse;
                 }
                 else {
-                    res = notFoundResponse;
+                    if(ricetta == null) {
+                        throw new ApiException(HttpServletResponse.SC_NOT_FOUND, "Ricetta with such an id not found");
+                    }
+                    else { //ricetta.getPaziente().getId() != idPaziente
+                        throw new ApiException(HttpServletResponse.SC_NOT_FOUND, "This ricetta is not of the specified paziente");
+                    }
                 }
             } catch (DAOFactoryException e) {
-                res = daoFactoryErrorResponse;
+                throw new ApiException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                        e.getMessage() + " - Impossible to get dao interface for storage system");
             } catch (DAOException e) {
-                res = daoErrorResponse;
+                throw new ApiException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                        e.getMessage() + " - Errors occurred when accessing storage system");
             }
         }
         else {
-            return requestForbiddenResponse;
+            throw new ApiException(HttpServletResponse.SC_FORBIDDEN,
+                    "Request forbidden due to unauthorized request. " +
+                            "You can only specifiy your id as the party that consumes the ricetta, " +
+                            "indeed you must be a farmacia");
         }
 
         return res;
@@ -366,7 +412,8 @@ public class PazienteApi extends Api {
                                 @FormParam("idprovincia") String idProvincia,
                                 @FormParam("idesame") Long idEsame) {
         if(infEta == null || supEta == null || idProvincia == null || idEsame == null) {
-            return badRequestResponse;
+            throw new ApiException(HttpServletResponse.SC_BAD_REQUEST, "You must specifiy the " +
+                    "the range of ages involved (infeta and supeta), the id of the provincia and the id of the esame");
         }
 
         Response res;
@@ -380,13 +427,16 @@ public class PazienteApi extends Api {
                 res = createdResponse;
                 Utilities.sendEmailRichiamo(idProvincia, idEsame, richiamati, daoFactory);
             } catch (DAOFactoryException e) {
-                res = daoFactoryErrorResponse;
+                throw new ApiException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                        e.getMessage() + " - Impossible to get dao interface for storage system");
             } catch (DAOException e) {
-                res = daoErrorResponse;
+                throw new ApiException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                        e.getMessage() + " - Errors occurred when accessing storage system");
             }
         }
         else {
-            res = requestForbiddenResponse;
+            throw new ApiException(HttpServletResponse.SC_FORBIDDEN,
+                    "Request forbidden due to unauthorized request. You can only specifiy your provincia");
         }
 
         return res;
@@ -399,13 +449,15 @@ public class PazienteApi extends Api {
                                 @FormParam("idprovincia") String idProvincia,
                                 @FormParam("idesame") Long idEsame) {
         if(infEta == null || idProvincia == null || idEsame == null) {
-            return badRequestResponse;
+            throw new ApiException(HttpServletResponse.SC_BAD_REQUEST, "You must specifiy the " +
+                    "the minimum age, the id of the provincia and the id of the esame");
         }
 
         Response res;
         HttpSession session = request.getSession(false);
 
-        if(session == null || session.getAttribute("utente") == null || ( (Utente)session.getAttribute("utente") ).getProv().equals(idProvincia)) {
+        if(session == null || session.getAttribute("utente") == null ||
+                ( (Utente)session.getAttribute("utente") ).getProv().equals(idProvincia)) {
             try {
                 EsamePrescrittoDAO esamePrescrittoDAO = daoFactory.getDAO(EsamePrescrittoDAO.class);
                 List<Utente> richiamati = esamePrescrittoDAO.richiamoSuccessivoMinEta(infEta, idProvincia, idEsame, new Timestamp(System.currentTimeMillis()));
@@ -413,13 +465,16 @@ public class PazienteApi extends Api {
 
                 Utilities.sendEmailRichiamo(idProvincia, idEsame, richiamati, daoFactory);
             } catch (DAOFactoryException e) {
-                res = daoFactoryErrorResponse;
+                throw new ApiException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                        e.getMessage() + " - Impossible to get dao interface for storage system");
             } catch (DAOException e) {
-                res = daoErrorResponse;
+                throw new ApiException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                        e.getMessage() + " - Errors occurred when accessing storage system");
             }
         }
         else {
-            res = requestForbiddenResponse;
+            throw new ApiException(HttpServletResponse.SC_FORBIDDEN,
+                    "Request forbidden due to unauthorized request. You can only specifiy your provincia");
         }
 
         return res;
@@ -433,7 +488,7 @@ public class PazienteApi extends Api {
                                              @FormParam("anamnesi") String anamnesi,
                                              @FormParam("idmedicospec") Long idMedicoSpec) {
         if(anamnesi == null || idMedicoSpec == null) {
-            return badRequestResponse;
+            throw new ApiException(HttpServletResponse.SC_BAD_REQUEST, "You must provide the anamnesi and the id of the medico di base");
         }
 
         Response res;
@@ -450,17 +505,28 @@ public class PazienteApi extends Api {
                     res = noContentResponse;
                 }
                 else {
-                    res = notFoundResponse;
+                    if(visitaMedicoSpecialista == null) {
+                        throw new ApiException(HttpServletResponse.SC_NOT_FOUND, "Visita specialistica with such an id not found");
+                    }
+                    else { //visitaMedicoSpecialista.getPaziente().getId() != idPaziente
+                        throw new ApiException(HttpServletResponse.SC_NOT_FOUND, "This visita specialistica is not of the specified paziente");
+                    }
                 }
             } catch (DAOFactoryException e) {
-                res = daoFactoryErrorResponse;
+                throw new ApiException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                        e.getMessage() + " - Impossible to get dao interface for storage system");
             } catch (DAOException e) {
-                res = daoErrorResponse;
+                throw new ApiException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                        e.getMessage() + " - Errors occurred when accessing storage system");
             }
         }
         else {
-            res = requestForbiddenResponse;
+            throw new ApiException(HttpServletResponse.SC_FORBIDDEN,
+                    "Request forbidden due to unauthorized request. " +
+                            "You can only specifiy your id as the party making the visita, " +
+                            "indeed you must be a medico specialista");
         }
+
         return res;
     }
 
@@ -472,13 +538,14 @@ public class PazienteApi extends Api {
                                         @FormParam("idesame") Long idEsame) {
 
         if(idMedicoBase == null || idEsame == null) {
-            return badRequestResponse;
+            throw new ApiException(HttpServletResponse.SC_BAD_REQUEST, "You must specify the id of the esame and the id of the medico di base");
         }
 
         Response res;
         HttpSession session = request.getSession(false);
 
-        if(session == null || session.getAttribute("utente") == null || ( (Utente)session.getAttribute("utente") ).getId() == idMedicoBase) {
+        if(session == null || session.getAttribute("utente") == null ||
+                ( (Utente)session.getAttribute("utente") ).getId() == idMedicoBase) {
             try {
                 UtenteDAO utenteDAO = daoFactory.getDAO(UtenteDAO.class);
                 Utente paziente = utenteDAO.getByPrimaryKey(idPaziente);
@@ -491,16 +558,21 @@ public class PazienteApi extends Api {
                     res = createdResponse;
                 }
                 else {
-                    res = notFoundResponse;
+                    throw new ApiException(HttpServletResponse.SC_NOT_FOUND, "Paziente with such an id not found");
                 }
             } catch (DAOFactoryException e) {
-                res = daoFactoryErrorResponse;
+                throw new ApiException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                        e.getMessage() + " - Impossible to get dao interface for storage system");
             } catch (DAOException e) {
-                res = daoErrorResponse;
+                throw new ApiException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                        e.getMessage() + " - Errors occurred when accessing storage system");
             }
         }
         else {
-            res = requestForbiddenResponse;
+            throw new ApiException(HttpServletResponse.SC_FORBIDDEN,
+                    "Request forbidden due to unauthorized request. " +
+                            "You can only specifiy your id as the party creating the visita, " +
+                            "indeed you must be a medico di base");
         }
 
         return res;
@@ -514,7 +586,7 @@ public class PazienteApi extends Api {
                                 @FormParam("idfarmaco") Long idFarmaco) {
 
         if(idMedicoBase == null || idFarmaco == null) {
-            return badRequestResponse;
+            throw new ApiException(HttpServletResponse.SC_BAD_REQUEST, "You must specify the id of the farmaco and the id of the medico di base");
         }
 
         Response res;
@@ -532,16 +604,21 @@ public class PazienteApi extends Api {
                     res = createdResponse;
                 }
                 else {
-                    res = notFoundResponse;
+                    throw new ApiException(HttpServletResponse.SC_NOT_FOUND, "Paziente with such an id not found");
                 }
             } catch (DAOFactoryException e) {
-                res = daoFactoryErrorResponse;
+                throw new ApiException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                        e.getMessage() + " - Impossible to get dao interface for storage system");
             } catch (DAOException e) {
-                res = daoErrorResponse;
+                throw new ApiException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                        e.getMessage() + " - Errors occurred when accessing storage system");
             }
         }
         else {
-            res = requestForbiddenResponse;
+            throw new ApiException(HttpServletResponse.SC_FORBIDDEN,
+                    "Request forbidden due to unauthorized request. " +
+                            "You can only specifiy your id as the party creating the ricetta, " +
+                            "indeed you must be a medico di base");
         }
 
         return res;
@@ -554,7 +631,7 @@ public class PazienteApi extends Api {
                                          @FormParam("idmedicobase") Long idMedicoBase,
                                          @FormParam("anamnesi") String anamnesi) {
         if(idMedicoBase == null || anamnesi == null) {
-            return badRequestResponse;
+            throw new ApiException(HttpServletResponse.SC_BAD_REQUEST, "You must provide the anamnesi and the id of the medico di base");
         }
 
         Response res;
@@ -571,16 +648,21 @@ public class PazienteApi extends Api {
                     res = createdResponse;
                 }
                 else {
-                    res = notFoundResponse;
+                    throw new ApiException(HttpServletResponse.SC_NOT_FOUND, "Paziente with such an id not found");
                 }
             } catch (DAOFactoryException e) {
-                res = daoFactoryErrorResponse;
+                throw new ApiException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                        e.getMessage() + " - Impossible to get dao interface for storage system");
             } catch (DAOException e) {
-                res = daoErrorResponse;
+                throw new ApiException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                        e.getMessage() + " - Errors occurred when accessing storage system");
             }
         }
         else {
-            res = requestForbiddenResponse;
+            throw new ApiException(HttpServletResponse.SC_FORBIDDEN,
+                    "Request forbidden due to unauthorized request. " +
+                            "You can only specifiy your id as the party making the visita di base, " +
+                            "indeed you must be a medico di base");
         }
 
         return res;
@@ -593,7 +675,7 @@ public class PazienteApi extends Api {
                                             @FormParam("idmedicobase") Long idMedicoBase,
                                             @FormParam("idvisita") Long idVisita) {
         if(idMedicoBase == null || idVisita == null) {
-            return badRequestResponse;
+            throw new ApiException(HttpServletResponse.SC_BAD_REQUEST, "You must specify the id of the visita and the id of the medico di base");
         }
 
         Response res;
@@ -612,16 +694,21 @@ public class PazienteApi extends Api {
                     res = createdResponse;
                 }
                 else {
-                    res = notFoundResponse;
+                    throw new ApiException(HttpServletResponse.SC_NOT_FOUND, "Paziente with such an id not found");
                 }
             } catch (DAOFactoryException e) {
-                res = daoFactoryErrorResponse;
+                throw new ApiException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                        e.getMessage() + " - Impossible to get dao interface for storage system");
             } catch (DAOException e) {
-                res = daoErrorResponse;
+                throw new ApiException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                        e.getMessage() + " - Errors occurred when accessing storage system");
             }
         }
         else {
-            res = requestForbiddenResponse;
+            throw new ApiException(HttpServletResponse.SC_FORBIDDEN,
+                    "Request forbidden due to unauthorized request. " +
+                            "You can only specifiy your id as the party making the visita specialistica, " +
+                            "indeed you must be a medico di base");
         }
 
         return res;
