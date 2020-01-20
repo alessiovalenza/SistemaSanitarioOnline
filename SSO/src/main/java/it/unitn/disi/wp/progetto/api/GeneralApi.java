@@ -2,10 +2,7 @@ package it.unitn.disi.wp.progetto.api;
 
 import it.unitn.disi.wp.progetto.api.exceptions.ApiException;
 import it.unitn.disi.wp.progetto.commons.Utilities;
-import it.unitn.disi.wp.progetto.persistence.dao.EsameDAO;
-import it.unitn.disi.wp.progetto.persistence.dao.FarmacoDAO;
-import it.unitn.disi.wp.progetto.persistence.dao.UtenteDAO;
-import it.unitn.disi.wp.progetto.persistence.dao.VisitaDAO;
+import it.unitn.disi.wp.progetto.persistence.dao.*;
 import it.unitn.disi.wp.progetto.persistence.dao.exceptions.DAOException;
 import it.unitn.disi.wp.progetto.persistence.dao.exceptions.DAOFactoryException;
 import it.unitn.disi.wp.progetto.persistence.entities.*;
@@ -27,6 +24,26 @@ import static it.unitn.disi.wp.progetto.commons.Utilities.*;
 
 @Path("general")
 public class GeneralApi extends Api{
+
+    @GET
+    @Path("province")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getProvince(){
+        Response res;
+        try {
+            ProvinciaDAO provinciaDAO = daoFactory.getDAO(ProvinciaDAO.class);
+            List<Provincia> province = provinciaDAO.getAll();
+            String jsonResult = gson.toJson(province);
+            res = Response.ok(jsonResult).build();
+        }catch (DAOFactoryException e) {
+            throw new ApiException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                    e.getMessage() + " - Impossible to get dao interface for storage system");
+        } catch (DAOException e) {
+            throw new ApiException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                    e.getMessage() + " - Errors occurred when accessing storage system");
+        }
+        return res;
+    }
 
     @GET
     @Path("visite")
