@@ -85,7 +85,6 @@
                     <hr>
                     <div style="clear: both">
                         <h5 align="left">${sessionScope.utente.luogoNascita}</h5>
-                        <h5 align="right">${sessionScope.utente.provincia}</h5>
                     </div>
                     <hr>
                     <div style="clear: both; padding-top: 0.5rem">
