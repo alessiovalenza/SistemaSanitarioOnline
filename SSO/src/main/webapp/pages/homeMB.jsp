@@ -1,6 +1,5 @@
 <%@ page import="java.io.File" %>
 <%@ page import="it.unitn.disi.wp.progetto.commons.Utilities" %>
-<%@ page import="jdk.jshell.execution.Util" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
@@ -44,7 +43,7 @@
                 width: 300,
                 allowClear: true,
                 ajax: {
-                    url: "http://localhost:8080/SSO_war_exploded/api/medicibase/${sessionScope.utente.id}/pazienti",
+                    url: "http://localhost:8080/SSO_war_exploded/api/medicibase/${sessionScope.utente.id}/pazienti?datericettavisita=false",
                     datatype: "json",
                     data: function (params) {
                         var query = {
@@ -74,7 +73,37 @@
                 width: 300,
                 allowClear: true,
                 ajax: {
-                    url: "http://localhost:8080/SSO_war_exploded/api/medicibase/${sessionScope.utente.id}/pazienti",
+                    url: "http://localhost:8080/SSO_war_exploded/api/medicibase/${sessionScope.utente.id}/pazienti?datericettavisita=false",
+                    datatype: "json",
+                    data: function (params) {
+                        var query = {
+                            term: params.term,
+                            type: 'public',
+                            page: params.page || 1
+                        }
+                        return query;
+                    },
+                    processResults: function (data) {
+                        var myResults = [];
+                        $.each(data, function (index, item) {
+                            myResults.push({
+                                'id': item.id,
+                                'text': item.nome+" "+item.cognome
+                            });
+                        });
+                        return {
+                            results: myResults
+                        };
+                    }
+                }
+            });
+
+            $("#idmedicobaseVisitaSpec").select2({
+                placeholder: 'Cerca Pazienti',
+                width: 300,
+                allowClear: true,
+                ajax: {
+                    url: "http://localhost:8080/SSO_war_exploded/api/medicibase/${sessionScope.utente.id}/pazienti?datericettavisita=false",
                     datatype: "json",
                     data: function (params) {
                         var query = {
@@ -126,7 +155,7 @@
                 width: 300,
                 allowClear: true,
                 ajax: {
-                    url: "http://localhost:8080/SSO_war_exploded/api/medicibase/${sessionScope.utente.id}/pazienti",
+                    url: "http://localhost:8080/SSO_war_exploded/api/medicibase/${sessionScope.utente.id}/pazienti?datericettavisita=false",
                     datatype: "json",
                     data: function (params) {
                         var query = {
@@ -157,7 +186,7 @@
                 width: 300,
                 allowClear: true,
                 ajax: {
-                    url: "http://localhost:8080/SSO_war_exploded/api/medicibase/${sessionScope.utente.id}/pazienti",
+                    url: "http://localhost:8080/SSO_war_exploded/api/medicibase/${sessionScope.utente.id}/pazienti?datericettavisita=false",
                     datatype: "json",
                     data: function (params) {
                         var query = {
@@ -243,14 +272,65 @@
                     }
                 }
             });
+            $("#idvisita").select2({
+                placeholder: 'Cerca Visite',
+                width: 300,
+                allowClear: true,
+                ajax: {
+                    url: "http://localhost:8080/SSO_war_exploded/api/general/visite/",
+                    datatype: "json",
+                    data: function (params) {
+                        var query = {
+                            term: params.term,
+                            type: 'public',
+                            page: params.page || 1
+                        }
+                        return query;
+                    },
+                    processResults: function (data) {
+                        var myResults = [];
+                        $.each(data, function (index, item) {
+                            myResults.push({
+                                'id': item.id,
+                                'text': item.nome
+                            });
+                        });
+                        return {
+                            results: myResults
+                        };
+                    }
+                }
+            });
 
             //$("#idfarmaco").val(null).trigger("change");
+
+            $("#formErogaVisita").submit(function(event){
+                $('.spinner-border').show();
+                event.preventDefault(); //prevent default action
+                let urlErogaVisita = 'http://localhost:8080/SSO_war_exploded/api/pazienti/'+$('#idmedicobaseVisita').val()+'/visitebase'
+                let form_data = "idmedicobase=${sessionScope.utente.id}&anamnesi="+$("#anamnesi").val() //Encode form elements for submission
+                $.ajax({
+                    url : urlErogaVisita,
+                    type: "POST",
+                    data : form_data,
+                    success: function (data) {
+
+                    },
+                    complete: function(){
+                        $('.spinner-border').delay(500).fadeOut(0);
+                    },
+                    error: function(xhr, status, error) {
+
+                        alert(xhr.responseText);
+                    }
+                });
+            });
 
             $("#formPrescVisita").submit(function(event){
                 $('.spinner-border').show();
                 event.preventDefault(); //prevent default action
-                let urlPrescVisita = 'http://localhost:8080/SSO_war_exploded/api/pazienti/'+$('#idmedicobaseVisita').val()+'/visitebase'
-                let form_data = "idmedicobase=${sessionScope.utente.id}&anamnesi="+$("#anamnesi").val() //Encode form elements for submission
+                let urlPrescVisita = 'http://localhost:8080/SSO_war_exploded/api/pazienti/'+$('#idmedicobaseVisitaSpec').val()+'/visitespecialistiche'
+                let form_data = "idmedicobase=${sessionScope.utente.id}&idvisita="+$("#idvisita").val() //Encode form elements for submission
                 $.ajax({
                     url : urlPrescVisita,
                     type: "POST",
@@ -343,8 +423,6 @@
                     },
                     "columns": [
                         { "data": "visita.nome" },//qua ovviamente va cambiato i
-                        { "data": "medicoSpecialista.nome" },
-                        { "data": "medicoSpecialista.cognome" },
                         { "data": "medicoBase.nome" },
                         { "data": "medicoBase.cognome" },
                         { "data": "prescrizione" }
@@ -442,6 +520,7 @@
             }); */
             $('#pazienti').hide();
             $('#prescVisita').hide();
+            $('#erogaVisita').hide();
             $('#prescFarmaco').hide();
             $('#schedaPaz').hide();
             $('#prescEsame').hide();
@@ -449,8 +528,9 @@
 
             $('#profiloControl').click(function () {
                 $('#profilo').fadeIn(0);
-                $('#pazienti').fadeOut(0);
                 $('#prescVisita').fadeOut(0);
+                $('#pazienti').fadeOut(0);
+                $('#erogaVisita').fadeOut(0);
                 $('#prescFarmaco').fadeOut(0);
                 $('#prescEsame').fadeOut(0);
                 $('#schedaPaz').fadeOut(0);
@@ -458,8 +538,9 @@
             });
             $('#pazientiControl').click(function () {
                 $("#profilo").fadeOut(0);
+                $('#prescVisita').fadeOut(0);
                 $("#pazienti").fadeIn(0);
-                $("#prescVisita").fadeOut(0);
+                $("#erogaVisita").fadeOut(0);
                 $("#prescFarmaco").fadeOut(0);
                 $('#prescEsame').fadeOut(0);
                 $('#schedaPaz').fadeOut(0);
@@ -489,49 +570,66 @@
                 $('.spinner-border').hide();
                 $('#pazienti').fadeOut(0);
                 $('#profilo').fadeOut(0);
-                $('#prescVisita').fadeOut(0);
+                $('#erogaVisita').fadeOut(0);
                 $('#prescFarmaco').fadeIn(0);
                 $('#prescEsame').fadeOut(0);
                 $('#schedaPaz').fadeOut(0);
                 $('#eroga').fadeOut(0);
+                $('#prescVisita').fadeOut(0);
             });
             $('#prescVisitaControl').click(function () {
                 $('.spinner-border').hide();
                 $('#pazienti').fadeOut(0);
                 $('#profilo').fadeOut(0);
-                $('#prescVisita').fadeIn(0);
+                $('#erogaVisita').fadeOut(0);
                 $('#prescFarmaco').fadeOut(0);
                 $('#prescEsame').fadeOut(0);
                 $('#schedaPaz').fadeOut(0);
                 $('#eroga').fadeOut(0);
+                $('#prescVisita').fadeIn(0);
+            });
+
+            $('#erogaVisitaControl').click(function () {
+                $('.spinner-border').hide();
+                $('#pazienti').fadeOut(0);
+                $('#profilo').fadeOut(0);
+                $('#erogaVisita').fadeIn(0);
+                $('#prescFarmaco').fadeOut(0);
+                $('#prescEsame').fadeOut(0);
+                $('#schedaPaz').fadeOut(0);
+                $('#eroga').fadeOut(0);
+                $('#prescVisita').fadeOut(0);
             });
             $('#prescEsameControl').click(function () {
                 $('.spinner-border').hide();
                 $('#pazienti').fadeOut(0);
                 $('#profilo').fadeOut(0);
-                $('#prescVisita').fadeOut(0);
+                $('#erogaVisita').fadeOut(0);
                 $('#prescFarmaco').fadeOut(0);
                 $('#prescEsame').fadeIn(0);
                 $('#schedaPaz').fadeOut(0);
                 $('#eroga').fadeOut(0);
+                $('#prescVisita').fadeOut(0);
             });
             $('#schedaPazControl').click(function () {
                 $('#pazienti').fadeOut(0);
                 $('#profilo').fadeOut(0);
-                $('#prescVisita').fadeOut(0);
+                $('#erogaVisita').fadeOut(0);
                 $('#prescFarmaco').fadeOut(0);
                 $('#prescEsame').fadeOut(0);
                 $('#schedaPaz').fadeIn(0);
                 $('#eroga').fadeOut(0);
+                $('#prescVisita').fadeOut(0);
             });
 
             $('#erogaControl').click(function () {
                 $('#pazienti').fadeOut(0);
                 $('#profilo').fadeOut(0);
-                $('#prescVisita').fadeOut(0);
+                $('#erogaVisita').fadeOut(0);
                 $('#prescFarmaco').fadeOut(0);
                 $('#prescEsame').fadeOut(0);
                 $('#schedaPaz').fadeOut(0);
+                $('#prescVisita').fadeOut(0);
                 $('#eroga').fadeIn(0);
             });
             $('#sidebarCollapse').on('click', function () {
@@ -572,13 +670,13 @@
                 <a href="#" id="prescFarmacoControl">Prescrivi Farmaco</a>
             </li>
             <li>
-                <a href="#" id="prescVisitaControl">Eroga Visita</a>
+                <a href="#" id="prescVisitaControl">Prescrivi Visita</a>
             </li>
             <li>
                 <a href="#" id="prescEsameControl">Prescrivi Esame</a>
             </li>
             <li>
-                <a href="#" id="erogaControl">Eroga Visita</a>
+                <a href="#" id="erogaVisitaControl">Eroga Visita</a>
             </li>
             <li>
                 <a href="../logout">Log out</a>
@@ -701,6 +799,54 @@
             </div>
         </div>
 
+        <div id="prescVisita" class="tool">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3>Prescrivi una visita specialista ad un paziente:</h3>
+                        <hr>
+                        <div class="container-fluid" align="center" id="cambiaMedico">
+                            <div class="form"  >
+                                <div class="form-toggle"></div>
+                                <div class="form-panel one">
+                                    <div class="form-header">
+                                        <h1>Prescrivi una visita</h1>
+                                    </div>
+                                    <div class="form-content">
+                                        <form id="formPrescVisita" >
+                                            <div class="form-group">
+                                                <div class="container-fluid">
+                                                    <label for="idmedicobaseVisitaSpec">Nome del paziente</label>
+                                                    <select type="text" id="idmedicobaseVisitaSpec" name="idmedicobaseVisitaSpec" required="required"></select>
+                                                    <div class="spinner-border text-primary" role="status">
+                                                        <span class="sr-only">Loading...</span>
+                                                    </div>
+<%--                                                <br>--%>
+                                                </div>
+                                                <div class="container-fluid" style="padding-top: 1rem">
+                                                    <label for="idvisita">Nome della visita</label>
+                                                    <select type="text" id="idvisita" name="idvisita" required="required"></select>
+                                                    <div class="spinner-border text-primary" role="status">
+                                                        <span class="sr-only">Loading...</span>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+
+                                            <div class="form-group">
+                                                <button id ="btnCambiaMedico" type="submit">Prescrivi</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div id="prescFarmaco" class="tool">
             <div class="container">
                 <div class="row">
@@ -723,7 +869,7 @@
                                                     <div class="spinner-border text-primary" role="status">
                                                         <span class="sr-only">Loading...</span>
                                                     </div>
-<%--                                                <br>--%>
+                                                    <%--                                                <br>--%>
                                                 </div>
                                                 <div class="container-fluid" style="padding-top: 1rem">
                                                     <label for="idfarmaco">Nome del farmaco</label>
@@ -749,7 +895,8 @@
             </div>
         </div>
 
-        <div id="prescVisita" class="tool">
+
+        <div id="erogaVisita" class="tool">
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
@@ -763,7 +910,7 @@
                                         <h1>Eroga una visita</h1>
                                     </div>
                                         <div class="form-content">
-                                            <form id="formPrescVisita" >
+                                            <form id="formErogaVisita" >
                                                 <div class="form-group">
                                                     <div class="container-fluid">
                                                         <label for="idmedicobaseVisita">Nome del paziente</label>
@@ -775,7 +922,7 @@
                                                     </div>
                                                     <div class="container-fluid" style="padding-top: 1rem">
                                                         <label for="anamnesi">Anamnesi</label>
-                                                        <input type="text" id="anamnesi" name="anamnesi" required="required"></input>
+                                                        <textarea type="text" id="anamnesi" name="anamnesi" required="required"></textarea>
                                                     </div>
                 <%----%>
                                                 </div>
@@ -942,8 +1089,6 @@
                                 <thead>
                                 <tr>
                                     <th>Nome Visita</th>
-                                    <th>Nome Medico specialista</th>
-                                    <th>Cognome Medico specialista</th>
                                     <th>Nome medico di base</th>
                                     <th>Cognome medico di base</th>
                                     <th>Prescrizione</th>
@@ -952,8 +1097,6 @@
                                 <tfoot>
                                 <tr>
                                     <th>Nome Visita</th>
-                                    <th>Nome Medico specialista</th>
-                                    <th>Cognome Medico specialista</th>
                                     <th>Nome medico di base</th>
                                     <th>Cognome medico di base</th>
                                     <th>Prescrizione</th>
