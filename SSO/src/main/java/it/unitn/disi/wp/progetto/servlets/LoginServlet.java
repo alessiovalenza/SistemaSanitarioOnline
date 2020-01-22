@@ -50,7 +50,7 @@ public class LoginServlet extends HttpServlet {
         Cookie c = getCookieByName(request.getCookies(), "rememberMe");
         String token = c != null ? c.getValue(): null;
         utente = token != null ? getUtentebyToken(token) : null;
-
+        System.out.println("utente is: " + utente);
         if (utente != null) {
             System.out.println("autenticato, redirect alla home");
             createSessionAndDispatch(request, response, utente);

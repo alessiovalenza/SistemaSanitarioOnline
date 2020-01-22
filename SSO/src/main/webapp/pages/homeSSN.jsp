@@ -62,6 +62,9 @@
             <li>
                 <a href="#" id="reportControl">Report</a>
             </li>
+            <li>
+                <a href="../logout">Log out</a>
+            </li>
         </ul>
     </nav>
 

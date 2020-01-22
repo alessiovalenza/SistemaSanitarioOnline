@@ -355,6 +355,9 @@
             <li>
                 <a href="../mappe.jsp" id="mappeControl">Visualizza mappe</a>
             </li>
+            <li>
+                <a href="../logout">Log out</a>
+            </li>
 
         </ul>
     </nav>
@@ -363,7 +366,7 @@
     <div id="content">
 
         <div class="container-fluid" align="center" id="cambiaMedico">
-            <div class="form"  >
+            <div class="form">
                 <div class="form-toggle"></div>
                 <div class="form-panel one">
                     <div class="form-header">
@@ -592,7 +595,6 @@
         </div>
         <div class="tool" id="medico">
             <div class="card" >
-
 
                 <img src="3.jpeg" class="rounded mx-auto d-block">
                 <div class="card-body">

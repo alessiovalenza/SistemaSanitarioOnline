@@ -580,6 +580,9 @@
             <li>
                 <a href="#" id="erogaControl">Eroga Visita</a>
             </li>
+            <li>
+                <a href="../logout">Log out</a>
+            </li>
         </ul>
     </nav>
 
