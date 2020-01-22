@@ -46,27 +46,8 @@
         }
       }
 
-      /*$("form").submit(function (event) {
-        var formData = new FormData($(this)[0]);
-        console.log("BBBBBBBBBBBBBBBBBBb" + '${pageContext.request.contextPath}/api/utenti/${sessionScope.utente.id}/foto');
-        $.ajax({
-          url: '${pageContext.request.contextPath}/api/utenti/${sessionScope.utente.id}/foto',
-          type: 'POST',
-          data: formData,
-          async: true,
-          success: function (data) {
-            console.log("AAAAAAAAAAAAA");
-          },
-          cache: false,
-          contentType: false,
-          processData: false
-        });
-      });*/
-
       $(document).ready(function() {
-        console.log("AOOOOOOOOOOO");
         $("#formUpload").submit(function(e){
-          console.log("BBBBBBBBBBBB");
           e.preventDefault();
           var formData = new FormData($("#formUpload")[0]);
 

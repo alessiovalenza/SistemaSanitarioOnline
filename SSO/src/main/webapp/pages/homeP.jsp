@@ -43,7 +43,7 @@
                 $('.spinner-border').show();
                 event.preventDefault(); //prevent default action
                 let form_data = $(this).serialize(); //Encode form elements for submission
-                let url = 'http://localhost:8080/SSO_war_exploded/api/pazienti/'+${sessionScope.utente.id}+'/medicobase'
+                let url = 'http://localhost:8080/SSO_war_exploded/api/pazienti/' + ${sessionScope.utente.id} + '/medicobase'
 
                 $.ajax({
                     url : url,
@@ -79,7 +79,7 @@
                 $("#profilo").fadeOut(0);
                 $("#formNostro").fadeOut(0);
                 $("#ricette").fadeOut(0);
-                let url = 'http://localhost:8080/SSO_war_exploded/api/pazienti/'+${sessionScope.utente.id}+'/medicobase'
+                let url = 'http://localhost:8080/SSO_war_exploded/api/pazienti/${sessionScope.utente.id}/medicobase'
                 $.ajax({
                     type: "GET",
                     url: url,
@@ -122,7 +122,7 @@
                 $("#formNostro").fadeOut(0);
                 $("#cambiaMedico").fadeOut(0);
                 $("#ricette").fadeOut(0);
-                let urlEsamiNonErogati = "http://localhost:8080/SSO_war_exploded/api/utenti/"+ ${sessionScope.utente.id} +"/esamiprescritti?erogationly=false&nonerogationly=false";
+                let urlEsamiNonErogati = "http://localhost:8080/SSO_war_exploded/api/utenti/${sessionScope.utente.id}/esamiprescritti?erogationly=false&nonerogationly=false";
                 $('#esamiNonErogati').DataTable( {
                     "processing": true,
                     "serverSide": true,
@@ -478,6 +478,47 @@
                     <div style="clear: both">
                         <h5 style="float: left">Data di nascita:  </h5>
                         <h5 align="right">${sessionScope.utente.dataNascita}</h5>
+                    </div>
+                    <hr>
+                    <div style="clear: both">
+                        <h5 style="float: left"> Aggiungi immagine: </h5>
+                        <form action="#" id="formUpload" method="POST" role="form" enctype="multipart/form-data">
+                            <input class="btn btn-primary" type="file" name="foto" id="foto" onchange="return fileValidation()"/><br><br>
+                            <button class="btn btn-primary" type="submit" id="Button" disabled>Submit </button>
+                        </form>
+                        </div>
+                        <script>
+                            function fileValidation(){
+                                var fileInput = document.getElementById('foto');
+                                var filePath = fileInput.value;
+                                var allowedExtensions = /(\.jpg|\.jpeg)$/i;
+                                if(!allowedExtensions.exec(filePath)){
+                                    alert('Please upload file having extensions .jpeg/.jpg only.');
+                                    fileInput.value = null;
+                                    return false;
+                                } else {
+                                    document.getElementById("Button").disabled = false;
+                                }
+                            }
+
+                            $(document).ready(function() {
+                                $("#formUpload").submit(function(e){
+                                    e.preventDefault();
+                                    var formData = new FormData($("#formUpload")[0]);
+
+                                    $.ajax({
+                                        url : '${pageContext.request.contextPath}/api/utenti/${sessionScope.utente.id}/foto',
+                                        type : 'POST',
+                                        data : formData,
+                                        contentType : false,
+                                        processData : false,
+                                        success: function(resp) {
+                                            alert("Immagine aggiunta con successo!");
+                                        }
+                                    });
+                                });
+                            });
+                        </script>
                     </div>
                     <hr>
                     <button href="#" class="btn btn-primary">Go somewhere</button>
