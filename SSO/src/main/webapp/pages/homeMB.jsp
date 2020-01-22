@@ -546,15 +546,72 @@
                 $('#schedaPaz').fadeOut(0);
                 $('#eroga').fadeOut(0);
                 $('#tablePazienti').DataTable().destroy()
-                let urlPazienti = "http://localhost:8080/SSO_war_exploded/api/medicibase/${sessionScope.utente.id}/pazienti";
+                let urlPazienti = "http://localhost:8080/SSO_war_exploded/api/medicibase/${sessionScope.utente.id}/pazienti?datericettavisita=true";
                 $('#tablePazienti').DataTable( {
                     "processing": true,
                     "serverSide": true,
                     "ajax": {
                         "url": urlPazienti,
                         "type":"GET",
-                        "dataSrc": ""
-                    },
+                        "dataSrc": function (json) {
+                                        let return_data = new Array();
+                                        for(let i=0;i< json.length; i++){
+                                            if (json[i].dataUltimaVisitaBase != undefined && json[i].getDataUltimaRicetta != undefined) {
+                                                return_data.push({
+                                                    'nome': json[i].paziente.nome,
+                                                    'cognome': json[i].paziente.cognome,
+                                                    'dataNascita': json[i].paziente.dataNascita,
+                                                    'luogoNascita': json[i].paziente.luogoNascita,
+                                                    'codiceFiscale': json[i].paziente.codiceFiscale,
+                                                    'sesso': json[i].paziente.sesso,
+                                                    'email': json[i].paziente.email,
+                                                    'dataUltimaVisitaBase': json[i].dataUltimaVisitaBase,
+                                                    'getDataUltimaRicetta': json[i].getDataUltimaRicetta,
+                                                })
+                                            }
+                                            if (json[i].dataUltimaVisitaBase == undefined && json[i].getDataUltimaRicetta != undefined){
+                                                return_data.push({
+                                                    'nome': json[i].paziente.nome,
+                                                    'cognome': json[i].paziente.cognome,
+                                                    'dataNascita': json[i].paziente.dataNascita,
+                                                    'luogoNascita': json[i].paziente.luogoNascita,
+                                                    'codiceFiscale': json[i].paziente.codiceFiscale,
+                                                    'sesso': json[i].paziente.sesso,
+                                                    'email': json[i].paziente.email,
+                                                    'dataUltimaVisitaBase': "",
+                                                    'getDataUltimaRicetta': json[i].getDataUltimaRicetta,
+                                                })
+                                            }
+                                            if (json[i].dataUltimaVisitaBase != undefined && json[i].getDataUltimaRicetta == undefined){
+                                                return_data.push({
+                                                    'nome': json[i].paziente.nome,
+                                                    'cognome': json[i].paziente.cognome,
+                                                    'dataNascita': json[i].paziente.dataNascita,
+                                                    'luogoNascita': json[i].paziente.luogoNascita,
+                                                    'codiceFiscale': json[i].paziente.codiceFiscale,
+                                                    'sesso': json[i].paziente.sesso,
+                                                    'email': json[i].paziente.email,
+                                                    'dataUltimaVisitaBase': json[i].dataUltimaVisitaBase,
+                                                    'getDataUltimaRicetta': "",
+                                                })
+                                            }
+                                            if (json[i].dataUltimaVisitaBase == undefined && json[i].getDataUltimaRicetta == undefined){
+                                                return_data.push({
+                                                    'nome': json[i].paziente.nome,
+                                                    'cognome': json[i].paziente.cognome,
+                                                    'dataNascita': json[i].paziente.dataNascita,
+                                                    'luogoNascita': json[i].paziente.luogoNascita,
+                                                    'codiceFiscale': json[i].paziente.codiceFiscale,
+                                                    'sesso': json[i].paziente.sesso,
+                                                    'email': json[i].paziente.email,
+                                                    'dataUltimaVisitaBase': "",
+                                                    'getDataUltimaRicetta': "",
+                                                })
+                                            }
+                                        }
+                                        return return_data;
+                                    }
+                     },
                     "columns": [
                         { "data": "nome" },//qua ovviamente va cambiato i
                         { "data": "cognome" },
@@ -562,7 +619,9 @@
                         { "data": "luogoNascita" },
                         { "data": "codiceFiscale" },
                         { "data": "sesso" },
-                        { "data": "email" }
+                        { "data": "email" },
+                        { "data": "dataUltimaVisitaBase" },
+                        { "data": "getDataUltimaRicetta" }
                     ]
                 } );
             });
@@ -740,7 +799,8 @@
                                     <h5 style="float: left">Cognome:  </h5>
                                     <h5 align="right">${sessionScope.utente.cognome}</h5>
                                 </div>
-                                <hr>
+                                <hr>paziente	{…}
+1
 
                                 <div style="clear: both">
                                     <h5 style="float: left">Sesso:  </h5>
@@ -766,7 +826,7 @@
         </div>
 
 
-        <div class="container" id="pazienti">
+        <div class="container-fluid" id="pazienti">
             <div class="row">
                 <div class="col-md-12">
                     <div class="table table-responsive">
@@ -780,6 +840,8 @@
                                 <th>Codice Fiscale</th>
                                 <th>Sesso</th>
                                 <th>Email</th>
+                                <th>Ultima visita prescritta</th>
+                                <th>Ultima ricetta prescritta</th>
                             </tr>
                             </thead>
                             <tfoot>
@@ -791,6 +853,8 @@
                                 <th>Codice Fiscale</th>
                                 <th>Sesso</th>
                                 <th>Email</th>
+                                <th>Ultima visita prescritta</th>
+                                <th>Ultima ricetta prescritta</th>
                             </tr>
                             </tfoot>
                         </table>
