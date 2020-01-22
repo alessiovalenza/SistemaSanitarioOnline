@@ -11,7 +11,7 @@ public interface EsamePrescrittoDAO extends DAO<EsamePrescritto, Long> {
     public static final double PREZZO_TICKET = 11.0;
 
     public boolean creaEsamePrescritto(long esame, long medicoBase, long paziente, Timestamp prescriz) throws DAOException;
-    public List<EsamePrescritto> getEsamiPrescrittiByPaziente(long id, boolean soloErogati, boolean soloNonErogati) throws  DAOException; //l'id è del paziente
+    public List<EsamePrescritto> getEsamiPrescrittiByPaziente(long id, boolean soloErogati, boolean soloNonErogati, String suggestion) throws  DAOException; //l'id è del paziente
     public boolean erogaEsamePrescritto(long id, Timestamp erogazione, String esito) throws DAOException; //l'id è dell'esame prescritto
     public List<Utente> richiamoRangeEta(int infEta, int supEta, String idProvincia, long esame, Timestamp prescriz) throws DAOException; //estremi inclusi
     public List<Utente> richiamoSuccessivoMinEta(int infEta, String idProvincia, long esame, Timestamp prescriz) throws DAOException; //estremo incluso

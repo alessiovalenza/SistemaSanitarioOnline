@@ -84,7 +84,8 @@ public class PazienteApi extends Api {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getEsamiPrescritti(@PathParam("idpaziente") Long idPaziente,
                                        @QueryParam("erogationly") Boolean erogatiOnly,
-                                       @QueryParam("nonerogationly") Boolean nonErogatiOnly) {
+                                       @QueryParam("nonerogationly") Boolean nonErogatiOnly,
+                                       @QueryParam("term") String term) {
         Response res;
 
         if(erogatiOnly == null || nonErogatiOnly == null || (nonErogatiOnly && erogatiOnly)) {
@@ -99,7 +100,7 @@ public class PazienteApi extends Api {
 
             if(paziente != null) {
                 EsamePrescrittoDAO esamePrescrittoDAO = daoFactory.getDAO(EsamePrescrittoDAO.class);
-                List<EsamePrescritto> esami = esamePrescrittoDAO.getEsamiPrescrittiByPaziente(idPaziente, erogatiOnly, nonErogatiOnly);
+                List<EsamePrescritto> esami = esamePrescrittoDAO.getEsamiPrescrittiByPaziente(idPaziente, erogatiOnly, nonErogatiOnly, term == null ? "" : term);
                 String jsonResult = gson.toJson(esami);
                 res = Response.ok(jsonResult).build();;
             }
@@ -152,7 +153,8 @@ public class PazienteApi extends Api {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getRicette(@PathParam("idpaziente") Long idPaziente,
                                @QueryParam("evaseonly") Boolean evaseOnly,
-                               @QueryParam("nonevaseonly") Boolean nonEvaseOnly) {
+                               @QueryParam("nonevaseonly") Boolean nonEvaseOnly,
+                               @QueryParam("term") String term) {
         
         HttpSession session = request.getSession(false);
         Response res;
@@ -170,7 +172,7 @@ public class PazienteApi extends Api {
 
                 if(paziente != null) {
                     RicettaDAO ricettaDAO = daoFactory.getDAO(RicettaDAO.class);
-                    List<Ricetta> ricette = ricettaDAO.getRicetteByPaziente(idPaziente, evaseOnly, nonEvaseOnly);
+                    List<Ricetta> ricette = ricettaDAO.getRicetteByPaziente(idPaziente, evaseOnly, nonEvaseOnly, term == null ? "" : term);
                     String jsonResult = gson.toJson(ricette);
                     res = Response.ok(jsonResult).build();;
                 }
@@ -197,7 +199,8 @@ public class PazienteApi extends Api {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getVisiteSpec(@PathParam("idpaziente") Long idPaziente,
                                   @QueryParam("erogateonly") Boolean erogateOnly,
-                                  @QueryParam("nonerogateonly") Boolean nonErogateOnly) {
+                                  @QueryParam("nonerogateonly") Boolean nonErogateOnly,
+                                  @QueryParam("term") String term) {
         if(erogateOnly == null || nonErogateOnly == null || (nonErogateOnly && erogateOnly)) {
             throw new ApiException(HttpServletResponse.SC_BAD_REQUEST,
                     "You must specificy both erogateonly and nonerogateonly parameters, " +
@@ -211,7 +214,7 @@ public class PazienteApi extends Api {
 
             if(paziente != null) {
                 VisitaMedicoSpecialistaDAO visitaSpecDAO = daoFactory.getDAO(VisitaMedicoSpecialistaDAO.class);
-                List<VisitaMedicoSpecialista> visite = visitaSpecDAO.getVisiteSpecByPaziente(idPaziente, erogateOnly, nonErogateOnly);
+                List<VisitaMedicoSpecialista> visite = visitaSpecDAO.getVisiteSpecByPaziente(idPaziente, erogateOnly, nonErogateOnly, term == null ? "" : term);
                 String jsonResult = gson.toJson(visite);
                 res = Response.ok(jsonResult).build();
             }

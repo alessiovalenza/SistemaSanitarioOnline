@@ -17,7 +17,7 @@ public class JDBCEsamePrescrittoDAO extends JDBCDAO<EsamePrescritto, Long> imple
         super(con);
     }
 
-    public List<EsamePrescritto> getEsamiPrescrittiByPaziente(long id, boolean soloErogati, boolean soloNonErogati) throws DAOException {
+    public List<EsamePrescritto> getEsamiPrescrittiByPaziente(long id, boolean soloErogati, boolean soloNonErogati, String suggestion) throws DAOException {
         if(soloErogati && soloNonErogati) {
             throw new DAOException("Non sense query");
         }
@@ -30,7 +30,7 @@ public class JDBCEsamePrescrittoDAO extends JDBCDAO<EsamePrescritto, Long> imple
                 "JOIN esame e ON ep.esame = e.id " +
                 "LEFT JOIN utente m ON ep.medicobase = m.id " +
                 "JOIN utente p ON ep.paziente = p.id " +
-                "WHERE ep.paziente = ?";
+                "WHERE ep.paziente = ? AND lower(e.nome) LIKE lower(?)";
 
         String soloErogatiStm = " AND ep.erogazione IS NOT NULL";
 
@@ -48,10 +48,11 @@ public class JDBCEsamePrescrittoDAO extends JDBCDAO<EsamePrescritto, Long> imple
 
         try (PreparedStatement stm = CON.prepareStatement(statement)) {
             stm.setLong(1, id); // 1-based indexing
+            stm.setString(2, "%" + suggestion + "%"); // 1-based indexing
 
             try (ResultSet rs = stm.executeQuery()) {
 
-                while(rs.next()){
+                while(rs.next()) {
                     EsamePrescritto esamePrescritto = makeEsamePrescrittoFromRs(rs);
                     listOfEsamePrescritto.add(esamePrescritto);
                 }

@@ -55,7 +55,7 @@ public class JDBCVisitaMedicoSpecialistaDAO extends JDBCDAO<VisitaMedicoSpeciali
     }
 
     @Override
-    public List<VisitaMedicoSpecialista> getVisiteSpecByPaziente(long id, boolean soloErogate, boolean soloNonErogate) throws DAOException {
+    public List<VisitaMedicoSpecialista> getVisiteSpecByPaziente(long id, boolean soloErogate, boolean soloNonErogate, String suggestion) throws DAOException {
         if(soloErogate && soloNonErogate) {
             throw new DAOException("Non sense query");
         }
@@ -69,7 +69,7 @@ public class JDBCVisitaMedicoSpecialistaDAO extends JDBCDAO<VisitaMedicoSpeciali
                 "JOIN utente m ON v.medicobase = m.id " +
                 "JOIN utente p ON v.paziente = p.id " +
                 "JOIN visita va ON v.visita = va.id " +
-                "WHERE v.paziente = ?";
+                "WHERE v.paziente = ? AND lower(va.nome) LIKE lower(?)";
 
         String soloErogateStm = " AND v.erogazione IS NOT NULL";
 
@@ -87,6 +87,7 @@ public class JDBCVisitaMedicoSpecialistaDAO extends JDBCDAO<VisitaMedicoSpeciali
 
         try (PreparedStatement stm = CON.prepareStatement(statement)){
             stm.setLong(1, id); // 1-based indexing
+            stm.setString(2, "%" + suggestion + "%"); // 1-based indexing
 
             try (ResultSet rs = stm.executeQuery()) {
 
