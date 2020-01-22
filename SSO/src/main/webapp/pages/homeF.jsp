@@ -4,7 +4,7 @@
     <title>Title</title>
 </head>
 <body>
-    <h1> F landing page </h1>
-    <p> verrà presto implementata</p>
+<h1> F landing page </h1>
+<p> verrà presto implementata</p>
 </body>
 </html>
