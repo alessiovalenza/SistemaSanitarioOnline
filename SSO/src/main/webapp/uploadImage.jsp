@@ -13,9 +13,13 @@
 
     <h1>Choose a file</h1>
     <!-- File input field -->
-    <form action="api/utenti/${sessionScope.utente.id}/foto" method="POST" enctype="multipart/form-data">
+    <!--<form action="#" method="POST" enctype="multipart/form-data" role="form" id="formUpload">
       <input type="file" name="foto" id="foto" onchange="return fileValidation()"/><br>
-      <input type="submit" name="Upload"><br>
+      <button type="submit">Submit </button><br>
+    </form>-->
+    <form action="#" id="formUpload" method="POST" role="form" enctype="multipart/form-data">
+      <input type="file" name="foto" id="foto" onchange="return fileValidation()"/><br>
+      <button type="submit">Submit </button>
     </form>
 
     <!-- Image preview -->
@@ -28,7 +32,7 @@
         var allowedExtensions = /(\.jpg|\.jpeg)$/i;
         if(!allowedExtensions.exec(filePath)){
           alert('Please upload file having extensions .jpeg/.jpg only.');
-          fileInput.value = '';
+          fileInput.value = null;
           return false;
         }else{
           //Image preview
@@ -41,6 +45,43 @@
           }
         }
       }
+
+      /*$("form").submit(function (event) {
+        var formData = new FormData($(this)[0]);
+        console.log("BBBBBBBBBBBBBBBBBBb" + '${pageContext.request.contextPath}/api/utenti/${sessionScope.utente.id}/foto');
+        $.ajax({
+          url: '${pageContext.request.contextPath}/api/utenti/${sessionScope.utente.id}/foto',
+          type: 'POST',
+          data: formData,
+          async: true,
+          success: function (data) {
+            console.log("AAAAAAAAAAAAA");
+          },
+          cache: false,
+          contentType: false,
+          processData: false
+        });
+      });*/
+
+      $(document).ready(function() {
+        console.log("AOOOOOOOOOOO");
+        $("#formUpload").submit(function(e){
+          console.log("BBBBBBBBBBBB");
+          e.preventDefault();
+          var formData = new FormData($("#formUpload")[0]);
+
+          $.ajax({
+            url : '${pageContext.request.contextPath}/api/utenti/${sessionScope.utente.id}/foto',
+            type : 'POST',
+            data : formData,
+            contentType : false,
+            processData : false,
+            success: function(resp) {
+              console.log(resp);
+            }
+          });
+        });
+      });
     </script>
   </body>
 </html>
