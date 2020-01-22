@@ -97,40 +97,42 @@
             //         }
             //     }
             // });
-            $('#idricetta').click(function () {
-                // alert($('#idpaziente').select2('data')[0].id)
-                let urlSelectRicette = 'http://localhost:8080/SSO_war_exploded/api/pazienti/'+$('#idpaziente').children("option:selected").val()+'/ricette/?evaseonly=false&nonevaseonly=true'
+            //$("#idricetta").select2({})
 
-                $("#idricetta").select2({
-                    placeholder: 'Cerca Farmaci',
-                    width: 300,
-                    allowClear: true,
-                    ajax: {
-                        url: urlSelectRicette,
-                        datatype: "json",
-                        data: function (params) {
-                            var query = {
-                                term: params.term,
-                                type: 'public',
-                                page: params.page || 1
-                            }
-                            return query;
-                        },
-                        processResults: function (data) {
-                            var myResults = [];
-                            $.each(data, function (index, item) {
-                                myResults.push({
-                                    'id': item.id,
-                                    'text': item.farmaco.nome+" "+item.farmaco.descrizione +", prescritta da "+item.medicoBase.nome+" "+item.medicoBase.cognome+" il "+item.emissione
-                                });
-                            });
-                            return {
-                                results: myResults
-                            };
+
+            $("#idricetta").select2({
+                placeholder: 'Cerca Farmaci',
+                width: 300,
+                allowClear: true,
+                ajax: {
+                    url: function () {
+                        let urlSelectRicette = 'http://localhost:8080/SSO_war_exploded/api/pazienti/'+$('#idpaziente').children("option:selected").val()+'/ricette/?evaseonly=false&nonevaseonly=true'
+                        return urlSelectRicette
+                    },
+                    datatype: "json",
+                    data: function (params) {
+                        var query = {
+                            term: params.term,
+                            type: 'public',
+                            page: params.page || 1
                         }
+                        return query;
+                    },
+                    processResults: function (data) {
+                        var myResults = [];
+                        $.each(data, function (index, item) {
+                            myResults.push({
+                                'id': item.id,
+                                'text': item.farmaco.nome+" "+item.farmaco.descrizione +", prescritta da "+item.medicoBase.nome+" "+item.medicoBase.cognome+" il "+item.emissione
+                            });
+                        });
+                        return {
+                            results: myResults
+                        };
                     }
-                });
+                }
             });
+
 
             $("#formEvadiRicetta").submit(function(event){
                 $('.spinner-border').show();
@@ -176,7 +178,6 @@
                 $('a[aria-expanded=true]').attr('aria-expanded', 'false');
             });
         });
-
     </script>
 
 
@@ -195,9 +196,6 @@
         </div>
 
         <ul class="list-unstyled">
-            <li>
-                <a href="#" id="erogaMedControl">Eroga Medicinale</a>
-            </li>
             <li>
                 <a href="#" id="ricetteControl">Evadi Ricette</a>
             </li>
@@ -255,7 +253,7 @@
 
 
                                             <div class="form-group">
-                                                <button id ="btnCambiaMedico" type="submit">Prescrivi</button>
+                                                <button type="submit">Evadi</button>
                                             </div>
                                         </form>
                                     </div>
