@@ -1,5 +1,6 @@
 package it.unitn.disi.wp.progetto.servlets;
 
+import it.unitn.disi.wp.progetto.commons.Email;
 import it.unitn.disi.wp.progetto.commons.Utilities;
 import it.unitn.disi.wp.progetto.persistence.dao.TokenPswDAO;
 import it.unitn.disi.wp.progetto.persistence.dao.UtenteDAO;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.Collections;
 
 import static it.unitn.disi.wp.progetto.commons.Utilities.sha512;
 
@@ -137,6 +139,6 @@ public class PassResetServlet extends HttpServlet {
     private void createAndSendEmail(Utente utente, String token){
         String link = "http://localhost:8080/SSO_war_exploded/passreset?token=" + token;
         String testo = String.format("Gentile utente %s %s,\npuò recuperare la password al seguente link:\n%s\nDistinti saluti", utente.getCognome(), utente.getNome(), link);
-        Utilities.sendEmail(utente.getEmail(), "Password Recovery", testo);
+        Utilities.sendEmail(Collections.singletonList(new Email(utente.getEmail(), "Password Recovery", testo)));
     }
 }

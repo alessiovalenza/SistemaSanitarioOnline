@@ -15,9 +15,7 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.util.Date;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 import javax.servlet.http.*;
 import javax.ws.rs.core.Response;
 
@@ -45,7 +43,7 @@ public class Utilities {
     //salt per i token
     public final static long tokenSalt = 69696969;
 
-    public static void sendEmail(String Destinatario, String Subject, String Text) {
+    public static void sendEmail(List<Email> emails) {
         System.out.println("Sto per inviare una email");
         final String host = "smtp.gmail.com";
         final String port = "465";
@@ -67,16 +65,23 @@ public class Utilities {
                 return new PasswordAuthentication(username, password);
             }
         });
-        Message msg = new MimeMessage(session);
-        try {
-            msg.setFrom(new InternetAddress(username));
-            msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(Destinatario, false));
-            msg.setSubject(Subject);
-            msg.setText(Text);
-            msg.setSentDate(new Date());
-            Transport.send(msg);
-        } catch (MessagingException me) {
-            me.printStackTrace(System.err);
+
+        for(Email email : emails) {
+            String destinatario = email.getRecipient();
+            String subject = email.getSubject();
+            String text = email.getText();
+
+            Message msg = new MimeMessage(session);
+            try {
+                msg.setFrom(new InternetAddress(username));
+                msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(destinatario, false));
+                msg.setSubject(subject);
+                msg.setText(text);
+                msg.setSentDate(new Date());
+                Transport.send(msg);
+            } catch (MessagingException me) {
+                me.printStackTrace(System.err);
+            }
         }
     }
 
@@ -183,13 +188,17 @@ public class Utilities {
         EsameDAO esameDAO = daoFactory.getDAO(EsameDAO.class);
         Esame esame = esameDAO.getByPrimaryKey(idEsame);
 
+        ArrayList<Email> emails = new ArrayList();
         for(Utente utente: richiamati) {
             String body = "Gentile paziente " + utente.getNome() + " " + utente.getCognome() + ",\n" +
                     "con la presente comunicazione la informiamo che dovrà effettuare un richiamo per il seguente esame:\n" +
                     esame.getNome() + ".\n" +
                     "Disinti saluti";
-            Utilities.sendEmail(utente.getEmail(), "Richiamo SSP " + idProvincia, body);
+
+            emails.add(new Email(utente.getEmail(), "Richiamo SSP " + idProvincia, body));
         }
+
+        Utilities.sendEmail(emails);
     }
 
     public static void sendEmailPrescrizioneEsame(Long idEsame, Utente paziente, DAOFactory daoFactory) throws DAOFactoryException, DAOException {
@@ -200,7 +209,7 @@ public class Utilities {
                 "con la presente comunicazione la informiamo che il suo medico di base le ha prescritto il seguente esame:\n" +
                 esame.getNome() + ".\n" +
                 "Disinti saluti";
-        Utilities.sendEmail(paziente.getEmail(), "Prescrizione esame", body);
+        Utilities.sendEmail(Collections.singletonList(new Email(paziente.getEmail(), "Prescrizione esame", body)));
     }
 
     public static void sendEmailPrescrizioneVisitaSpec(Long idVisita, Utente paziente, DAOFactory daoFactory) throws DAOFactoryException, DAOException {
@@ -211,7 +220,7 @@ public class Utilities {
                 "con la presente comunicazione la informiamo che il suo medico di base le ha prescritto la seguente visita specialistica:\n" +
                 visita.getNome() + ".\n" +
                 "Disinti saluti";
-        Utilities.sendEmail(paziente.getEmail(), "Prescrizione visita specialistica", body);
+        Utilities.sendEmail(Collections.singletonList(new Email(paziente.getEmail(), "Prescrizione visita specialistica", body)));
     }
 
     public static void sendEmailPrescrizioneRicetta(Long idFarmaco, Utente paziente, DAOFactory daoFactory) throws DAOFactoryException, DAOException {
@@ -222,7 +231,7 @@ public class Utilities {
                 "con la presente comunicazione la informiamo che il suo medico di base le ha prescritto il seguente farmaco:\n" +
                 farmaco.getNome() + ".\n" +
                 "Disinti saluti";
-        Utilities.sendEmail(paziente.getEmail(), "Prescrizione ricetta", body);
+        Utilities.sendEmail(Collections.singletonList(new Email(paziente.getEmail(), "Prescrizione ricetta", body)));
     }
 
     public static void sendEmailRisultatoEsame(EsamePrescritto esamePrescritto) {
@@ -233,7 +242,7 @@ public class Utilities {
                 "con la presente comunicazione la informiamo che può ora visualizzare l'esito del seguente esame:\n" +
                 esame.getNome() + ".\n" +
                 "Disinti saluti";
-        Utilities.sendEmail(paziente.getEmail(), "Esito esame", body);
+        Utilities.sendEmail(Collections.singletonList(new Email(paziente.getEmail(), "Esito esame", body)));
     }
 
     public static void sendEmailRisultatoVisita(VisitaMedicoSpecialista visitaMedicoSpecialista){
@@ -244,6 +253,6 @@ public class Utilities {
                 "con la presente comunicazione la informiamo che può ora visualizzare il referto della seguente visita specialistica:\n" +
                 visita.getNome() + ".\n" +
                 "Disinti saluti";
-        Utilities.sendEmail(paziente.getEmail(), "Referto visita specialistica", body);
+        Utilities.sendEmail(Collections.singletonList(new Email(paziente.getEmail(), "Referto visita specialistica", body)));
     }
 }
