@@ -555,51 +555,68 @@
                         "type":"GET",
                         "dataSrc": function (json) {
                                         let return_data = new Array();
+                                        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
                                         for(let i=0;i< json.length; i++){
                                             if (json[i].dataUltimaVisitaBase != undefined && json[i].getDataUltimaRicetta != undefined) {
+                                                let visita = new Date(json[i].dataUltimaVisitaBase)
+                                                visita=visita.toLocaleDateString("it-IT",options)
+                                                let ricetta = new Date(json[i].getDataUltimaRicetta)
+                                                ricetta = ricetta.toLocaleDateString("it-IT",options)
+                                                let nascita = new Date(json[i].paziente.dataNascita)
+                                                nascita = nascita.toLocaleDateString("it-IT")
                                                 return_data.push({
                                                     'nome': json[i].paziente.nome,
                                                     'cognome': json[i].paziente.cognome,
-                                                    'dataNascita': json[i].paziente.dataNascita,
+                                                    'dataNascita': nascita,
                                                     'luogoNascita': json[i].paziente.luogoNascita,
                                                     'codiceFiscale': json[i].paziente.codiceFiscale,
                                                     'sesso': json[i].paziente.sesso,
                                                     'email': json[i].paziente.email,
-                                                    'dataUltimaVisitaBase': json[i].dataUltimaVisitaBase,
-                                                    'getDataUltimaRicetta': json[i].getDataUltimaRicetta,
+                                                    'dataUltimaVisitaBase': visita,
+                                                    'getDataUltimaRicetta':  ricetta,
                                                 })
                                             }
                                             if (json[i].dataUltimaVisitaBase == undefined && json[i].getDataUltimaRicetta != undefined){
+                                                let ricetta = new Date(json[i].getDataUltimaRicetta)
+                                                ricetta=ricetta.toLocaleDateString("it-IT",options)
+                                                let nascita = new Date(json[i].paziente.dataNascita)
+                                                nascita = nascita.toLocaleDateString("it-IT")
                                                 return_data.push({
                                                     'nome': json[i].paziente.nome,
                                                     'cognome': json[i].paziente.cognome,
-                                                    'dataNascita': json[i].paziente.dataNascita,
+                                                    'dataNascita': nascita,
                                                     'luogoNascita': json[i].paziente.luogoNascita,
                                                     'codiceFiscale': json[i].paziente.codiceFiscale,
                                                     'sesso': json[i].paziente.sesso,
                                                     'email': json[i].paziente.email,
                                                     'dataUltimaVisitaBase': "",
-                                                    'getDataUltimaRicetta': json[i].getDataUltimaRicetta,
+                                                    'getDataUltimaRicetta':  ricetta,
                                                 })
                                             }
                                             if (json[i].dataUltimaVisitaBase != undefined && json[i].getDataUltimaRicetta == undefined){
+                                                let visita = new Date(json[i].dataUltimaVisitaBase)
+                                                visita=visita.toLocaleDateString("it-IT",options)
+                                                let nascita = new Date(json[i].paziente.dataNascita)
+                                                nascita = nascita.toLocaleDateString("it-IT")
                                                 return_data.push({
                                                     'nome': json[i].paziente.nome,
                                                     'cognome': json[i].paziente.cognome,
-                                                    'dataNascita': json[i].paziente.dataNascita,
+                                                    'dataNascita': nascita,
                                                     'luogoNascita': json[i].paziente.luogoNascita,
                                                     'codiceFiscale': json[i].paziente.codiceFiscale,
                                                     'sesso': json[i].paziente.sesso,
                                                     'email': json[i].paziente.email,
-                                                    'dataUltimaVisitaBase': json[i].dataUltimaVisitaBase,
+                                                    'dataUltimaVisitaBase':  visita,
                                                     'getDataUltimaRicetta': "",
                                                 })
                                             }
                                             if (json[i].dataUltimaVisitaBase == undefined && json[i].getDataUltimaRicetta == undefined){
+                                                let nascita = new Date(json[i].paziente.dataNascita)
+                                                nascita = nascita.toLocaleDateString("it-IT")
                                                 return_data.push({
                                                     'nome': json[i].paziente.nome,
                                                     'cognome': json[i].paziente.cognome,
-                                                    'dataNascita': json[i].paziente.dataNascita,
+                                                    'dataNascita': nascita,
                                                     'luogoNascita': json[i].paziente.luogoNascita,
                                                     'codiceFiscale': json[i].paziente.codiceFiscale,
                                                     'sesso': json[i].paziente.sesso,
@@ -620,7 +637,7 @@
                         { "data": "codiceFiscale" },
                         { "data": "sesso" },
                         { "data": "email" },
-                        { "data": "dataUltimaVisitaBase" },
+                        { "data": "dataUltimaVisitaBase"},
                         { "data": "getDataUltimaRicetta" }
                     ]
                 } );
