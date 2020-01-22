@@ -27,6 +27,7 @@ footer{
     font-size: 1vmax;
     border-style: groove;
     border-width: 1pt;
-    line-height: 40pt
+    line-height: 40pt;
+    text-align: center;
 
 }

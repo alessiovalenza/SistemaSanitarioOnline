@@ -56,10 +56,10 @@
         <div class="container-fluid">
             <div class="row" style="background-color:#1e88e5;color: white;">
                 <div class="col-md-12" style="text-align: center;">
-                    <h3 style="text-shadow: 1px 1px black; padding-top: 2%;padding-bottom: 2%;font-family: 'Roboto','Poppins', sans-serif;">
+                    <h4 style="text-shadow: 1px 1px black; padding-top: 2%;padding-bottom: 2%;font-family: 'Roboto','Poppins', sans-serif;">
                         Da qui
                         potrai usufruire di tutti i servizi
-                        disponibili a tutti gli utenti.</h3>
+                        disponibili a tutti gli utenti.</h4>
                 </div>
             </div>
         </div>
@@ -70,39 +70,39 @@
 
 
                     <div style="background-color: transparent;padding-bottom: 2%">
-                        <h3 class="card" style=" text-shadow: 1px 1px black; background-color:
+                        <h5 class="card" style=" text-shadow: 1px 1px black; background-color:
                             transparent; ">
                             Per chi
-                        </h3>
+                        </h5>
                     </div>
 
-                    <h5>Medici</h5>
+                    <h6>Medici</h6>
 
-                    <h5>Pazienti</h5>
+                    <h6>Pazienti</h6>
 
-                    <h5>
+                    <h6>
                         Farmacie
-                    </h5>
+                    </h6>
 
-                    <h5>Servizio Sanitario Nazionale/Provinciale</h5>
+                    <h6>Servizio Sanitario Nazionale/Provinciale</h6>
                     </fmt>
 
                 </div>
                 <div class="col-md-6" style="text-align: center;">
 
                     <div style="background-color: transparent;padding-bottom: 2%;">
-                        <h3 class="card" style="text-shadow: 1px 1px black; background-color: transparent; ">
+                        <h5 class="card" style="text-shadow: 1px 1px black; background-color: transparent; ">
                             Cosa si puo fare
-                        </h3>
+                        </h5>
                     </div>
 
-                    <h5>Prenotare Appuntamenti</h5>
+                    <h6>Prenotare Appuntamenti</h6>
 
-                    <h5>Richiedere farmaci</h5>
+                    <h6>Richiedere farmaci</h6>
 
-                    <h5>Ananmnesi</h5>
+                    <h6>Ananmnesi</h6>
 
-                    <h5>Resoconto economico</h5>
+                    <h6>Resoconto economico</h6>
 
 
 
