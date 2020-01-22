@@ -14,6 +14,8 @@
           <element id="module-output" name="SSO" />
         </element>
         <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: jstl:jstl:1.2" />
+          <element id="library" level="project" name="Maven: taglibs:standard:1.1.2" />
           <element id="library" level="project" name="Maven: com.sun.mail:javax.mail:1.6.2" />
           <element id="library" level="project" name="Maven: javax.activation:activation:1.1" />
           <element id="library" level="project" name="Maven: org.glassfish.jersey.containers:jersey-container-servlet:2.29.1" />

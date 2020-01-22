@@ -10,6 +10,7 @@ import it.unitn.disi.wp.progetto.persistence.entities.*;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.io.File;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -27,15 +28,10 @@ public class Utilities {
     public final static String MEDICO_SPECIALISTA_RUOLO = "ms";
     public final static String SSN_RUOLO = "ssn";
     public final static String SSP_RUOLO = "ssp";
+    public final static Response EMPTY_RESPONSE = Response.status(204).build();
+    public final static Response CREATED_RESPONSE = Response.status(201).build();
 
-    public final static Response daoFactoryErrorResponse = Response.status(500,"Impossible to get dao interface for storage system").build();
-    public final static Response daoErrorResponse = Response.status(500,"Impossible to get/update requested data from storage system").build();
-    public final static Response ioErrorResponse = Response.status(500, "an I/O error has occurred.").build();
-    public final static Response badRequestResponse = Response.status(400,"bad request").build();
-    public final static Response notFoundResponse = Response.status(404,"Not found").build();
-    public final static Response requestForbiddenResponse = Response.status(403).build();
-    public final static Response noContentResponse = Response.status(204).build();
-    public final static Response createdResponse = Response.status(201).build();
+    public final static String WEBAPP_REL_DIR = File.separator + "src" + File.separator + "main" + File.separator + "webapp" + File.separator;
 
     public final static String USER_IMAGE_EXT_REGEX = "(.*/)*.+\\.(jpg|jpeg)$";
     public final static String USER_IMAGE_EXT = "jpeg";

@@ -333,7 +333,7 @@ public class PazienteApi extends Api {
             if(esamePrescritto != null && esamePrescritto.getPaziente().getId() == idPaziente) {
                 esamePrescrittoDAO.erogaEsamePrescritto(idEsamePrescr, new Timestamp(System.currentTimeMillis()), esito);
                 Utilities.sendEmailRisultatoEsame(esamePrescritto);
-                res = noContentResponse;
+                res = EMPTY_RESPONSE;
             }
             else {
                 if(esamePrescritto == null) {
@@ -376,7 +376,7 @@ public class PazienteApi extends Api {
 
                 if(ricetta != null && ricetta.getPaziente().getId() == idPaziente) {
                     ricettaDAO.evadiRicetta(idRicetta, idFarmacia, new Timestamp(System.currentTimeMillis()));
-                    res = noContentResponse;
+                    res = EMPTY_RESPONSE;
                 }
                 else {
                     if(ricetta == null) {
@@ -424,7 +424,7 @@ public class PazienteApi extends Api {
                 EsamePrescrittoDAO esamePrescrittoDAO = daoFactory.getDAO(EsamePrescrittoDAO.class);
                 List<Utente> richiamati = esamePrescrittoDAO.richiamoRangeEta(infEta, supEta, idProvincia, idEsame, new Timestamp(System.currentTimeMillis()));
 
-                res = createdResponse;
+                res = CREATED_RESPONSE;
                 Utilities.sendEmailRichiamo(idProvincia, idEsame, richiamati, daoFactory);
             } catch (DAOFactoryException e) {
                 throw new ApiException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
@@ -461,7 +461,7 @@ public class PazienteApi extends Api {
             try {
                 EsamePrescrittoDAO esamePrescrittoDAO = daoFactory.getDAO(EsamePrescrittoDAO.class);
                 List<Utente> richiamati = esamePrescrittoDAO.richiamoSuccessivoMinEta(infEta, idProvincia, idEsame, new Timestamp(System.currentTimeMillis()));
-                res = createdResponse;
+                res = CREATED_RESPONSE;
 
                 Utilities.sendEmailRichiamo(idProvincia, idEsame, richiamati, daoFactory);
             } catch (DAOFactoryException e) {
@@ -502,7 +502,7 @@ public class PazienteApi extends Api {
                 if (visitaMedicoSpecialista != null && visitaMedicoSpecialista.getPaziente().getId() == idPaziente) {
                     visitaMedicoSpecialistaDAO.erogaVisitaSpecialistica(idVisitaSpec, new Timestamp(System.currentTimeMillis()), anamnesi, idMedicoSpec);
                     Utilities.sendEmailRisultatoVisita(visitaMedicoSpecialista);
-                    res = noContentResponse;
+                    res = EMPTY_RESPONSE;
                 }
                 else {
                     if(visitaMedicoSpecialista == null) {
@@ -555,7 +555,7 @@ public class PazienteApi extends Api {
                     esamePrescrittoDao.creaEsamePrescritto(idEsame, idMedicoBase, idPaziente, new Timestamp(System.currentTimeMillis()));
 
                     Utilities.sendEmailPrescrizioneEsame(idEsame, paziente, daoFactory);
-                    res = createdResponse;
+                    res = CREATED_RESPONSE;
                 }
                 else {
                     throw new ApiException(HttpServletResponse.SC_NOT_FOUND, "Paziente with such an id not found");
@@ -601,7 +601,7 @@ public class PazienteApi extends Api {
                     RicettaDAO ricettaDAO = daoFactory.getDAO(RicettaDAO.class);
                     ricettaDAO.createRicetta(idFarmaco, idMedicoBase, idPaziente, new Timestamp(System.currentTimeMillis()));
                     Utilities.sendEmailPrescrizioneRicetta(idFarmaco, paziente, daoFactory);
-                    res = createdResponse;
+                    res = CREATED_RESPONSE;
                 }
                 else {
                     throw new ApiException(HttpServletResponse.SC_NOT_FOUND, "Paziente with such an id not found");
@@ -645,7 +645,7 @@ public class PazienteApi extends Api {
                 if(paziente != null) {
                     VisitaMedicoBaseDAO visitaMedicoBaseDAO = daoFactory.getDAO(VisitaMedicoBaseDAO.class);
                     visitaMedicoBaseDAO.creaVisitaMedicoBase(idMedicoBase, idPaziente, new Timestamp(System.currentTimeMillis()), anamnesi);
-                    res = createdResponse;
+                    res = CREATED_RESPONSE;
                 }
                 else {
                     throw new ApiException(HttpServletResponse.SC_NOT_FOUND, "Paziente with such an id not found");
@@ -691,7 +691,7 @@ public class PazienteApi extends Api {
                     visitaMedicoSpecialistaDAO.creaVisitaSpecilistica(idMedicoBase, idPaziente, idVisita, new Timestamp(System.currentTimeMillis()));
 
                     Utilities.sendEmailPrescrizioneVisitaSpec(idVisita, paziente, daoFactory);
-                    res = createdResponse;
+                    res = CREATED_RESPONSE;
                 }
                 else {
                     throw new ApiException(HttpServletResponse.SC_NOT_FOUND, "Paziente with such an id not found");

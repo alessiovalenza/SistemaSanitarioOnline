@@ -1,4 +1,12 @@
+<%@ page import="java.io.File" %>
+<%@ page import="it.unitn.disi.wp.progetto.commons.Utilities" %>
+<%@ page import="jdk.jshell.execution.Util" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html>
 
@@ -1095,7 +1103,6 @@
 </div>
 <script>
     function appendImages() {
-
         for (var i=1; i<4; i++){
             var img=document.createElement("img");
             var slide=document.createElement("div");
@@ -1105,7 +1112,8 @@
             }else{
                 slide.className="carousel-item"
             }
-            img.src="../foto/1/"+ i +".jpeg";
+            img.src="..<%=File.separator + Utilities.USER_IMAGES_FOLDER + File.separator%>${sessionScope.utente.id}<%=File.separator%>" + i + ".<%=Utilities.USER_IMAGE_EXT%>";
+            console.log(img.src);
             img.style="width:100%;";
             console.log(img);
             document.body.appendChild(slide);
