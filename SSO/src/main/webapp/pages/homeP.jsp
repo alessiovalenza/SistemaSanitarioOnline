@@ -304,7 +304,7 @@
                 }else{
                     slide.className="carousel-item"
                 }
-                img.src="../foto/1/"+ i +".jpeg";
+                img.src="../../${sessionScope.utente.id}/"+ i +".jpeg";
                 img.style="width:100%;";
                 console.log(img);
                 document.body.appendChild(slide);
@@ -454,7 +454,53 @@
                     </div>
                 </div>
                 <div class="card-body">
+                    <div style="clear: both">
+                        <form action="#" id="formUpload" method="POST" role="form" enctype="multipart/form-data">
+                            <div>
+                            <input style="float: left; height: 35pt" class="btn btn-primary" type="file" name="foto" id="foto" onchange="return fileValidation()"/>
+                            <button style="float:right; height: 35pt; background: grey; " class="btn btn-primary" type="submit" id="Button" disabled> Aggiungi Immagine </button>
+                            </div>
+                        </form>
+                        <script>
+                            function fileValidation(){
+                                var fileInput = document.getElementById('foto');
+                                var filePath = fileInput.value;
+                                var allowedExtensions = /(\.jpg|\.jpeg)$/i;
+                                if(!allowedExtensions.exec(filePath)){
+                                    alert('Please upload file having extensions .jpeg/.jpg only.');
+                                    fileInput.value = null;
+                                    return false;
+                                } else {
+                                    document.getElementById("Button").disabled = false;
+                                    document.getElementById("Button").style.background = "#007bff";
+                                }
+                            }
+
+                            $(document).ready(function() {
+                                $("#formUpload").submit(function(e){
+                                    e.preventDefault();
+                                    var formData = new FormData($("#formUpload")[0]);
+
+                                    $.ajax({
+                                        url : '${pageContext.request.contextPath}/api/utenti/${sessionScope.utente.id}/foto',
+                                        type : 'POST',
+                                        data : formData,
+                                        contentType : false,
+                                        processData : false,
+                                        success: function(resp) {
+                                            alert("Immagine aggiunta con successo!");
+                                            document.getElementById('foto').value = null;
+                                            document.getElementById("Button").disabled = true;
+                                            document.getElementById("Button").style.background = "grey";
+                                        }
+                                    });
+                                });
+                            });
+                        </script>
+                    </div>
+
                     <div style="clear: both; padding-top: 0.5rem">
+                        <hr>
                         <h5 style="float: left">Nome:  </h5>
                         <h5 align="right">${sessionScope.utente.nome}</h5>
                     </div>
@@ -480,48 +526,7 @@
                         <h5 align="right">${sessionScope.utente.dataNascita}</h5>
                     </div>
                     <hr>
-                    <div style="clear: both">
-                        <h5 style="float: left"> Aggiungi immagine: </h5>
-                        <form action="#" id="formUpload" method="POST" role="form" enctype="multipart/form-data">
-                            <input class="btn btn-primary" type="file" name="foto" id="foto" onchange="return fileValidation()"/><br><br>
-                            <button class="btn btn-primary" type="submit" id="Button" disabled>Submit </button>
-                        </form>
-                        </div>
-                        <script>
-                            function fileValidation(){
-                                var fileInput = document.getElementById('foto');
-                                var filePath = fileInput.value;
-                                var allowedExtensions = /(\.jpg|\.jpeg)$/i;
-                                if(!allowedExtensions.exec(filePath)){
-                                    alert('Please upload file having extensions .jpeg/.jpg only.');
-                                    fileInput.value = null;
-                                    return false;
-                                } else {
-                                    document.getElementById("Button").disabled = false;
-                                }
-                            }
-
-                            $(document).ready(function() {
-                                $("#formUpload").submit(function(e){
-                                    e.preventDefault();
-                                    var formData = new FormData($("#formUpload")[0]);
-
-                                    $.ajax({
-                                        url : '${pageContext.request.contextPath}/api/utenti/${sessionScope.utente.id}/foto',
-                                        type : 'POST',
-                                        data : formData,
-                                        contentType : false,
-                                        processData : false,
-                                        success: function(resp) {
-                                            alert("Immagine aggiunta con successo!");
-                                        }
-                                    });
-                                });
-                            });
-                        </script>
-                    </div>
-                    <hr>
-                    <button href="#" class="btn btn-primary">Go somewhere</button>
+                    <button style="align: right" href="#" class="btn btn-primary">Go somewhere</button>
                 </div>
             </div>
         </div>
