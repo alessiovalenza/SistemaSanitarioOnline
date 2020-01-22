@@ -1102,17 +1102,17 @@
     </div>
 </div>
 <script>
-    function appendImages() {
-        for (var i=1; i<4; i++){
+    function appendImages(imagesIDs) {
+        for (let i=0; i < imagesIDs.length; i++){
             var img=document.createElement("img");
             var slide=document.createElement("div");
-            slide.id = i
-            if (i == 1) {
+            slide.id = i;
+            if (i == 0) {
                 slide.className="carousel-item active"
             }else{
                 slide.className="carousel-item"
             }
-            img.src="..<%=File.separator + Utilities.USER_IMAGES_FOLDER + File.separator%>${sessionScope.utente.id}<%=File.separator%>" + i + ".<%=Utilities.USER_IMAGE_EXT%>";
+            img.src="..<%=File.separator + Utilities.USER_IMAGES_FOLDER + File.separator%>${sessionScope.utente.id}<%=File.separator%>" + imagesIDs[i] + ".<%=Utilities.USER_IMAGE_EXT%>";
             console.log(img.src);
             img.style="width:100%;";
             console.log(img);
@@ -1125,7 +1125,6 @@
     }
 </script>
 
-<script>appendImages()</script>
 <script type="text/javascript">
     $(document).ready(function () {
 
@@ -1142,6 +1141,23 @@
                $('.collapse.in').toggleClass('in');
                $('a[aria-expanded=true]').attr('aria-expanded', 'false');
            }); */
+
+        let urlFotoUtente = "http://localhost:8080/SSO_war_exploded/api/utenti/${sessionScope.utente.id}/foto";
+
+        $.ajax({
+            url : urlFotoUtente,
+            type: "GET",
+            success: function (data) {
+                imagesIDs = [];
+                for(let i = 0; i < data.length; i++) {
+                    imagesIDs[i] = data[i].id;
+                }
+                appendImages(imagesIDs);
+            },
+            error: function(xhr, status, error) {
+                alert(xhr.responseText);
+            }
+        });
     });
 </script>
 <!-- jQuery CDN - Slim version (=without AJAX) -->
