@@ -66,22 +66,40 @@ public class Utilities {
             }
         });
 
-        for(Email email : emails) {
-            String destinatario = email.getRecipient();
-            String subject = email.getSubject();
-            String text = email.getText();
+        try {
+            Transport transport = session.getTransport("smtp");
 
-            Message msg = new MimeMessage(session);
-            try {
-                msg.setFrom(new InternetAddress(username));
-                msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(destinatario, false));
-                msg.setSubject(subject);
-                msg.setText(text);
-                msg.setSentDate(new Date());
-                Transport.send(msg);
-            } catch (MessagingException me) {
-                me.printStackTrace(System.err);
+            transport.connect(host, username, password);
+
+            final int MAX_EMAIL = 50;
+            for(int i = 0; i < emails.size() && i < MAX_EMAIL; i++) {
+                Email email = emails.get(i);
+
+                String destinatario = email.getRecipient();
+                String subject = email.getSubject();
+                String text = email.getText();
+
+                Message msg = new MimeMessage(session);
+
+                try {
+                    InternetAddress [] addressRecipient = InternetAddress.parse(destinatario, false);
+                    msg.setFrom(new InternetAddress(username));
+                    msg.setRecipients(Message.RecipientType.TO, addressRecipient);
+                    msg.setSubject(subject);
+                    msg.setText(text);
+                    msg.setSentDate(new Date());
+                    msg.saveChanges();
+
+                    transport.sendMessage(msg, addressRecipient);
+                } catch (MessagingException me) {
+                    me.printStackTrace();
+                }
             }
+            transport.close();
+        } catch (NoSuchProviderException e) {
+            e.printStackTrace();
+        } catch (MessagingException e) {
+            e.printStackTrace();
         }
     }
 
