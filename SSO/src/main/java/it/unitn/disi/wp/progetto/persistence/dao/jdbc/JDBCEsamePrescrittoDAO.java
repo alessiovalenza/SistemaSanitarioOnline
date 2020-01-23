@@ -205,7 +205,7 @@ public class JDBCEsamePrescrittoDAO extends JDBCDAO<EsamePrescritto, Long> imple
         }
         try (PreparedStatement stm = CON.prepareStatement("SELECT * FROM esame_prescritto ep " +
                 "JOIN esame e ON ep.esame = e.id " +
-                "JOIN utente m ON ep.medicobase = m.id " +
+                "LEFT JOIN utente m ON ep.medicobase = m.id " +
                 "JOIN utente p ON ep.paziente = p.id " +
                 "WHERE ep.id = ? ")) {
             stm.setLong(1, primaryKey);
@@ -231,7 +231,7 @@ public class JDBCEsamePrescrittoDAO extends JDBCDAO<EsamePrescritto, Long> imple
 
         try (PreparedStatement stm = CON.prepareStatement("SELECT * FROM esame_prescritto ep " +
                 "JOIN esame e ON ep.esame = e.id " +
-                "JOIN utente m ON ep.medicobase = m.id " +
+                "LEFT JOIN utente m ON ep.medicobase = m.id " +
                 "JOIN utente p ON ep.paziente = p.id " +
                 "ORDER BY ep.prescrizione")) {
 

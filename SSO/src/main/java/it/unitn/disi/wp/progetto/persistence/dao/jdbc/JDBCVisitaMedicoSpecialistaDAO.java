@@ -127,7 +127,7 @@ public class JDBCVisitaMedicoSpecialistaDAO extends JDBCDAO<VisitaMedicoSpeciali
             throw new DAOException("primaryKey is null");
         }
         try (PreparedStatement stm = CON.prepareStatement("SELECT * FROM visita_specialista v " +
-                "JOIN utente ms ON v.medicospecialista = ms.id " +
+                "LEFT JOIN utente ms ON v.medicospecialista = ms.id " +
                 "JOIN utente m ON v.medicobase = m.id " +
                 "JOIN utente p ON v.paziente = p.id " +
                 "JOIN visita va ON v.visita = va.id " +
@@ -154,7 +154,7 @@ public class JDBCVisitaMedicoSpecialistaDAO extends JDBCDAO<VisitaMedicoSpeciali
         List<VisitaMedicoSpecialista> visite = new ArrayList<>();
 
         try (PreparedStatement stm = CON.prepareStatement("SELECT * FROM visita_specialista v " +
-                "JOIN utente ms ON v.medicospecialista = ms.id " +
+                "LEFT JOIN utente ms ON v.medicospecialista = ms.id " +
                 "JOIN utente m ON v.medicobase = m.id " +
                 "JOIN utente p ON v.paziente = p.id " +
                 "JOIN visita va ON v.visita = va.id " +
