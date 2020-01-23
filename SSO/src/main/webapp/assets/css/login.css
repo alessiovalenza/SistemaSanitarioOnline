@@ -6,7 +6,8 @@ html {
 }
 
 body {
-  font-family: "Poppins", sans-serif;
+  /*font-family: "Poppins", sans-serif;*/
+  font-family: 'Roboto','Poppins', sans-serif;
   height: 100vh;
 }
 
