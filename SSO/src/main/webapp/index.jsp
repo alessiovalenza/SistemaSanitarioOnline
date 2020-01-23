@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Servizio Sanitario</title>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/styles.css">
@@ -24,7 +25,7 @@
 <div id="holder">
     <header>
         <nav class="navbar-expand-md sticky-top "
-             style="background-color: #1e88e5;padding: 11px;border-style: groove; border-width: 1pt; border-color:lightgray">
+             style="background-color: #1565c0;padding: 11px;border-style: groove; border-width: 0pt; border-color:lightgray">
             <div class="container-fluid"><img src="assets/img/logoebbasta.png"
                                               style="height: 42px;padding: 0px;margin: 0px;">
                 <a class="navbar-brand" href="index.jsp"
@@ -48,7 +49,7 @@
                     <fmt message>Benvenuto sul sistema universale <br> per il servizio Sanitario</fmt>
                 </p>
                 <div> <a href="LoginServlet"><button type="button" class="btn btn-primary"
-                                                   style="box-shadow: 1pt 1pt black;font-size:2vw ; width: 30%;">Login</button></a>
+                                                   style="box-shadow: 1pt 1pt black;font-size:2vw ; width: 30%;background-color:#1e88e5">Login</button></a>
                 </div>
             </div>
         </div>
@@ -56,53 +57,55 @@
         <div class="container-fluid">
             <div class="row" style="background-color:#1e88e5;color: white;">
                 <div class="col-md-12" style="text-align: center;">
-                    <h3 style="text-shadow: 1px 1px black; padding-top: 2%;padding-bottom: 2%;font-family: 'Roboto','Poppins', sans-serif;">
+                    <h4 style="text-shadow: 1px 1px black; padding-top: 2%;padding-bottom: 2%;font-family: 'Roboto','Poppins', sans-serif;">
                         Da qui
                         potrai usufruire di tutti i servizi
-                        disponibili a tutti gli utenti.</h3>
+                        disponibili a tutti gli utenti.</h4>
                 </div>
             </div>
         </div>
 
         <div class="container-fluid">
             <div class="row" style="background-color:#1e88e5;color: white;padding-bottom: 5%;">
-                <div class="col-md-6" style="text-align: center;">
+                <div class="col-md-6" style="text-align: center;text-shadow: 1px 1px black;">
 
 
                     <div style="background-color: transparent;padding-bottom: 2%">
-                        <h3 class="card" style=" text-shadow: 1px 1px black; background-color:
+                        <h5 class="" style=" text-shadow: 1px 1px black; background-color:
                             transparent; ">
                             Per chi
-                        </h3>
+                        </h5>
                     </div>
 
-                    <h5>Medici</h5>
+                    <h6>Medici</h6>
 
-                    <h5>Pazienti</h5>
+                    <h6>Pazienti</h6>
 
-                    <h5>
+                    <h6>
                         Farmacie
-                    </h5>
+                    </h6>
 
-                    <h5>Servizio Sanitario Nazionale/Provinciale</h5>
+                    <h6>Servizio Sanitario Nazionale/Provinciale</h6>
                     </fmt>
 
                 </div>
-                <div class="col-md-6" style="text-align: center;">
+                <div class="col-md-6" style="text-align: center;text-shadow: 1px 1px black;">
 
                     <div style="background-color: transparent;padding-bottom: 2%;">
-                        <h3 class="card" style="text-shadow: 1px 1px black; background-color: transparent; ">
+                        <h5 class="" style="text-shadow: 1px 1px black; background-color: transparent; ">
                             Cosa si puo fare
-                        </h3>
+                        </h5>
                     </div>
 
-                    <h5>Prenotare Appuntamenti</h5>
 
-                    <h5>Richiedere farmaci</h5>
 
-                    <h5>Ananmnesi</h5>
+                    <h6>Prenotare Appuntamenti</h6>
 
-                    <h5>Resoconto economico</h5>
+                    <h6>Richiedere farmaci</h6>
+
+                    <h6>Ananmnesi</h6>
+
+                    <h6>Resoconto economico</h6>
 
 
 

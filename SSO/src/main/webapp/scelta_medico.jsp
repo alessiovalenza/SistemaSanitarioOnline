@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Scelta Medico</title>
+    <title>Home</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/styles.css">
@@ -18,7 +18,7 @@
 <div id="holder">
     <header>
         <nav class="navbar-expand-md sticky-top"
-             style="background-color: #1e88e5;padding: 11px;">
+             style="background-color: #1565c0;padding: 11px;">
             <div class="container-fluid"><img src="assets/img/logoebbasta.png"
                                               style="height: 42px;padding: 0px;margin: 0px;">
                 <a class="navbar-brand" href="index.jsp"
@@ -31,7 +31,7 @@
     <br>
     <div id="body">
         <div class="container-fluid" >
-            <div class="row">
+            <div class="row" style="color: #1e88e5">
                 <div class="col-md-6">
                     <a href="">
                         <div class="card">
