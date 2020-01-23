@@ -10,9 +10,8 @@ import static it.unitn.disi.wp.progetto.commons.Utilities.getCookieByName;
 
 @WebServlet(name = "LogoutServlet", urlPatterns = {"/logout"})
 public class LogoutServlet extends HttpServlet {
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-    }
+    String homeUrl = "/";
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession s = request.getSession(false);
@@ -28,5 +27,6 @@ public class LogoutServlet extends HttpServlet {
             System.out.println("cookie settato a null");
         }
         System.out.println("logged out");
+        response.sendRedirect(request.getContextPath() + homeUrl);
     }
 }

@@ -12,7 +12,6 @@ import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
 import javax.imageio.ImageIO;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.*;
@@ -90,8 +89,12 @@ public class UtenteApi extends Api {
                         }
                     }
 
-                    String path = context.getRealPath(File.separator + Utilities.USER_IMAGES_FOLDER + File.separator + idUtente + File.separator + maxFound + "." + Utilities.USER_IMAGE_EXT);
+                    String path = context.getRealPath(File.separator);
+                    path = new File(path).getParent();
+                    path = new File(path).getParent();
+                    path = path + Utilities.WEBAPP_REL_DIR + Utilities.USER_IMAGES_FOLDER + File.separator + idUtente + File.separator + maxFound + "." + Utilities.USER_IMAGE_EXT;
                     System.out.println(path);
+
                     try {
                         BufferedImage inFoto = ImageIO.read(fotoIS);
                         BufferedImage outFoto = new BufferedImage(Utilities.USER_IMAGES_WIDTH, Utilities.USER_IMAGES_HEIGHT, inFoto.getType());
@@ -100,7 +103,7 @@ public class UtenteApi extends Api {
                         g2d.dispose();
                         ImageIO.write(outFoto, Utilities.USER_IMAGE_EXT, new File(path));
                         fotoIS.close();
-                        res = createdResponse;
+                        res = CREATED_RESPONSE;
                     } catch (IOException e) {
                         fotoDAO.deleteFoto(maxFound);
                         throw new ApiException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
@@ -146,7 +149,7 @@ public class UtenteApi extends Api {
                 if (session != null) {
                     session.setAttribute("utente", utenteDAO.getByPrimaryKey(utente.getId()));
                 }
-                res = noContentResponse;
+                res = EMPTY_RESPONSE;
             }
             else {
                 throw new ApiException(HttpServletResponse.SC_NOT_FOUND, "Utente with such an id not found");
