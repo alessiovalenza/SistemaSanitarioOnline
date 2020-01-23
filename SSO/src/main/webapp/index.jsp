@@ -47,7 +47,7 @@
                         style="text-shadow: 1px 1px black;font-size: 2vw;">
                     <fmt message>Benvenuto sul sistema universale <br> per il servizio Sanitario</fmt>
                 </p>
-                <div> <a href="login.jsp"><button type="button" class="btn btn-primary"
+                <div> <a href="LoginServlet"><button type="button" class="btn btn-primary"
                                                    style="box-shadow: 1pt 1pt black;font-size:2vw ; width: 30%;">Login</button></a>
                 </div>
             </div>

@@ -11,5 +11,5 @@ public interface  VisitaMedicoSpecialistaDAO extends DAO<VisitaMedicoSpecialista
 
     public boolean creaVisitaSpecilistica(long medicoBase, long paziente, long visita, Timestamp prescrizione) throws DAOException;
     public boolean erogaVisitaSpecialistica(long id, Timestamp erogazione, String anamnesi, long medicoSpecialista) throws DAOException; //l'id è della visita specialistica
-    public List<VisitaMedicoSpecialista> getVisiteSpecByPaziente(long id, boolean soloErogate, boolean soloNonErogate) throws  DAOException; //l'id è del paziente
+    public List<VisitaMedicoSpecialista> getVisiteSpecByPaziente(long id, boolean soloErogate, boolean soloNonErogate, String suggestion) throws  DAOException; //l'id è del paziente
 }

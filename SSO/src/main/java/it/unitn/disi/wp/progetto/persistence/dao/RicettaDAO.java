@@ -11,7 +11,7 @@ import java.util.List;
 public interface  RicettaDAO extends DAO<Ricetta, Long> {
     public static final double PREZZO_TICKET = 3.0;
 
-    public List<Ricetta> getRicetteByPaziente(long id, boolean soloEvase, boolean soloNonEvase) throws DAOException;
+    public List<Ricetta> getRicetteByPaziente(long id, boolean soloEvase, boolean soloNonEvase, String suggestion) throws DAOException;
     public boolean createRicetta(long farmaco, long medicoBase, long paziente, Timestamp emissione) throws DAOException;
     public boolean evadiRicetta(long id, long farmacia, Timestamp evasione) throws DAOException; //l'id è della ricetta
     public List<ElemReportProv> reportProvinciale(String idProvincia) throws DAOException;

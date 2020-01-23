@@ -10,13 +10,12 @@ import it.unitn.disi.wp.progetto.persistence.entities.*;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.io.File;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.util.Date;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 import javax.servlet.http.*;
 import javax.ws.rs.core.Response;
 
@@ -27,15 +26,10 @@ public class Utilities {
     public final static String MEDICO_SPECIALISTA_RUOLO = "ms";
     public final static String SSN_RUOLO = "ssn";
     public final static String SSP_RUOLO = "ssp";
+    public final static Response EMPTY_RESPONSE = Response.status(204).build();
+    public final static Response CREATED_RESPONSE = Response.status(201).build();
 
-    public final static Response daoFactoryErrorResponse = Response.status(500,"Impossible to get dao interface for storage system").build();
-    public final static Response daoErrorResponse = Response.status(500,"Impossible to get/update requested data from storage system").build();
-    public final static Response ioErrorResponse = Response.status(500, "an I/O error has occurred.").build();
-    public final static Response badRequestResponse = Response.status(400,"bad request").build();
-    public final static Response notFoundResponse = Response.status(404,"Not found").build();
-    public final static Response requestForbiddenResponse = Response.status(403).build();
-    public final static Response noContentResponse = Response.status(204).build();
-    public final static Response createdResponse = Response.status(201).build();
+    public final static String WEBAPP_REL_DIR = File.separator + "src" + File.separator + "main" + File.separator + "webapp" + File.separator;
 
     public final static String USER_IMAGE_EXT_REGEX = "(.*/)*.+\\.(jpg|jpeg)$";
     public final static String USER_IMAGE_EXT = "jpeg";
@@ -49,7 +43,7 @@ public class Utilities {
     //salt per i token
     public final static long tokenSalt = 69696969;
 
-    public static void sendEmail(String Destinatario, String Subject, String Text) {
+    public static void sendEmail(List<Email> emails) {
         System.out.println("Sto per inviare una email");
         final String host = "smtp.gmail.com";
         final String port = "465";
@@ -71,16 +65,41 @@ public class Utilities {
                 return new PasswordAuthentication(username, password);
             }
         });
-        Message msg = new MimeMessage(session);
+
         try {
-            msg.setFrom(new InternetAddress(username));
-            msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(Destinatario, false));
-            msg.setSubject(Subject);
-            msg.setText(Text);
-            msg.setSentDate(new Date());
-            Transport.send(msg);
-        } catch (MessagingException me) {
-            me.printStackTrace(System.err);
+            Transport transport = session.getTransport("smtp");
+
+            transport.connect(host, username, password);
+
+            final int MAX_EMAIL = 50;
+            for(int i = 0; i < emails.size() && i < MAX_EMAIL; i++) {
+                Email email = emails.get(i);
+
+                String destinatario = email.getRecipient();
+                String subject = email.getSubject();
+                String text = email.getText();
+
+                Message msg = new MimeMessage(session);
+
+                try {
+                    InternetAddress [] addressRecipient = InternetAddress.parse(destinatario, false);
+                    msg.setFrom(new InternetAddress(username));
+                    msg.setRecipients(Message.RecipientType.TO, addressRecipient);
+                    msg.setSubject(subject);
+                    msg.setText(text);
+                    msg.setSentDate(new Date());
+                    msg.saveChanges();
+
+                    transport.sendMessage(msg, addressRecipient);
+                } catch (MessagingException me) {
+                    me.printStackTrace();
+                }
+            }
+            transport.close();
+        } catch (NoSuchProviderException e) {
+            e.printStackTrace();
+        } catch (MessagingException e) {
+            e.printStackTrace();
         }
     }
 
@@ -187,13 +206,17 @@ public class Utilities {
         EsameDAO esameDAO = daoFactory.getDAO(EsameDAO.class);
         Esame esame = esameDAO.getByPrimaryKey(idEsame);
 
+        ArrayList<Email> emails = new ArrayList();
         for(Utente utente: richiamati) {
             String body = "Gentile paziente " + utente.getNome() + " " + utente.getCognome() + ",\n" +
                     "con la presente comunicazione la informiamo che dovrà effettuare un richiamo per il seguente esame:\n" +
                     esame.getNome() + ".\n" +
                     "Disinti saluti";
-            Utilities.sendEmail(utente.getEmail(), "Richiamo SSP " + idProvincia, body);
+
+            emails.add(new Email(utente.getEmail(), "Richiamo SSP " + idProvincia, body));
         }
+
+        Utilities.sendEmail(emails);
     }
 
     public static void sendEmailPrescrizioneEsame(Long idEsame, Utente paziente, DAOFactory daoFactory) throws DAOFactoryException, DAOException {
@@ -204,7 +227,7 @@ public class Utilities {
                 "con la presente comunicazione la informiamo che il suo medico di base le ha prescritto il seguente esame:\n" +
                 esame.getNome() + ".\n" +
                 "Disinti saluti";
-        Utilities.sendEmail(paziente.getEmail(), "Prescrizione esame", body);
+        Utilities.sendEmail(Collections.singletonList(new Email(paziente.getEmail(), "Prescrizione esame", body)));
     }
 
     public static void sendEmailPrescrizioneVisitaSpec(Long idVisita, Utente paziente, DAOFactory daoFactory) throws DAOFactoryException, DAOException {
@@ -215,7 +238,7 @@ public class Utilities {
                 "con la presente comunicazione la informiamo che il suo medico di base le ha prescritto la seguente visita specialistica:\n" +
                 visita.getNome() + ".\n" +
                 "Disinti saluti";
-        Utilities.sendEmail(paziente.getEmail(), "Prescrizione visita specialistica", body);
+        Utilities.sendEmail(Collections.singletonList(new Email(paziente.getEmail(), "Prescrizione visita specialistica", body)));
     }
 
     public static void sendEmailPrescrizioneRicetta(Long idFarmaco, Utente paziente, DAOFactory daoFactory) throws DAOFactoryException, DAOException {
@@ -226,7 +249,7 @@ public class Utilities {
                 "con la presente comunicazione la informiamo che il suo medico di base le ha prescritto il seguente farmaco:\n" +
                 farmaco.getNome() + ".\n" +
                 "Disinti saluti";
-        Utilities.sendEmail(paziente.getEmail(), "Prescrizione ricetta", body);
+        Utilities.sendEmail(Collections.singletonList(new Email(paziente.getEmail(), "Prescrizione ricetta", body)));
     }
 
     public static void sendEmailRisultatoEsame(EsamePrescritto esamePrescritto) {
@@ -237,7 +260,7 @@ public class Utilities {
                 "con la presente comunicazione la informiamo che può ora visualizzare l'esito del seguente esame:\n" +
                 esame.getNome() + ".\n" +
                 "Disinti saluti";
-        Utilities.sendEmail(paziente.getEmail(), "Esito esame", body);
+        Utilities.sendEmail(Collections.singletonList(new Email(paziente.getEmail(), "Esito esame", body)));
     }
 
     public static void sendEmailRisultatoVisita(VisitaMedicoSpecialista visitaMedicoSpecialista){
@@ -248,6 +271,6 @@ public class Utilities {
                 "con la presente comunicazione la informiamo che può ora visualizzare il referto della seguente visita specialistica:\n" +
                 visita.getNome() + ".\n" +
                 "Disinti saluti";
-        Utilities.sendEmail(paziente.getEmail(), "Referto visita specialistica", body);
+        Utilities.sendEmail(Collections.singletonList(new Email(paziente.getEmail(), "Referto visita specialistica", body)));
     }
 }

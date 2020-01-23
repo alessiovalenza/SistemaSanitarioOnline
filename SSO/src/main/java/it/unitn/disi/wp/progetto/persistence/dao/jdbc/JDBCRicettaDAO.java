@@ -16,7 +16,7 @@ public class JDBCRicettaDAO extends JDBCDAO<Ricetta, Long> implements RicettaDAO
     }
 
     @Override
-    public List<Ricetta> getRicetteByPaziente(long id, boolean soloEvase, boolean soloNonEvase) throws DAOException {
+    public List<Ricetta> getRicetteByPaziente(long id, boolean soloEvase, boolean soloNonEvase, String suggestion) throws DAOException {
         if(soloEvase && soloNonEvase) {
             throw new DAOException("Non sense query");
         }
@@ -30,7 +30,7 @@ public class JDBCRicettaDAO extends JDBCDAO<Ricetta, Long> implements RicettaDAO
                 "JOIN utente m ON r.medicobase = m.id " +
                 "JOIN utente p ON r.paziente = p.id " +
                 "LEFT JOIN utente fc ON r.farmacia = fc.id " +
-                "WHERE r.paziente = ?";
+                "WHERE r.paziente = ? AND lower(fm.nome) LIKE lower(?)";
 
         String soloEvaseStm = " AND r.evasione IS NOT NULL";
 
@@ -48,6 +48,7 @@ public class JDBCRicettaDAO extends JDBCDAO<Ricetta, Long> implements RicettaDAO
 
         try (PreparedStatement stm = CON.prepareStatement(statement)){
             stm.setLong(1, id); // 1-based indexing
+            stm.setString(2, "%" + suggestion + "%"); // 1-based indexing
 
             try (ResultSet rs = stm.executeQuery()) {
 
