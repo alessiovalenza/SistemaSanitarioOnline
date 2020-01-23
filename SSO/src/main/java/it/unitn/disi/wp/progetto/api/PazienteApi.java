@@ -509,7 +509,7 @@ public class PazienteApi extends Api {
                 }
                 else {
                     if(visitaMedicoSpecialista == null) {
-                        throw new ApiException(HttpServletResponse.SC_NOT_FOUND, "Visita specialistica with such an id not found " + idVisitaSpec);
+                        throw new ApiException(HttpServletResponse.SC_NOT_FOUND, "Visita specialistica with such an id not found");
                     }
                     else { //visitaMedicoSpecialista.getPaziente().getId() != idPaziente
                         throw new ApiException(HttpServletResponse.SC_NOT_FOUND, "This visita specialistica is not of the specified paziente");
