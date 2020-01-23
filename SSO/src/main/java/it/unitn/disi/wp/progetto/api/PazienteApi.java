@@ -491,7 +491,7 @@ public class PazienteApi extends Api {
                                              @FormParam("anamnesi") String anamnesi,
                                              @FormParam("idmedicospec") Long idMedicoSpec) {
         if(anamnesi == null || idMedicoSpec == null) {
-            throw new ApiException(HttpServletResponse.SC_BAD_REQUEST, "You must provide the anamnesi and the id of the medico di base");
+            throw new ApiException(HttpServletResponse.SC_BAD_REQUEST, "You must provide the anamnesi and the id of the medico specialista");
         }
 
         Response res;
@@ -509,7 +509,7 @@ public class PazienteApi extends Api {
                 }
                 else {
                     if(visitaMedicoSpecialista == null) {
-                        throw new ApiException(HttpServletResponse.SC_NOT_FOUND, "Visita specialistica with such an id not found");
+                        throw new ApiException(HttpServletResponse.SC_NOT_FOUND, "Visita specialistica with such an id not found " + idVisitaSpec);
                     }
                     else { //visitaMedicoSpecialista.getPaziente().getId() != idPaziente
                         throw new ApiException(HttpServletResponse.SC_NOT_FOUND, "This visita specialistica is not of the specified paziente");
