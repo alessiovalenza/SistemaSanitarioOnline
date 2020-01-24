@@ -329,8 +329,7 @@
         <div class="sidebar-header">
             <img class="avatar" alt="Avatar" src="propic.jpeg"
                  data-holder-rendered="true">
-            <h3>${sessionScope.utente.nome} ${sessionScope.utente.cognome}</h3>
-            <h6>${sessionScope.utente.cognome}</h6>
+            <h4>${sessionScope.utente.nome} ${sessionScope.utente.cognome}</h4>
         </div>
 
         <ul class="list-unstyled components">
