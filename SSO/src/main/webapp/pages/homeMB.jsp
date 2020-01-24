@@ -71,10 +71,30 @@
         let labelAlertFoto = "Puoi caricare file solo con estensione .jpeg/.jpg";
 
         $(document).ready(function () {
-
-            $("#sidebar").mCustomScrollbar({
-                theme: "minimal"
+            $('#dismiss, .overlay').on('click', function () {
+                // hide sidebar
+                $('#sidebar').removeClass('active');
+                // hide overlay
+                $('.overlay').removeClass('active');
             });
+            $('.componentControl, .overlay').on('click', function () {
+                // hide sidebar
+                $('#sidebar').removeClass('active');
+                // hide overlay
+                $('.overlay').removeClass('active');
+            });
+
+            $('#sidebarCollapse').on('click', function () {
+                // open sidebar
+                $('#sidebar').addClass('active');
+                // fade in the overlay
+                $('.overlay').addClass('active');
+                $('.collapse.in').toggleClass('in');
+                $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+            });
+            // $("#sidebar").mCustomScrollbar({
+            //     theme: "minimal"
+            // });
 
             let basePath = "..<%=File.separator + Utilities.USER_IMAGES_FOLDER + File.separator%>${sessionScope.utente.id}<%=File.separator%>";
             let extension = ".<%=Utilities.USER_IMAGE_EXT%>";
@@ -738,11 +758,11 @@
             $('#prescEsameControl').click(() => showComponent("prescEsame"));
             $('#schedaPazControl').click(() => showComponent("schedaPaz"));
 
-            $("#sidebarCollapse").on("click", function () {
-                $("#sidebar, #content").toggleClass("active");
-                $(".collapse.in").toggleClass("in");
-                $("a[aria-expanded=true]").attr("aria-expanded", "false");
-            });
+            // $("#sidebarCollapse").on("click", function () {
+            //     $("#sidebar, #content").toggleClass("active");
+            //     $(".collapse.in").toggleClass("in");
+            //     $("a[aria-expanded=true]").attr("aria-expanded", "false");
+            // });
         });
     </script>
 </head>
@@ -751,6 +771,9 @@
     <div class="wrapper">
         <!-- Sidebar  -->
         <nav id="sidebar">
+            <div id="dismiss">
+                <i class="fas fa-arrow-left"></i>
+            </div>
             <div class="sidebar-header">
                 <img id="avatarImg" class="avatar" data-holder-rendered="true">
                 <br><br>
@@ -760,25 +783,25 @@
 
             <ul class="list-unstyled">
                 <li>
-                    <a href="#" id="profiloControl">Profilo</a>
+                    <a href="#" class="componentControl" id="profiloControl">Profilo</a>
                 </li>
                 <li>
-                    <a href="#" id="pazientiControl">Pazienti</a>
+                    <a href="#" class="componentControl" id="pazientiControl">Pazienti</a>
                 </li>
                 <li>
-                    <a href="#" id="schedaPazControl">Scheda Paziente</a>
+                    <a href="#" class="componentControl" id="schedaPazControl">Scheda Paziente</a>
                 </li>
                 <li>
-                    <a href="#" id="prescFarmacoControl">Prescrivi Farmaco</a>
+                    <a href="#"  class="componentControl" id="prescFarmacoControl">Prescrivi Farmaco</a>
                 </li>
                 <li>
-                    <a href="#" id="prescVisitaControl">Prescrivi Visita</a>
+                    <a href="#" class="componentControl" id="prescVisitaControl">Prescrivi Visita</a>
                 </li>
                 <li>
-                    <a href="#" id="prescEsameControl">Prescrivi Esame</a>
+                    <a href="#" class="componentControl" id="prescEsameControl">Prescrivi Esame</a>
                 </li>
                 <li>
-                    <a href="#" id="erogaVisitaControl">Eroga Visita</a>
+                    <a href="#" class="componentControl" id="erogaVisitaControl">Eroga Visita</a>
                 </li>
                 <li>
                     <a href="../logout">Log out</a>
@@ -1167,22 +1190,27 @@
                                                     <div class="container-fluid">
                                                         <label for="idmedicobaseFarmaco">Nome del paziente</label>
                                                         <select type="text" id="idmedicobaseFarmaco" name="idmedicobaseFarmaco" required="required"></select>
-                                                        <div class="spinner-border text-primary" role="status">
-                                                            <span class="sr-only">Loading...</span>
-                                                        </div>
+<%--                                                        <div class="spinner-border text-primary" role="status">--%>
+<%--                                                            <span class="sr-only">Loading...</span>--%>
+<%--                                                        </div>--%>
                                                     </div>
-                                                    <div class="container-fluid" style="padding-top: 1rem">
+                                                    <div class="container" style="padding-top: 1rem">
                                                         <label for="idfarmaco">Nome del farmaco</label>
                                                         <select type="text" id="idfarmaco" name="idfarmaco" required="required"></select>
-                                                        <div class="spinner-border text-primary" role="status">
-                                                            <span class="sr-only">Loading...</span>
-                                                        </div>
+<%--                                                        <div class="spinner-border text-primary" role="status">--%>
+<%--                                                            <span class="sr-only">Loading...</span>--%>
+<%--                                                        </div>--%>
                                                     </div>
                                                 </div>
-                                                <div class="form-group popup">
+                                                <div class="form-group popup container">
                                                     <button id ="btnPrescriviFarmaco" type="submit">Prescrivi</button>
+                                                    <div class="spinner-border text-primary" role="status">
+                                                        <span class="sr-only">Loading...</span>
+                                                    </div>
+                                                    <i class="fas fa-check"></i>
                                                     <span class="popuptext" id="prescriviFarmacoOK">Farmaco prescritto</span>
                                                 </div>
+
                                             </form>
                                         </div>
                                     </div>
@@ -1325,6 +1353,7 @@
                 </div>
             </div>
         </div>
+        <div class="overlay"></div>
     </div>
 </body>
 </html>

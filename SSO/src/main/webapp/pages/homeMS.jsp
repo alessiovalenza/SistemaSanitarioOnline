@@ -135,6 +135,9 @@
 <div class="wrapper">
     <!-- Sidebar  -->
     <nav id="sidebar">
+        <div id="dismiss">
+            <i class="fas fa-arrow-left"></i>
+        </div>
         <div class="sidebar-header">
             <img class="avatar" alt="Avatar" src="propic.jpeg"
                  data-holder-rendered="true">
@@ -144,10 +147,10 @@
 
         <ul class="list-unstyled components">
             <li>
-                <a href="#" id="profiloControl">Profilo</a>
+                <a href="#" class="componentControl" id="profiloControl">Profilo</a>
             </li>
             <li>
-                <a href="#" id="erogaVisitaSpecControl">Eroga visita</a>
+                <a href="#" class="componentControl" id="erogaVisitaSpecControl">Eroga visita</a>
             </li>
         </ul>
     </nav>
@@ -243,6 +246,7 @@
 
 
     </div>
+    <div class="overlay"></div>
 </div>
 
 <!-- jQuery CDN - Slim version (=without AJAX) -->
@@ -254,19 +258,39 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
-
-        $('#sidebar').on('hidden.bs.collapse', function() {
-            alert('dasd')
+        $('#dismiss, .overlay').on('click', function () {
+            // hide sidebar
+            $('#sidebar').removeClass('active');
+            // hide overlay
+            $('.overlay').removeClass('active');
         });
-        $("#sidebar").mCustomScrollbar({
-            theme: "minimal"
+        $('.componentControl, .overlay').on('click', function () {
+            // hide sidebar
+            $('#sidebar').removeClass('active');
+            // hide overlay
+            $('.overlay').removeClass('active');
         });
 
         $('#sidebarCollapse').on('click', function () {
-            $('#sidebar, #content').toggleClass('active');
+            // open sidebar
+            $('#sidebar').addClass('active');
+            // fade in the overlay
+            $('.overlay').addClass('active');
             $('.collapse.in').toggleClass('in');
             $('a[aria-expanded=true]').attr('aria-expanded', 'false');
         });
+        // $('#sidebar').on('hidden.bs.collapse', function() {
+        //     alert('dasd')
+        // });
+        // $("#sidebar").mCustomScrollbar({
+        //     theme: "minimal"
+        // });
+        //
+        // $('#sidebarCollapse').on('click', function () {
+        //     $('#sidebar, #content').toggleClass('active');
+        //     $('.collapse.in').toggleClass('in');
+        //     $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+        // });
     });
 </script>
 </body>

@@ -154,7 +154,7 @@
     <!-- Sidebar  -->
     <nav id="sidebar">
 <%--        da inserire anche css--%>
-        <div id="dismiss" href="">
+        <div id="dismiss">
             <i class="fas fa-arrow-left"></i>
         </div>
         <div class="sidebar-header">
@@ -256,7 +256,7 @@ show
                                             <div class="form-group">
                                                 <div class="container-fluid">
                                                     <label for="infetaRichiamo1">limite inferiore di età</label>
-                                                    <input type="number" id="infetaRichiamo1" name="infeta" required="required"></input>
+                                                    <input type="number" min="0" id="infetaRichiamo1" name="infeta" required="required"></input>
                                                     <div class="spinner-border text-primary" role="status">
                                                         <span class="sr-only">Loading...</span>
                                                     </div>
@@ -264,7 +264,7 @@ show
                                                 </div>
                                                 <div class="container-fluid" style="padding-top: 1rem">
                                                     <label for="supetaRichiamo1">limite superiore di età</label>
-                                                    <input type="number" id="supetaRichiamo1" name="supeta" required="required"></input>
+                                                    <input type="number" min="0" id="supetaRichiamo1" name="supeta" required="required"></input>
                                                     <div class="spinner-border text-primary" role="status">
                                                         <span class="sr-only">Loading...</span>
                                                     </div>
@@ -312,7 +312,7 @@ show
                                             <div class="form-group">
                                                 <div class="container-fluid">
                                                     <label for="infetaRichiamo2">limite inferiore di età</label>
-                                                    <input type="number" id="infetaRichiamo2" name="infeta" required="required"></input>
+                                                    <input type="number" min="0" id="infetaRichiamo2" name="infeta" required="required"></input>
                                                     <div class="spinner-border text-primary" role="status">
                                                         <span class="sr-only">Loading...</span>
                                                     </div>
