@@ -36,10 +36,12 @@ function hideComponents(){
 
 function manageNavbar() {
     if ($("#sidebarCollapse").is(':visible')){
-        $('.componentControl').on('click.hideNavbar', function () {
-            $('#sidebar, #content').toggleClass('active');
-            $('.collapse.in').toggleClass('in');
-            $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+        $('.componentControl','.overlay').on('click.hideNavbar', function () {
+            // hide sidebar
+            //$('#sidebar').removeClass('active');
+            // hide overlay
+           // $('.overlay').removeClass('active');
+            $( "#dismiss, .overlay" ).click() ;
         });
     }else{
             $(".componentControl").off("click.hideNavbar");
