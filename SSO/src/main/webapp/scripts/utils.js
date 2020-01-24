@@ -36,6 +36,7 @@ function hideComponents(){
 
 /*
  * inizializza la select2 per la suggestion box <idSelect> dei pazienti del medico di base <idMedico>
+ * <idSelect> deve iniziare con #
  */
 function initSelect2PazientiByMB(idSelect, idMedico, langCode, labelCerca) {
     $(idSelect).select2({
@@ -75,6 +76,7 @@ function initSelect2PazientiByMB(idSelect, idMedico, langCode, labelCerca) {
 
 /*
  * inizializza la select2 per la suggestion box <idSelect> dei elementi <tipoItem> (farmaci, esami, visite)
+ * <idSelect> deve iniziare con #
  */
 function initSelect2General(tipoItem, idSelect, langCode, labelCerca) {
     $(idSelect).select2({
@@ -113,21 +115,30 @@ function initSelect2General(tipoItem, idSelect, langCode, labelCerca) {
 }
 
 function appendImages(imagesIDs, carouselId, basePath, extension) {
+    document.getElementById(carouselId).innerHTML = "";
+
     for (let i=0; i < imagesIDs.length; i++){
-        let img=document.createElement("img");
-        let slide=document.createElement("div");
-        slide.id = String(i);
+        let idImg = String(i) + "_" + carouselId+ "_img";
+        let idSlide = String(i) + "_" + carouselId+ "_slide";
+
+        let img= document.getElementById(idImg) === null ? document.createElement("img"): document.getElementById(idImg);
+        let slide= document.getElementById(idSlide) === null ? document.createElement("slide"): document.getElementById(idSlide);
+
+        img.id = idImg;
+        slide.id = idSlide;
+
         if (i === 0) {
             slide.className="carousel-item active"
         }else{
             slide.className="carousel-item"
         }
+
         img.src = basePath + imagesIDs[i] + extension;
         //console.log(img.src);
         img.style.width="100%";
         //console.log(img);
         document.body.appendChild(slide);
-        document.getElementById(String(i)).appendChild(img);
+        document.getElementById(slide.id).appendChild(img);
         //console.log(slide.id);
         document.getElementById(carouselId).appendChild(slide);
         //console.log("fatta slide");
@@ -149,5 +160,67 @@ function initCarousel(idUtente, carouselId, basePath, extension) {
         error: function(xhr, status, error) {
             alert(xhr.responseText);
         }
+    });
+}
+
+function initAvatar(idUtente, avatarId, basePath, extension) {
+    let urlFotoUtente = "http://localhost:8080/SSO_war_exploded/api/utenti/" + idUtente + "/foto";
+    $.ajax({
+        url : urlFotoUtente,
+        type: "GET",
+        success: function (data) {
+            let maxI = -1;
+            let maxDate = new Date("1970/1/1").getTime();
+
+            for(let i = 0; i < data.length; i++) {
+                let tempTime = (new Date(data[i].caricamento)).getTime();
+                if(tempTime > maxDate) {
+                    maxDate = tempTime;
+                    maxI = i;
+                }
+            }
+            let img = document.getElementById(avatarId);
+            img.src = basePath + data[maxI].id + extension;
+        },
+        error: function(xhr, status, error) {
+            alert(xhr.responseText);
+        }
+    });
+}
+
+function fileValidation(fotoId, buttonId, labelEstensioneAlert){
+    let fileInput = document.getElementById(fotoId);
+    console.log(fotoId);
+    let filePath = fileInput.value;
+    console.log(filePath);
+    const allowedExtensions = /(\.jpg|\.jpeg)$/i;
+    if(!allowedExtensions.exec(filePath)){
+        alert(labelEstensioneAlert);
+        fileInput.value = null;
+        return false;
+    } else {
+        document.getElementById(buttonId).disabled = false;
+    }
+}
+
+function initUploadFoto(formId, idUtente, popupId) {
+    $(formId).submit(function(e){
+        e.preventDefault();
+        var formData = new FormData($(formId)[0]);
+        console.log(formData);
+        console.log("http://localhost:8080/SSO_war_exploded/api/utenti/" + idUtente + "/foto");
+        $.ajax({
+            url : "/SSO_war_exploded/api/utenti/" + idUtente + "/foto",
+            type : 'POST',
+            data : formData,
+            contentType : false,
+            processData : false,
+            success: function() {
+                alert("Immagine aggiunta con successo!");
+            },
+            error: function(xhr, status, error) {
+                alert(xhr.responseText);
+            }
+        });
     });
 }

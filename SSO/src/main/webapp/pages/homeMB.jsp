@@ -68,6 +68,8 @@
 
     <script type="text/javascript">
         let components = new Set();
+        let labelAlertFoto = "Puoi caricare file solo con estensione .jpeg/.jpg";
+
         $(document).ready(function () {
 
             $("#sidebar").mCustomScrollbar({
@@ -133,6 +135,8 @@
             let labelCercaVisite = "Cerca visite";
 
             initSelect2General("visite", "#idvisita", langSelect2, labelCercaVisite);
+
+            initUploadFoto("#formUploadFoto", ${sessionScope.utente.id}, "");
 
             $("#formErogaVisita").submit(function(event){
                 $('.spinner-border').show();
@@ -236,6 +240,10 @@
             $("#formScheda").submit(function(event){
                 event.preventDefault();
 
+                let basePath = "..<%=File.separator + Utilities.USER_IMAGES_FOLDER + File.separator%>" + $('#idpazienteScheda').val() + "<%=File.separator%>";
+                let extension = ".<%=Utilities.USER_IMAGE_EXT%>";
+                initCarousel($('#idpazienteScheda').val(), "carouselInnerPaziente", basePath, extension);
+
                 $('#dataPazienteScheda').DataTable().destroy()
                 let urlDataPaziente = "http://localhost:8080/SSO_war_exploded/api/pazienti/"+$('#idpazienteScheda').val();
                 $('#dataPazienteScheda').DataTable( {
@@ -244,6 +252,7 @@
                     "paging": false,
                     "searching": false,
                     "serverSide": false,
+                    "info": false,
                     "language": {
                         "url": urlLangDataTable
                     },
@@ -281,9 +290,9 @@
                     ]
                 } );
 
-                let table = $('#visiteBasePazienteScheda').DataTable().destroy()
+                $('#visiteBasePazienteScheda').DataTable().destroy()
                 let urlVisiteBase = "http://localhost:8080/SSO_war_exploded/api/pazienti/"+$('#idpazienteScheda').val()+"/visitebase"
-                $('#visiteBasePazienteScheda').DataTable( {
+                let table = $('#visiteBasePazienteScheda').DataTable( {
                     "processing": true,
                     "ordering": true,
                     "paging": true,
@@ -604,12 +613,14 @@
                     ]
                 } );
 
+                document.getElementById("schedaPaziente").style.display="block";
             });
 
             populateComponents();
             hideComponents();
             $(".spinner-border").hide();
             $("#profilo").show();
+            initAvatar(${sessionScope.utente.id}, "avatarImg", basePath, extension);
 
             $("#profiloControl").click(() => showComponent("profilo"));
             $("#pazientiControl").click(function() {
@@ -741,8 +752,9 @@
         <!-- Sidebar  -->
         <nav id="sidebar">
             <div class="sidebar-header">
-                <img class="avatar" alt="Avatar" src="propic.jpeg" data-holder-rendered="true">
-                <h3>${sessionScope.utente.nome} ${sessionScope.utente.cognome}</h3>
+                <img id="avatarImg" class="avatar" data-holder-rendered="true">
+                <br><br>
+                <h4>${sessionScope.utente.nome} ${sessionScope.utente.cognome}</h4>
                 <h6>${sessionScope.utente.email}</h6>
             </div>
 
@@ -794,18 +806,17 @@
                         <div class="col-md-12">
                             <div class="card">
                                 <div class="text-center">
-
-                                    <div data-interval="false" id="carouselExampleControls" class="carousel slide"
+                                    <div data-interval="false" id="carouselProfiloControls" class="carousel slide"
                                          data-ride="carousel">
                                         <div id="carouselInnerProfilo" class="carousel-inner">
 
                                         </div>
-                                        <a class="carousel-control-prev" href="#carouselExampleControls" role="button"
+                                        <a class="carousel-control-prev" href="#carouselProfiloControls" role="button"
                                            data-slide="prev">
                                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                             <span class="sr-only">Previous</span>
                                         </a>
-                                        <a class="carousel-control-next" href="#carouselExampleControls" role="button"
+                                        <a class="carousel-control-next" href="#carouselProfiloControls" role="button"
                                            data-slide="next">
                                             <span class="carousel-control-next-icon" aria-hidden="true"></span>
                                             <span class="sr-only">Next</span>
@@ -836,10 +847,17 @@
                                     <hr>
                                     <div style="clear: both">
                                         <h5 style="float: left">Data di nascita:  </h5>
-                                        <h5 align="right">${sessionScope.utente.dataNascita}</h5>
+                                        <h5 align="right"><fmt:formatDate value="${sessionScope.utente.dataNascita}"/></h5>
                                     </div>
                                     <hr>
-                                    <button href="#" class="btn btn-primary">Go somewhere</button>
+                                    <div style="clear: both">
+                                        <h5 style="float: left"> Aggiungi immagine: </h5>
+                                        <form action="#" id="formUploadFoto" method="POST" role="form" enctype="multipart/form-data">
+                                            <input class="btn btn-primary" type="file" id="fotoToUpload"
+                                                   onchange="return fileValidation('fotoToUpload', 'buttonUploadFoto', labelAlertFoto)"/><br><br>
+                                            <button class="btn btn-primary" type="submit" id="buttonUploadFoto" disabled>Submit </button>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -885,7 +903,7 @@
             </div>
 
             <div id="schedaPaz" class="tool component" style="align-content: center;">
-                <div class="container-fluid">
+                <div class="col-md-12">
                     <div class="row">
                         <div class="col-md-12">
                             <h3>Seleziona un paziente per ricevere la scheda completa</h3>
@@ -894,219 +912,236 @@
                                 <label for="idpazienteScheda">Nome del paziente</label>
                                 <select type="text" id="idpazienteScheda" name="idpazienteScheda" required="required"></select>
                                 <button class="bottone" style="padding-left: 1em" type="submit">Cerca</button>
-
                             </form>
-                            <hr>specialistica
                             <br>
                         </div>
+                        <div id="schedaPaziente" class="container-fluid">
+                            <div class="text-center">
+                                <div data-interval="false" id="carouselPazienteControls" class="carousel slide"
+                                     data-ride="carousel">
+                                    <div id="carouselInnerPaziente" class="carousel-inner">
 
-                        <div class="col-md-12">
-                            <h5>Dati Paziente</h5>
-                            <div class="table table-responsive">
-                                <table id="dataPazienteScheda" class="table table-striped table-hover ">
-                                    <thead>
-                                    <tr>
-                                        <th>Nome</th>
-                                        <th>Cognome</th>
-                                        <th>Data di Nascita</th>
-                                        <th>Luogo di Nascita</th>
-                                        <th>Codice Fiscale</th>
-                                        <th>Sesso</th>
-                                        <th>Email</th>
-                                    </tr>
-                                    </thead>
-                                </table>
+                                    </div>
+                                    <a class="carousel-control-prev" href="#carouselPazienteControls" role="button"
+                                       data-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                    <a class="carousel-control-next" href="#carouselPazienteControls" role="button"
+                                       data-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </div>
+                            </div>
 
+                            <div class="col-md-12">
+                                <h5>Dati Paziente</h5>
+                                <div class="table table-responsive">
+                                    <table id="dataPazienteScheda" class="table table-striped table-hover ">
+                                        <thead>
+                                        <tr>
+                                            <th>Nome</th>
+                                            <th>Cognome</th>
+                                            <th>Data di Nascita</th>
+                                            <th>Luogo di Nascita</th>
+                                            <th>Codice Fiscale</th>
+                                            <th>Sesso</th>
+                                            <th>Email</th>
+                                        </tr>
+                                        </thead>
+                                    </table>
+                                </div>
                             </div>
-                        </div>
-                        <br/>
-                        <div class="col-md-12">
-                            <h5>Visite di base</h5>
-                            <div class="table table-responsive">
-                                <table id="visiteBasePazienteScheda" class="table table-striped table-hover ">
-                                    <thead>
-                                    <tr>
-                                        <th>Nome medico di base</th>
-                                        <th>Cognome medico di base</th>
-                                        <th>Data erogazione</th>
-                                        <th>Anamnesi</th>
-                                    </tr>
-                                    </thead>
-                                    <tfoot>
-                                    <tr>
-                                        <th>Nome medico di base</th>
-                                        <th>Cognome medico di base</th>
-                                        <th>Data erogazione</th>
-                                        <th>Anamnesi</th>
-                                    </tr>
-                                    </tfoot>
-                                </table>
+                            <br/>
+                            <div class="col-md-12">
+                                <h5>Visite di base</h5>
+                                <div class="table table-responsive">
+                                    <table id="visiteBasePazienteScheda" class="table table-striped table-hover ">
+                                        <thead>
+                                        <tr>
+                                            <th>Nome medico di base</th>
+                                            <th>Cognome medico di base</th>
+                                            <th>Data erogazione</th>
+                                            <th>Anamnesi</th>
+                                        </tr>
+                                        </thead>
+                                        <tfoot>
+                                        <tr>
+                                            <th>Nome medico di base</th>
+                                            <th>Cognome medico di base</th>
+                                            <th>Data erogazione</th>
+                                            <th>Anamnesi</th>
+                                        </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
                             </div>
-                        </div>
-                        <br/>
-                        <div class="col-md-12">
-                            <h5>Ricette evase</h5>
-                            <div class="table table-responsive">
-                                <table id="ricetteEvasePazienteScheda" class="table table-striped table-hover ">
-                                    <thead>
-                                    <tr>
-                                        <th>Nome farmaco</th>
-                                        <th>Descrizione farmaco</th>
-                                        <th>Nome medico di base</th>
-                                        <th>Cognome medico di base</th>
-                                        <th>Prescrizione</th>
-                                        <th>Evasione</th>
-                                    </tr>
-                                    </thead>
-                                    <tfoot>
-                                    <tr>
-                                        <th>Nome farmaco</th>
-                                        <th>Descrizione farmaco</th>
-                                        <th>Nome medico di base</th>
-                                        <th>Cognome medico di base</th>
-                                        <th>Prescrizione</th>
-                                        <th>Evasione</th>
-                                    </tr>
-                                    </tfoot>
-                                </table>
+                            <br/>
+                            <div class="col-md-12">
+                                <h5>Ricette evase</h5>
+                                <div class="table table-responsive">
+                                    <table id="ricetteEvasePazienteScheda" class="table table-striped table-hover ">
+                                        <thead>
+                                        <tr>
+                                            <th>Nome farmaco</th>
+                                            <th>Descrizione farmaco</th>
+                                            <th>Nome medico di base</th>
+                                            <th>Cognome medico di base</th>
+                                            <th>Prescrizione</th>
+                                            <th>Evasione</th>
+                                        </tr>
+                                        </thead>
+                                        <tfoot>
+                                        <tr>
+                                            <th>Nome farmaco</th>
+                                            <th>Descrizione farmaco</th>
+                                            <th>Nome medico di base</th>
+                                            <th>Cognome medico di base</th>
+                                            <th>Prescrizione</th>
+                                            <th>Evasione</th>
+                                        </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
                             </div>
-                        </div>
-                        <br/>
-                        <div class="col-md-12">
-                            <h5>Ricette non evase</h5>
-                            <div class="table table-responsive">
-                                <table id="ricetteNonEvasePazienteScheda" class="table table-striped table-hover ">
-                                    <thead>
-                                    <tr>
-                                        <th>Nome farmaco</th>
-                                        <th>Descrizione farmaco</th>
-                                        <th>Nome medico di base</th>
-                                        <th>Cognome medico di base</th>
-                                        <th>Prescrizione</th>
-                                    </tr>
-                                    </thead>
-                                    <tfoot>
-                                    <tr>
-                                        <th>Nome farmaco</th>
-                                        <th>Descrizione farmaco</th>
-                                        <th>Nome medico di base</th>
-                                        <th>Cognome medico di base</th>
-                                        <th>Prescrizione</th>
-                                    </tr>
-                                    </tfoot>
-                                </table>
+                            <br/>
+                            <div class="col-md-12">
+                                <h5>Ricette non evase</h5>
+                                <div class="table table-responsive">
+                                    <table id="ricetteNonEvasePazienteScheda" class="table table-striped table-hover ">
+                                        <thead>
+                                        <tr>
+                                            <th>Nome farmaco</th>
+                                            <th>Descrizione farmaco</th>
+                                            <th>Nome medico di base</th>
+                                            <th>Cognome medico di base</th>
+                                            <th>Prescrizione</th>
+                                        </tr>
+                                        </thead>
+                                        <tfoot>
+                                        <tr>
+                                            <th>Nome farmaco</th>
+                                            <th>Descrizione farmaco</th>
+                                            <th>Nome medico di base</th>
+                                            <th>Cognome medico di base</th>
+                                            <th>Prescrizione</th>
+                                        </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
                             </div>
-                        </div>
-                        <br/>
-                        <div class="col-md-12">
-                            <h5>Esami erogati</h5>
-                            <div class="table table-responsive">
-                                <table id="esamiErogatiPazienteScheda" class="table table-striped table-hover ">
-                                    <thead>
-                                    <tr>
-                                        <th>Nome esame</th>
-                                        <th>Descrizione esame</th>
-                                        <th>Nome medico di base</th>
-                                        <th>Cognome medico di base</th>
-                                        <th>Prescrizione</th>
-                                        <th>Erogazione</th>
-                                        <th>Esito</th>
-                                    </tr>
-                                    </thead>
-                                    <tfoot>
-                                    <tr>
-                                        <th>Nome esame</th>
-                                        <th>Descrizione esame</th>
-                                        <th>Nome medico di base</th>
-                                        <th>Cognome medico di base</th>
-                                        <th>Prescrizione</th>
-                                        <th>Erogazione</th>
-                                        <th>Esito</th>
-                                    </tr>
-                                    </tfoot>
-                                </table>
+                            <br/>
+                            <div class="col-md-12">
+                                <h5>Esami erogati</h5>
+                                <div class="table table-responsive">
+                                    <table id="esamiErogatiPazienteScheda" class="table table-striped table-hover ">
+                                        <thead>
+                                        <tr>
+                                            <th>Nome esame</th>
+                                            <th>Descrizione esame</th>
+                                            <th>Nome medico di base</th>
+                                            <th>Cognome medico di base</th>
+                                            <th>Prescrizione</th>
+                                            <th>Erogazione</th>
+                                            <th>Esito</th>
+                                        </tr>
+                                        </thead>
+                                        <tfoot>
+                                        <tr>
+                                            <th>Nome esame</th>
+                                            <th>Descrizione esame</th>
+                                            <th>Nome medico di base</th>
+                                            <th>Cognome medico di base</th>
+                                            <th>Prescrizione</th>
+                                            <th>Erogazione</th>
+                                            <th>Esito</th>
+                                        </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
                             </div>
-                        </div>
-                        <br/>
-                        <div class="col-md-12">
-                            <h5>Esami non erogati</h5>
-                            <div class="table table-responsive">
-                                <table id="esamiNonErogatiPazienteScheda" class="table table-striped table-hover ">
-                                    <thead>
-                                    <tr>
-                                        <th>Nome esame</th>
-                                        <th>Descrizione esame</th>
-                                        <th>Nome medico</th>
-                                        <th>Cognome medico</th>
-                                        <th>Prescrizione</th>
-                                    </tr>
-                                    </thead>
-                                    <tfoot>
-                                    <tr>
-                                        <th>Nome esame</th>
-                                        <th>Descrizione esame</th>
-                                        <th>Nome medico</th>
-                                        <th>Cognome medico</th>
-                                        <th>Prescrizione</th>
-                                    </tr>
-                                    </tfoot>
-                                </table>
+                            <br/>
+                            <div class="col-md-12">
+                                <h5>Esami non erogati</h5>
+                                <div class="table table-responsive">
+                                    <table id="esamiNonErogatiPazienteScheda" class="table table-striped table-hover ">
+                                        <thead>
+                                        <tr>
+                                            <th>Nome esame</th>
+                                            <th>Descrizione esame</th>
+                                            <th>Nome medico</th>
+                                            <th>Cognome medico</th>
+                                            <th>Prescrizione</th>
+                                        </tr>
+                                        </thead>
+                                        <tfoot>
+                                        <tr>
+                                            <th>Nome esame</th>
+                                            <th>Descrizione esame</th>
+                                            <th>Nome medico</th>
+                                            <th>Cognome medico</th>
+                                            <th>Prescrizione</th>
+                                        </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
                             </div>
-                        </div>
-                        <br/>
-                        <div class="col-md-12">
-                            <h5>Visite specialistiche erogate</h5>
-                            <div class="table table-responsive">
-                                <table id="visiteSpecialisticheErogatePazienteScheda" class="table table-striped table-hover ">
-                                    <thead>
-                                    <tr>
-                                        <th>Nome visita</th>
-                                        <th>Nome medico specialista</th>
-                                        <th>Cognome medico specialista</th>
-                                        <th>Nome medico di base</th>
-                                        <th>Cognome medico di base</th>
-                                        <th>Prescrizione</th>
-                                        <th>Erogazione</th>
-                                        <th>Anamnesi</th>
-                                    </tr>
-                                    </thead>
-                                    <tfoot>
-                                    <tr>
-                                        <th>Nome visita</th>
-                                        <th>Nome medico specialista</th>
-                                        <th>Cognome medico specialista</th>
-                                        <th>Nome medico di base</th>
-                                        <th>Cognome medico di base</th>
-                                        <th>Prescrizione</th>
-                                        <th>Erogazione</th>
-                                        <th>Anamnesi</th>
-                                    </tr>
-                                    </tfoot>
-                                </table>
+                            <br/>
+                            <div class="col-md-12">
+                                <h5>Visite specialistiche erogate</h5>
+                                <div class="table table-responsive">
+                                    <table id="visiteSpecialisticheErogatePazienteScheda" class="table table-striped table-hover ">
+                                        <thead>
+                                        <tr>
+                                            <th>Nome visita</th>
+                                            <th>Nome medico specialista</th>
+                                            <th>Cognome medico specialista</th>
+                                            <th>Nome medico di base</th>
+                                            <th>Cognome medico di base</th>
+                                            <th>Prescrizione</th>
+                                            <th>Erogazione</th>
+                                            <th>Anamnesi</th>
+                                        </tr>
+                                        </thead>
+                                        <tfoot>
+                                        <tr>
+                                            <th>Nome visita</th>
+                                            <th>Nome medico specialista</th>
+                                            <th>Cognome medico specialista</th>
+                                            <th>Nome medico di base</th>
+                                            <th>Cognome medico di base</th>
+                                            <th>Prescrizione</th>
+                                            <th>Erogazione</th>
+                                            <th>Anamnesi</th>
+                                        </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
                             </div>
-                        </div>
-                        <br/>
-                        <div class="col-md-12">
-                            <h5>Visite specialistiche non erogate</h5>
-                            <div class="table table-responsive">
-                                <table id="visiteSpecialisticheNonErogatePazienteScheda" class="table table-striped table-hover ">
-                                    <thead>
-                                    <tr>
-                                        <th>Nome visita</th>
-                                        <th>Nome medico di base</th>
-                                        <th>Cognome medico di base</th>
-                                        <th>Prescrizione</th>
-                                    </tr>
-                                    </thead>
-                                    <tfoot>
-                                    <tr>
-                                        <th>Nome visita</th>
-                                        <th>Nome medico di base</th>
-                                        <th>Cognome medico di base</th>
-                                        <th>Prescrizione</th>
-                                    </tr>
-                                    </tfoot>
-                                </table>
+                            <br/>
+                            <div class="col-md-12">
+                                <h5>Visite specialistiche non erogate</h5>
+                                <div class="table table-responsive">
+                                    <table id="visiteSpecialisticheNonErogatePazienteScheda" class="table table-striped table-hover ">
+                                        <thead>
+                                        <tr>
+                                            <th>Nome visita</th>
+                                            <th>Nome medico di base</th>
+                                            <th>Cognome medico di base</th>
+                                            <th>Prescrizione</th>
+                                        </tr>
+                                        </thead>
+                                        <tfoot>
+                                        <tr>
+                                            <th>Nome visita</th>
+                                            <th>Nome medico di base</th>
+                                            <th>Cognome medico di base</th>
+                                            <th>Prescrizione</th>
+                                        </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
