@@ -6,19 +6,6 @@
     SSOServletException exc = (SSOServletException) exception;
     response.setStatus(exc.getStatusErrorCode());
 %>
-<!--
-<html>
-<head>
-    <title>Error page - <%= exc.getStatusErrorCode()%></title>
-</head>
-<body>
-    <h1><%= exc.getStatusErrorCode()%></h1>
-    <p>
-        <%=exc.getMessage()%>
-    </p>
-</body>
-</html>
--->
 
 <!DOCTYPE html>
 <html>

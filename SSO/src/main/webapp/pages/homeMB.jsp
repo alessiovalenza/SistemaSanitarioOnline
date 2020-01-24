@@ -853,9 +853,9 @@
                                     <div style="clear: both">
                                         <h5 style="float: left"> Aggiungi immagine: </h5>
                                         <form action="#" id="formUploadFoto" method="POST" role="form" enctype="multipart/form-data">
-                                            <input class="btn btn-primary" type="file" id="fotoToUpload"
-                                                   onchange="return fileValidation('fotoToUpload', 'buttonUploadFoto', labelAlertFoto)"/><br><br>
-                                            <button class="btn btn-primary" type="submit" id="buttonUploadFoto" disabled>Submit </button>
+                                            <input class="btn btn-primary" type="file" id="fotoToUpload" name="foto"
+                                                   onchange="return fileValidation('fotoToUpload','btnUploadFoto',labelAlertFoto)"/><br><br>
+                                            <button class="btn btn-primary" type="submit" id="btnUploadFoto" disabled>Carica </button>
                                         </form>
                                     </div>
                                 </div>

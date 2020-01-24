@@ -168,6 +168,7 @@ a.article:hover {
     height: 100px;
     border-radius: 50%;
     border: 3px solid white;
+    object-fit: cover;
 }
 #cardImage{
     padding-top: 2rem

@@ -89,19 +89,34 @@ public class UtenteApi extends Api {
                         }
                     }
 
-                    String path = context.getRealPath(File.separator);
-                    path = new File(path).getParent();
-                    path = new File(path).getParent();
-                    path = path + Utilities.WEBAPP_REL_DIR + Utilities.USER_IMAGES_FOLDER + File.separator + idUtente + File.separator + maxFound + "." + Utilities.USER_IMAGE_EXT;
-                    System.out.println(path);
+                    String pathBase = context.getRealPath(File.separator);
+
+                    String pathSrc = new File(pathBase).getParent();
+                    pathSrc = new File(pathSrc).getParent();
+                    pathSrc = pathSrc + Utilities.WEBAPP_REL_DIR + Utilities.USER_IMAGES_FOLDER + File.separator + idUtente + File.separator + maxFound + "." + Utilities.USER_IMAGE_EXT;
+                    System.out.println(pathSrc);
+
+                    String pathTarget = pathBase + Utilities.USER_IMAGES_FOLDER + File.separator + idUtente + File.separator + maxFound + "." + Utilities.USER_IMAGE_EXT;;
+                    System.out.println(pathTarget);
 
                     try {
                         BufferedImage inFoto = ImageIO.read(fotoIS);
-                        BufferedImage outFoto = new BufferedImage(Utilities.USER_IMAGES_WIDTH, Utilities.USER_IMAGES_HEIGHT, inFoto.getType());
+
+                        int width = inFoto.getWidth();
+                        int height = inFoto.getHeight();
+
+                        if(width > USER_IMAGES_WIDTH_MAX || height > USER_IMAGES_HEIGHT_MAX) {
+                            float scale = Math.max(width / USER_IMAGES_WIDTH_MAX, height / USER_IMAGES_HEIGHT_MAX);
+                            width /= scale;
+                            height /= scale;
+                        }
+
+                        BufferedImage outFoto = new BufferedImage(width, height, inFoto.getType());
                         Graphics2D g2d = outFoto.createGraphics();
-                        g2d.drawImage(inFoto, 0, 0, Utilities.USER_IMAGES_WIDTH, Utilities.USER_IMAGES_HEIGHT, null);
+                        g2d.drawImage(inFoto, 0, 0, width, height, null);
                         g2d.dispose();
-                        ImageIO.write(outFoto, Utilities.USER_IMAGE_EXT, new File(path));
+                        ImageIO.write(outFoto, Utilities.USER_IMAGE_EXT, new File(pathSrc));
+                        ImageIO.write(outFoto, Utilities.USER_IMAGE_EXT, new File(pathTarget));
                         fotoIS.close();
                         res = CREATED_RESPONSE;
                     } catch (IOException e) {

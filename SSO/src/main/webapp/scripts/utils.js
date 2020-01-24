@@ -204,9 +204,7 @@ function initAvatar(idUtente, avatarId, basePath, extension) {
 
 function fileValidation(fotoId, buttonId, labelEstensioneAlert){
     let fileInput = document.getElementById(fotoId);
-    console.log(fotoId);
     let filePath = fileInput.value;
-    console.log(filePath);
     const allowedExtensions = /(\.jpg|\.jpeg)$/i;
     if(!allowedExtensions.exec(filePath)){
         alert(labelEstensioneAlert);
@@ -220,12 +218,10 @@ function fileValidation(fotoId, buttonId, labelEstensioneAlert){
 function initUploadFoto(formId, idUtente, popupId) {
     $(formId).submit(function(e){
         e.preventDefault();
-        var formData = new FormData($(formId)[0]);
-        console.log(formData);
-        console.log("http://localhost:8080/SSO_war_exploded/api/utenti/" + idUtente + "/foto");
+        let formData = new FormData($(formId)[0]);
         $.ajax({
             url : "/SSO_war_exploded/api/utenti/" + idUtente + "/foto",
-            type : 'POST',
+            type : "POST",
             data : formData,
             contentType : false,
             processData : false,
