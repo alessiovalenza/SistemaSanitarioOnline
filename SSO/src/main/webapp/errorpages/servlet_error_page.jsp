@@ -47,9 +47,9 @@
     <header>
         <nav class="navbar-expand-md sticky-top "
              style="background-color: #1565c0;padding: 11px;border-style: groove; border-width: 0pt; border-color:lightgray">
-            <div class="container-fluid"><img src="../assets/img/logoebbasta.png"
+            <div class="container-fluid"><img src="/SSO_war_exploded/assets/img/logoebbasta.png"
                                               style="height: 42px;padding: 0px;margin: 0px;">
-                <a class="navbar-brand" href="../index.jsp"
+                <a class="navbar-brand" href="/SSO_war_exploded"
                    style="padding: 3px;color: rgb(255,255,255);">
                     Ministero della salute
                 </a>
@@ -58,7 +58,7 @@
     </header>
     <div id="body">
         <div style="position: relative; text-align: center;width: 100%;">
-            <img style="width:100%;" src="../assets/img/error.jpg">
+            <img style="width:100%;" src="/SSO_war_exploded/assets/img/error.jpg">
             <div style="position: absolute; top: 40%; left: 40%;color: white;width: 60%;">
                 <h3 class="scaled"
                     style="text-shadow: 1px 1px black; font-size: 4vw; ">
