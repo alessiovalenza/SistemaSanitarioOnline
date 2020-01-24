@@ -189,6 +189,9 @@
 <div class="wrapper">
     <!-- Sidebar  -->
     <nav id="sidebar">
+        <div id="dismiss">
+            <i class="fas fa-arrow-left"></i>
+        </div>
         <div class="sidebar-header">
             <img class="avatar" alt="Avatar" src="propic.jpeg" data-holder-rendered="true">
             <h3>Nome Cognome</h3>
@@ -197,7 +200,7 @@
 
         <ul class="list-unstyled">
             <li>
-                <a href="#" id="ricetteControl">Evadi Ricette</a>
+                <a href="#" class="componentControl" id="ricetteControl">Evadi Ricette</a>
             </li>
 
         </ul>
@@ -269,16 +272,40 @@
 
 
     </div>
+
+    <div class="overlay"></div>
+
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
+        $('#dismiss, .overlay').on('click', function () {
+            // hide sidebar
+            $('#sidebar').removeClass('active');
+            // hide overlay
+            $('.overlay').removeClass('active');
+        });
+        $('.componentControl, .overlay').on('click', function () {
+            // hide sidebar
+            $('#sidebar').removeClass('active');
+            // hide overlay
+            $('.overlay').removeClass('active');
+        });
+
+        $('#sidebarCollapse').on('click', function () {
+            // open sidebar
+            $('#sidebar').addClass('active');
+            // fade in the overlay
+            $('.overlay').addClass('active');
+            $('.collapse.in').toggleClass('in');
+            $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+        });
 
         /* $('#sidebar').on('hidden.bs.collapse', function () {
             alert('dasd')
         }); */
-        $("#sidebar").mCustomScrollbar({
-            theme: "minimal"
-        });
+        // $("#sidebar").mCustomScrollbar({
+        //     theme: "minimal"
+        // });
 
 
         /*    $('#sidebarCollapse').on('click', function () {

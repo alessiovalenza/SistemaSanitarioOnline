@@ -326,6 +326,9 @@
 <div class="wrapper">
     <!-- Sidebar  -->
     <nav id="sidebar">
+        <div id="dismiss">
+            <i class="fas fa-arrow-left"></i>
+        </div>
         <div class="sidebar-header">
             <img class="avatar" alt="Avatar" src="propic.jpeg"
                  data-holder-rendered="true">
@@ -334,22 +337,22 @@
 
         <ul class="list-unstyled components">
             <li>
-                <a href="#" id="profiloControl">Profilo</a>
+                <a href="#" class="componentControl" id="profiloControl">Profilo</a>
             </li>
             <li>
-                <a href="#" id="medicoControl">Visualizza medico di base</a>
+                <a href="#" class="componentControl" id="medicoControl">Visualizza medico di base</a>
             </li>
             <li>
-                <a href="#" id="cambiaMedicoControl">Cambia medico di base</a>
+                <a href="#" class="componentControl" id="cambiaMedicoControl">Cambia medico di base</a>
             </li>
             <li>
-                <a href="#" id ="esamiControl">Visualizza esami fatti</a>
+                <a href="#"  class="componentControl" id ="esamiControl">Visualizza esami fatti</a>
             </li>
             <li>
-                <a href="#" id ="ricetteControl">Visualizza ricette</a>
+                <a href="#" class="componentControl" id ="ricetteControl">Visualizza ricette</a>
             </li>
             <li>
-                <a href="#" id ="formControl">Visualizza form nostro</a>
+                <a href="#" class="componentControl" id ="formControl">Visualizza form nostro</a>
             </li>
             <li>
                 <a href="../mappe.jsp" id="mappeControl">Visualizza mappe</a>
@@ -616,8 +619,9 @@
                 </div>
             </div>
         </div>
+    <div class="overlay"></div>
     </div>
-</div>
+
 
 <!-- jQuery CDN - Slim version (=without AJAX) -->
 <!-- Popper.JS -->
@@ -631,16 +635,38 @@
 <script type="text/javascript">
     $(document).ready(function () {
 
-        $('#sidebar').on('hidden.bs.collapse', function() {
-            alert('dasd')
-        });
-        $("#sidebar").mCustomScrollbar({
-            theme: "minimal"
-        });
+        // $('#sidebar').on('hidden.bs.collapse', function() {
+        //     alert('dasd')
+        // });
+        // $("#sidebar").mCustomScrollbar({
+        //     theme: "minimal"
+        // });
+        //
+        //
+        // $('#sidebarCollapse').on('click', function () {
+        //     $('#sidebar, #content').toggleClass('active');
+        //     $('.collapse.in').toggleClass('in');
+        //     $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+        // });
 
+        $('#dismiss, .overlay').on('click', function () {
+            // hide sidebar
+            $('#sidebar').removeClass('active');
+            // hide overlay
+            $('.overlay').removeClass('active');
+        });
+        $('.componentControl, .overlay').on('click', function () {
+            // hide sidebar
+            $('#sidebar').removeClass('active');
+            // hide overlay
+            $('.overlay').removeClass('active');
+        });
 
         $('#sidebarCollapse').on('click', function () {
-            $('#sidebar, #content').toggleClass('active');
+            // open sidebar
+            $('#sidebar').addClass('active');
+            // fade in the overlay
+            $('.overlay').addClass('active');
             $('.collapse.in').toggleClass('in');
             $('a[aria-expanded=true]').attr('aria-expanded', 'false');
         });
