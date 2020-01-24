@@ -153,6 +153,10 @@
 <div class="wrapper">
     <!-- Sidebar  -->
     <nav id="sidebar">
+<%--        da inserire anche css--%>
+        <div id="dismiss" href="">
+            <i class="fas fa-arrow-left"></i>
+        </div>
         <div class="sidebar-header">
             <img class="avatar" alt="Avatar" src="propic.jpeg"
                  data-holder-rendered="true">
@@ -162,16 +166,16 @@
 
         <ul class="list-unstyled components">
             <li>
-                <a href="#" id="profiloControl">Profilo</a>
+                <a href="#" class="componentControl" id="profiloControl">Profilo</a>
             </li>
             <li>
-                <a href="#" id="reportControl">Report</a>
+                <a href="#"class="componentControl" id="reportControl">Report</a>
             </li>
             <li>
-                <a href="#" id="richiamo1Control">Richiamo</a>
+                <a href="#" class="componentControl" id="richiamo1Control">Richiamo</a>
             </li>
             <li>
-                <a href="#" id="richiamo2Control">Richiama chi è già stato richiamato</a>
+                <a href="#" class="componentControl" id="richiamo2Control">Richiama chi è già stato richiamato</a>
             </li>
         </ul>
     </nav>
@@ -186,7 +190,6 @@
                 </button>
             </div>
         </nav>
-
         <div class="tool component" id="profilo">
             <div class="card">
                 <div class="card-body">
@@ -342,6 +345,9 @@ show
 
 
     </div>
+    <%--        da inserire--%>
+    <div class="overlay"></div>
+
 </div>
 
 <!-- jQuery CDN - Slim version (=without AJAX) -->
@@ -353,19 +359,65 @@ show
 <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
+        // manageNavbar();
+        // $(window).resize(manageNavbar);
 
-        $('#sidebar').on('hidden.bs.collapse', function() {
-            alert('dasd')
+        // $('#sidebar').on('hidden.bs.collapse', function() {
+        //     alert('dasd')
+        // });
+        // $("#sidebar").mCustomScrollbar({
+        //     theme: "minimal"
+        // });
+        //
+        // $('#sidebarCollapse').on('click', function () {
+        //     $('#sidebar, #content').toggleClass('active');
+        //     $('.collapse.in').toggleClass('in');
+        //     $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+        //});
+
+        <%--        da inserire--%>
+
+        $('#dismiss, .overlay').on('click', function () {
+            // hide sidebar
+            $('#sidebar').removeClass('active');
+            // hide overlay
+            $('.overlay').removeClass('active');
         });
-        $("#sidebar").mCustomScrollbar({
-            theme: "minimal"
+        $('.componentControl, .overlay').on('click', function () {
+            // hide sidebar
+            $('#sidebar').removeClass('active');
+            // hide overlay
+            $('.overlay').removeClass('active');
         });
 
         $('#sidebarCollapse').on('click', function () {
-            $('#sidebar, #content').toggleClass('active');
+            // open sidebar
+            $('#sidebar').addClass('active');
+            // fade in the overlay
+            $('.overlay').addClass('active');
             $('.collapse.in').toggleClass('in');
             $('a[aria-expanded=true]').attr('aria-expanded', 'false');
         });
+
+        // function hideNavbar() {
+        //     $('#sidebar, #content').toggleClass('active');
+        //     $('.collapse.in').toggleClass('in');
+        //     $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+        // }
+        // function checkSize(){
+        //     console.log("checkSize")
+        //     if ($("#sidebarCollapse").is(':visible')){
+        //         console.log("nascondo")
+        //         $('#profiloControl, #reportControl, #richiamo1Control,#richiamo2Control').on('click.hideNavbar', function () {
+        //             $('#sidebar, #content').toggleClass('active');
+        //             $('.collapse.in').toggleClass('in');
+        //             $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+        //         });
+        //
+        //     }else{
+        //         $("#profiloControl, #reportControl, #richiamo1Control,#richiamo2Control").off("click.hideNavbar");
+        //     }
+        // }
     });
 </script>
 </body>
