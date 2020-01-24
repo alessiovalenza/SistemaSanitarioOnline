@@ -34,6 +34,18 @@ function hideComponents(){
     components.forEach( (c) => c.hide());
 }
 
+function manageNavbar() {
+    if ($("#sidebarCollapse").is(':visible')){
+        $('.componentControl').on('click.hideNavbar', function () {
+            $('#sidebar, #content').toggleClass('active');
+            $('.collapse.in').toggleClass('in');
+            $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+        });
+    }else{
+            $(".componentControl").off("click.hideNavbar");
+        }
+    }
+
 /*
  * inizializza la select2 per la suggestion box <idSelect> dei pazienti del medico di base <idMedico>
  */
