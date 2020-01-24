@@ -69,10 +69,6 @@
     <script type="text/javascript">
         let components = new Set();
         $(document).ready(function () {
-            <%
-            System.out.println(request.getLocale());
-            %>
-            console.log("lingua var: ${language}\nlingua session: ${sessionScope.language}\nlingua param: ${pageContext.request.locale}")
 
             $("#sidebar").mCustomScrollbar({
                 theme: "minimal"
@@ -100,13 +96,13 @@
 
             let urlLangDataTable;
             <c:choose>
-                <c:when test="${language eq 'it_IT'}">
+                <c:when test="${fn:startsWith(language, 'it')}">
                     urlLangDataTable = "https://cdn.datatables.net/plug-ins/1.10.20/i18n/Italian.json";
                 </c:when>
-                <c:when test="${language eq 'en_EN'}">
+                <c:when test="${fn:startsWith(language, 'en')}">
                     urlLangDataTable = "https://cdn.datatables.net/plug-ins/1.10.20/i18n/English.json";
                 </c:when>
-                <c:when test="${language eq 'fr_FR'}">
+                <c:when test="${fn:startsWith(language, 'fr')}">
                     urlLangDataTable = "https://cdn.datatables.net/plug-ins/1.10.20/i18n/French.json";
                 </c:when>
                 <c:otherwise>
@@ -240,6 +236,51 @@
             $("#formScheda").submit(function(event){
                 event.preventDefault();
 
+                $('#dataPazienteScheda').DataTable().destroy()
+                let urlDataPaziente = "http://localhost:8080/SSO_war_exploded/api/pazienti/"+$('#idpazienteScheda').val();
+                $('#dataPazienteScheda').DataTable( {
+                    "processing": false,
+                    "ordering": false,
+                    "paging": false,
+                    "searching": false,
+                    "serverSide": false,
+                    "language": {
+                        "url": urlLangDataTable
+                    },
+                    "ajax": {
+                        "url": urlDataPaziente,
+                        "type":"GET",
+                        "dataSrc": function (json) {
+                            let returnData = new Array();
+                            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                            let dataNascita = new Date(json.dataNascita);
+                            dataNascita=dataNascita.toLocaleDateString("${fn:replace(language, '_', '-')}");
+                            returnData.push({
+                                'nome': json.nome,
+                                'cognome': json.cognome,
+                                'dataNascita': dataNascita,
+                                'luogoNascita': json.luogoNascita,
+                                'codiceFiscale': json.codiceFiscale,
+                                'sesso': json.sesso,
+                                'email': json.email
+                            });
+                            return returnData;
+                        },
+                        "error": function(xhr, status, error) {
+                            alert(xhr.responseText);
+                        }
+                    },
+                    "columns": [
+                        { "data": "nome" },
+                        { "data": "cognome" },
+                        { "data": "dataNascita" },
+                        { "data": "luogoNascita" },
+                        { "data": "codiceFiscale"},
+                        { "data": "sesso" },
+                        { "data": "email" }
+                    ]
+                } );
+
                 let table = $('#visiteBasePazienteScheda').DataTable().destroy()
                 let urlVisiteBase = "http://localhost:8080/SSO_war_exploded/api/pazienti/"+$('#idpazienteScheda').val()+"/visitebase"
                 $('#visiteBasePazienteScheda').DataTable( {
@@ -254,14 +295,31 @@
                     "ajax": {
                         "url": urlVisiteBase,
                         "type":"GET",
-                        "dataSrc": ""
+                        "dataSrc": function (json) {
+                            let returnData = new Array();
+                            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                            for(let i=0;i< json.length; i++) {
+                                let erogazione = new Date(json[i].erogazione);
+                                erogazione=erogazione.toLocaleDateString("${fn:replace(language, '_', '-')}",options);
+                                returnData.push({
+                                    'medicoBaseCognome': json[i].medicoBase.cognome,
+                                    'medicoBaseNome': json[i].medicoBase.nome,
+                                    'erogazione': erogazione,
+                                    'anamnesi': json[i].anamnesi
+                                });
+                            }
+                            return returnData;
+                        },
+                        "error": function(xhr, status, error) {
+                            alert(xhr.responseText);
+                        }
                     },
                     "columnDefs": [
                         { className: "anamnesiColumn", targets: 3 }
                     ],
                     "columns": [
-                        { "data": "medicoBase.nome" },
-                        { "data": "medicoBase.cognome" },
+                        { "data": "medicoBaseNome" },
+                        { "data": "medicoBaseCognome" },
                         { "data": "erogazione" },
                         { "data": "anamnesi" }
                     ]
@@ -269,7 +327,7 @@
 
                 $("#visiteBasePazienteScheda tbody").on("click", ".anamnesiColumn", function () {
                     let data = table.row( this ).data();
-                    alert("ciaone" + data.anamnesi);
+                    alert(data.anamnesi);
                 } );
 
                 $('#visiteSpecialisticheErogatePazienteScheda').DataTable().destroy()
@@ -286,14 +344,37 @@
                     "ajax": {
                         "url": urlVisiteSpacialisticheErogate,
                         "type":"GET",
-                        "dataSrc": ""
+                        "dataSrc": function (json) {
+                            let returnData = new Array();
+                            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                            for(let i=0;i< json.length; i++) {
+                                let prescrizione = new Date(json[i].prescrizione);
+                                prescrizione=prescrizione.toLocaleDateString("${fn:replace(language, '_', '-')}",options);
+                                let erogazione = new Date(json[i].erogazione);
+                                erogazione=erogazione.toLocaleDateString("${fn:replace(language, '_', '-')}",options);
+                                returnData.push({
+                                    'visitaNome': json[i].visita.nome,
+                                    'medicoSpecialistaCognome': json[i].medicoSpecialista.cognome,
+                                    'medicoSpecialistaNome': json[i].medicoSpecialista.nome,
+                                    'medicoBaseCognome': json[i].medicoBase.cognome,
+                                    'medicoBaseNome': json[i].medicoBase.nome,
+                                    'prescrizione': prescrizione,
+                                    'erogazione': erogazione,
+                                    'anamnesi': json[i].anamnesi
+                                });
+                            }
+                            return returnData;
+                        },
+                        "error": function(xhr, status, error) {
+                            alert(xhr.responseText);
+                        }
                     },
                     "columns": [
-                        { "data": "visita.nome" },
-                        { "data": "medicoSpecialista.nome" },
-                        { "data": "medicoSpecialista.cognome" },
-                        { "data": "medicoBase.nome" },
-                        { "data": "medicoBase.cognome" },
+                        { "data": "visitaNome" },
+                        { "data": "medicoSpecialistaNome" },
+                        { "data": "medicoSpecialistaCognome" },
+                        { "data": "medicoBaseNome" },
+                        { "data": "medicoBaseCognome" },
                         { "data": "prescrizione" },
                         { "data": "erogazione" },
                         { "data": "anamnesi" }
@@ -314,12 +395,29 @@
                     "ajax": {
                         "url": urlVisiteSpacialisticheNonErogate,
                         "type":"GET",
-                        "dataSrc": ""
+                        "dataSrc": function (json) {
+                            let returnData = new Array();
+                            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                            for(let i=0;i< json.length; i++) {
+                                let prescrizione = new Date(json[i].prescrizione);
+                                prescrizione=prescrizione.toLocaleDateString("${fn:replace(language, '_', '-')}",options);
+                                returnData.push({
+                                    'visitaNome': json[i].visita.nome,
+                                    'medicoBaseCognome': json[i].medicoBase.cognome,
+                                    'medicoBaseNome': json[i].medicoBase.nome,
+                                    'prescrizione': prescrizione
+                                });
+                            }
+                            return returnData;
+                        },
+                        "error": function(xhr, status, error) {
+                            alert(xhr.responseText);
+                        }
                     },
                     "columns": [
-                        { "data": "visita.nome" },
-                        { "data": "medicoBase.nome" },
-                        { "data": "medicoBase.cognome" },
+                        { "data": "visitaNome" },
+                        { "data": "medicoBaseNome" },
+                        { "data": "medicoBaseCognome" },
                         { "data": "prescrizione" }
                     ]
                 } );
@@ -338,13 +436,34 @@
                     "ajax": {
                         "url": urlRicetteEvase,
                         "type":"GET",
-                        "dataSrc": ""
+                        "dataSrc": function (json) {
+                            let returnData = new Array();
+                            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                            for(let i=0;i< json.length; i++) {
+                                let emissione = new Date(json[i].emissione);
+                                emissione=emissione.toLocaleDateString("${fn:replace(language, '_', '-')}",options);
+                                let evasione = new Date(json[i].evasione);
+                                evasione=evasione.toLocaleDateString("${fn:replace(language, '_', '-')}",options);
+                                returnData.push({
+                                    'farmacoNome': json[i].farmaco.nome,
+                                    'farmacoDescrizione': json[i].farmaco.descrizione,
+                                    'medicoBaseCognome': json[i].medicoBase.cognome,
+                                    'medicoBaseNome': json[i].medicoBase.nome,
+                                    'emissione': emissione,
+                                    'evasione': evasione
+                                });
+                            }
+                            return returnData;
+                        },
+                        "error": function(xhr, status, error) {
+                            alert(xhr.responseText);
+                        }
                     },
                     "columns": [
-                        { "data": "farmaco.nome" },
-                        { "data": "farmaco.descrizione" },
-                        { "data": "medicoBase.cognome" },
-                        { "data": "medicoBase.nome" },
+                        { "data": "farmacoNome" },
+                        { "data": "farmacoDescrizione" },
+                        { "data": "medicoBaseNome" },
+                        { "data": "medicoBaseCognome" },
                         { "data": "emissione" },
                         { "data": "evasione" }
                     ]
@@ -364,17 +483,34 @@
                     "ajax": {
                         "url": urlRicetteNonEvase,
                         "type":"GET",
-                        "dataSrc": ""
+                        "dataSrc": function (json) {
+                            let returnData = new Array();
+                            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                            for(let i=0;i< json.length; i++) {
+                                let emissione = new Date(json[i].emissione);
+                                emissione=emissione.toLocaleDateString("${fn:replace(language, '_', '-')}",options);
+                                returnData.push({
+                                    'farmacoNome': json[i].farmaco.nome,
+                                    'farmacoDescrizione': json[i].farmaco.descrizione,
+                                    'medicoBaseCognome': json[i].medicoBase.cognome,
+                                    'medicoBaseNome': json[i].medicoBase.nome,
+                                    'emissione': emissione
+                                });
+                            }
+                            return returnData;
+                        },
+                        "error": function(xhr, status, error) {
+                            alert(xhr.responseText);
+                        }
                     },
                     "columns": [
-                        { "data": "farmaco.nome" },
-                        { "data": "farmaco.descrizione" },
-                        { "data": "medicoBase.cognome" },
-                        { "data": "medicoBase.nome" },
+                        { "data": "farmacoNome" },
+                        { "data": "farmacoDescrizione" },
+                        { "data": "medicoBaseNome" },
+                        { "data": "medicoBaseCognome" },
                         { "data": "emissione" }
                     ]
                 } );
-
 
                 $('#esamiErogatiPazienteScheda').DataTable().destroy()
                 let urlEsamiErogati = "http://localhost:8080/SSO_war_exploded/api/pazienti/"+$('#idpazienteScheda').val()+"/esamiprescritti/?erogationly=true&nonerogationly=false"
@@ -390,16 +526,81 @@
                     "ajax": {
                         "url": urlEsamiErogati,
                         "type":"GET",
-                        "dataSrc": ""
+                        "dataSrc": function (json) {
+                            let returnData = new Array();
+                            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                            for(let i=0;i< json.length; i++) {
+                                let prescrizione = new Date(json[i].prescrizione);
+                                prescrizione=prescrizione.toLocaleDateString("${fn:replace(language, '_', '-')}",options);
+                                let erogazione = new Date(json[i].erogazione);
+                                erogazione=erogazione.toLocaleDateString("${fn:replace(language, '_', '-')}",options);
+                                returnData.push({
+                                    'nomeEsame': json[i].esame.nome,
+                                    'descrizioneEsame': json[i].esame.descrizione,
+                                    'cognomeMedicoBase': json[i].medicoBase == undefined ? "" : json[i].medicoBase.cognome,
+                                    'nomeMedicoBase': json[i].medicoBase == undefined ? "" : json[i].medicoBase.nome,
+                                    'prescrizione': prescrizione,
+                                    'erogazione': erogazione,
+                                    'esito': json[i].esito
+                                });
+                            }
+                            return returnData;
+                        },
+                        "error": function(xhr, status, error) {
+                            alert(xhr.responseText);
+                        }
                     },
                     "columns": [
-                        { "data": "esame.nome" },
-                        { "data": "esame.descrizione" },
-                        { "data": "medicoBase.cognome" },
-                        { "data": "medicoBase.nome" },
+                        { "data": "nomeEsame" },
+                        { "data": "descrizioneEsame" },
+                        { "data": "nomeMedicoBase" },
+                        { "data": "cognomeMedicoBase" },
                         { "data": "prescrizione" },
                         { "data": "erogazione" },
                         { "data": "esito" }
+                    ]
+                } );
+
+                $('#esamiNonErogatiPazienteScheda').DataTable().destroy()
+                let urlEsamiNonErogati = "http://localhost:8080/SSO_war_exploded/api/pazienti/"+$('#idpazienteScheda').val()+"/esamiprescritti/?erogationly=false&nonerogationly=true"
+                $('#esamiNonErogatiPazienteScheda').DataTable( {
+                    "processing": true,
+                    "ordering": true,
+                    "paging": true,
+                    "searching": true,
+                    "serverSide": false,
+                    "language": {
+                        "url": urlLangDataTable
+                    },
+                    "ajax": {
+                        "url": urlEsamiNonErogati,
+                        "type":"GET",
+                        "dataSrc": function (json) {
+                            let returnData = new Array();
+                            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                            for(let i=0;i< json.length; i++) {
+                                let prescrizione = new Date(json[i].prescrizione);
+                                prescrizione=prescrizione.toLocaleDateString("${fn:replace(language, '_', '-')}",options);
+                                returnData.push({
+                                    'nomeEsame': json[i].esame.nome,
+                                    'descrizioneEsame': json[i].esame.descrizione,
+                                    'cognomeMedicoBase': json[i].medicoBase == undefined ? "" : json[i].medicoBase.cognome,
+                                    'nomeMedicoBase': json[i].medicoBase == undefined ? "" : json[i].medicoBase.nome,
+                                    'prescrizione': prescrizione
+                                });
+                            }
+                            return returnData;
+                        },
+                        "error": function(xhr, status, error) {
+                            alert(xhr.responseText);
+                        }
+                    },
+                    "columns": [
+                        { "data": "nomeEsame" },
+                        { "data": "descrizioneEsame" },
+                        { "data": "nomeMedicoBase" },
+                        { "data": "cognomeMedicoBase" },
+                        { "data": "prescrizione" }
                     ]
                 } );
 
@@ -429,17 +630,17 @@
                         "url": urlPazienti,
                         "type":"GET",
                         "dataSrc": function (json) {
-                            let return_data = new Array();
+                            let returnData = new Array();
                             const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
                             for(let i=0;i< json.length; i++){
                                 if (json[i].dataUltimaVisitaBase != undefined && json[i].getDataUltimaRicetta != undefined) {
                                     let visita = new Date(json[i].dataUltimaVisitaBase)
-                                    visita=visita.toLocaleDateString("it-IT",options)
+                                    visita=visita.toLocaleDateString("${fn:replace(language, '_', '-')}",options)
                                     let ricetta = new Date(json[i].getDataUltimaRicetta)
-                                    ricetta = ricetta.toLocaleDateString("it-IT",options)
+                                    ricetta = ricetta.toLocaleDateString("${fn:replace(language, '_', '-')}",options)
                                     let nascita = new Date(json[i].paziente.dataNascita)
-                                    nascita = nascita.toLocaleDateString("it-IT")
-                                    return_data.push({
+                                    nascita = nascita.toLocaleDateString("${fn:replace(language, '_', '-')}")
+                                    returnData.push({
                                         'nome': json[i].paziente.nome,
                                         'cognome': json[i].paziente.cognome,
                                         'dataNascita': nascita,
@@ -453,10 +654,10 @@
                                 }
                                 if (json[i].dataUltimaVisitaBase == undefined && json[i].getDataUltimaRicetta != undefined){
                                     let ricetta = new Date(json[i].getDataUltimaRicetta)
-                                    ricetta=ricetta.toLocaleDateString("it-IT",options)
+                                    ricetta=ricetta.toLocaleDateString("${fn:replace(language, '_', '-')}",options)
                                     let nascita = new Date(json[i].paziente.dataNascita)
-                                    nascita = nascita.toLocaleDateString("it-IT")
-                                    return_data.push({
+                                    nascita = nascita.toLocaleDateString("${fn:replace(language, '_', '-')}")
+                                    returnData.push({
                                         'nome': json[i].paziente.nome,
                                         'cognome': json[i].paziente.cognome,
                                         'dataNascita': nascita,
@@ -470,10 +671,10 @@
                                 }
                                 if (json[i].dataUltimaVisitaBase != undefined && json[i].getDataUltimaRicetta == undefined){
                                     let visita = new Date(json[i].dataUltimaVisitaBase)
-                                    visita=visita.toLocaleDateString("it-IT",options)
+                                    visita=visita.toLocaleDateString("${fn:replace(language, '_', '-')}",options)
                                     let nascita = new Date(json[i].paziente.dataNascita)
-                                    nascita = nascita.toLocaleDateString("it-IT")
-                                    return_data.push({
+                                    nascita = nascita.toLocaleDateString("${fn:replace(language, '_', '-')}")
+                                    returnData.push({
                                         'nome': json[i].paziente.nome,
                                         'cognome': json[i].paziente.cognome,
                                         'dataNascita': nascita,
@@ -487,8 +688,8 @@
                                 }
                                 if (json[i].dataUltimaVisitaBase == undefined && json[i].getDataUltimaRicetta == undefined){
                                     let nascita = new Date(json[i].paziente.dataNascita)
-                                    nascita = nascita.toLocaleDateString("it-IT")
-                                    return_data.push({
+                                    nascita = nascita.toLocaleDateString("${fn:replace(language, '_', '-')}")
+                                    returnData.push({
                                         'nome': json[i].paziente.nome,
                                         'cognome': json[i].paziente.cognome,
                                         'dataNascita': nascita,
@@ -501,7 +702,10 @@
                                     })
                                 }
                             }
-                            return return_data;
+                            return returnData;
+                        },
+                        "error": function(xhr, status, error) {
+                            alert(xhr.responseText);
                         }
                     },
                     "columns": [
@@ -523,10 +727,10 @@
             $('#prescEsameControl').click(() => showComponent("prescEsame"));
             $('#schedaPazControl').click(() => showComponent("schedaPaz"));
 
-            $('#sidebarCollapse').on('click', function () {
-                $('#sidebar, #content').toggleClass('active');
-                $('.collapse.in').toggleClass('in');
-                $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+            $("#sidebarCollapse").on("click", function () {
+                $("#sidebar, #content").toggleClass("active");
+                $(".collapse.in").toggleClass("in");
+                $("a[aria-expanded=true]").attr("aria-expanded", "false");
             });
         });
     </script>
@@ -652,12 +856,12 @@
                                 <tr>
                                     <th>Nome</th>
                                     <th>Cognome</th>
-                                    <th>Data di Nascita</th>
-                                    <th>Luogo di Nascita</th>
-                                    <th>Codice Fiscale</th>
+                                    <th>Data di nascita</th>
+                                    <th>Luogo di nascita</th>
+                                    <th>Codice fiscale</th>
                                     <th>Sesso</th>
                                     <th>Email</th>
-                                    <th>Ultima visita prescritta</th>
+                                    <th>Ultima visita di base</th>
                                     <th>Ultima ricetta prescritta</th>
                                 </tr>
                                 </thead>
@@ -665,12 +869,12 @@
                                 <tr>
                                     <th>Nome</th>
                                     <th>Cognome</th>
-                                    <th>Data di Nascita</th>
-                                    <th>Luogo di Nascita</th>
-                                    <th>Codice Fiscale</th>
+                                    <th>Data di nascita</th>
+                                    <th>Luogo di nascita</th>
+                                    <th>Codice fiscale</th>
                                     <th>Sesso</th>
                                     <th>Email</th>
-                                    <th>Ultima visita prescritta</th>
+                                    <th>Ultima visita di base</th>
                                     <th>Ultima ricetta prescritta</th>
                                 </tr>
                                 </tfoot>
@@ -715,52 +919,51 @@
 
                             </div>
                         </div>
-
-
+                        <br/>
                         <div class="col-md-12">
                             <h5>Visite di base</h5>
                             <div class="table table-responsive">
                                 <table id="visiteBasePazienteScheda" class="table table-striped table-hover ">
                                     <thead>
                                     <tr>
-                                        <th>Nome medico</th>
-                                        <th>Cognome medico</th>
-                                        <th>Data Erogazione</th>
+                                        <th>Nome medico di base</th>
+                                        <th>Cognome medico di base</th>
+                                        <th>Data erogazione</th>
                                         <th>Anamnesi</th>
                                     </tr>
                                     </thead>
                                     <tfoot>
                                     <tr>
-                                        <th>Nome medico</th>
-                                        <th>Cognome medico</th>
-                                        <th>Data Erogazione</th>
+                                        <th>Nome medico di base</th>
+                                        <th>Cognome medico di base</th>
+                                        <th>Data erogazione</th>
                                         <th>Anamnesi</th>
                                     </tr>
                                     </tfoot>
                                 </table>
                             </div>
                         </div>
-
+                        <br/>
                         <div class="col-md-12">
                             <h5>Ricette evase</h5>
                             <div class="table table-responsive">
                                 <table id="ricetteEvasePazienteScheda" class="table table-striped table-hover ">
                                     <thead>
                                     <tr>
-                                        <th>Nome Farmaco</th>
+                                        <th>Nome farmaco</th>
                                         <th>Descrizione farmaco</th>
-                                        <th>Nome medico</th>
-                                        <th>Cognome medico</th>
+                                        <th>Nome medico di base</th>
+                                        <th>Cognome medico di base</th>
                                         <th>Prescrizione</th>
                                         <th>Evasione</th>
                                     </tr>
                                     </thead>
                                     <tfoot>
                                     <tr>
-                                        <th>Nome Farmaco</th>
+                                        <th>Nome farmaco</th>
                                         <th>Descrizione farmaco</th>
-                                        <th>Nome medico</th>
-                                        <th>Cognome medico</th>
+                                        <th>Nome medico di base</th>
+                                        <th>Cognome medico di base</th>
                                         <th>Prescrizione</th>
                                         <th>Evasione</th>
                                     </tr>
@@ -768,43 +971,43 @@
                                 </table>
                             </div>
                         </div>
-
+                        <br/>
                         <div class="col-md-12">
                             <h5>Ricette non evase</h5>
                             <div class="table table-responsive">
                                 <table id="ricetteNonEvasePazienteScheda" class="table table-striped table-hover ">
                                     <thead>
                                     <tr>
-                                        <th>Nome Farmaco</th>
+                                        <th>Nome farmaco</th>
                                         <th>Descrizione farmaco</th>
-                                        <th>Nome medico</th>
-                                        <th>Cognome medico</th>
+                                        <th>Nome medico di base</th>
+                                        <th>Cognome medico di base</th>
                                         <th>Prescrizione</th>
                                     </tr>
                                     </thead>
                                     <tfoot>
                                     <tr>
-                                        <th>Nome Farmaco</th>
+                                        <th>Nome farmaco</th>
                                         <th>Descrizione farmaco</th>
-                                        <th>Nome medico</th>
-                                        <th>Cognome medico</th>
+                                        <th>Nome medico di base</th>
+                                        <th>Cognome medico di base</th>
                                         <th>Prescrizione</th>
                                     </tr>
                                     </tfoot>
                                 </table>
                             </div>
                         </div>
-
+                        <br/>
                         <div class="col-md-12">
                             <h5>Esami erogati</h5>
                             <div class="table table-responsive">
                                 <table id="esamiErogatiPazienteScheda" class="table table-striped table-hover ">
                                     <thead>
                                     <tr>
-                                        <th>Nome Esame</th>
+                                        <th>Nome esame</th>
                                         <th>Descrizione esame</th>
-                                        <th>Nome medico</th>
-                                        <th>Cognome medico</th>
+                                        <th>Nome medico di base</th>
+                                        <th>Cognome medico di base</th>
                                         <th>Prescrizione</th>
                                         <th>Erogazione</th>
                                         <th>Esito</th>
@@ -812,10 +1015,10 @@
                                     </thead>
                                     <tfoot>
                                     <tr>
-                                        <th>Nome Esame</th>
+                                        <th>Nome esame</th>
                                         <th>Descrizione esame</th>
-                                        <th>Nome medico</th>
-                                        <th>Cognome medico</th>
+                                        <th>Nome medico di base</th>
+                                        <th>Cognome medico di base</th>
                                         <th>Prescrizione</th>
                                         <th>Erogazione</th>
                                         <th>Esito</th>
@@ -824,46 +1027,42 @@
                                 </table>
                             </div>
                         </div>
-
+                        <br/>
                         <div class="col-md-12">
                             <h5>Esami non erogati</h5>
                             <div class="table table-responsive">
                                 <table id="esamiNonErogatiPazienteScheda" class="table table-striped table-hover ">
                                     <thead>
                                     <tr>
-                                        <th>Nome Esame</th>
+                                        <th>Nome esame</th>
                                         <th>Descrizione esame</th>
                                         <th>Nome medico</th>
                                         <th>Cognome medico</th>
                                         <th>Prescrizione</th>
-                                        <th>Erogazione</th>
-                                        <th>Esito</th>
                                     </tr>
                                     </thead>
                                     <tfoot>
                                     <tr>
-                                        <th>Nome Esame</th>
+                                        <th>Nome esame</th>
                                         <th>Descrizione esame</th>
                                         <th>Nome medico</th>
                                         <th>Cognome medico</th>
                                         <th>Prescrizione</th>
-                                        <th>Erogazione</th>
-                                        <th>Esito</th>
                                     </tr>
                                     </tfoot>
                                 </table>
                             </div>
                         </div>
-
+                        <br/>
                         <div class="col-md-12">
                             <h5>Visite specialistiche erogate</h5>
                             <div class="table table-responsive">
                                 <table id="visiteSpecialisticheErogatePazienteScheda" class="table table-striped table-hover ">
                                     <thead>
                                     <tr>
-                                        <th>Nome Visita</th>
-                                        <th>Nome Medico specialista</th>
-                                        <th>Cognome Medico specialista</th>
+                                        <th>Nome visita</th>
+                                        <th>Nome medico specialista</th>
+                                        <th>Cognome medico specialista</th>
                                         <th>Nome medico di base</th>
                                         <th>Cognome medico di base</th>
                                         <th>Prescrizione</th>
@@ -873,9 +1072,9 @@
                                     </thead>
                                     <tfoot>
                                     <tr>
-                                        <th>Nome Visita</th>
-                                        <th>Nome Medico specialista</th>
-                                        <th>Cognome Medico specialista</th>
+                                        <th>Nome visita</th>
+                                        <th>Nome medico specialista</th>
+                                        <th>Cognome medico specialista</th>
                                         <th>Nome medico di base</th>
                                         <th>Cognome medico di base</th>
                                         <th>Prescrizione</th>
@@ -886,14 +1085,14 @@
                                 </table>
                             </div>
                         </div>
-
+                        <br/>
                         <div class="col-md-12">
                             <h5>Visite specialistiche non erogate</h5>
                             <div class="table table-responsive">
                                 <table id="visiteSpecialisticheNonErogatePazienteScheda" class="table table-striped table-hover ">
                                     <thead>
                                     <tr>
-                                        <th>Nome Visita</th>
+                                        <th>Nome visita</th>
                                         <th>Nome medico di base</th>
                                         <th>Cognome medico di base</th>
                                         <th>Prescrizione</th>
@@ -901,7 +1100,7 @@
                                     </thead>
                                     <tfoot>
                                     <tr>
-                                        <th>Nome Visita</th>
+                                        <th>Nome visita</th>
                                         <th>Nome medico di base</th>
                                         <th>Cognome medico di base</th>
                                         <th>Prescrizione</th>
@@ -918,7 +1117,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12">
-                            <h3>Prescrivi una farmaco ad un paziente:</h3>
+                            <h3>Prescrivi una farmaco ad un paziente</h3>
                             <hr>
                             <div class="container-fluid" align="center">
                                 <div class="form"  >
@@ -963,7 +1162,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12">
-                            <h3>Prescrivi una visita specialista ad un paziente:</h3>
+                            <h3>Prescrivi una visita specialista ad un paziente</h3>
                             <hr>
                             <div class="container-fluid" align="center">
                                 <div class="form"  >
@@ -1008,7 +1207,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12">
-                            <h3>Prescrivi un esame ad un paziente:</h3>
+                            <h3>Prescrivi un esame ad un paziente</h3>
                             <hr>
                             <div class="container-fluid" align="center">
                                 <div class="form"  >
@@ -1053,7 +1252,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12">
-                            <h3>Eroga una visita ad un paziente:</h3>
+                            <h3>Eroga una visita ad un paziente</h3>
                             <hr>
                             <div class="container-fluid" align="center">
                                 <div class="form"  >
