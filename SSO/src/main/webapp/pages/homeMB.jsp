@@ -885,7 +885,7 @@
             </div>
 
             <div id="schedaPaz" class="tool component" style="align-content: center;">
-                <div class="container">
+                <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-12">
                             <h3>Seleziona un paziente per ricevere la scheda completa</h3>
@@ -896,7 +896,7 @@
                                 <button class="bottone" style="padding-left: 1em" type="submit">Cerca</button>
 
                             </form>
-                            <hr>
+                            <hr>specialistica
                             <br>
                         </div>
 

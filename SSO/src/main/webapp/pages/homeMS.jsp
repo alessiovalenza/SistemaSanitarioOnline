@@ -225,7 +225,7 @@
 
 
                                             <div class="form-group">
-                                                <button id ="btnCambiaMedico" type="submit">Richiama</button>
+                                                <button type="submit">Eroga</button>
                                             </div>
                                         </form>
                                     </div>
