@@ -247,3 +247,29 @@ function initUploadFoto(formId, idUtente, popupId) {
         });
     });
 }
+
+
+
+
+function loadingButton(id) {
+    const loadingText = '<i class="fa fa-circle-o-notch fa-spin"></i> loading...';//mettete qua le stringhe per la lingua
+    let $this = $(id);
+    $(id).css("background-color", "#1565c0");
+
+    if ($(id).html() !== loadingText) {
+        $this.data('original-text', $(id).html());
+        //$this.data('success-text', $("#btnPrescriviFarmaco").html(<i class="fas fa-exclamation-triangle"></i>));
+
+        $this.html(loadingText);
+    }
+}
+function successButton(id) {
+    const successText = '<i class="fas fa-check"></i> success';//mettete qua le stringhe per la lingua
+    $(id).html(successText)
+    $(id).css("background-color", "#4BB543");
+}
+function errorButton(id) {
+    const errorText = '<i class="fas fa-exclamation-triangle"></i> error';//mettete qua le stringhe per la lingua
+    $(id).css("background-color", "#cc0000");
+    $(id).html(errorText)
+}
