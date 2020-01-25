@@ -828,25 +828,25 @@
 
             <ul class="list-unstyled">
                 <li>
-                    <a href="#" class="componentControl" id="profiloControl">Profilo</a>
+                    <a href="#" class="componentControl" id="profiloControl"><fmt:message key="profilo"/></a>
                 </li>
                 <li>
-                    <a href="#" class="componentControl" id="pazientiControl">Pazienti</a>
+                    <a href="#" class="componentControl" id="pazientiControl"><fmt:message key="paz"/></a>
                 </li>
                 <li>
-                    <a href="#" class="componentControl" id="schedaPazControl">Scheda Paziente</a>
+                    <a href="#" class="componentControl" id="schedaPazControl"><fmt:message key="scpaz"/></a>
                 </li>
                 <li>
-                    <a href="#"  class="componentControl" id="prescFarmacoControl">Prescrivi Farmaco</a>
+                    <a href="#"  class="componentControl" id="prescFarmacoControl"><fmt:message key="presfar"/></a>
                 </li>
                 <li>
-                    <a href="#" class="componentControl" id="prescVisitaControl">Prescrivi Visita</a>
+                    <a href="#" class="componentControl" id="prescVisitaControl"><fmt:message key="presvis"/></a>
                 </li>
                 <li>
-                    <a href="#" class="componentControl" id="prescEsameControl">Prescrivi Esame</a>
+                    <a href="#" class="componentControl" id="prescEsameControl"><fmt:message key="preses"/></a>
                 </li>
                 <li>
-                    <a href="#" class="componentControl" id="erogaVisitaControl">Eroga Visita</a>
+                    <a href="#" class="componentControl" id="erogaVisitaControl"><fmt:message key="erovis"/></a>
                 </li>
                 <li>
                     <a href="../logout">Log out</a>
@@ -919,36 +919,36 @@
 
                                 <div class="card-body">
                                     <div style="clear: both; padding-top: 0.5rem">
-                                        <h5 style="float: left">Nome:  </h5>
+                                        <h5 style="float: left"><fmt:message key="nome"/>:  </h5>
                                         <h5 align="right">${sessionScope.utente.nome}</h5>
                                     </div>
                                     <hr>
                                     <div style="clear: both">
-                                        <h5 style="float: left">Cognome:  </h5>
+                                        <h5 style="float: left"><fmt:message key="cognome"/>:  </h5>
                                         <h5 align="right">${sessionScope.utente.cognome}</h5>
                                     </div>
                                     <hr>
                                     <div style="clear: both">
-                                        <h5 style="float: left">Sesso:  </h5>
+                                        <h5 style="float: left"><fmt:message key="sesso"/>:  </h5>
                                         <h5 align="right">${sessionScope.utente.sesso}</h5>
                                     </div>
                                     <hr>
                                     <div style="clear: both">
-                                        <h5 style="float: left">Codice fiscale:  </h5>
+                                        <h5 style="float: left"><fmt:message key="codfis"/>:  </h5>
                                         <h5 align="right">${sessionScope.utente.codiceFiscale}</h5>
                                     </div>
                                     <hr>
                                     <div style="clear: both">
-                                        <h5 style="float: left">Data di nascita:  </h5>
+                                        <h5 style="float: left"><fmt:message key="datanas"/>:  </h5>
                                         <h5 align="right"><fmt:formatDate value="${sessionScope.utente.dataNascita}"/></h5>
                                     </div>
                                     <hr>
                                     <div style="clear: both">
-                                        <h5 style="float: left"> Aggiungi immagine: </h5>
+                                        <h5 style="float: left"><fmt:message key="aggIm"/>: </h5>
                                         <form action="#" id="formUploadFoto" method="POST" role="form" enctype="multipart/form-data">
                                             <input class="btn btn-primary" type="file" id="fotoToUpload" name="foto"
                                                    onchange="return fileValidation('fotoToUpload','btnUploadFoto',labelAlertFoto)"/><br><br>
-                                            <button class="btn btn-primary" type="submit" id="btnUploadFoto" disabled>Carica </button>
+                                            <button class="btn btn-primary" type="submit" id="btnUploadFoto" disabled><fmt:message key="carica"/> </button>
                                         </form>
                                     </div>
                                 </div>
@@ -965,28 +965,28 @@
                             <table id="tablePazienti" class="table table-striped table-hover ">
                                 <thead>
                                 <tr>
-                                    <th>Nome</th>
-                                    <th>Cognome</th>
-                                    <th>Data di nascita</th>
-                                    <th>Luogo di nascita</th>
-                                    <th>Codice fiscale</th>
-                                    <th>Sesso</th>
-                                    <th>Email</th>
-                                    <th>Ultima visita di base</th>
-                                    <th>Ultima ricetta prescritta</th>
+                                    <th><fmt:message key="nome"/></th>
+                                    <th><fmt:message key="cognome"/></th>
+                                    <th><fmt:message key="datanas"/></th>
+                                    <th><fmt:message key="luogonas"/></th>
+                                    <th><fmt:message key="codfis"/></th>
+                                    <th><fmt:message key="sesso"/></th>
+                                    <th><fmt:message key="email"/></th>
+                                    <th><fmt:message key="ulvisbas"/></th>
+                                    <th><fmt:message key="ulricpres"/></th>
                                 </tr>
                                 </thead>
                                 <tfoot>
                                 <tr>
-                                    <th>Nome</th>
-                                    <th>Cognome</th>
-                                    <th>Data di nascita</th>
-                                    <th>Luogo di nascita</th>
-                                    <th>Codice fiscale</th>
-                                    <th>Sesso</th>
-                                    <th>Email</th>
-                                    <th>Ultima visita di base</th>
-                                    <th>Ultima ricetta prescritta</th>
+                                    <th><fmt:message key="nome"/></th>
+                                    <th><fmt:message key="cognome"/></th>
+                                    <th><fmt:message key="datanas"/></th>
+                                    <th><fmt:message key="luogonas"/></th>
+                                    <th><fmt:message key="codfis"/></th>
+                                    <th><fmt:message key="sesso"/></th>
+                                    <th><fmt:message key="email"/></th>
+                                    <th><fmt:message key="ulvisbas"/></th>
+                                    <th><fmt:message key="ulricpres"/></th>
                                 </tr>
                                 </tfoot>
                             </table>
@@ -999,12 +999,12 @@
                 <div class="col-md-12">
                     <div class="row">
                         <div class="col-md-12">
-                            <h3>Seleziona un paziente per ricevere la scheda completa</h3>
+                            <h3><fmt:message key="selpaz"/></h3>
                             <hr>
                             <form id="formScheda">
-                                <label for="idpazienteScheda">Nome del paziente</label>
+                                <label for="idpazienteScheda"><fmt:message key="nomepaz"/></label>
                                 <select type="text" id="idpazienteScheda" name="idpazienteScheda" required="required"></select>
-                                <button class="bottone" style="padding-left: 1em" type="submit">Cerca</button>
+                                <button class="bottone" style="padding-left: 1em" type="submit"><fmt:message key="cerca"/></button>
                             </form>
                             <br>
                         </div>
@@ -1029,18 +1029,18 @@
                             </div>
 
                             <div class="col-md-12">
-                                <h5>Dati Paziente</h5>
+                                <h5><fmt:message key="datipaz"/></h5>
                                 <div class="table table-responsive">
                                     <table id="dataPazienteScheda" class="table table-striped table-hover ">
                                         <thead>
                                         <tr>
-                                            <th>Nome</th>
-                                            <th>Cognome</th>
-                                            <th>Data di Nascita</th>
-                                            <th>Luogo di Nascita</th>
-                                            <th>Codice Fiscale</th>
-                                            <th>Sesso</th>
-                                            <th>Email</th>
+                                            <th><fmt:message key="nome"/></th>
+                                            <th><fmt:message key="cognome"/></th>
+                                            <th><fmt:message key="datanas"/></th>
+                                            <th><fmt:message key="luogonas"/></th>
+                                            <th><fmt:message key="codfis"/></th>
+                                            <th><fmt:message key="sesso"/></th>
+                                            <th><fmt:message key="email"/></th>
                                         </tr>
                                         </thead>
                                     </table>
@@ -1048,23 +1048,23 @@
                             </div>
                             <br/>
                             <div class="col-md-12">
-                                <h5>Visite di base</h5>
+                                <h5><fmt:message key="visbas"/></h5>
                                 <div class="table table-responsive">
                                     <table id="visiteBasePazienteScheda" class="table table-striped table-hover ">
                                         <thead>
                                         <tr>
-                                            <th>Nome medico di base</th>
-                                            <th>Cognome medico di base</th>
-                                            <th>Data erogazione</th>
-                                            <th>Anamnesi</th>
+                                            <th><fmt:message key="nomemb"/></th>
+                                            <th><fmt:message key="cognomemb"/></th>
+                                            <th><fmt:message key="dataero"/></th>
+                                            <th><fmt:message key="anamn"/></th>
                                         </tr>
                                         </thead>
                                         <tfoot>
                                         <tr>
-                                            <th>Nome medico di base</th>
-                                            <th>Cognome medico di base</th>
-                                            <th>Data erogazione</th>
-                                            <th>Anamnesi</th>
+                                            <th><fmt:message key="nomemb"/></th>
+                                            <th><fmt:message key="cognomemb"/></th>
+                                            <th><fmt:message key="dataero"/></th>
+                                            <th><fmt:message key="anamn"/></th>
                                         </tr>
                                         </tfoot>
                                     </table>
@@ -1072,27 +1072,27 @@
                             </div>
                             <br/>
                             <div class="col-md-12">
-                                <h5>Ricette evase</h5>
+                                <h5><fmt:message key="ricev"/></h5>
                                 <div class="table table-responsive">
                                     <table id="ricetteEvasePazienteScheda" class="table table-striped table-hover ">
                                         <thead>
                                         <tr>
-                                            <th>Nome farmaco</th>
-                                            <th>Descrizione farmaco</th>
-                                            <th>Nome medico di base</th>
-                                            <th>Cognome medico di base</th>
-                                            <th>Prescrizione</th>
-                                            <th>Evasione</th>
+                                            <th><fmt:message key="nomefar"/></th>
+                                            <th><fmt:message key="desfar"/></th>
+                                            <th><fmt:message key="nomemb"/></th>
+                                            <th><fmt:message key="cognomemb"/></th>
+                                            <th><fmt:message key="prescrizione"/></th>
+                                            <th><fmt:message key="evas"/></th>
                                         </tr>
                                         </thead>
                                         <tfoot>
                                         <tr>
-                                            <th>Nome farmaco</th>
-                                            <th>Descrizione farmaco</th>
-                                            <th>Nome medico di base</th>
-                                            <th>Cognome medico di base</th>
-                                            <th>Prescrizione</th>
-                                            <th>Evasione</th>
+                                            <th><fmt:message key="nomefar"/></th>
+                                            <th><fmt:message key="desfar"/></th>
+                                            <th><fmt:message key="nomemb"/></th>
+                                            <th><fmt:message key="cognomemb"/></th>
+                                            <th><fmt:message key="prescrizione"/></th>
+                                            <th><fmt:message key="evas"/></th>
                                         </tr>
                                         </tfoot>
                                     </table>
@@ -1100,25 +1100,25 @@
                             </div>
                             <br/>
                             <div class="col-md-12">
-                                <h5>Ricette non evase</h5>
+                                <h5><fmt:message key="ricnevas"/></h5>
                                 <div class="table table-responsive">
                                     <table id="ricetteNonEvasePazienteScheda" class="table table-striped table-hover ">
                                         <thead>
                                         <tr>
-                                            <th>Nome farmaco</th>
-                                            <th>Descrizione farmaco</th>
-                                            <th>Nome medico di base</th>
-                                            <th>Cognome medico di base</th>
-                                            <th>Prescrizione</th>
+                                            <th><fmt:message key="nomefar"/></th>
+                                            <th><fmt:message key="desfar"/></th>
+                                            <th><fmt:message key="nomemb"/></th>
+                                            <th><fmt:message key="cognomemb"/></th>
+                                            <th><fmt:message key="prescrizione"/></th>
                                         </tr>
                                         </thead>
                                         <tfoot>
                                         <tr>
-                                            <th>Nome farmaco</th>
-                                            <th>Descrizione farmaco</th>
-                                            <th>Nome medico di base</th>
-                                            <th>Cognome medico di base</th>
-                                            <th>Prescrizione</th>
+                                            <th><fmt:message key="nomefar"/></th>
+                                            <th><fmt:message key="desfar"/></th>
+                                            <th><fmt:message key="nomemb"/></th>
+                                            <th><fmt:message key="cognomemb"/></th>
+                                            <th><fmt:message key="prescrizione"/></th>
                                         </tr>
                                         </tfoot>
                                     </table>
@@ -1126,29 +1126,29 @@
                             </div>
                             <br/>
                             <div class="col-md-12">
-                                <h5>Esami erogati</h5>
+                                <h5><fmt:message key="esero"/></h5>
                                 <div class="table table-responsive">
                                     <table id="esamiErogatiPazienteScheda" class="table table-striped table-hover ">
                                         <thead>
                                         <tr>
-                                            <th>Nome esame</th>
-                                            <th>Descrizione esame</th>
-                                            <th>Nome medico di base</th>
-                                            <th>Cognome medico di base</th>
-                                            <th>Prescrizione</th>
-                                            <th>Erogazione</th>
-                                            <th>Esito</th>
+                                            <th><fmt:message key="nomeesa"/></th>
+                                            <th><fmt:message key="descresa"/></th>
+                                            <th><fmt:message key="nomemb"/></th>
+                                            <th><fmt:message key="cognomemb"/></th>
+                                            <th><fmt:message key="prescrizione"/></th>
+                                            <th><fmt:message key="ero"/></th>
+                                            <th><fmt:message key="esito"/></th>
                                         </tr>
                                         </thead>
                                         <tfoot>
                                         <tr>
-                                            <th>Nome esame</th>
-                                            <th>Descrizione esame</th>
-                                            <th>Nome medico di base</th>
-                                            <th>Cognome medico di base</th>
-                                            <th>Prescrizione</th>
-                                            <th>Erogazione</th>
-                                            <th>Esito</th>
+                                            <th><fmt:message key="nomeesa"/></th>
+                                            <th><fmt:message key="descresa"/></th>
+                                            <th><fmt:message key="nomemb"/></th>
+                                            <th><fmt:message key="cognomemb"/></th>
+                                            <th><fmt:message key="prescrizione"/></th>
+                                            <th><fmt:message key="ero"/></th>
+                                            <th><fmt:message key="esito"/></th>
                                         </tr>
                                         </tfoot>
                                     </table>
@@ -1156,25 +1156,25 @@
                             </div>
                             <br/>
                             <div class="col-md-12">
-                                <h5>Esami non erogati</h5>
+                                <h5><fmt:message key="esnero"/></h5>
                                 <div class="table table-responsive">
                                     <table id="esamiNonErogatiPazienteScheda" class="table table-striped table-hover ">
                                         <thead>
                                         <tr>
-                                            <th>Nome esame</th>
-                                            <th>Descrizione esame</th>
-                                            <th>Nome medico</th>
-                                            <th>Cognome medico</th>
-                                            <th>Prescrizione</th>
+                                            <th><fmt:message key="nomeesa"/></th>
+                                            <th><fmt:message key="descresa"/></th>
+                                            <th><fmt:message key="nomem"/></th>
+                                            <th><fmt:message key="cognomem"/></th>
+                                            <th><fmt:message key="prescrizione"/></th>
                                         </tr>
                                         </thead>
                                         <tfoot>
                                         <tr>
-                                            <th>Nome esame</th>
-                                            <th>Descrizione esame</th>
-                                            <th>Nome medico</th>
-                                            <th>Cognome medico</th>
-                                            <th>Prescrizione</th>
+                                            <th><fmt:message key="nomeesa"/></th>
+                                            <th><fmt:message key="descresa"/></th>
+                                            <th><fmt:message key="nomem"/></th>
+                                            <th><fmt:message key="cognomem"/></th>
+                                            <th><fmt:message key="prescrizione"/></th>
                                         </tr>
                                         </tfoot>
                                     </table>
@@ -1182,31 +1182,31 @@
                             </div>
                             <br/>
                             <div class="col-md-12">
-                                <h5>Visite specialistiche erogate</h5>
+                                <h5><fmt:message key="visspecero"/></h5>
                                 <div class="table table-responsive">
                                     <table id="visiteSpecialisticheErogatePazienteScheda" class="table table-striped table-hover ">
                                         <thead>
                                         <tr>
-                                            <th>Nome visita</th>
-                                            <th>Nome medico specialista</th>
-                                            <th>Cognome medico specialista</th>
-                                            <th>Nome medico di base</th>
-                                            <th>Cognome medico di base</th>
-                                            <th>Prescrizione</th>
-                                            <th>Erogazione</th>
-                                            <th>Anamnesi</th>
+                                            <th><fmt:message key="nomevis"/></th>
+                                            <th><fmt:message key="nomems"/></th>
+                                            <th><fmt:message key="cognomems"/></th>
+                                            <th><fmt:message key="nomemb"/></th>
+                                            <th><fmt:message key="cognomemb"/></th>
+                                            <th><fmt:message key="prescrizione"/></th>
+                                            <th><fmt:message key="ero"/></th>
+                                            <th><fmt:message key="anamn"/></th>
                                         </tr>
                                         </thead>
                                         <tfoot>
                                         <tr>
-                                            <th>Nome visita</th>
-                                            <th>Nome medico specialista</th>
-                                            <th>Cognome medico specialista</th>
-                                            <th>Nome medico di base</th>
-                                            <th>Cognome medico di base</th>
-                                            <th>Prescrizione</th>
-                                            <th>Erogazione</th>
-                                            <th>Anamnesi</th>
+                                            <th><fmt:message key="nomevis"/></th>
+                                            <th><fmt:message key="nomems"/></th>
+                                            <th><fmt:message key="cognomems"/></th>
+                                            <th><fmt:message key="nomemb"/></th>
+                                            <th><fmt:message key="cognomemb"/></th>
+                                            <th><fmt:message key="prescrizione"/></th>
+                                            <th><fmt:message key="ero"/></th>
+                                            <th><fmt:message key="anamn"/></th>
                                         </tr>
                                         </tfoot>
                                     </table>
@@ -1214,23 +1214,23 @@
                             </div>
                             <br/>
                             <div class="col-md-12">
-                                <h5>Visite specialistiche non erogate</h5>
+                                <h5><fmt:message key="visspecnero"/></h5>
                                 <div class="table table-responsive">
                                     <table id="visiteSpecialisticheNonErogatePazienteScheda" class="table table-striped table-hover ">
                                         <thead>
                                         <tr>
-                                            <th>Nome visita</th>
-                                            <th>Nome medico di base</th>
-                                            <th>Cognome medico di base</th>
-                                            <th>Prescrizione</th>
+                                            <th><fmt:message key="nomevis"/></th>
+                                            <th><fmt:message key="nomemb"/></th>
+                                            <th><fmt:message key="cognomemb"/></th>
+                                            <th><fmt:message key="prescrizione"/></th>
                                         </tr>
                                         </thead>
                                         <tfoot>
                                         <tr>
-                                            <th>Nome visita</th>
-                                            <th>Nome medico di base</th>
-                                            <th>Cognome medico di base</th>
-                                            <th>Prescrizione</th>
+                                            <th><fmt:message key="nomevis"/></th>
+                                            <th><fmt:message key="nomemb"/></th>
+                                            <th><fmt:message key="cognomemb"/></th>
+                                            <th><fmt:message key="prescrizione"/></th>
                                         </tr>
                                         </tfoot>
                                     </table>
@@ -1245,27 +1245,27 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12">
-                            <h3>Prescrivi una farmaco ad un paziente</h3>
+                            <h3><fmt:message key="presfarpaz"/></h3>
                             <hr>
                             <div class="container-fluid" align="center">
                                 <div class="form"  >
                                     <div class="form-toggle"></div>
                                     <div class="form-panel one">
                                         <div class="form-header">
-                                            <h1>Prescrivi un farmaco</h1>
+                                            <h1><fmt:message key="presfar"/></h1>
                                         </div>
                                         <div class="form-content">
                                             <form id="formPrescFarmaco" >
                                                 <div class="form-group">
                                                     <div class="container-fluid">
-                                                        <label for="idmedicobaseFarmaco">Nome del paziente</label>
+                                                        <label for="idmedicobaseFarmaco"><fmt:message key="nomepaz"/></label>
                                                         <select type="text" id="idmedicobaseFarmaco" name="idmedicobaseFarmaco" required="required"></select>
 <%--                                                        <div class="spinner-border text-primary" role="status">--%>
 <%--                                                            <span class="sr-only">Loading...</span>--%>
 <%--                                                        </div>--%>
                                                     </div>
                                                     <div class="container" style="padding-top: 1rem">
-                                                        <label for="idfarmaco">Nome del farmaco</label>
+                                                        <label for="idfarmaco"><fmt:message key="nomefar"/></label>
                                                         <select type="text" id="idfarmaco" name="idfarmaco" required="required"></select>
 <%--                                                        <div class="spinner-border text-primary" role="status">--%>
 <%--                                                            <span class="sr-only">Loading...</span>--%>
@@ -1273,12 +1273,12 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group popup container">
-                                                    <button id ="btnPrescriviFarmaco" type="submit">Prescrivi</button>
+                                                    <button id ="btnPrescriviFarmaco" type="submit"><fmt:message key="pres"/></button>
                                                     <div class="spinner-border text-primary" role="status">
                                                         <span class="sr-only">Loading...</span>
                                                     </div>
                                                     <i class="fas fa-check"></i>
-                                                    <span class="popuptext" id="prescriviFarmacoOK">Farmaco prescritto</span>
+                                                    <span class="popuptext" id="prescriviFarmacoOK"><fmt:message key="farpres"/></span>
                                                 </div>
 
                                             </form>
@@ -1295,27 +1295,27 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12">
-                            <h3>Prescrivi una visita specialista ad un paziente</h3>
+                            <h3><fmt:message key="presvisspecpaz"/></h3>
                             <hr>
                             <div class="container-fluid" align="center">
                                 <div class="form"  >
                                     <div class="form-toggle"></div>
                                     <div class="form-panel one">
                                         <div class="form-header">
-                                            <h1>Prescrivi una visita</h1>
+                                            <h1><fmt:message key="presvis"/></h1>
                                         </div>
                                         <div class="form-content">
                                             <form id="formPrescVisita" >
                                                 <div class="form-group">
                                                     <div class="container-fluid">
-                                                        <label for="idmedicobaseVisitaSpec">Nome del paziente</label>
+                                                        <label for="idmedicobaseVisitaSpec"><fmt:message key="nomepaz"/></label>
                                                         <select type="text" id="idmedicobaseVisitaSpec" name="idmedicobaseVisitaSpec" required="required"></select>
                                                         <div class="spinner-border text-primary" role="status">
                                                             <span class="sr-only">Loading...</span>
                                                         </div>
                                                     </div>
                                                     <div class="container-fluid" style="padding-top: 1rem">
-                                                        <label for="idvisita">Nome della visita</label>
+                                                        <label for="idvisita"><fmt:message key="nomevis"/></label>
                                                         <select type="text" id="idvisita" name="idvisita" required="required"></select>
                                                         <div class="spinner-border text-primary" role="status">
                                                             <span class="sr-only">Loading...</span>
@@ -1323,8 +1323,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <button id ="btnPrescriviVisita" type="submit">Prescrivi</button>
-                                                    <span class="popuptext" id="prescriviVisitaOK">Visita specialistica prescritta</span>
+                                                    <button id ="btnPrescriviVisita" type="submit"><fmt:message key="pres"/></button>
+                                                    <span class="popuptext" id="prescriviVisitaOK"><fmt:message key="visspecpres"/></span>
                                                 </div>
                                             </form>
                                         </div>
@@ -1340,27 +1340,27 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12">
-                            <h3>Prescrivi un esame ad un paziente</h3>
+                            <h3><fmt:message key="presespaz"/></h3>
                             <hr>
                             <div class="container-fluid" align="center">
                                 <div class="form"  >
                                     <div class="form-toggle"></div>
                                     <div class="form-panel one">
                                         <div class="form-header">
-                                            <h1>Prescrivi un esame</h1>
+                                            <h1><fmt:message key="preses"/></h1>
                                         </div>
                                         <div class="form-content">
                                             <form id="formPrescEsame" >
                                                 <div class="form-group">
                                                     <div class="container-fluid">
-                                                        <label for="idmedicobaseEsame">Nome del paziente</label>
+                                                        <label for="idmedicobaseEsame"><fmt:message key="nomepaz"/></label>
                                                         <select type="text" id="idmedicobaseEsame" name="idmedicobaseEsame" required="required"></select>
                                                         <div class="spinner-border text-primary" role="status">
                                                             <span class="sr-only">Loading...</span>
                                                         </div>
                                                     </div>
                                                     <div class="container-fluid" style="padding-top: 1rem">
-                                                        <label for="idesame">Nome dell'esame</label>
+                                                        <label for="idesame"><fmt:message key="nomeesa"/></label>
                                                         <select type="text" id="idesame" name="idesame" required="required"></select>
                                                         <div class="spinner-border text-primary" role="status">
                                                             <span class="sr-only">Loading...</span>
@@ -1368,8 +1368,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <button id ="btnPrescriviEsame" type="submit">Prescrivi</button>
-                                                    <span class="popuptext" id="prescriviEsameOK">Esame prescritto</span>
+                                                    <button id ="btnPrescriviEsame" type="submit"><fmt:message key="prescrizione"/></button>
+                                                    <span class="popuptext" id="prescriviEsameOK"><fmt:message key="esprescr"/></span>
                                                 </div>
                                             </form>
                                         </div>
@@ -1385,33 +1385,33 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12">
-                            <h3>Eroga una visita ad un paziente</h3>
+                            <h3><fmt:message key="erovispaz"/></h3>
                             <hr>
                             <div class="container-fluid" align="center">
                                 <div class="form"  >
                                     <div class="form-toggle"></div>
                                     <div class="form-panel one">
                                         <div class="form-header">
-                                            <h1>Eroga una visita</h1>
+                                            <h1><fmt:message key="erovis"/></h1>
                                         </div>
                                         <div class="form-content">
                                             <form id="formErogaVisita" >
                                                 <div class="form-group">
                                                     <div class="container-fluid" style="padding-top: 1rem">
-                                                        <label for="idmedicobaseVisita">Nome del paziente</label>
+                                                        <label for="idmedicobaseVisita"><fmt:message key="nomepaz"/></label>
                                                         <select type="text" id="idmedicobaseVisita" name="idmedicobaseVisita" required="required"></select>
                                                         <div class="spinner-border text-primary" role="status">
                                                             <span class="sr-only">Loading...</span>
                                                         </div>
                                                     </div>
                                                     <div class="container-fluid" style="padding-top: 1rem">
-                                                        <label for="anamnesi">Anamnesi</label>
+                                                        <label for="anamnesi"><fmt:message key="anamn"/></label>
                                                         <textarea type="text" id="anamnesi" name="anamnesi" required="required"></textarea>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <button id ="btnErogaVisita" type="submit">Eroga visita</button>
-                                                    <span class="popuptext" id="erogaVisitaBaseOK">Visita erogata</span>
+                                                    <button id ="btnErogaVisita" type="submit"><fmt:message key="erovis"/></button>
+                                                    <span class="popuptext" id="erogaVisitaBaseOK"><fmt:message key="visero"/></span>
                                                 </div>
                                             </form>
                                         </div>

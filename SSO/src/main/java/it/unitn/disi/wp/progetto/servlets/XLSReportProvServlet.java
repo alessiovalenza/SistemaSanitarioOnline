@@ -55,6 +55,7 @@ public class XLSReportProvServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String id = request.getParameter("idprovincia");
+        System.out.println("id ricevuto: " + id);
 
         if(id == null) {
             throw new SSOServletException(HttpServletResponse.SC_BAD_REQUEST, "You must specify the id of the provincia");
