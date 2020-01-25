@@ -18,7 +18,7 @@
     <div id="holder">
         <header>
      <nav class="navbar-expand-md sticky-top"
-        style="background-color: #1e88e5;padding: 11px; border-style: groove; border-width: 1px;border-color:lightgray">
+        style="background-color: #1565c0;padding: 11px; border-style: groove; border-width: 0px;border-color:lightgray">
             <div class="container-fluid"><img src="assets/img/logoebbasta.png"
                 style="height: 42px;padding: 0px;margin: 0px;">
                 <a class="navbar-brand" href="index.jsp"

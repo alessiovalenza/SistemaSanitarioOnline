@@ -34,14 +34,14 @@ public class Utilities {
     public final static String USER_IMAGE_EXT_REGEX = "(.*/)*.+\\.(jpg|jpeg)$";
     public final static String USER_IMAGE_EXT = "jpeg";
     public final static String USER_IMAGES_FOLDER = "foto";
-    public final static int USER_IMAGES_WIDTH = 1024;
-    public final static int USER_IMAGES_HEIGHT = 1024;
+    public final static int USER_IMAGES_WIDTH_MAX = 1024;
+    public final static int USER_IMAGES_HEIGHT_MAX = 1024;
 
     public final static String TEMP_FOLDER = "tmp";
     public static long tempFileCount = 0;
 
     //salt per i token
-    public final static long tokenSalt = 69696969;
+    public final static long TOKEN_SALT = 69696969;
 
     public static void sendEmail(List<Email> emails) {
         System.out.println("Sto per inviare una email");
@@ -122,7 +122,7 @@ public class Utilities {
 
     //sha512 per i token
     public static String sha512(String givenPass) {
-        return computeHash(givenPass, tokenSalt);
+        return computeHash(givenPass, TOKEN_SALT);
     }
 
     public static String getMainPageFromRole(String ruolo){

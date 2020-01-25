@@ -167,6 +167,9 @@ a.article:hover {
     width: 100px;
     height: 100px;
     border-radius: 50%;
+    border: 3px solid white;
+    object-fit: cover;
+    background-color: white;
 }
 #cardImage{
     padding-top: 2rem
@@ -230,10 +233,12 @@ table th {
 td {
     color: #808080;
     line-height: 1.4;
+    overflow-y: scroll;
 }
 
 
 table{
+    table-layout: auto;
     font-size: 2.3vw;
     border-radius: 10px;
     overflow: hidden;
@@ -241,7 +246,15 @@ table{
 
 }
 
-
+.anamnesiColumn {
+    max-width: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+/*td:hover {*/
+/*    overflow: visible;*/
+/*}*/
 
 /* ---------------------------------------------------
     MEDIAQUERIES
@@ -294,7 +307,15 @@ only screen and (max-width: 760px),
 }*/
 @media screen and (min-width:768px) {
     table{ font-size: 1em; }
+
+    #sidebarCollapse{ display: none; }
+    #dismiss{
+        display: none;
+    }
 }
+
+
+
 @media (max-width: 768px) {
     #sidebar {
         margin-left: -250px;
@@ -307,6 +328,12 @@ only screen and (max-width: 760px),
     }
     #content.active {
         width: calc(100% - 250px);
+    }
+    #sidebarCollapse{
+        display: inline;
+    }
+    #dismiss{
+        display: inline;
     }
     #sidebarCollapse span {
         display: none;
@@ -398,4 +425,103 @@ only screen and (max-width: 760px),
 }
 select2 {
     width:100%!important;
+}
+
+.anamnesiColumn {
+    max-width: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* taken from w3school, from here... */
+.popup {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.popup .popuptext {
+    visibility: hidden;
+    width: 160px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -80px;
+}
+
+.popup .popuptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+.popup .show {
+    visibility: visible;
+    -webkit-animation: fadeIn 1s;
+    animation: fadeIn 1s;
+}
+
+@-webkit-keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity:1 ;}
+}
+
+.overlay {
+    display: none;
+    position: fixed;
+    /* full screen */
+    width: 100vw;
+    height: 100vh;
+    /* transparent black */
+    background: rgba(0, 0, 0, 0.7);
+    /* middle layer, i.e. appears below the sidebar */
+    z-index: 998;
+    opacity: 0;
+    /* animate the transition */
+    transition: all 0.5s ease-in-out;
+}
+/* display .overlay when it has the .active class */
+.overlay.active {
+    display: block;
+    opacity: 1;
+}
+
+#dismiss {
+    cursor: pointer;
+    width: 35px;
+    height: 35px;
+    position: absolute;
+    /* top right corner of the sidebar */
+    top: 10px;
+    right: 10px;
+}
+.emailSidebar{
+    font-size: 0.8rem;
+}
+
+/* ... to here */
+
+#schedaPaziente {
+    display: none;
 }
