@@ -39,7 +39,7 @@ public class JDBCFotoDAO extends JDBCDAO<Foto, Long> implements FotoDAO{
 
         try (PreparedStatement stm = CON.prepareStatement("SELECT * FROM foto f " +
                 "JOIN utente u ON f.paziente = u.id " +
-                "WHERE f.paziente = ?")) {
+                "WHERE f.paziente = ? ORDER BY f.caricamento DESC;")) {
             stm.setLong(1, idUtente);
 
             try (ResultSet rs = stm.executeQuery()) {
