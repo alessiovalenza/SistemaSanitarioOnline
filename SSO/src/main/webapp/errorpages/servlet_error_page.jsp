@@ -45,7 +45,7 @@
     </header>
     <div id="body">
         <div style="position: relative; text-align: center;width: 100%;">
-            <img style="width:100%;" src="/SSO_war_exploded/assets/img/error.jpg">
+            <img style="width:70%;" src="/SSO_war_exploded/assets/img/error.jpg">
             <div style="position: absolute; top: 40%; left: 40%;color: white;width: 60%;">
                 <h3 class="scaled"
                     style="text-shadow: 1px 1px black; font-size: 4vw; ">
