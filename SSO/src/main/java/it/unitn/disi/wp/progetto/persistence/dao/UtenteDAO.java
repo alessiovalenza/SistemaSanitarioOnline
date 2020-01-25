@@ -19,7 +19,7 @@ public interface UtenteDAO extends DAO<Utente, Long> {
     public List<Utente> getPazientiByMedicoBase(long id, String suggestion) throws  DAOException; //l'id è del medico di base
     public boolean updatePassword(long id, String hashPw, long salt) throws  DAOException;  //id dell'user, password già hashata
     public boolean changeMedicoBase(long idPaziente, long idMedicoBase) throws  DAOException; // id del nuovo medico di base
-    public List<Utente> getUsersBySuggestion(String suggestion) throws DAOException;
+    public List<Utente> getUsersBySuggestion(String suggestion, String provincia) throws DAOException;
     public List<Utente> getMediciBaseBySuggestionAndProvincia(String suggestion, String provincia) throws DAOException;
     public Utente getMedicoBaseByPaziente(long idPaziente) throws DAOException;
     public List<ElemPazienteMB> getPazientiDateMB(long idMedicoBase, String suggestion) throws DAOException;

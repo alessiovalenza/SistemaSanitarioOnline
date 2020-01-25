@@ -1,0 +1,1 @@
+The folder where this file is must not be deleted, it serves as a temporary folder for temporary files

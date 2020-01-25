@@ -117,30 +117,14 @@
   </servlet-mapping>
 
   <!-- filter config -->
-
   <filter-mapping>
     <filter-name>AuthNFilter</filter-name>
     <url-pattern> /* </url-pattern>
   </filter-mapping>
-
   <filter-mapping>
     <filter-name>AuthZFilter</filter-name>
     <url-pattern> /* </url-pattern>
   </filter-mapping>
-
-
-  <!-- parameters for excluded urls -->
-  <context-param>
-    <param-name>excludedurls</param-name>
-    <param-value>
-      [\S]*index.jsp
-      [\S]*login.jsp
-      [\S]*LoginServlet
-      [\S]*assets[\D]*
-      [\S]*pages[\D]*
-      ^$
-    </param-value>
-  </context-param>
 
   <!-- homepages -->
   <context-param>
@@ -168,105 +152,120 @@
     <param-value>/pages/homeSSP.jsp</param-value>
   </context-param>
 
+  <!-- parameters for excluded urls -->
+  <context-param>
+    <param-name>excludedurls</param-name>
+    <param-value>
+      index.jsp
+      login.jsp
+      LoginServlet
+      assets[\S]*
+      scripts[\S]*
+      ^$
+    </param-value>
+  </context-param>
+
   <!-- Capabilities per ruolo -->
 
   <context-param>
     <param-name>tutti</param-name>
     <param-value>
-      [\S]*logout[/]?
-      [\S]*passreset[/]?
+      logout[/]?
+      passreset[/]?
+      section[/]?
     </param-value>
   </context-param>
 
   <context-param>
     <param-name>foto</param-name>
     <param-value>
-      [\S]*foto/([\d]+)/([\d]+).jpg[/]?
+      [\S]*foto/([\d]+)/([\d]+).jpeg[/]?
     </param-value>
   </context-param>
 
   <context-param>
     <param-name>mb</param-name>
     <param-value>
-      [\S]*medicobase[/]?
-      [\S]*homeMB[\S]*
-      [\S]*general/[\S]*
-      [\S]*utenti/([\d]+)/password[/]?
-      [\S]*medicibase/([\d]+)/pazienti[/]?
-      [\S]*pazienti/([\d]+)[\S]*
-      [\S]*utenti/([\d]+)/foto[/]?
-      [\S]*foto/([\d]+)/([\d]+).jpg[/]?
+      medicobase[/]?
+      pages/homeMB[\S]*
+      api/general/[\S]*
+      api/utenti/([\d]+)/password[/]?
+      api/medicibase/([\d]+)/pazienti[/]?
+      api/pazienti/([\d]+)[\S]*
+      api/utenti/([\d]+)/foto[/]?
+      foto/([\d]+)/([\d]+).jpeg[/]?
     </param-value>
   </context-param>
 
   <context-param>
     <param-name>ms</param-name>
     <param-value>
-      [\S]*medicospecialista[/]?
-      [\S]*homeMS[\S]*
-      [\S]*general/[\S]*
-      [\S]*utenti/([\d]+)/password[/]?
-      [\S]*pazienti[\S]*
-      [\S]*pazienti/([\d]+)/visitespecialistiche/([\d]+)[/]?
-      [\S]*utenti/([\d]+)/foto[/]?
-      [\S]*foto/([\d]+)/([\d]+).jpg[/]?
+      medicospecialista[/]?
+      pages/homeMS[\S]*
+      api/general/[\S]*
+      api/utenti/([\d]+)/password[/]?
+      api/pazienti[\S]*
+      api/pazienti/([\d]+)/visitespecialistiche/([\d]+)[/]?
+      api/utenti/([\d]+)/foto[/]?
+      foto/([\d]+)/([\d]+).jpeg[/]?
     </param-value>
   </context-param>
 
   <context-param>
     <param-name>p</param-name>
     <param-value>
-      [\S]*paziente[/]?
-      [\S]*homeP[\S]*
-      [\S]*docs/ricevute[/]?
-      [\S]*docs/ricette[/]?
-      [\S]*general/[\S]*
-      [\S]*utenti/([\d]+)/password[/]?
-      [\S]*pazienti/([\d]+)[\S]*
-      [\S]*pazienti/([\d]+)/medicobase[/]?
-      [\S]*utenti/([\d]+)/foto[/]?
-      [\S]*foto/([\d]+)/([\d]+).jpg[/]?
+      paziente[/]?
+      pages/homeP[\S]*
+      docs/ricevute[/]?
+      docs/ricette[/]?
+      api/general/[\S]*
+      api/utenti/([\d]+)/password[/]?
+      api/pazienti/([\d]+)[\S]*
+      api/pazienti/([\d]+)/medicobase[/]?
+      api/utenti/([\d]+)/foto[/]?
+      foto/([\d]+)/([\d]+).jpeg[/]?
+      mappe[\S]*
     </param-value>
   </context-param>
 
   <context-param>
     <param-name>f</param-name>
     <param-value>
-      [\S]*farmacia[/]?
-      [\S]*homeF[\S]*
-      [\S]*general/[\S]*
-      [\S]*utenti/([\d]+)/password[/]?
-      [\S]*pazienti[/]?
-      [\S]*pazienti/([\d]+)/ricette[\S]*
-      [\S]*pazienti/([\d]+)[/]?
-      [\S]*foto/([\d]+)/([\d]+).jpg[/]?
+      farmacia[/]?
+      pages/homeF[\S]*
+      api/general/[\S]*
+      api/utenti/([\d]+)/password[/]?
+      api/pazienti[/]?
+      api/pazienti/([\d]+)/ricette[\S]*
+      api/pazienti/([\d]+)[/]?
+      foto/([\d]+)/([\d]+).jpeg[/]?
     </param-value>
   </context-param>
 
   <context-param>
     <param-name>ssp</param-name>
     <param-value>
-      [\S]*ssp[/]?
-      [\S]*homeSSP[\S]*
-      [\S]*general/[\S]*
-      [\S]*docs/reportprov[/]?
-      [\S]*utenti/([\d]+)/password[/]?
-      [\S]*pazienti[/]?
-      [\S]*pazienti/([\d]+)/esamiprescritti[\S]*
-      [\S]*pazienti/richiamo[\S]*
-      [\S]*pazienti/([\d]+)[/]?
-      [\S]*foto/([\d]+)/([\d]+).jpg[/]?
+      ssp[/]?
+      pages/homeSSP[\S]*
+      api/general/[\S]*
+      docs/reportprov[/]?
+      api/utenti/([\d]+)/password[/]?
+      api/pazienti[/]?
+      api/pazienti/([\d]+)/esamiprescritti[\S]*
+      api/pazienti/richiamo[\S]*
+      api/pazienti/([\d]+)[/]?
+      foto/([\d]+)/([\d]+).jpeg[/]?
     </param-value>
   </context-param>
 
   <context-param>
     <param-name>ssn</param-name>
     <param-value>
-      [\S]*ssn[/]?
-      [\S]*homeSSN[\S]*
-      [\S]*general/[\S]*
-      [\S]*docs/reportnazionale[/]?
-      [\S]*utenti/([\d]+)/password[/]?
+      ssn[/]?
+      pages/homeSSN[\S]*
+      api/general/[\S]*
+      docs/reportnazionale[/]?
+      api/utenti/([\d]+)/password[/]?
     </param-value>
   </context-param>
 

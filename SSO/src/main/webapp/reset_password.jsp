@@ -30,7 +30,7 @@
 <body>
     <nav class="navbar-expand-md sticky-top"
         style="background-color: #51b5e0;font-family: 'Open Sans', sans-serif;padding: 11px; border-style: groove; border-width: 1px;border-color:lightgray">
-        <div class="container-fluid"><img src="assets/img/logoebbasta.png"
+        <div class="container-fluid"><img src="assets/img/logo_repubblica_colori.png"
                 style="height: 42px;padding: 0px;margin: 0px;">
             <a class="navbar-brand" href="index.jsp"
                 style="padding: 3px;font-family: default;color: rgb(255,255,255);">

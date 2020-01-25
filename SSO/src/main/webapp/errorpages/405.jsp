@@ -42,7 +42,7 @@
             <div style="position: absolute; top: 40%; left: 40%;color: white;width: 60%;">
                 <h3 class="scaled"
                     style="text-shadow: 1px 1px black; font-size: 4vw; ">
-                    <fmt message>Errore 405<br> Risorsa non disponibile <br> con richiesta attuale</fmt>
+                    <fmt message>Errore 405<br> Metodo non permesso <br> su questa risorsa</fmt>
                 </h3>
 
             </div>

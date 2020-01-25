@@ -24,7 +24,8 @@ public class PazienteApi extends Api {
     
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getUtentiSuggestion(@QueryParam("term") String term) {
+    public Response getUtentiSuggestion(@QueryParam("term") String term,
+                                        @QueryParam("idprovincia") String idProvincia) {
         Response res;
 
         try {
@@ -32,7 +33,7 @@ public class PazienteApi extends Api {
             List<Utente> utenti;
             List<UtenteView> utentiView;
 
-            utenti = utenteDAO.getUsersBySuggestion(term == null ? "" : term);
+            utenti = utenteDAO.getUsersBySuggestion(term == null ? "" : term, idProvincia);
             utentiView = new ArrayList<>();
             for (Utente utente : utenti) {
                 utentiView.add(Utilities.fromUtenteToUtenteView(utente));
@@ -158,14 +159,14 @@ public class PazienteApi extends Api {
         
         HttpSession session = request.getSession(false);
         Response res;
-        
-        if(session == null || session.getAttribute("utente") == null || !( ((Utente)session.getAttribute("utente")).getRuolo().equals(Utilities.FARMACIA_RUOLO) && !nonEvaseOnly )) {
-            if(evaseOnly == null || nonEvaseOnly == null || (nonEvaseOnly && evaseOnly)) {
-                throw new ApiException(HttpServletResponse.SC_BAD_REQUEST,
-                        "You must specificy both evaseonly and nonevaseonly parameters, " +
-                                "with possible pair values (false, false), (false, true), or (true, false)");
-            }
 
+        if(evaseOnly == null || nonEvaseOnly == null || (nonEvaseOnly && evaseOnly)) {
+            throw new ApiException(HttpServletResponse.SC_BAD_REQUEST,
+                    "You must specificy both evaseonly and nonevaseonly parameters, " +
+                            "with possible pair values (false, false), (false, true), or (true, false)");
+        }
+
+        if(session == null || session.getAttribute("utente") == null || !( ((Utente)session.getAttribute("utente")).getRuolo().equals(Utilities.FARMACIA_RUOLO) && !nonEvaseOnly )) {
             try {
                 UtenteDAO utenteDAO = daoFactory.getDAO(UtenteDAO.class);
                 Utente paziente = utenteDAO.getByPrimaryKey(idPaziente);
@@ -334,9 +335,14 @@ public class PazienteApi extends Api {
             EsamePrescritto esamePrescritto = esamePrescrittoDAO.getByPrimaryKey(idEsamePrescr);
 
             if(esamePrescritto != null && esamePrescritto.getPaziente().getId() == idPaziente) {
-                esamePrescrittoDAO.erogaEsamePrescritto(idEsamePrescr, new Timestamp(System.currentTimeMillis()), esito);
-                Utilities.sendEmailRisultatoEsame(esamePrescritto);
-                res = EMPTY_RESPONSE;
+                if(esamePrescritto.getErogazione() == null) {
+                    esamePrescrittoDAO.erogaEsamePrescritto(idEsamePrescr, new Timestamp(System.currentTimeMillis()), esito);
+                    Utilities.sendEmailRisultatoEsame(esamePrescritto);
+                    res = EMPTY_RESPONSE;
+                }
+                else {
+                    throw new ApiException(HttpServletResponse.SC_FORBIDDEN, "You cannot edit an esame prescritto that has already been made");
+                }
             }
             else {
                 if(esamePrescritto == null) {
@@ -378,8 +384,13 @@ public class PazienteApi extends Api {
                 Ricetta ricetta = ricettaDAO.getByPrimaryKey(idRicetta);
 
                 if(ricetta != null && ricetta.getPaziente().getId() == idPaziente) {
-                    ricettaDAO.evadiRicetta(idRicetta, idFarmacia, new Timestamp(System.currentTimeMillis()));
-                    res = EMPTY_RESPONSE;
+                    if(ricetta.getEvasione() == null) {
+                        ricettaDAO.evadiRicetta(idRicetta, idFarmacia, new Timestamp(System.currentTimeMillis()));
+                        res = EMPTY_RESPONSE;
+                    }
+                    else {
+                        throw new ApiException(HttpServletResponse.SC_FORBIDDEN, "You cannot edit a ricetta that has already been used");
+                    }
                 }
                 else {
                     if(ricetta == null) {
@@ -503,9 +514,14 @@ public class PazienteApi extends Api {
                 VisitaMedicoSpecialista visitaMedicoSpecialista = visitaMedicoSpecialistaDAO.getByPrimaryKey(idVisitaSpec);
 
                 if (visitaMedicoSpecialista != null && visitaMedicoSpecialista.getPaziente().getId() == idPaziente) {
-                    visitaMedicoSpecialistaDAO.erogaVisitaSpecialistica(idVisitaSpec, new Timestamp(System.currentTimeMillis()), anamnesi, idMedicoSpec);
-                    Utilities.sendEmailRisultatoVisita(visitaMedicoSpecialista);
-                    res = EMPTY_RESPONSE;
+                    if(visitaMedicoSpecialista.getErogazione() == null) {
+                        visitaMedicoSpecialistaDAO.erogaVisitaSpecialistica(idVisitaSpec, new Timestamp(System.currentTimeMillis()), anamnesi, idMedicoSpec);
+                        Utilities.sendEmailRisultatoVisita(visitaMedicoSpecialista);
+                        res = EMPTY_RESPONSE;
+                    }
+                    else {
+                        throw new ApiException(HttpServletResponse.SC_FORBIDDEN, "You cannot edit a visita specialistica that has already been made");
+                    }
                 }
                 else {
                     if(visitaMedicoSpecialista == null) {

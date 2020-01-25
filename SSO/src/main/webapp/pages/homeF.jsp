@@ -193,7 +193,7 @@
             <i class="fas fa-arrow-left"></i>
         </div>
         <div class="sidebar-header">
-            <img class="avatar" alt="Avatar" src="propic.jpeg" data-holder-rendered="true">
+            <img class="avatar" alt="Avatar" src="../assets/img/logo_repubblica_colori.png" data-holder-rendered="true">
             <h3>Nome Cognome</h3>
             <h6>esempio@email.com</h6>
         </div>

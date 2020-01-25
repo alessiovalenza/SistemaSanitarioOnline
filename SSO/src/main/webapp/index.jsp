@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Servizio Sanitario</title>
-    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/styles.css">
@@ -26,7 +26,7 @@
     <header>
         <nav class="navbar-expand-md sticky-top "
              style="background-color: #1565c0;padding: 11px;border-style: groove; border-width: 0pt; border-color:lightgray">
-            <div class="container-fluid"><img src="assets/img/logoebbasta.png"
+            <div class="container-fluid"><img src="assets/img/logo_repubblica_colori.png"
                                               style="height: 42px;padding: 0px;margin: 0px;">
                 <a class="navbar-brand" href="index.jsp"
                    style="padding: 3px;color: rgb(255,255,255);">

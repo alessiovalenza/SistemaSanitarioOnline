@@ -13,8 +13,8 @@
 
 <body>
     <nav class="navbar navbar-light navbar-expand-md sticky-top" style="background-color: #51b5e0;font-family: 'Open Sans', sans-serif;padding: 11px;padding: 11px;border-style: groove; border-width: 1px; border-color:lightgray">
-        <div class="container-fluid"><img src="assets/img/logoebbasta.png" style="height: 42px;padding: 0px;margin: 0px;"><a class="navbar-brand" href="index.jsp" style="padding: 3px;font-family: default;color: rgb(255,255,255);">Ministero della salute</a><button data-toggle="collapse" class="navbar-toggler"
-                                                                                                                                                                                                                                                                        data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon" style="border-color: white;"></span></button>
+        <div class="container-fluid"><img src="assets/img/logo_repubblica_colori.png" style="height: 42px;padding: 0px;margin: 0px;"><a class="navbar-brand" href="index.jsp" style="padding: 3px;font-family: default;color: rgb(255,255,255);">Ministero della salute</a><button data-toggle="collapse" class="navbar-toggler"
+                                                                                                                                                                                                                                                                                   data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon" style="border-color: white;"></span></button>
             <div class="collapse navbar-collapse" id="navcol-1">
                 <ul class="nav navbar-nav">
                     <li class="nav-item" role="presentation"><a class="nav-link active" href="profilo.jsp" style="font-family: default;color: rgb(255,255,255);">Profilo</a></li>

@@ -33,7 +33,7 @@ public class LoginServlet extends HttpServlet {
         Utente utente = doAuthN(email, password);
 
         if (utente == null){
-            request.setAttribute("error", "Username o Password errati. Riprovare");
+            request.setAttribute("error", "Username o password errati. Riprovare");
             doGet(request, response);
         }else{
             setCookieRM(utente, response);
@@ -121,7 +121,7 @@ public class LoginServlet extends HttpServlet {
             String computedHash = sha512(givenPassword, utente.getSalt());
             System.out.println("given pass: " + givenPassword);
             System.out.println("savedHash: " + savedHash + "\ncomputed hash: " + computedHash);
-            retval = savedHash.substring(2).equals(computedHash);
+            retval = savedHash.equals(computedHash);
         }
         return retval;
     }

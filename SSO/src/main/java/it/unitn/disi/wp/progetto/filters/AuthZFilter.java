@@ -1,5 +1,6 @@
 package it.unitn.disi.wp.progetto.filters;
 
+import it.unitn.disi.wp.progetto.api.exceptions.ApiException;
 import it.unitn.disi.wp.progetto.commons.Utilities;
 import it.unitn.disi.wp.progetto.persistence.dao.UtenteDAO;
 import it.unitn.disi.wp.progetto.persistence.dao.exceptions.DAOException;
@@ -74,11 +75,11 @@ public class AuthZFilter implements Filter {
                     //System.out.println("Utente non autorizzato ad accedere alla risorsa " + field + ". Redirect alla suo homePage");
                     //httpResponse.sendRedirect(httpRequest.getContextPath() + Utilities.getMainPageFromRole(utente.getRuolo()));
 
-                    if(Utilities.urlIsLike(field, urlsUnion)) {
-                        throw new SSOServletException(HttpServletResponse.SC_FORBIDDEN, "You do not have the permission to access this resource");
+                    if(field.startsWith("api/")) { //la richiesta è verso un'API
+                        throw new ApiException(HttpServletResponse.SC_NOT_FOUND, "Resource not found");
                     }
                     else {
-                        chain.doFilter(request, response);
+                        throw new SSOServletException(HttpServletResponse.SC_NOT_FOUND, "Resource not found");
                     }
                 }
             }
@@ -129,19 +130,11 @@ public class AuthZFilter implements Filter {
         boolean res = false;
 
         if(url.matches(urlPatterns.get(0)) || url.matches(urlPatterns.get(1)) || url.matches(urlPatterns.get(2))) {
-            Enumeration<String> e = request.getParameterNames();
-            while(e.hasMoreElements()) {
-                System.out.println(e.nextElement());
-            }
             res = true;
         }
         if(!res && url.matches(urlPatterns.get(3))) {
             long idUrl = Long.parseLong(url.replaceAll(urlPatterns.get(3), "$1"));
             if(utente.getId() == idUrl) {
-                Enumeration<String> e = request.getParameterNames();
-                while(e.hasMoreElements()) {
-                    System.out.println(e.nextElement());
-                }
                 res = true;
             }
         }
@@ -267,16 +260,15 @@ public class AuthZFilter implements Filter {
                 res = true;
             }
         }
+        if(!res && url.matches(urlPatterns.get(10))) {
+            res = true;
+        }
 
         return res;
     }
 
     private boolean checkF(String url, List<String> urlPatterns, Utente utente, HttpServletRequest request) throws DAOException {
         boolean res = false;
-
-        /*for(String u: urlPatterns) {
-            System.out.println(u + "\t"+url+" match " + url.matches(u));
-        }*/
 
         if(url.matches(urlPatterns.get(0)) || url.matches(urlPatterns.get(1)) ||
                 url.matches(urlPatterns.get(2))|| url.matches(urlPatterns.get(6))) {

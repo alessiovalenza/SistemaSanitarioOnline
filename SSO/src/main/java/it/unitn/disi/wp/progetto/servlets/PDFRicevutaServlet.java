@@ -119,6 +119,11 @@ public class PDFRicevutaServlet extends HttpServlet {
             switch (tipo) {
                 case RICETTA:
                     Ricetta ricetta = ricettaDAO.getByPrimaryKey(id);
+
+                    if(ricetta.getEvasione() == null) {
+                        throw new SSOServletException(HttpServletResponse.SC_BAD_REQUEST, "You can have a ricevuta only for a ricettta that you already paid for");
+                    }
+
                     paziente = ricetta.getPaziente();
 
                     table = new Table(colWidths).useAllAvailableWidth();
@@ -183,6 +188,10 @@ public class PDFRicevutaServlet extends HttpServlet {
                     EsamePrescritto esame = esameDAO.getByPrimaryKey(id);
                     paziente = esame.getPaziente();
 
+                    if(esame.getErogazione() == null) {
+                        throw new SSOServletException(HttpServletResponse.SC_BAD_REQUEST, "You can have a ricevuta only for an esame prescritto that you already paid for");
+                    }
+
                     table = new Table(colWidths).useAllAvailableWidth();
 
                     table.addCell(new Cell().add(new Paragraph(new Text("Cognome e nome dell'assitito").setBold()))
@@ -244,6 +253,10 @@ public class PDFRicevutaServlet extends HttpServlet {
                 case VISITA:
                     VisitaMedicoSpecialista visita = visitaDAO.getByPrimaryKey(id);
                     paziente = visita.getPaziente();
+
+                    if(visita.getErogazione() == null) {
+                        throw new SSOServletException(HttpServletResponse.SC_BAD_REQUEST, "You can have a ricevuta only for a visita specialistica that you already paid for");
+                    }
 
                     table = new Table(colWidths).useAllAvailableWidth();
 

@@ -52,7 +52,7 @@
             <i class="fas fa-arrow-left"></i>
         </div>
         <div class="sidebar-header">
-            <img class="avatar" alt="Avatar" src="propic.jpeg"
+            <img class="avatar" alt="Avatar" src="../assets/img/logo_repubblica_colori.png"
                  data-holder-rendered="true">
             <h3>${sessionScope.utente.nome} ${sessionScope.utente.cognome}</h3>
             <h6>${sessionScope.utente.cognome}</h6>

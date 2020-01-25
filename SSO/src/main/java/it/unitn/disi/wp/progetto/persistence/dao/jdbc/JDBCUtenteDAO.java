@@ -6,6 +6,7 @@ import it.unitn.disi.wp.progetto.persistence.entities.ElemPazienteMB;
 import it.unitn.disi.wp.progetto.persistence.entities.Utente;
 import it.unitn.disi.wp.progetto.persistence.entities.UtenteView;
 
+import javax.xml.bind.DatatypeConverter;
 import java.math.BigInteger;
 import java.sql.*;
 import java.util.ArrayList;
@@ -138,7 +139,7 @@ public class JDBCUtenteDAO extends JDBCDAO<Utente, Long> implements UtenteDAO {
     }
 
     @Override
-    public List<Utente> getUsersBySuggestion(String suggestion) throws DAOException{
+    public List<Utente> getUsersBySuggestion(String suggestion, String provincia) throws DAOException{
         List<Utente> listPazienti = new ArrayList<>();
 
         if ((suggestion == null)) {
@@ -148,11 +149,15 @@ public class JDBCUtenteDAO extends JDBCDAO<Utente, Long> implements UtenteDAO {
         try (PreparedStatement stm = CON.prepareStatement("SELECT * FROM utente " +
                 "WHERE (lower(cognome || ' ' || nome) LIKE lower(?) OR lower(nome || ' ' || cognome) LIKE lower(?) " +
                 "OR lower(email) LIKE lower(?) OR lower(codicefiscale) LIKE lower(?)) " +
-                "AND (ruolo = 'p' OR ruolo = 'mb' OR ruolo = 'ms');")) {
+                "AND (ruolo = 'p' OR ruolo = 'mb' OR ruolo = 'ms')" + (provincia != null ? " AND idprovincia = ?" : "") + ";")) {
             stm.setString(1, suggestion+"%"); // 1-based indexing
             stm.setString(2, suggestion+"%"); // 1-based indexing
             stm.setString(3, suggestion+"%"); // 1-based indexing
             stm.setString(4, suggestion+"%"); // 1-based indexing
+            if(provincia != null) {
+                stm.setString(5, provincia); // 1-based indexing
+            }
+
 
             try (ResultSet rs = stm.executeQuery()) {
                 while(rs.next()){
@@ -310,10 +315,13 @@ public class JDBCUtenteDAO extends JDBCDAO<Utente, Long> implements UtenteDAO {
     }
 
     public static Utente makeUtenteFromRs(ResultSet rs) throws SQLException {
+        byte [] hash = rs.getBytes("password");
+        String hashString = DatatypeConverter.printHexBinary(hash).toLowerCase();
+
         Utente user = new Utente();
         user.setId(rs.getLong("id"));
         user.setEmail(rs.getString("email"));
-        user.setPassword(rs.getString("password"));
+        user.setPassword(hashString);
         user.setSalt(rs.getLong("salt"));
         user.setRuolo(rs.getString("ruolo"));
 

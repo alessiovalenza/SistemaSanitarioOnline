@@ -19,7 +19,7 @@
         <header>
      <nav class="navbar-expand-md sticky-top"
         style="background-color: #1565c0;padding: 11px; border-style: groove; border-width: 0px;border-color:lightgray">
-            <div class="container-fluid"><img src="assets/img/logoebbasta.png"
+            <div class="container-fluid"><img src="assets/img/logo_repubblica_colori.png"
                 style="height: 42px;padding: 0px;margin: 0px;">
                 <a class="navbar-brand" href="index.jsp"
                    style="padding: 3px;color: rgb(255,255,255);">
