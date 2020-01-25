@@ -225,6 +225,8 @@
 
                     },
                     complete: function(){
+                        $('.select2ErogaVisita').val(null).trigger("change")
+                        $('#anamnesi').val("")
                         successButton("#btnErogaVisita")
                         document.getElementById("erogaVisitaBaseOK").classList.toggle("show");
                         setTimeout(function() {
@@ -257,6 +259,8 @@
                     },
                     complete: function(){
                         successButton("#btnPrescriviFarmaco")
+                        $('.select2PrescFarmaco').val(null).trigger("change")
+
                     },
                     error: function(xhr, status, error) {
                         alert(xhr.responseText);
@@ -267,7 +271,7 @@
 
             $("#formPrescEsame").submit(function(event){
                 event.preventDefault(); //prevent default action
-                loadingButton("btnPrescriviEsame")
+                loadingButton("#btnPrescriviEsame")
                 let urlPrescFarmaco = "http://localhost:8080/SSO_war_exploded/api/pazienti/"+$("#idmedicobaseEsame").val()+"/esamiprescritti"
                 let formData = "idmedicobase=${sessionScope.utente.id}&idesame="+$("#idesame").val() //Encode form elements for submission
                 $.ajax({
@@ -278,7 +282,8 @@
 
                     },
                     complete: function(){
-                        successButton("btnPrescriviEsame")
+                        $('.select2PrescEsame').val(null).trigger("change")
+                        successButton("#btnPrescriviEsame")
                         document.getElementById("prescriviEsameOK").classList.toggle("show");
                         setTimeout(function() {
                             document.getElementById("prescriviEsameOK").classList.toggle("show");
@@ -305,6 +310,7 @@
                     },
                     complete: function(){
                         successButton("#btnPrescriviVisita")
+                        $('.select2PrescVisita').val(null).trigger("change")
                         document.getElementById("prescriviVisitaOK").classList.toggle("show");
                         setTimeout(function() {
                             document.getElementById("prescriviVisitaOK").classList.toggle("show");
@@ -1268,11 +1274,11 @@
                                                 <div class="form-group">
                                                     <div class="container-fluid">
                                                         <label for="idmedicobaseFarmaco"><fmt:message key="nomepaz"/></label>
-                                                        <select type="text" id="idmedicobaseFarmaco" name="idmedicobaseFarmaco" required="required"></select>
+                                                        <select class="select2PrescFarmaco" type="text" id="idmedicobaseFarmaco" name="idmedicobaseFarmaco" required="required"></select>
                                                     </div>
                                                     <div class="container" style="padding-top: 1rem">
                                                         <label for="idfarmaco"><fmt:message key="nomefar"/></label>
-                                                        <select type="text" id="idfarmaco" name="idfarmaco" required="required"></select>
+                                                        <select class="select2PrescFarmaco" type="text" id="idfarmaco" name="idfarmaco" required="required"></select>
                                                     </div>
                                                 </div>
                                                 <div class="form-group popup container">
@@ -1308,11 +1314,11 @@
                                                 <div class="form-group">
                                                     <div class="container-fluid">
                                                         <label for="idmedicobaseVisitaSpec"><fmt:message key="nomepaz"/></label>
-                                                        <select type="text" id="idmedicobaseVisitaSpec" name="idmedicobaseVisitaSpec" required="required"></select>
+                                                        <select type="text" class="select2PrescVisita" id="idmedicobaseVisitaSpec" name="idmedicobaseVisitaSpec" required="required"></select>
                                                     </div>
                                                     <div class="container-fluid" style="padding-top: 1rem">
                                                         <label for="idvisita"><fmt:message key="nomevis"/></label>
-                                                        <select type="text" id="idvisita" name="idvisita" required="required"></select>
+                                                        <select class="select2PrescVisita" type="text" id="idvisita" name="idvisita" required="required"></select>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
@@ -1347,11 +1353,11 @@
                                                 <div class="form-group">
                                                     <div class="container-fluid">
                                                         <label for="idmedicobaseEsame"><fmt:message key="nomepaz"/></label>
-                                                        <select type="text" id="idmedicobaseEsame" name="idmedicobaseEsame" required="required"></select>
+                                                        <select class="select2PrescEsame" type="text" id="idmedicobaseEsame" name="idmedicobaseEsame" required="required"></select>
                                                     </div>
                                                     <div class="container-fluid" style="padding-top: 1rem">
                                                         <label for="idesame"><fmt:message key="nomeesa"/></label>
-                                                        <select type="text" id="idesame" name="idesame" required="required"></select>
+                                                        <select class="select2PrescEsame" type="text" id="idesame" name="idesame" required="required"></select>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
@@ -1386,7 +1392,7 @@
                                                 <div class="form-group">
                                                     <div class="container-fluid" style="padding-top: 1rem">
                                                         <label for="idmedicobaseVisita"><fmt:message key="nomepaz"/></label>
-                                                        <select type="text" id="idmedicobaseVisita" name="idmedicobaseVisita" required="required"></select>
+                                                        <select class="select2ErogaVisita" type="text" id="idmedicobaseVisita" name="idmedicobaseVisita" required="required"></select>
                                                     </div>
                                                     <div class="container-fluid" style="padding-top: 1rem">
                                                         <label for="anamnesi"><fmt:message key="anamn"/></label>

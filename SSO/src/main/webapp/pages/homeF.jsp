@@ -147,6 +147,7 @@
 
                     },
                     complete: function(){
+                        $('.select2EvadiRicetta').val(null).trigger("change")
                         successButton("#btnEvadiRicetta")
                     },
                     error: function(xhr, status, error) {
@@ -238,12 +239,12 @@
                                             <div class="form-group">
                                                 <div class="container-fluid">
                                                     <label for="idpaziente">Nome del paziente</label>
-                                                    <select type="text" id="idpaziente" name="idpaziente" required="required"></select>
+                                                    <select class="select2EvadiRicetta" type="text" id="idpaziente" name="idpaziente" required="required"></select>
                                                     <%--                                                <br>--%>
                                                 </div>
                                                 <div class="container-fluid" style="padding-top: 1rem">
                                                     <label for="idricetta">Nome del farmaco</label>
-                                                    <select type="text" id="idricetta" name="idricetta" required="required"></select>
+                                                    <select class="select2EvadiRicetta" type="text" id="idricetta" name="idricetta" required="required"></select>
                                                 </div>
 
                                             </div>

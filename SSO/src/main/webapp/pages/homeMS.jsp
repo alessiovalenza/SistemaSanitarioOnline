@@ -54,6 +54,8 @@
 
                     },
                     complete: function(){
+                        $('.select2ErogaVisitaSpec').val(null).trigger("change")
+                        $("#anamnesi").val("")
                         successButton("#btnErogaVisitaSpec")
                     },
                     error: function(xhr, status, error) {
@@ -203,12 +205,12 @@
                                                     <div class="form-group">
                                                         <div class="container-fluid">
                                                             <label for="idpazienteErogaVisitaSpec">Paziente</label>
-                                                            <select type="text" id="idpazienteErogaVisitaSpec" name="idpazienteErogaVisitaSpec" required="required"></select>
+                                                            <select class="select2ErogaVisitaSpec" type="text" id="idpazienteErogaVisitaSpec" name="idpazienteErogaVisitaSpec" required="required"></select>
                                                             <br>
                                                         </div>
                                                         <div class="container-fluid" style="padding-top: 1rem">
                                                             <label for="idvisitaErogaVisitaSpec">Visita specialistica</label>
-                                                            <select type="text" id="idvisitaErogaVisitaSpec" name="idvisitaErogaVisitaSpec" required="required"></select>
+                                                            <select class="select2ErogaVisitaSpec" type="text" id="idvisitaErogaVisitaSpec" name="idvisitaErogaVisitaSpec" required="required"></select>
                                                         </div>
 
                                                         <div class="container-fluid" style="padding-top: 1rem">

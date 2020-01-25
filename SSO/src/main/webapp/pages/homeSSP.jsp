@@ -103,8 +103,8 @@
             });
 
             $("#formRichiamo1").submit(function(event){
-                $('.spinner-border').show();
                 event.preventDefault(); //prevent default action
+                loadingButton("#btnRichiamo1")
                 let form_data = "infeta="+$("#infetaRichiamo1").val()+"&idesame="+$("#idesameRichiamo1").val()+"&supeta="+$("#supetaRichiamo1").val()+"&idprovincia=${sessionScope.utente.prov}" //Encode form elements for submission
                 $.ajax({
                     url : "http://localhost:8080/SSO_war_exploded/api/pazienti/richiamo1",
@@ -114,18 +114,19 @@
 
                     },
                     complete: function(){
-                        $('.spinner-border').fadeOut(0);
+                        $('.inputRichiamo1').val(null).trigger("change")
+                        successButton("#btnRichiamo1")
                     },
                     error: function(xhr, status, error) {
-
+                        errorButton("#btnRichiamo1")
                         alert(xhr.responseText);
                     }
                 });
             });
 
             $("#formRichiamo2").submit(function(event){
-                $('.spinner-border').show();
                 event.preventDefault(); //prevent default action
+                loadingButton("#btnRichiamo2")
                 let form_data = "infeta="+$("#infetaRichiamo2").val()+"&idesame="+$("#idesameRichiamo2").val()+"&idprovincia=${sessionScope.utente.prov}" //Encode form elements for submission
                 $.ajax({
                     url : "http://localhost:8080/SSO_war_exploded/api/pazienti/richiamo2",
@@ -135,10 +136,11 @@
 
                     },
                     complete: function(){
-                        $('.spinner-border').fadeOut(0);
+                        successButton("#btnRichiamo2")
+                        $('.inputRichiamo2').val(null).trigger("change")
                     },
                     error: function(xhr, status, error) {
-
+                        errorButton("#btnRichiamo2")
                         alert(xhr.responseText);
                     }
                 });
@@ -256,7 +258,7 @@
                                             <div class="form-group">
                                                 <div class="container-fluid">
                                                     <label for="infetaRichiamo1">limite inferiore di età</label>
-                                                    <input type="number" min="0" id="infetaRichiamo1" name="infeta" required="required"></input>
+                                                    <input class="inputRichiamo1" type="number" min="0" id="infetaRichiamo1" name="infeta" required="required"></input>
                                                     <div class="spinner-border text-primary" role="status">
                                                         <span class="sr-only">Loading...</span>
                                                     </div>
@@ -264,14 +266,14 @@
                                                 </div>
                                                 <div class="container-fluid" style="padding-top: 1rem">
                                                     <label for="supetaRichiamo1">limite superiore di età</label>
-                                                    <input type="number" min="0" id="supetaRichiamo1" name="supeta" required="required"></input>
+                                                    <input class="inputRichiamo1" type="number" min="0" id="supetaRichiamo1" name="supeta" required="required"></input>
                                                     <div class="spinner-border text-primary" role="status">
                                                         <span class="sr-only">Loading...</span>
                                                     </div>
                                                 </div>
                                                 <div class="container-fluid" style="padding-top: 1rem">
                                                     <label for="idesameRichiamo1">Nome dell'esame</label>
-                                                    <select type="text" id="idesameRichiamo1" name="idesame" required="required"></select>
+                                                    <select class="inputRichiamo1" type="text" id="idesameRichiamo1" name="idesame" required="required"></select>
                                                     <div class="spinner-border text-primary" role="status">
                                                         <span class="sr-only">Loading...</span>
                                                     </div>
@@ -281,7 +283,7 @@
 
 
                                             <div class="form-group">
-                                                <button id ="btnCambiaMedico" type="submit">Richiama</button>
+                                                <button id ="btnRichiamo1" type="submit">Richiama</button>
                                             </div>
                                         </form>
                                     </div>
@@ -312,7 +314,7 @@
                                             <div class="form-group">
                                                 <div class="container-fluid">
                                                     <label for="infetaRichiamo2">limite inferiore di età</label>
-                                                    <input type="number" min="0" id="infetaRichiamo2" name="infeta" required="required"></input>
+                                                    <input class="inputRichiamo2" type="number" min="0" id="infetaRichiamo2" name="infeta" required="required"></input>
                                                     <div class="spinner-border text-primary" role="status">
                                                         <span class="sr-only">Loading...</span>
                                                     </div>
@@ -320,7 +322,7 @@
                                                 </div>
                                                 <div class="container-fluid" style="padding-top: 1rem">
                                                     <label for="idesameRichiamo2">Nome dell'esame</label>
-                                                    <select type="text" id="idesameRichiamo2" name="idesame" required="required"></select>
+                                                    <select class="inputRichiamo2" type="text" id="idesameRichiamo2" name="idesame" required="required"></select>
                                                     <div class="spinner-border text-primary" role="status">
                                                         <span class="sr-only">Loading...</span>
                                                     </div>
@@ -330,7 +332,7 @@
 
 
                                             <div class="form-group">
-                                                <button id ="btnCambiaMedico" type="submit">Richiama</button>
+                                                <button id ="btnRichiamo2" type="submit">Richiama</button>
                                             </div>
                                         </form>
                                     </div>
