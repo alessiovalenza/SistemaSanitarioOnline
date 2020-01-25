@@ -237,7 +237,7 @@
                 </div>
             </div>
         </div>
-show
+
         <div id="richiamo1" class="component">
             <div class="container">
                 <div class="row">

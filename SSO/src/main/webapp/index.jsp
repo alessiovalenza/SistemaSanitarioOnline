@@ -21,7 +21,7 @@
             crossorigin="anonymous"></script>
 </head>
 
-<body>
+<body style="background-color:#1e88e5">
 <div id="holder">
     <header>
         <nav class="navbar-expand-md sticky-top "

@@ -29,13 +29,13 @@
 
     <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+    <script src="../scripts/utils.js"></script>
     <script>
         $(document).ready(function () {
             /* $('#esamiFatti > tbody > tr').click(function () {
                 alert("riga cliccata")
             }); */
             // $('#evadiRicette').hide();
-            $('.spinner-border').fadeOut(0);
 
             $("#idpaziente").select2({
                 placeholder: 'Cerca Pazienti',
@@ -135,7 +135,7 @@
 
 
             $("#formEvadiRicetta").submit(function(event){
-                $('.spinner-border').show();
+                loadingButton("#btnEvadiRicetta")
                 event.preventDefault(); //prevent default action
                 let urlEvadiRicetta = 'http://localhost:8080/SSO_war_exploded/api/pazienti/'+$('#idpaziente').val()+'/ricette/'+$('#idricetta').val()
                 let form_data = "idfarmacia=${sessionScope.utente.id}"
@@ -147,10 +147,10 @@
 
                     },
                     complete: function(){
-                        $('.spinner-border').delay(500).fadeOut(0);
+                        successButton("#btnEvadiRicetta")
                     },
                     error: function(xhr, status, error) {
-
+                        errorButton("#btnEvadiRicetta")
                         alert(xhr.responseText);
                     }
                 });
@@ -239,24 +239,18 @@
                                                 <div class="container-fluid">
                                                     <label for="idpaziente">Nome del paziente</label>
                                                     <select type="text" id="idpaziente" name="idpaziente" required="required"></select>
-                                                    <div class="spinner-border text-primary" role="status">
-                                                        <span class="sr-only">Loading...</span>
-                                                    </div>
                                                     <%--                                                <br>--%>
                                                 </div>
                                                 <div class="container-fluid" style="padding-top: 1rem">
                                                     <label for="idricetta">Nome del farmaco</label>
                                                     <select type="text" id="idricetta" name="idricetta" required="required"></select>
-                                                    <div class="spinner-border text-primary" role="status">
-                                                        <span class="sr-only">Loading...</span>
-                                                    </div>
                                                 </div>
 
                                             </div>
 
 
                                             <div class="form-group">
-                                                <button type="submit">Evadi</button>
+                                                <button id="btnEvadiRicetta" type="submit">Evadi</button>
                                             </div>
                                         </form>
                                     </div>

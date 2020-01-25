@@ -82,6 +82,9 @@
     <!-- Select2 CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
     <!-- JQeuery JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
@@ -210,7 +213,7 @@
             initAvatar(${sessionScope.utente.id}, "avatarImg", basePath, extension);
 
             $("#formErogaVisita").submit(function(event){
-                $('.spinner-border').show();
+                loadingButton("#btnErogaVisita")
                 event.preventDefault(); //prevent default action
                 let urlErogaVisita = "http://localhost:8080/SSO_war_exploded/api/pazienti/"+$("#idmedicobaseVisita").val()+"/visitebase"
                 let formData = "idmedicobase=${sessionScope.utente.id}&anamnesi="+$("#anamnesi").val() //Encode form elements for submission
@@ -222,21 +225,24 @@
 
                     },
                     complete: function(){
-                        $('.spinner-border').delay(500).fadeOut(0);
+                        successButton("#btnErogaVisita")
                         document.getElementById("erogaVisitaBaseOK").classList.toggle("show");
                         setTimeout(function() {
                             document.getElementById("erogaVisitaBaseOK").classList.toggle("show");
                         }, 3000);
                     },
                     error: function(xhr, status, error) {
+                        errorButton("#btnErogaVisita")
                         alert(xhr.responseText);
                     }
                 });
             });
 
             $("#formPrescFarmaco").submit(function(event) {
-                $(".spinner-border").show();
                 event.preventDefault(); //prevent default action
+
+                loadingButton("#btnPrescriviFarmaco")
+
                 let urlPrescFarmaco = "http://localhost:8080/SSO_war_exploded/api/pazienti/"+$('#idmedicobaseFarmaco').val()+"/ricette";
                 let formData = "idmedicobase=${sessionScope.utente.id}&idfarmaco="+$("#idfarmaco").val(); //Encode form elements for submission
                 $.ajax({
@@ -250,17 +256,18 @@
                         }, 3000);
                     },
                     complete: function(){
-                        $(".spinner-border").delay(500).fadeOut(0);
+                        successButton("#btnPrescriviFarmaco")
                     },
                     error: function(xhr, status, error) {
                         alert(xhr.responseText);
+                        errorButton("#btnPrescriviFarmaco")
                     }
                 });
             });
 
             $("#formPrescEsame").submit(function(event){
-                $('.spinner-border').show();
                 event.preventDefault(); //prevent default action
+                loadingButton("btnPrescriviEsame")
                 let urlPrescFarmaco = "http://localhost:8080/SSO_war_exploded/api/pazienti/"+$("#idmedicobaseEsame").val()+"/esamiprescritti"
                 let formData = "idmedicobase=${sessionScope.utente.id}&idesame="+$("#idesame").val() //Encode form elements for submission
                 $.ajax({
@@ -271,20 +278,21 @@
 
                     },
                     complete: function(){
-                        $('.spinner-border').delay(500).fadeOut(0);
+                        successButton("btnPrescriviEsame")
                         document.getElementById("prescriviEsameOK").classList.toggle("show");
                         setTimeout(function() {
                             document.getElementById("prescriviEsameOK").classList.toggle("show");
                         }, 3000);
                     },
                     error: function(xhr, status, error) {
+                        errorButton("#btnPrescriviEsame")
                         alert(xhr.responseText);
                     }
                 });
             });
 
             $("#formPrescVisita").submit(function(event){
-                $('.spinner-border').show();
+                loadingButton("#btnPrescriviVisita")
                 event.preventDefault(); //prevent default action
                 let urlPrescVisita = 'http://localhost:8080/SSO_war_exploded/api/pazienti/'+$('#idmedicobaseVisitaSpec').val()+'/visitespecialistiche'
                 let formData = "idmedicobase=${sessionScope.utente.id}&idvisita="+$("#idvisita").val() //Encode form elements for submission
@@ -296,13 +304,14 @@
 
                     },
                     complete: function(){
-                        $('.spinner-border').delay(500).fadeOut(0);
+                        successButton("#btnPrescriviVisita")
                         document.getElementById("prescriviVisitaOK").classList.toggle("show");
                         setTimeout(function() {
                             document.getElementById("prescriviVisitaOK").classList.toggle("show");
                         }, 3000);
                     },
                     error: function(xhr, status, error) {
+                        errorButton("#btnPrescriviVisita")
                         alert(xhr.responseText);
                     }
                 });
@@ -805,8 +814,6 @@
             populateComponents();
             hideComponents();
 
-            $(".spinner-border").hide();
-
             document.getElementById("${sectionToShow}Control").click();
         });
     </script>
@@ -918,7 +925,17 @@
                                 </div>
 
                                 <div class="card-body">
+                                    <div style="clear: both">
+                                        <form action="#" id="formUploadFoto" method="POST" role="form" enctype="multipart/form-data">
+                                            <div>
+                                                <input style="float: left; height: 35pt" class="btn btn-primary" type="file" id="fotoToUpload" name="foto"
+                                                       onchange="return fileValidation('fotoToUpload','btnUploadFoto',labelAlertFoto)"/>
+                                                <button style="float:right; height: 35pt; background: grey;" class="btn btn-primary" type="submit" id="btnUploadFoto" disabled><fmt:message key="carica"/> </button>
+                                            </div>
+                                        </form>
+                                    </div>
                                     <div style="clear: both; padding-top: 0.5rem">
+                                        <hr>
                                         <h5 style="float: left"><fmt:message key="nome"/>:  </h5>
                                         <h5 align="right">${sessionScope.utente.nome}</h5>
                                     </div>
@@ -943,14 +960,6 @@
                                         <h5 align="right"><fmt:formatDate value="${sessionScope.utente.dataNascita}"/></h5>
                                     </div>
                                     <hr>
-                                    <div style="clear: both">
-                                        <h5 style="float: left"><fmt:message key="aggIm"/>: </h5>
-                                        <form action="#" id="formUploadFoto" method="POST" role="form" enctype="multipart/form-data">
-                                            <input class="btn btn-primary" type="file" id="fotoToUpload" name="foto"
-                                                   onchange="return fileValidation('fotoToUpload','btnUploadFoto',labelAlertFoto)"/><br><br>
-                                            <button class="btn btn-primary" type="submit" id="btnUploadFoto" disabled><fmt:message key="carica"/> </button>
-                                        </form>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1260,24 +1269,14 @@
                                                     <div class="container-fluid">
                                                         <label for="idmedicobaseFarmaco"><fmt:message key="nomepaz"/></label>
                                                         <select type="text" id="idmedicobaseFarmaco" name="idmedicobaseFarmaco" required="required"></select>
-<%--                                                        <div class="spinner-border text-primary" role="status">--%>
-<%--                                                            <span class="sr-only">Loading...</span>--%>
-<%--                                                        </div>--%>
                                                     </div>
                                                     <div class="container" style="padding-top: 1rem">
                                                         <label for="idfarmaco"><fmt:message key="nomefar"/></label>
                                                         <select type="text" id="idfarmaco" name="idfarmaco" required="required"></select>
-<%--                                                        <div class="spinner-border text-primary" role="status">--%>
-<%--                                                            <span class="sr-only">Loading...</span>--%>
-<%--                                                        </div>--%>
                                                     </div>
                                                 </div>
                                                 <div class="form-group popup container">
-                                                    <button id ="btnPrescriviFarmaco" type="submit"><fmt:message key="pres"/></button>
-                                                    <div class="spinner-border text-primary" role="status">
-                                                        <span class="sr-only">Loading...</span>
-                                                    </div>
-                                                    <i class="fas fa-check"></i>
+                                                    <button id ="btnPrescriviFarmaco" type="submit" class="btn btn-primary " >Prescrivi</button>
                                                     <span class="popuptext" id="prescriviFarmacoOK"><fmt:message key="farpres"/></span>
                                                 </div>
 
@@ -1310,16 +1309,10 @@
                                                     <div class="container-fluid">
                                                         <label for="idmedicobaseVisitaSpec"><fmt:message key="nomepaz"/></label>
                                                         <select type="text" id="idmedicobaseVisitaSpec" name="idmedicobaseVisitaSpec" required="required"></select>
-                                                        <div class="spinner-border text-primary" role="status">
-                                                            <span class="sr-only">Loading...</span>
-                                                        </div>
                                                     </div>
                                                     <div class="container-fluid" style="padding-top: 1rem">
                                                         <label for="idvisita"><fmt:message key="nomevis"/></label>
                                                         <select type="text" id="idvisita" name="idvisita" required="required"></select>
-                                                        <div class="spinner-border text-primary" role="status">
-                                                            <span class="sr-only">Loading...</span>
-                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
@@ -1355,16 +1348,10 @@
                                                     <div class="container-fluid">
                                                         <label for="idmedicobaseEsame"><fmt:message key="nomepaz"/></label>
                                                         <select type="text" id="idmedicobaseEsame" name="idmedicobaseEsame" required="required"></select>
-                                                        <div class="spinner-border text-primary" role="status">
-                                                            <span class="sr-only">Loading...</span>
-                                                        </div>
                                                     </div>
                                                     <div class="container-fluid" style="padding-top: 1rem">
                                                         <label for="idesame"><fmt:message key="nomeesa"/></label>
                                                         <select type="text" id="idesame" name="idesame" required="required"></select>
-                                                        <div class="spinner-border text-primary" role="status">
-                                                            <span class="sr-only">Loading...</span>
-                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
@@ -1400,9 +1387,6 @@
                                                     <div class="container-fluid" style="padding-top: 1rem">
                                                         <label for="idmedicobaseVisita"><fmt:message key="nomepaz"/></label>
                                                         <select type="text" id="idmedicobaseVisita" name="idmedicobaseVisita" required="required"></select>
-                                                        <div class="spinner-border text-primary" role="status">
-                                                            <span class="sr-only">Loading...</span>
-                                                        </div>
                                                     </div>
                                                     <div class="container-fluid" style="padding-top: 1rem">
                                                         <label for="anamnesi"><fmt:message key="anamn"/></label>

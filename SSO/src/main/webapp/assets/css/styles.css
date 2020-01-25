@@ -10,7 +10,9 @@ body, html{
 }
 
 #body{
-    padding-bottom: 40pt;     /* height of footer */
+    /*padding-bottom: 0pt;*/     /* height of footer */
+    border-bottom: transparent;
+    border-bottom-width: 40pt;
 }
 #container-table{
     overflow-x:auto;

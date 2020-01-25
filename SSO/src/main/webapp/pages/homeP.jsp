@@ -35,12 +35,13 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/js/select2.min.js"></script>
+    <script src="../scripts/utils.js"></script>
     <script>
 
         $(document).ready(function(){
 
             $("#formPutCambiaMedico").submit(function(event){
-                $('.spinner-border').show();
+                loadingButton("#btnCambiaMedico")
                 event.preventDefault(); //prevent default action
                 let form_data = $(this).serialize(); //Encode form elements for submission
                 let url = 'http://localhost:8080/SSO_war_exploded/api/pazienti/' + ${sessionScope.utente.id} + '/medicobase'
@@ -54,10 +55,10 @@
 
                     },
                     complete: function(){
-                        $('.spinner-border').delay(500).fadeOut(0);
+                        successButton("#btnCambiaMedico")
                     },
                     error: function(xhr, status, error) {
-
+                        errorButton("#btnCambiaMedico")
                         alert(xhr.responseText);
                     }
                 });
@@ -169,8 +170,6 @@
                 $("#formNostro").fadeIn(0);
             });
             $("#cambiaMedicoControl").click(function(){
-
-                $('.spinner-border').hide();
                 $("#medico").fadeOut(0);
                 $("#profilo").fadeOut(0);
                 $("#esami").fadeOut(0);
@@ -304,7 +303,7 @@
                 }else{
                     slide.className="carousel-item"
                 }
-                img.src="../foto/1/"+ i +".jpeg";
+                img.src="../../${sessionScope.utente.id}/"+ i +".jpeg";
                 img.style="width:100%;";
                 console.log(img);
                 document.body.appendChild(slide);
@@ -364,7 +363,7 @@
         </ul>
     </nav>
 
-    <!-- Page Content  -->
+    <!-- Page Content  -->azzurro
     <div id="content">
 
         <div class="container-fluid" align="center" id="cambiaMedico">
@@ -378,10 +377,7 @@
                         <form id="formPutCambiaMedico">
                             <div class="form-group">
                                 <label for="idmedicobase">Nome del medico</label>
-                                <select type="text" id="idmedicobase" name="idmedicobase" data-ajax--url="http://localhost:8080/SSO_war_exploded/api/general/medicibase/?idprovincia=${sessionScope.utente.prov}" data-ajax--cache="true" required="required"></select>
-                                <div class="spinner-border text-primary" role="status">
-                                    <span class="sr-only">Loading...</span>
-                                </div>
+                                <select type="text" id="idmedicobase" name="idmedicobase" required="true"></select>
                                 <span class="glyphicon glyphicon-ok"></span>
                             </div>
 
@@ -459,7 +455,53 @@
                     </div>
                 </div>
                 <div class="card-body">
+                    <div style="clear: both">
+                        <form action="#" id="formUpload" method="POST" role="form" enctype="multipart/form-data">
+                            <div>
+                            <input style="float: left; height: 35pt" class="btn btn-primary" type="file" name="foto" id="foto" onchange="return fileValidation()"/>
+                            <button style="float:right; height: 35pt; background: grey;" class="btn btn-primary" type="submit" id="Button" disabled> Aggiungi Immagine </button>
+                            </div>
+                        </form>
+                        <script>
+                            function fileValidation(){
+                                var fileInput = document.getElementById('foto');
+                                var filePath = fileInput.value;
+                                var allowedExtensions = /(\.jpg|\.jpeg)$/i;
+                                if(!allowedExtensions.exec(filePath)){
+                                    alert('Please upload file having extensions .jpeg/.jpg only.');
+                                    fileInput.value = null;
+                                    return false;
+                                } else {
+                                    document.getElementById("Button").disabled = false;
+                                    document.getElementById("Button").style.background = "#007bff";
+                                }
+                            }
+
+                            $(document).ready(function() {
+                                $("#formUpload").submit(function(e){
+                                    e.preventDefault();
+                                    var formData = new FormData($("#formUpload")[0]);
+
+                                    $.ajax({
+                                        url : '${pageContext.request.contextPath}/api/utenti/${sessionScope.utente.id}/foto',
+                                        type : 'POST',
+                                        data : formData,
+                                        contentType : false,
+                                        processData : false,
+                                        success: function(resp) {
+                                            alert("Immagine aggiunta con successo!");
+                                            document.getElementById('foto').value = null;
+                                            document.getElementById("Button").disabled = true;
+                                            document.getElementById("Button").style.background = "grey";
+                                        }
+                                    });
+                                });
+                            });
+                        </script>
+                    </div>
+
                     <div style="clear: both; padding-top: 0.5rem">
+                        <hr>
                         <h5 style="float: left">Nome:  </h5>
                         <h5 align="right">${sessionScope.utente.nome}</h5>
                     </div>
@@ -485,48 +527,7 @@
                         <h5 align="right">${sessionScope.utente.dataNascita}</h5>
                     </div>
                     <hr>
-                    <div style="clear: both">
-                        <h5 style="float: left"> Aggiungi immagine: </h5>
-                        <form action="#" id="formUpload" method="POST" role="form" enctype="multipart/form-data">
-                            <input class="btn btn-primary" type="file" name="foto" id="foto" onchange="return fileValidation()"/><br><br>
-                            <button class="btn btn-primary" type="submit" id="Button" disabled>Submit </button>
-                        </form>
-                        </div>
-                        <script>
-                            function fileValidation(){
-                                var fileInput = document.getElementById('foto');
-                                var filePath = fileInput.value;
-                                var allowedExtensions = /(\.jpg|\.jpeg)$/i;
-                                if(!allowedExtensions.exec(filePath)){
-                                    alert('Please upload file having extensions .jpeg/.jpg only.');
-                                    fileInput.value = null;
-                                    return false;
-                                } else {
-                                    document.getElementById("Button").disabled = false;
-                                }
-                            }
-
-                            $(document).ready(function() {
-                                $("#formUpload").submit(function(e){
-                                    e.preventDefault();
-                                    var formData = new FormData($("#formUpload")[0]);
-
-                                    $.ajax({
-                                        url : '${pageContext.request.contextPath}/api/utenti/${sessionScope.utente.id}/foto',
-                                        type : 'POST',
-                                        data : formData,
-                                        contentType : false,
-                                        processData : false,
-                                        success: function(resp) {
-                                            alert("Immagine aggiunta con successo!");
-                                        }
-                                    });
-                                });
-                            });
-                        </script>
-                    </div>
-                    <hr>
-                    <button href="#" class="btn btn-primary">Go somewhere</button>
+                    <button style="align: right" href="#" class="btn btn-primary">Go somewhere</button>
                 </div>
             </div>
         </div>
@@ -673,45 +674,6 @@
     });
 </script>
 <script>appendImages()</script>
-<script>
-    (document.getElementById("btnCambiaMedico")).onclick = function() {
-        let idSelected = $("#idmedicobase option:selected")["0"].value;
-        // alert("hai selezionato " + idSelected);
-    };
-    <%--$(document).ready(function(){--%>
-    <%--    var urlCambioMedico = 'http://localhost:8080/SSO_war_exploded/api/general/medicibase/?idprovincia='+'${sessionScope.utente.prov}'--%>
-    <%--    $("#idmedicobase").select2({--%>
-    <%--        placeholder: 'Cerca Esami',--%>
-    <%--        width: 300,--%>
-    <%--        allowClear: true,--%>
-    <%--        ajax: {--%>
-    <%--            url: urlCambioMedico,--%>
-    <%--            datatype: "json",--%>
-    <%--            data: function (params) {--%>
-    <%--                var query = {--%>
-    <%--                    term: params.term,--%>
-    <%--                    type: 'public',--%>
-    <%--                    page: params.page || 1--%>
-    <%--                }--%>
-    <%--                return query;--%>
-    <%--            },--%>
-    <%--            processResults: function (data) {--%>
-    <%--                var myResults = [];--%>
-    <%--                $.each(data, function (index, item) {--%>
-    <%--                    myResults.push({--%>
-    <%--                        'id': item.id,--%>
-    <%--                        'text': item.nome--%>
-    <%--                    });--%>
-    <%--                });--%>
-    <%--                return {--%>
-    <%--                    results: myResults--%>
-    <%--                };--%>
-    <%--            }--%>
-    <%--        }--%>
-    <%--    });--%>
-    <%--    $("#idmedicobase").val(null).trigger("change");--%>
-    // });
-</script>
 </body>
 
 </html>
