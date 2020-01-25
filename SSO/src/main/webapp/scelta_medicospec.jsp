@@ -46,11 +46,11 @@
         <div class="container-fluid" >
             <div class="row" style="color: #1e88e5">
                 <div class="col-md-6">
-                    <a href="">
+                    <a href="medicospecialista?ruolo=ms">
                         <div class="card">
                             <div class="card-body" style="text-align: center">
                                 <h2>Medico</h2> <img style="height: 25rem;max-width: 100%;object-fit:contain; "
-                                                                                         src="assets/img/logo_medico.jpeg">
+                                                     src="assets/img/logo_medico.jpeg">
                             </div>
                         </div>
                     </a>
@@ -59,11 +59,11 @@
                 <br>
 
                 <div class="col-md-6">
-                    <a href="">
+                    <a href="medicospecialista?ruolo=p">
                         <div class="card">
                             <div class="card-body" style="text-align:center;">
                                 <h2>Paziente</h2><img style="height: 25rem;max-width: 100%;object-fit:contain; "
-                                                                                          src="assets/img/logo_paziente.png">
+                                                      src="assets/img/logo_paziente.png">
                             </div>
                         </div>
                     </a>

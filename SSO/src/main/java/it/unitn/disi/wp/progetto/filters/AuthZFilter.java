@@ -72,7 +72,7 @@ public class AuthZFilter implements Filter {
                     chain.doFilter(request, response);
                 }
                 else {
-                    //System.out.println("Utente non autorizzato ad accedere alla risorsa " + field + ". Redirect alla suo homePage");
+                    System.out.println("Utente non autorizzato ad accedere alla risorsa " + field + ". Redirect alla suo homePage");
                     //httpResponse.sendRedirect(httpRequest.getContextPath() + Utilities.getMainPageFromRole(utente.getRuolo()));
 
                     if(field.startsWith("api/")) { //la richiesta è verso un'API
@@ -178,6 +178,9 @@ public class AuthZFilter implements Filter {
                 }
             }
         }
+        if(!res && url.matches(urlPatterns.get(8))) {
+            res = true;
+        }
 
         return res;
     }
@@ -214,6 +217,9 @@ public class AuthZFilter implements Filter {
             }
         }
         if(!res && url.matches(urlPatterns.get(7))) {
+            res = true;
+        }
+        if(!res && url.matches(urlPatterns.get(8))) {
             res = true;
         }
 
@@ -262,6 +268,18 @@ public class AuthZFilter implements Filter {
         }
         if(!res && url.matches(urlPatterns.get(10))) {
             res = true;
+        }
+        if(!res && (url.matches(urlPatterns.get(11)) || url.matches(urlPatterns.get(12)))) {
+            Utente acutalUtente = utenteDAO.getByPrimaryKey(utente.getId());
+            if(acutalUtente.getRuolo().equals(Utilities.MEDICO_BASE_RUOLO)) {
+                res = true;
+            }
+        }
+        if(!res && (url.matches(urlPatterns.get(13)) || url.matches(urlPatterns.get(14)))) {
+            Utente acutalUtente = utenteDAO.getByPrimaryKey(utente.getId());
+            if(acutalUtente.getRuolo().equals(Utilities.MEDICO_SPECIALISTA_RUOLO)) {
+                res = true;
+            }
         }
 
         return res;

@@ -89,10 +89,10 @@ public class LoginServlet extends HttpServlet {
                 homeUrl = "/pages/homeP.jsp";
                 break;
             case MEDICO_BASE_RUOLO:
-                homeUrl = "/pages/homeMB.jsp";
+                homeUrl = "/scelta_medicobase.jsp";
                 break;
             case MEDICO_SPECIALISTA_RUOLO:
-                homeUrl = "/pages/homeMS.jsp";
+                homeUrl = "/scelta_medicospec.jsp";
                 break;
             case FARMACIA_RUOLO:
                 homeUrl = "/pages/homeF.jsp";

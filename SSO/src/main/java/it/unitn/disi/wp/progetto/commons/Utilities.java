@@ -11,6 +11,7 @@ import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.io.File;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -272,5 +273,15 @@ public class Utilities {
                 visita.getNome() + ".\n" +
                 "Disinti saluti";
         Utilities.sendEmail(Collections.singletonList(new Email(paziente.getEmail(), "Referto visita specialistica", body)));
+    }
+
+    public static void redirectHomePaziente(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String homePage = request.getServletContext().getInitParameter("homePaziente").substring(1);
+
+        HttpSession session = request.getSession(false);
+        Utente paziente = (Utente)session.getAttribute("utente");
+        paziente.setRuolo("p");
+
+        response.sendRedirect(homePage);
     }
 }

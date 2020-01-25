@@ -194,7 +194,7 @@
       api/pazienti/([\d]+)[\S]*
       api/utenti/([\d]+)/foto[/]?
       foto/([\d]+)/([\d]+).jpeg[/]?
-      scelta_medico[\S]*
+      scelta_medicobase[\S]*
     </param-value>
   </context-param>
 
@@ -209,6 +209,7 @@
       api/pazienti/([\d]+)/visitespecialistiche/([\d]+)[/]?
       api/utenti/([\d]+)/foto[/]?
       foto/([\d]+)/([\d]+).jpeg[/]?
+      scelta_medicospec[\S]*
     </param-value>
   </context-param>
 
@@ -226,6 +227,10 @@
       api/utenti/([\d]+)/foto[/]?
       foto/([\d]+)/([\d]+).jpeg[/]?
       mappe[\S]*
+      medicobase[/]?
+      scelta_medicobase[\S]*
+      medicospecialista[/]?
+      scelta_medicospec[\S]*
     </param-value>
   </context-param>
 
