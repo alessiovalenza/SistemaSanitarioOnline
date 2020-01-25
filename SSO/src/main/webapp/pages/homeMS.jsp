@@ -35,7 +35,6 @@
         $(document).ready(function() {
             populateComponents();
             hideComponents();
-            $('.spinner-border').hide();
             $('#profilo').show();
             $('#profiloControl').click(() => showComponent('profilo'));
             $('#erogaVisitaSpecControl').click(() => showComponent('erogaVisitaSpec'));
@@ -44,7 +43,6 @@
 
             $("#formErogaVisitaSpec").submit(function(event){
                 loadingButton("#btnErogaVisitaSpec")
-                $('.spinner-border').show();
                 event.preventDefault(); //prevent default action
                 let form_data = "idmedicospec=${sessionScope.utente.id}&anamnesi="+$("#anamnesi").val()
                 let urlErogaVisitaSpec="http://localhost:8080/SSO_war_exploded/api/pazienti/"+$("#idpazienteErogaVisitaSpec").val()+"/visitespecialistiche/"+$("#idvisitaErogaVisitaSpec").val()
@@ -57,7 +55,6 @@
                     },
                     complete: function(){
                         successButton("#btnErogaVisitaSpec")
-                        $('.spinner-border').fadeOut(0);
                     },
                     error: function(xhr, status, error) {
                         errorButton("#btnErogaVisitaSpec")
@@ -207,17 +204,11 @@
                                                         <div class="container-fluid">
                                                             <label for="idpazienteErogaVisitaSpec">Paziente</label>
                                                             <select type="text" id="idpazienteErogaVisitaSpec" name="idpazienteErogaVisitaSpec" required="required"></select>
-                                                            <div class="spinner-border text-primary" role="status">
-                                                                <span class="sr-only">Loading...</span>
-                                                            </div>
                                                             <br>
                                                         </div>
                                                         <div class="container-fluid" style="padding-top: 1rem">
                                                             <label for="idvisitaErogaVisitaSpec">Visita specialistica</label>
                                                             <select type="text" id="idvisitaErogaVisitaSpec" name="idvisitaErogaVisitaSpec" required="required"></select>
-                                                            <div class="spinner-border text-primary" role="status">
-                                                                <span class="sr-only">Loading...</span>
-                                                            </div>
                                                         </div>
 
                                                         <div class="container-fluid" style="padding-top: 1rem">
