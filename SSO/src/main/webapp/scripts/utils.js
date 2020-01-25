@@ -25,6 +25,19 @@ function showComponent(componentName){
             c.fadeOut(0);
         }
     });
+
+    $.ajax({
+        url : "http://localhost:8080/SSO_war_exploded/section?selectedSection=" + componentName,
+        type : "POST",
+        contentType : false,
+        processData : false,
+        success: function() {
+
+        },
+        error: function(xhr, status, error) {
+            alert(xhr.responseText);
+        }
+    });
 }
 
 /*

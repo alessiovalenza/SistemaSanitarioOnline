@@ -1,13 +1,64 @@
 <%@ page import="java.io.File" %>
 <%@ page import="it.unitn.disi.wp.progetto.commons.Utilities" %>
+<%@ page import="java.util.Enumeration" %>
+<%@ page import="java.util.Locale" %>
 
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix = "fn" uri = "http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fn" uri = "http://java.sun.com/jsp/jstl/functions"%>
 
-<c:set var="language" value="${not empty sessionScope.language ? sessionScope.language : pageContext.request.locale}" scope="session" />
+<%
+    String languageSession = (String)session.getAttribute("language");
+    String languageParam = (String)request.getParameter("language");
+
+    if(languageParam != null) {
+        session.setAttribute("language", languageParam);
+    }
+    else if(languageSession == null) {
+        Enumeration<Locale> locales = request.getLocales();
+
+        boolean found = false;
+        Locale matchingLocale = null;
+        while(locales.hasMoreElements() && !found) {
+            Locale locale = locales.nextElement();
+            if(locale.getLanguage().equals("it") ||
+                    locale.getLanguage().equals("en") ||
+                    locale.getLanguage().equals("fr")) {
+                found = true;
+                matchingLocale = locale;
+            }
+        }
+
+        session.setAttribute("language", matchingLocale != null ? matchingLocale.toString() : "it_IT");
+    }
+
+    String selectedSection = (String)session.getAttribute("selectedSection") != null ? (String)session.getAttribute("selectedSection") : "";
+    switch(selectedSection) {
+        case "profilo":
+            break;
+        case "pazienti":
+            break;
+        case "schedaPaz":
+            break;
+        case "prescFarmaco":
+            break;
+        case "prescVisita":
+            break;
+        case "erogaVisita":
+            break;
+        case "prescEsame":
+            break;
+        default:
+            session.setAttribute("selectedSection", "profilo");
+            break;
+    }
+%>
+
+<c:set var="language" value="${sessionScope.language}" scope="page" />
+<c:set var="sectionToShow" value="${sessionScope.selectedSection}" scope="page" />
+<c:set var="url" value="http://localhost:8080/SSO_war_exploded/pages/homeMB.jsp?language=" scope="page" />
 
 <fmt:setLocale value="${language}" />
 <fmt:setBundle basename="labels" />
@@ -77,6 +128,7 @@
                 // hide overlay
                 $('.overlay').removeClass('active');
             });
+
             $('.componentControl, .overlay').on('click', function () {
                 // hide sidebar
                 $('#sidebar').removeClass('active');
@@ -92,9 +144,6 @@
                 $('.collapse.in').toggleClass('in');
                 $('a[aria-expanded=true]').attr('aria-expanded', 'false');
             });
-            // $("#sidebar").mCustomScrollbar({
-            //     theme: "minimal"
-            // });
 
             let basePath = "..<%=File.separator + Utilities.USER_IMAGES_FOLDER + File.separator%>${sessionScope.utente.id}<%=File.separator%>";
             let extension = ".<%=Utilities.USER_IMAGE_EXT%>";
@@ -157,6 +206,8 @@
             initSelect2General("visite", "#idvisita", langSelect2, labelCercaVisite);
 
             initUploadFoto("#formUploadFoto", ${sessionScope.utente.id}, "");
+
+            initAvatar(${sessionScope.utente.id}, "avatarImg", basePath, extension);
 
             $("#formErogaVisita").submit(function(event){
                 $('.spinner-border').show();
@@ -636,16 +687,9 @@
                 document.getElementById("schedaPaziente").style.display="block";
             });
 
-            populateComponents();
-            hideComponents();
-            $(".spinner-border").hide();
-            $("#profilo").show();
-            initAvatar(${sessionScope.utente.id}, "avatarImg", basePath, extension);
-
             $("#profiloControl").click(() => showComponent("profilo"));
-            $("#pazientiControl").click(function() {
+            $("#pazientiControl").click(() => {
                 showComponent("pazienti");
-
                 $("#tablePazienti").DataTable().destroy()
                 let urlPazienti = "http://localhost:8080/SSO_war_exploded/api/medicibase/${sessionScope.utente.id}/pazienti?datericettavisita=true";
                 $("#tablePazienti").DataTable( {
@@ -758,11 +802,12 @@
             $('#prescEsameControl').click(() => showComponent("prescEsame"));
             $('#schedaPazControl').click(() => showComponent("schedaPaz"));
 
-            // $("#sidebarCollapse").on("click", function () {
-            //     $("#sidebar, #content").toggleClass("active");
-            //     $(".collapse.in").toggleClass("in");
-            //     $("a[aria-expanded=true]").attr("aria-expanded", "false");
-            // });
+            populateComponents();
+            hideComponents();
+
+            $(".spinner-border").hide();
+
+            document.getElementById("${sectionToShow}Control").click();
         });
     </script>
 </head>
@@ -814,12 +859,37 @@
 
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
-
                     <button type="button" id="sidebarCollapse" class="btn btn-info">
                         <i class="fas fa-align-justify"></i>
                     </button>
 
-                    <h3>SSO</h3>
+                    <div class="headerWidget">
+                        <c:choose>
+                            <c:when test="${!fn:startsWith(language, 'en')}">
+                                <a href="${url}en_EN">english</a>
+                            </c:when>
+                            <c:otherwise>
+                                english
+                            </c:otherwise>
+                        </c:choose> |
+                        <c:choose>
+                            <c:when test="${!fn:startsWith(language, 'it')}">
+                                <a href="${url}it_IT">italiano</a>
+                            </c:when>
+                            <c:otherwise>
+                                italiano
+                            </c:otherwise>
+                        </c:choose> |
+                        <c:choose>
+                            <c:when test="${!fn:startsWith(language, 'fr')}">
+                                <a href="${url}fr_FR">français</a>
+                            </c:when>
+                            <c:otherwise>
+                                français
+                            </c:otherwise>
+                        </c:choose>
+
+                    </div>
                 </div>
             </nav>
 
@@ -1353,7 +1423,6 @@
                 </div>
             </div>
         </div>
-        <div class="overlay"></div>
     </div>
 </body>
 </html>
