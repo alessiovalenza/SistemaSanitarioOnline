@@ -918,7 +918,17 @@
                                 </div>
 
                                 <div class="card-body">
+                                    <div style="clear: both">
+                                        <form action="#" id="formUploadFoto" method="POST" role="form" enctype="multipart/form-data">
+                                            <div>
+                                                <input style="float: left; height: 35pt" class="btn btn-primary" type="file" id="fotoToUpload" name="foto"
+                                                       onchange="return fileValidation('fotoToUpload','btnUploadFoto',labelAlertFoto)"/>
+                                                <button style="float:right; height: 35pt; background: grey;" class="btn btn-primary" type="submit" id="btnUploadFoto" disabled><fmt:message key="carica"/> </button>
+                                            </div>
+                                        </form>
+                                    </div>
                                     <div style="clear: both; padding-top: 0.5rem">
+                                        <hr>
                                         <h5 style="float: left"><fmt:message key="nome"/>:  </h5>
                                         <h5 align="right">${sessionScope.utente.nome}</h5>
                                     </div>
@@ -943,14 +953,6 @@
                                         <h5 align="right"><fmt:formatDate value="${sessionScope.utente.dataNascita}"/></h5>
                                     </div>
                                     <hr>
-                                    <div style="clear: both">
-                                        <h5 style="float: left"><fmt:message key="aggIm"/>: </h5>
-                                        <form action="#" id="formUploadFoto" method="POST" role="form" enctype="multipart/form-data">
-                                            <input class="btn btn-primary" type="file" id="fotoToUpload" name="foto"
-                                                   onchange="return fileValidation('fotoToUpload','btnUploadFoto',labelAlertFoto)"/><br><br>
-                                            <button class="btn btn-primary" type="submit" id="btnUploadFoto" disabled><fmt:message key="carica"/> </button>
-                                        </form>
-                                    </div>
                                 </div>
                             </div>
                         </div>
