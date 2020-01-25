@@ -1,10 +1,23 @@
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java"%>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri = "http://java.sun.com/jsp/jstl/functions"%>
+
+<c:set var="language" value="${sessionScope.language}" scope="page" />
+<c:set var="sectionToShow" value="${sessionScope.selectedSection}" scope="page" />
+<c:set var="url" value="http://localhost:8080/SSO_war_exploded/pages/homeMB.jsp?language=" scope="page" />
+
+<fmt:setLocale value="${language}" />
+<fmt:setBundle basename="labels" />
+
 <!DOCTYPE html>
 <html>
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Servizio Sanitario</title>
+    <title><fmt:message key="servizio_sanitario"/></title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -30,7 +43,7 @@
                                               style="height: 42px;padding: 0px;margin: 0px;">
                 <a class="navbar-brand" href="index.jsp"
                    style="padding: 3px;color: rgb(255,255,255);">
-                    Ministero della salute
+                    <fmt:message key="ministero_della_salute"/>
                 </a>
             </div>
         </nav>
@@ -41,12 +54,12 @@
             <div style="position: absolute; top: 20%; left: 50%;color: white;width: 50%;">
                 <h3 class="scaled"
                     style="text-shadow: 1px 1px black; font-size: 4vw; ">
-                    <fmt message>Sistema Sanitario <br> per il Cittadino</fmt>
+                    <fmt message><fmt:message key="sistema_sanitario"/> <br><fmt:message key="per_il_cittadino"/></fmt>
                 </h3>
 
                 <p
                         style="text-shadow: 1px 1px black;font-size: 2vw;">
-                    <fmt message>Benvenuto sul sistema universale <br> per il servizio Sanitario</fmt>
+                    <fmt message><fmt:message key="benvenuto_sul_sistema_universale"/> <br> <fmt:message key="per_il_servizio_Sanitario"/></fmt>
                 </p>
                 <div> <a href="LoginServlet"><button type="button" class="btn btn-primary"
                                                    style="box-shadow: 1pt 1pt black;font-size:2vw ; width: 30%;background-color:#1e88e5">Login</button></a>
@@ -58,9 +71,7 @@
             <div class="row" style="background-color:#1e88e5;color: white;">
                 <div class="col-md-12" style="text-align: center;">
                     <h4 style="text-shadow: 1px 1px black; padding-top: 2%;padding-bottom: 2%;font-family: 'Roboto','Poppins', sans-serif;">
-                        Da qui
-                        potrai usufruire di tutti i servizi
-                        disponibili a tutti gli utenti.</h4>
+                        <fmt:message key="usurfruire"/></h4>
                 </div>
             </div>
         </div>
@@ -73,19 +84,19 @@
                     <div style="background-color: transparent;padding-bottom: 2%">
                         <h5 class="" style=" text-shadow: 1px 1px black; background-color:
                             transparent; ">
-                            Per chi
+                            <fmt:message key="Per_chi"/>
                         </h5>
                     </div>
 
-                    <h6>Medici</h6>
+                    <h6><fmt:message key="Medici"/></h6>
 
-                    <h6>Pazienti</h6>
+                    <h6><fmt:message key="Pazienti"/></h6>
 
                     <h6>
-                        Farmacie
+                        <fmt:message key="Farmacie"/>
                     </h6>
 
-                    <h6>Servizio Sanitario Nazionale/Provinciale</h6>
+                    <h6> <fmt:message key="ervizio_Sanitario_Nazionale/Provinciale"/></h6>
                     </fmt>
 
                 </div>
@@ -93,19 +104,19 @@
 
                     <div style="background-color: transparent;padding-bottom: 2%;">
                         <h5 class="" style="text-shadow: 1px 1px black; background-color: transparent; ">
-                            Cosa si puo fare
+                            <fmt:message key="Cosa si puo fare"/>
                         </h5>
                     </div>
 
 
 
-                    <h6>Prenotare Appuntamenti</h6>
+                    <h6><fmt:message key="Prenotare_Appuntamenti"/></h6>
 
-                    <h6>Richiedere farmaci</h6>
+                    <h6><fmt:message key="Richiedere_farmaci"/></h6>
 
-                    <h6>Ananmnesi</h6>
+                    <h6><fmt:message key="Anamnesi"/></h6>
 
-                    <h6>Resoconto economico</h6>
+                    <h6><fmt:message key="Resoconto economico"/></h6>
 
 
 
@@ -115,10 +126,7 @@
 
     </div>
     <footer>
-        via Sommarive, 5 - 38123 Trento (Povo)
-        Tel. +39 1234 567890
-        CF e P.IVA 12345678901
-        Numero verde 800 12345
+        <fmt:message key="footer"/>
 
     </footer>
 </div>
