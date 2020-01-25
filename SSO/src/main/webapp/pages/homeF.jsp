@@ -36,7 +36,6 @@
                 alert("riga cliccata")
             }); */
             // $('#evadiRicette').hide();
-            $('.spinner-border').fadeOut(0);
 
             $("#idpaziente").select2({
                 placeholder: 'Cerca Pazienti',

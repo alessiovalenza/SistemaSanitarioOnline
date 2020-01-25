@@ -35,12 +35,13 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/js/select2.min.js"></script>
+    <script src="../scripts/utils.js"></script>
     <script>
 
         $(document).ready(function(){
 
             $("#formPutCambiaMedico").submit(function(event){
-                $('.spinner-border').show();
+                loadingButton("#btnCambiaMedico")
                 event.preventDefault(); //prevent default action
                 let form_data = $(this).serialize(); //Encode form elements for submission
                 let url = 'http://localhost:8080/SSO_war_exploded/api/pazienti/' + ${sessionScope.utente.id} + '/medicobase'
@@ -54,10 +55,10 @@
 
                     },
                     complete: function(){
-                        $('.spinner-border').delay(500).fadeOut(0);
+                        successButton("#btnCambiaMedico")
                     },
                     error: function(xhr, status, error) {
-
+                        errorButton("#btnCambiaMedico")
                         alert(xhr.responseText);
                     }
                 });
@@ -169,8 +170,6 @@
                 $("#formNostro").fadeIn(0);
             });
             $("#cambiaMedicoControl").click(function(){
-
-                $('.spinner-border').hide();
                 $("#medico").fadeOut(0);
                 $("#profilo").fadeOut(0);
                 $("#esami").fadeOut(0);
@@ -364,7 +363,7 @@
         </ul>
     </nav>
 
-    <!-- Page Content  -->
+    <!-- Page Content  -->azzurro
     <div id="content">
 
         <div class="container-fluid" align="center" id="cambiaMedico">
@@ -378,10 +377,7 @@
                         <form id="formPutCambiaMedico">
                             <div class="form-group">
                                 <label for="idmedicobase">Nome del medico</label>
-                                <select type="text" id="idmedicobase" name="idmedicobase" data-ajax--url="http://localhost:8080/SSO_war_exploded/api/general/medicibase/?idprovincia=${sessionScope.utente.prov}" data-ajax--cache="true" required="required"></select>
-                                <div class="spinner-border text-primary" role="status">
-                                    <span class="sr-only">Loading...</span>
-                                </div>
+                                <select type="text" id="idmedicobase" name="idmedicobase" required="true"></select>
                                 <span class="glyphicon glyphicon-ok"></span>
                             </div>
 
@@ -678,45 +674,6 @@
     });
 </script>
 <script>appendImages()</script>
-<script>
-    (document.getElementById("btnCambiaMedico")).onclick = function() {
-        let idSelected = $("#idmedicobase option:selected")["0"].value;
-        // alert("hai selezionato " + idSelected);
-    };
-    <%--$(document).ready(function(){--%>
-    <%--    var urlCambioMedico = 'http://localhost:8080/SSO_war_exploded/api/general/medicibase/?idprovincia='+'${sessionScope.utente.prov}'--%>
-    <%--    $("#idmedicobase").select2({--%>
-    <%--        placeholder: 'Cerca Esami',--%>
-    <%--        width: 300,--%>
-    <%--        allowClear: true,--%>
-    <%--        ajax: {--%>
-    <%--            url: urlCambioMedico,--%>
-    <%--            datatype: "json",--%>
-    <%--            data: function (params) {--%>
-    <%--                var query = {--%>
-    <%--                    term: params.term,--%>
-    <%--                    type: 'public',--%>
-    <%--                    page: params.page || 1--%>
-    <%--                }--%>
-    <%--                return query;--%>
-    <%--            },--%>
-    <%--            processResults: function (data) {--%>
-    <%--                var myResults = [];--%>
-    <%--                $.each(data, function (index, item) {--%>
-    <%--                    myResults.push({--%>
-    <%--                        'id': item.id,--%>
-    <%--                        'text': item.nome--%>
-    <%--                    });--%>
-    <%--                });--%>
-    <%--                return {--%>
-    <%--                    results: myResults--%>
-    <%--                };--%>
-    <%--            }--%>
-    <%--        }--%>
-    <%--    });--%>
-    <%--    $("#idmedicobase").val(null).trigger("change");--%>
-    // });
-</script>
 </body>
 
 </html>
