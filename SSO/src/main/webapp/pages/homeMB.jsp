@@ -226,6 +226,7 @@
                     },
                     complete: function(){
                         $('.select2ErogaVisita').val(null).trigger("change")
+                        $('#anamnesi').val("")
                         successButton("#btnErogaVisita")
                         document.getElementById("erogaVisitaBaseOK").classList.toggle("show");
                         setTimeout(function() {
@@ -270,7 +271,7 @@
 
             $("#formPrescEsame").submit(function(event){
                 event.preventDefault(); //prevent default action
-                loadingButton("btnPrescriviEsame")
+                loadingButton("#btnPrescriviEsame")
                 let urlPrescFarmaco = "http://localhost:8080/SSO_war_exploded/api/pazienti/"+$("#idmedicobaseEsame").val()+"/esamiprescritti"
                 let formData = "idmedicobase=${sessionScope.utente.id}&idesame="+$("#idesame").val() //Encode form elements for submission
                 $.ajax({
@@ -282,7 +283,7 @@
                     },
                     complete: function(){
                         $('.select2PrescEsame').val(null).trigger("change")
-                        successButton("btnPrescriviEsame")
+                        successButton("#btnPrescriviEsame")
                         document.getElementById("prescriviEsameOK").classList.toggle("show");
                         setTimeout(function() {
                             document.getElementById("prescriviEsameOK").classList.toggle("show");

@@ -55,6 +55,7 @@
 
                     },
                     complete: function(){
+                        $('#idmedicobase').val(null).trigger("change")
                         successButton("#btnCambiaMedico")
                     },
                     error: function(xhr, status, error) {
