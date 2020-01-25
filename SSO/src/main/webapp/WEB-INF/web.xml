@@ -194,6 +194,7 @@
       api/pazienti/([\d]+)[\S]*
       api/utenti/([\d]+)/foto[/]?
       foto/([\d]+)/([\d]+).jpeg[/]?
+      scelta_medico[\S]*
     </param-value>
   </context-param>
 

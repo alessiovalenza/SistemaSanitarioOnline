@@ -109,7 +109,7 @@
         this.clearSearch();
         this.searchResults = places.map(function(place){
 
-            var iconUrl = './images/1.jpg';
+            var iconUrl = 'assets/img/1.jpg';
 
             var iconOptions = {
                 // The icon's size in pixel:
