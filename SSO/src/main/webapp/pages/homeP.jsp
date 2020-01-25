@@ -463,7 +463,7 @@
                         <form action="#" id="formUpload" method="POST" role="form" enctype="multipart/form-data">
                             <div>
                             <input style="float: left; height: 35pt" class="btn btn-primary" type="file" name="foto" id="foto" onchange="return fileValidation()"/>
-                            <button style="float:right; height: 35pt; background: grey; " class="btn btn-primary" type="submit" id="Button" disabled> Aggiungi Immagine </button>
+                            <button style="float:right; height: 35pt; background: grey;" class="btn btn-primary" type="submit" id="Button" disabled> Aggiungi Immagine </button>
                             </div>
                         </form>
                         <script>
