@@ -43,6 +43,7 @@
 
 
             $("#formErogaVisitaSpec").submit(function(event){
+                loadingButton("#btnErogaVisitaSpec")
                 $('.spinner-border').show();
                 event.preventDefault(); //prevent default action
                 let form_data = "idmedicospec=${sessionScope.utente.id}&anamnesi="+$("#anamnesi").val()
@@ -55,10 +56,11 @@
 
                     },
                     complete: function(){
+                        successButton("#btnErogaVisitaSpec")
                         $('.spinner-border').fadeOut(0);
                     },
                     error: function(xhr, status, error) {
-
+                        errorButton("#btnErogaVisitaSpec")
                         alert(xhr.responseText);
                     }
                 });
@@ -228,7 +230,7 @@
                                                     <input required="true" type="checkbox"> Pagato<br>
                                                     <div class="form-group">
                                                         <div class="container"style="padding-top: 1rem" >
-                                                                <button type="submit">Eroga</button>
+                                                                <button id="btnErogaVisitaSpec" type="submit">Eroga</button>
                                                         </div>
                                                     </div>
                                                 </form>
