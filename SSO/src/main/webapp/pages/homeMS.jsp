@@ -193,46 +193,47 @@
                         <h3>Eroga una visita specialistica</h3>
                         <hr>
                         <div class="container-fluid" align="center">
-                            <div class="form"  >
-                                <div class="form-toggle"></div>
-                                <div class="form-panel one">
-                                    <div class="form-header">
-                                        <h1>Eroga una visita specialistica</h1>
-                                    </div>
-                                    <div class="form-content">
-                                        <form id="formErogaVisitaSpec" >
-                                            <div class="form-group">
-                                                <div class="container-fluid">
-                                                    <label for="idpazienteErogaVisitaSpec">Paziente</label>
-                                                    <select type="text" id="idpazienteErogaVisitaSpec" name="idpazienteErogaVisitaSpec" required="required"></select>
-                                                    <div class="spinner-border text-primary" role="status">
-                                                        <span class="sr-only">Loading...</span>
-                                                    </div>
-                                                    <br>
-                                                </div>
-                                                <div class="container-fluid" style="padding-top: 1rem">
-                                                    <label for="idvisitaErogaVisitaSpec">Visita specialistica</label>
-                                                    <select type="text" id="idvisitaErogaVisitaSpec" name="idvisitaErogaVisitaSpec" required="required"></select>
-                                                    <div class="spinner-border text-primary" role="status">
-                                                        <span class="sr-only">Loading...</span>
-                                                    </div>
-                                                </div>
-
-                                                <div class="container-fluid" style="padding-top: 1rem">
-                                                    <label for="anamnesi">Anamnesi</label>
-                                                    <textarea type="text" id="anamnesi" name="anamnesi" required="required"></textarea>
-                                                </div>
-
-
+                                    <div class="form"  >
+                                        <div class="form-toggle"></div>
+                                        <div class="form-panel one">
+                                            <div class="form-header">
+                                                <h1>Eroga una visita specialistica</h1>
                                             </div>
+                                            <div class="form-content">
+                                                <form id="formErogaVisitaSpec" >
+                                                    <div class="form-group">
+                                                        <div class="container-fluid">
+                                                            <label for="idpazienteErogaVisitaSpec">Paziente</label>
+                                                            <select type="text" id="idpazienteErogaVisitaSpec" name="idpazienteErogaVisitaSpec" required="required"></select>
+                                                            <div class="spinner-border text-primary" role="status">
+                                                                <span class="sr-only">Loading...</span>
+                                                            </div>
+                                                            <br>
+                                                        </div>
+                                                        <div class="container-fluid" style="padding-top: 1rem">
+                                                            <label for="idvisitaErogaVisitaSpec">Visita specialistica</label>
+                                                            <select type="text" id="idvisitaErogaVisitaSpec" name="idvisitaErogaVisitaSpec" required="required"></select>
+                                                            <div class="spinner-border text-primary" role="status">
+                                                                <span class="sr-only">Loading...</span>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="container-fluid" style="padding-top: 1rem">
+                                                            <label for="anamnesi">Anamnesi</label>
+                                                            <textarea type="text" id="anamnesi" name="anamnesi" required="required"></textarea>
+                                                        </div>
 
 
-                                            <div class="form-group">
-                                                <button type="submit">Eroga</button>
+                                                    </div>
+                                                    <input required="true" type="checkbox"> Pagato<br>
+                                                    <div class="form-group">
+                                                        <div class="container"style="padding-top: 1rem" >
+                                                                <button type="submit">Eroga</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
                                             </div>
-                                        </form>
-                                    </div>
-                                </div>
+                                        </div>
                             </div>
                         </div>
                     </div>
