@@ -527,3 +527,7 @@ select2 {
 #schedaPaziente {
     display: none;
 }
+
+.textAreaAnamnesi {
+    width: 100%;
+}

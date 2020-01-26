@@ -59,6 +59,7 @@ function showComponent(componentName){
 
         },
         error: function(xhr, status, error) {
+            console.log(xhr.responseText);
             //alert(xhr.responseText);
         }
     });
@@ -116,6 +117,7 @@ function initSelect2Pazienti(idSelect, idProvincia, langCode, labelCerca) {
                 };
             },
             error: function(xhr, status, error) {
+                console.log(xhr.responseText);
                 //alert(xhr.responseText);
             }
         }
@@ -156,6 +158,7 @@ function initSelect2PazientiByMB(idSelect, idMedico, langCode, labelCerca) {
                 };
             },
             error: function(xhr, status, error) {
+                console.log(xhr.responseText);
                 //alert(xhr.responseText);
             }
         }
@@ -196,6 +199,7 @@ function initSelect2General(tipoItem, idSelect, langCode, labelCerca) {
                 };
             },
             error: function(xhr, status, error) {
+                console.log(xhr.responseText);
                 //alert(xhr.responseText);
             }
         }
@@ -246,6 +250,7 @@ function initCarousel(idUtente, carouselId, basePath, extension) {
             appendImages(imagesIDs, carouselId, basePath, extension);
         },
         error: function(xhr, status, error) {
+            console.log(xhr.responseText);
             //alert(xhr.responseText);
         }
     });
@@ -271,6 +276,7 @@ function initAvatar(idUtente, avatarId, basePath, extension) {
             img.src = basePath + data[maxI].id + extension;
         },
         error: function(xhr, status, error) {
+            console.log(xhr.responseText);
             //alert(xhr.responseText);
         }
     });
@@ -305,6 +311,7 @@ function initUploadFoto(formId, idUtente, popupId, labelBtn) {
                 //alert("Immagine aggiunta con successo!");
             },
             error: function(xhr, status, error) {
+                console.log(xhr.responseText);
                 errorButton(popupId,labelErrorButtons)
                 //alert(xhr.responseText);
             }
@@ -320,6 +327,7 @@ function loadingButton(id,labelLoading) {
     const loadingText = '<i class="fa fa-circle-o-notch fa-spin"></i>'+labelLoadingButtons;//mettete qua le stringhe per la lingua
     let $this = $(id);
     $(id).css("background-color", "#1565c0");
+    $(id).prop("disabled", true);
 
     if ($(id).html() !== loadingText) {
         $this.data('original-text', $(id).html());
@@ -332,6 +340,7 @@ function loadingButton(id,labelLoading) {
 function resetButton(id, labelButton) {
     $(id).html(labelButton);
     $(id).css("background-color", "#1565c0");
+    $(id).prop("disabled", false);
 }
 
 function successButton(id,labelSuccess) {
@@ -372,6 +381,7 @@ function initCambioPassword(formId, oldPwId, newPwId, ripetiPwId, idUtente, btnI
                         document.getElementById(msgId).textContent = labelErrorPwVecchia;
                     } else {
                         //alert(xhr.responseText);
+                        console.log(xhr.responseText);
                     }
                 }
             });
@@ -400,6 +410,7 @@ function setNomeProvincia(targetId, idProvincia) {
             document.getElementById(targetId).textContent = data.nome;
         },
         error: function(xhr, status, error) {
+            console.log(xhr.responseText);
             document.getElementById(targetId).textContent = idProvincia;
         }
     });

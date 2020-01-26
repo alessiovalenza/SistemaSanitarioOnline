@@ -223,7 +223,8 @@
             let labelMismatch = "La controlla di aver scritto correttamente la nuova password";
             let labelWrongPw = "Password vecchia non corretta. Riprova";
             let labelBtnPw = document.getElementById("btnCambiaPassword").innerHTML;
-            initCambioPassword("#formCambiaPassword", "#vecchiaPassword", "#nuovaPassword", "#ripetiPassword", ${sessionScope.utente.id}, "#btnCambiaPassword", "messaggioCambioPw", labelWrongPw, labelMismatch, labelBtnPw);
+            initCambioPassword("#formCambiaPassword", "#vecchiaPassword", "#nuovaPassword", "#ripetiPassword", ${sessionScope.utente.id},
+                "#btnCambiaPassword", "messaggioCambioPw", labelWrongPw, labelMismatch, labelBtnPw);
 
             let labelErogaVisita = document.getElementById("btnErogaVisita").innerHTML;
             $("#formErogaVisita").submit(function(event){
@@ -244,7 +245,8 @@
 
                     },
                     error: function(xhr, status, error) {
-                        errorButton("#btnErogaVisita",labelErrorButtons)
+                        errorButton("#btnErogaVisita",labelErrorButtons);
+                        console.log(xhr.responseText);
                         //alert(xhr.responseText);
                     }
                 });
@@ -278,6 +280,7 @@
                     error: function(xhr, status, error) {
                         //alert(xhr.responseText);
                         errorButton("#btnPrescriviFarmaco",labelErrorButtons);
+                        console.log(xhr.responseText);
                     }
                 });
             });
@@ -304,6 +307,7 @@
                     },
                     error: function(xhr, status, error) {
                         errorButton("#btnPrescriviEsame",labelErrorButtons);
+                        console.log(xhr.responseText);
                         //alert(xhr.responseText);
                     }
                 });
@@ -328,6 +332,7 @@
                     },
                     error: function(xhr, status, error) {
                         errorButton("#btnPrescriviVisita",labelErrorButtons)
+                        console.log(xhr.responseText);
                         //alert(xhr.responseText);
                     }
                 });
@@ -376,7 +381,8 @@
                             return returnData;
                         },
                         "error": function(xhr, status, error) {
-                            alert(xhr.responseText);
+                            console.log(xhr.responseText);
+                            //alert(xhr.responseText);
                         }
                     },
                     "columns": [
@@ -422,7 +428,8 @@
                             return returnData;
                         },
                         "error": function(xhr, status, error) {
-                            alert(xhr.responseText);
+                            console.log(xhr.responseText);
+                            //alert(xhr.responseText);
                         }
                     },
                     "columnDefs": [
@@ -478,7 +485,8 @@
                             return returnData;
                         },
                         "error": function(xhr, status, error) {
-                            alert(xhr.responseText);
+                            console.log(xhr.responseText);
+                            //alert(xhr.responseText);
                         }
                     },
                     "columns": [
@@ -524,7 +532,8 @@
                             return returnData;
                         },
                         "error": function(xhr, status, error) {
-                            alert(xhr.responseText);
+                            console.log(xhr.responseText);
+                            //alert(xhr.responseText);
                         }
                     },
                     "columns": [
@@ -570,7 +579,8 @@
                             return returnData;
                         },
                         "error": function(xhr, status, error) {
-                            alert(xhr.responseText);
+                            console.log(xhr.responseText);
+                            //alert(xhr.responseText);
                         }
                     },
                     "columns": [
@@ -615,7 +625,8 @@
                             return returnData;
                         },
                         "error": function(xhr, status, error) {
-                            alert(xhr.responseText);
+                            console.log(xhr.responseText);
+                            //alert(xhr.responseText);
                         }
                     },
                     "columns": [
@@ -663,7 +674,8 @@
                             return returnData;
                         },
                         "error": function(xhr, status, error) {
-                            alert(xhr.responseText);
+                            console.log(xhr.responseText);
+                            //alert(xhr.responseText);
                         }
                     },
                     "columns": [
@@ -709,7 +721,8 @@
                             return returnData;
                         },
                         "error": function(xhr, status, error) {
-                            alert(xhr.responseText);
+                            console.log(xhr.responseText);
+                            //alert(xhr.responseText);
                         }
                     },
                     "columns": [
@@ -886,7 +899,6 @@
                             <b>français</b>
                         </c:otherwise>
                     </c:choose>
-
                 </div>
             </div>
 
@@ -963,7 +975,7 @@
                                     <div style="clear: both">
                                         <form action="#" id="formUploadFoto" method="POST" role="form" enctype="multipart/form-data">
                                             <div>
-                                                <input style="float: left; height: 35pt" class="btn btn-primary" type="file" id="fotoToUpload" name="foto"
+                                                <input style="float: left; width: 100%; max-width: 200px" class="btn btn-primary" type="file" id="fotoToUpload" name="foto"
                                                        onchange="return fileValidation('fotoToUpload', 'btnUploadFoto', labelAlertFoto)"/>
                                                 <button style="float:right; height: 35pt; background: grey;" class="btn btn-primary" type="submit" id="btnUploadFoto" disabled><fmt:message key="carica"/> </button>
                                             </div>
@@ -971,27 +983,27 @@
                                     </div>
                                     <div style="clear: both; padding-top: 0.5rem">
                                         <hr>
-                                        <h5 style="float: left"><fmt:message key="nome"/>:  </h5>
+                                        <h5 style="float: left"><b><fmt:message key="nome"/></b>:  </h5>
                                         <h5 align="right">${sessionScope.utente.nome}</h5>
                                     </div>
                                     <hr>
                                     <div style="clear: both">
-                                        <h5 style="float: left"><fmt:message key="cognome"/>:  </h5>
+                                        <h5 style="float: left"><b><fmt:message key="cognome"/></b>:  </h5>
                                         <h5 align="right">${sessionScope.utente.cognome}</h5>
                                     </div>
                                     <hr>
                                     <div style="clear: both">
-                                        <h5 style="float: left"><fmt:message key="sesso"/>:  </h5>
+                                        <h5 style="float: left"><b><fmt:message key="sesso"/></b>:  </h5>
                                         <h5 align="right">${sessionScope.utente.sesso}</h5>
                                     </div>
                                     <hr>
                                     <div style="clear: both">
-                                        <h5 style="float: left"><fmt:message key="codfis"/>:  </h5>
+                                        <h5 style="float: left"><b><fmt:message key="codfis"/></b>:  </h5>
                                         <h5 align="right">${sessionScope.utente.codiceFiscale}</h5>
                                     </div>
                                     <hr>
                                     <div style="clear: both">
-                                        <h5 style="float: left"><fmt:message key="datanas"/>:  </h5>
+                                        <h5 style="float: left"><b><fmt:message key="datanas"/></b>:  </h5>
                                         <h5 align="right"><fmt:formatDate value="${sessionScope.utente.dataNascita}"/></h5>
                                     </div>
                                     <hr>
@@ -1422,7 +1434,7 @@
                                                     </div>
                                                     <div class="container-fluid" style="padding-top: 1rem">
                                                         <label for="anamnesi"><fmt:message key="anamn"/></label>
-                                                        <textarea class="inputErogaVisita" type="text" id="anamnesi" name="anamnesi" required="required"></textarea>
+                                                        <textarea class="inputErogaVisita textAreaAnamnesi" type="text" id="anamnesi" name="anamnesi" required="required"></textarea>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
@@ -1442,7 +1454,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12">
-                            <h3>Cambia la tua password per l'accesso al sistema</h3>
+                            <h3>Gestione password</h3>
                             <hr>
                             <div class="container-fluid" align="center">
                                 <div class="form"  >
@@ -1452,7 +1464,7 @@
                                             <h1>Cambia password</h1>
                                         </div>
                                         <div class="form-content">
-                                            <div class="alert alert-warning" role="alert" id="messaggioCambioPw">this shoudln't be visualized<br>ever</div>
+                                            <div class="alert alert-warning" role="alert" id="messaggioCambioPw"></div>
                                             <form id="formCambiaPassword" >
                                                 <div class="form-group">
                                                     <div class="container-fluid" style="padding-top: 1rem">
