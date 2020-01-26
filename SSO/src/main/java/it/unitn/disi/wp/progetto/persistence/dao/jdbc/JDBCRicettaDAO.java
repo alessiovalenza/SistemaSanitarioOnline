@@ -102,7 +102,7 @@ public class JDBCRicettaDAO extends JDBCDAO<Ricetta, Long> implements RicettaDAO
     }
 
     @Override
-    public List<ElemReportProv> reportProvinciale(String idProvincia) throws DAOException {
+    public List<ElemReportProv> reportProvinciale(String idProvincia, Timestamp from, Timestamp to) throws DAOException {
         List<ElemReportProv> report = new ArrayList<>();
 
         try (PreparedStatement stm = CON.prepareStatement("SELECT r.emissione, m.codicefiscale, m.nome, m.cognome, p.codicefiscale, p.nome, p.cognome, fo.nome, fo.prezzo, fa.nome " +
@@ -111,8 +111,11 @@ public class JDBCRicettaDAO extends JDBCDAO<Ricetta, Long> implements RicettaDAO
                 "JOIN utente m ON r.medicobase = m.id " +
                 "JOIN utente fa ON r.farmacia = fa.id " +
                 "JOIN farmaco fo ON r.farmaco = fo.id " +
-                "WHERE p.idprovincia = ? ORDER BY r.emissione;")){
+                "WHERE p.idprovincia = ? AND r.emissione >= ? AND r.emissione <= ? " +
+                "ORDER BY r.emissione;")){
             stm.setString(1, idProvincia); // 1-based indexing
+            stm.setTimestamp(2, from); // 1-based indexing
+            stm.setTimestamp(3, to); // 1-based indexing
 
             try (ResultSet rs = stm.executeQuery()) {
                 while(rs.next()){
@@ -134,20 +137,23 @@ public class JDBCRicettaDAO extends JDBCDAO<Ricetta, Long> implements RicettaDAO
 
             return  report;
         } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
             throw new DAOException("Impossible to get the list", ex);
         }
     }
 
     @Override
-    public List<ElemReportNazionale> reportNazionale() throws DAOException {
+    public List<ElemReportNazionale> reportNazionale(Timestamp from, Timestamp to) throws DAOException {
         List<ElemReportNazionale> report = new ArrayList<>();
 
         try (PreparedStatement stm = CON.prepareStatement("SELECT m.idprovincia, m.codicefiscale, m.nome, m.cognome, sum(f.prezzo) " +
                 "FROM ricetta r " +
                 "JOIN utente m ON r.medicobase = m.id " +
                 "JOIN farmaco f ON r.farmaco = f.id " +
-                "WHERE r.farmacia IS NOT NULL " +
+                "WHERE r.farmacia IS NOT NULL AND r.emissione >= ? AND r.emissione <= ? " +
                 "GROUP BY m.idprovincia, m.id, m.codicefiscale, m.nome, m.cognome;")){
+            stm.setTimestamp(1, from); // 1-based indexing
+            stm.setTimestamp(2, to); // 1-based indexing
 
             try (ResultSet rs = stm.executeQuery()) {
                 while(rs.next()){

@@ -14,6 +14,6 @@ public interface  RicettaDAO extends DAO<Ricetta, Long> {
     public List<Ricetta> getRicetteByPaziente(long id, boolean soloEvase, boolean soloNonEvase, String suggestion) throws DAOException;
     public boolean createRicetta(long farmaco, long medicoBase, long paziente, Timestamp emissione) throws DAOException;
     public boolean evadiRicetta(long id, long farmacia, Timestamp evasione) throws DAOException; //l'id è della ricetta
-    public List<ElemReportProv> reportProvinciale(String idProvincia) throws DAOException;
-    public List<ElemReportNazionale> reportNazionale() throws DAOException;
+    public List<ElemReportProv> reportProvinciale(String idProvincia, Timestamp from, Timestamp to) throws DAOException;
+    public List<ElemReportNazionale> reportNazionale(Timestamp from, Timestamp to) throws DAOException;
 }

@@ -37,6 +37,8 @@
             }); */
             // $('#evadiRicette').hide();
 
+            let labelCercaPaz = "Cerca pazienti";
+
             $("#idpaziente").select2({
                 placeholder: 'Cerca Pazienti',
                 width: 300,
@@ -137,7 +139,7 @@
             $("#formEvadiRicetta").submit(function(event){
                 loadingButton("#btnEvadiRicetta")
                 event.preventDefault(); //prevent default action
-                let urlEvadiRicetta = 'http://localhost:8080/SSO_war_exploded/api/pazienti/'+$('#idpaziente').val()+'/ricette/'+$('#idricetta').val()
+                let urlEvadiRicetta = 'http://localhost:8080/SSO_war_exploded/api/pazienti/'+$('#idpaziente').val()+'/ricette/'+$('#idricetta').val();
                 let form_data = "idfarmacia=${sessionScope.utente.id}"
                 $.ajax({
                     url : urlEvadiRicetta,
@@ -240,16 +242,12 @@
                                                 <div class="container-fluid">
                                                     <label for="idpaziente">Nome del paziente</label>
                                                     <select class="select2EvadiRicetta" type="text" id="idpaziente" name="idpaziente" required="required"></select>
-                                                    <%--                                                <br>--%>
                                                 </div>
                                                 <div class="container-fluid" style="padding-top: 1rem">
                                                     <label for="idricetta">Nome del farmaco</label>
                                                     <select class="select2EvadiRicetta" type="text" id="idricetta" name="idricetta" required="required"></select>
                                                 </div>
-
                                             </div>
-
-
                                             <div class="form-group">
                                                 <button id="btnEvadiRicetta" type="submit">Evadi</button>
                                             </div>

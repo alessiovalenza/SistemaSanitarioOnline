@@ -48,7 +48,7 @@ function hideComponents(){
 }
 
 function manageNavbar() {
-    if ($("#sidebarCollapse").is(':visible')){
+    if ($("#sidebarCollapse").is(':visible')) {
         $('.componentControl','.overlay').on('click.hideNavbar', function () {
             // hide sidebar
             //$('#sidebar').removeClass('active');
@@ -56,10 +56,47 @@ function manageNavbar() {
            // $('.overlay').removeClass('active');
             $( "#dismiss, .overlay" ).click() ;
         });
-    }else{
-            $(".componentControl").off("click.hideNavbar");
-        }
     }
+    else {
+            $(".componentControl").off("click.hideNavbar");
+    }
+}
+
+function initSelect2Pazienti(idSelect, idProvincia, langCode, labelCerca) {
+    $(idSelect).select2({
+        placeholder: labelCerca,
+        language: langCode,
+        width: 300,
+        allowClear: true,
+        ajax: {
+            url: "http://localhost:8080/SSO_war_exploded/api/pazienti" + (idProvincia == null ? "" : "?idprovincia=" + idProvincia),
+            datatype: "json",
+            data: function (params) {
+                var query = {
+                    term: params.term,
+                    type: 'public',
+                    page: params.page || 1
+                }
+                return query;
+            },
+            processResults: function (data) {
+                var myResults = [];
+                $.each(data, function (index, item) {
+                    myResults.push({
+                        'id': item.id,
+                        'text': item.nome+" "+item.cognome
+                    });
+                });
+                return {
+                    results: myResults
+                };
+            },
+            error: function(xhr, status, error) {
+                alert(xhr.responseText);
+            }
+        }
+    });
+}
 
 /*
  * inizializza la select2 per la suggestion box <idSelect> dei pazienti del medico di base <idMedico>
