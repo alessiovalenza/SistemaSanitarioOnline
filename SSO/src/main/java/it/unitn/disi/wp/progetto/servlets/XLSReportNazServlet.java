@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -47,6 +48,17 @@ public class XLSReportNazServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Timestamp from;
+        Timestamp to;
+        try {
+            from = Timestamp.valueOf(request.getParameter("fromDay") + " 00:00:00");
+            to = Timestamp.valueOf(request.getParameter("toDay") + " 23:59:59");
+        }
+        catch (IllegalArgumentException e) {
+            throw new SSOServletException(HttpServletResponse.SC_BAD_REQUEST,
+                    "The dates you specified are in a wrong format or you have not specified them at all");
+        }
+
         List<ElemReportNazionale> listReport = Collections.emptyList();
 
         response.setContentType("application/xls");
@@ -54,7 +66,7 @@ public class XLSReportNazServlet extends HttpServlet {
         response.addHeader("Content-Disposition", "inline; filename=" + fileName);
 
         try {
-            listReport = ricettaDAO.reportNazionale();
+            listReport = ricettaDAO.reportNazionale(from, to);
         }
         catch (DAOException e) {
             throw new SSOServletException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,

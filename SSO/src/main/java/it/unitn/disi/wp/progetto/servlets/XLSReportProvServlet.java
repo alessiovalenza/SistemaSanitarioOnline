@@ -23,6 +23,7 @@ import javax.servlet.http.HttpSession;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -35,7 +36,6 @@ public class XLSReportProvServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        System.out.println(("sono dentro init"));
         DAOFactory daoFactory = (DAOFactory) super.getServletContext().getAttribute("daoFactory");
         if (daoFactory != null) {
             try {
@@ -55,12 +55,21 @@ public class XLSReportProvServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String id = request.getParameter("idprovincia");
-        System.out.println("id ricevuto: " + id);
-
-        if(id == null) {
-            throw new SSOServletException(HttpServletResponse.SC_BAD_REQUEST, "You must specify the id of the provincia");
+        Timestamp from;
+        Timestamp to;
+        try {
+            from = Timestamp.valueOf(request.getParameter("fromDay") + " 00:00:00");
+            to = Timestamp.valueOf(request.getParameter("toDay") + " 23:59:59");
+        }
+        catch (IllegalArgumentException e) {
+            throw new SSOServletException(HttpServletResponse.SC_BAD_REQUEST,
+                    "The dates you specified are in a wrong format or you have not specified them at all");
         }
 
+        if(id == null) {
+            throw new SSOServletException(HttpServletResponse.SC_BAD_REQUEST,
+                    "You must specify the id of the provincia and the span of time for the report");
+        }
 
         List<ElemReportProv> listReport = Collections.emptyList();
 
@@ -75,14 +84,13 @@ public class XLSReportProvServlet extends HttpServlet {
                 throw new SSOServletException(HttpServletResponse.SC_FORBIDDEN, "You are trying to access another provincia's data");
             }
 
-            listReport = ricettaDAO.reportProvinciale(id);
+            listReport = ricettaDAO.reportProvinciale(id, from, to);
 
         }
         catch (DAOException e) {
             throw new SSOServletException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
                     e.getMessage() + " - Errors occurred when accessing storage system");
         }
-
 
         response.setContentType("application/xls");
         String fileName = "report_prov_" + id + ".xls";
