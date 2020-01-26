@@ -162,6 +162,7 @@
             let labelCercaPaz = "Cerca pazienti";
             initSelect2Pazienti("#idPaziente", "${sessionScope.utente.prov}", langSelect2, labelCercaPaz);
             let labelCercaEsamiPresc = "Cerca esami prescritti";
+            let erogatori={}
             $("#idEsame").select2({
                 placeholder: labelCercaEsamiPresc,
                 language: langSelect2,
@@ -185,6 +186,7 @@
                     processResults: function (data) {
                         var myResults = [];
                         $.each(data, function (index, item) {
+                            erogatori[item.id]=item.medicoBase
                             myResults.push({
                                 "id": item.id,
                                 "text": item.esame.nome + " " + item.esame.descrizione + ", prescritta da " +
@@ -199,8 +201,19 @@
                     }
                 }
             });
+            $('#idEsame').on('select2:select', function (e) {
+                if (erogatori[$(this).children("option:selected").val()] == undefined){
+                    $("#idPagato").prop("checked",true)
+                    $("#idPagato").prop("disabled",true)
+                }else{
+                    $("#idPagato").prop("checked",false)
+                    $("#idPagato").prop("disabled",false)
+                }
+
+            });
 
             $("#formErogaEsame").submit(function(event){
+                loadingButton("#btnErogaEsame",labelLoadingButtons)
                 event.preventDefault(); //prevent default action
                 let formData = "esito="+$("#esito").val(); //Encode form elements for submission
                 let urlErogaEsame = baseUrl + "/api/pazienti/"+$("#idPaziente").val()+"/esamiprescritti/" + $("#idEsame").val();
@@ -210,6 +223,8 @@
                     data : formData,
                     success: function (data) {
                         $(".inputErogaEsame").val(null).trigger("change");
+                        $("#idPagato").prop("checked",false)
+                        $("#idPagato").prop("disabled",false)
                         successButton("#btnErogaEsame",labelSuccessButtons);
                     },
                     complete: function(){
@@ -357,6 +372,7 @@
                                                     <textarea class="inputErogaEsame" type="text" id="esito" name="esito" required="required"></textarea>
                                                 </div>
                                             </div>
+                                            <input required="true" id="idPagato" type="checkbox"> Pagato<br>
                                             <div class="form-group">
                                                 <button id="btnErogaEsame" type="submit">Eroga</button>
                                             </div>

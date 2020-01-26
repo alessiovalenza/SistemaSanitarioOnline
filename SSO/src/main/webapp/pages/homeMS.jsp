@@ -123,7 +123,7 @@
                     type: "PUT",
                     data : form_data,
                     success: function (data) {
-
+                        $("#idPagato").prop("checked",false)
                         $('.select2ErogaVisitaSpec').val(null).trigger("change")
                         $("#anamnesi").val("")
                         successButton("#btnErogaVisitaSpec",labelSuccessButtons)
@@ -297,7 +297,7 @@
 
 
                                                     </div>
-                                                    <input required="true" type="checkbox"> Pagato<br>
+                                                    <input required="true" id="idPagato" type="checkbox"> Pagato<br>
                                                     <div class="form-group">
                                                         <div class="container"style="padding-top: 1rem" >
                                                                 <button id="btnErogaVisitaSpec" type="submit">Eroga</button>
