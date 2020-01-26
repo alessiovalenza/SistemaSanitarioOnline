@@ -1,4 +1,72 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="java.io.File" %>
+<%@ page import="it.unitn.disi.wp.progetto.commons.Utilities" %>
+<%@ page import="java.util.Enumeration" %>
+<%@ page import="java.util.Locale" %>
+
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java"%>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri = "http://java.sun.com/jsp/jstl/functions"%>
+
+<%
+    String languageSession = (String)session.getAttribute("language");
+    String languageParam = (String)request.getParameter("language");
+
+    if(languageParam != null) {
+        session.setAttribute("language", languageParam);
+    }
+    else if(languageSession == null) {
+        Enumeration<Locale> locales = request.getLocales();
+
+        boolean found = false;
+        Locale matchingLocale = null;
+        while(locales.hasMoreElements() && !found) {
+            Locale locale = locales.nextElement();
+            if(locale.getLanguage().equals("it") ||
+                    locale.getLanguage().equals("en") ||
+                    locale.getLanguage().equals("fr")) {
+                found = true;
+                matchingLocale = locale;
+            }
+        }
+
+        session.setAttribute("language", matchingLocale != null ? matchingLocale.toString() : "it_IT");
+    }
+
+    String selectedSection = (String)session.getAttribute("selectedSection") != null ? (String)session.getAttribute("selectedSection") : "";
+    switch(selectedSection) {
+        case "profilo":
+            break;
+        case "pazienti":
+            break;
+        case "schedaPaz":
+            break;
+        case "prescFarmaco":
+            break;
+        case "prescVisita":
+            break;
+        case "erogaVisita":
+            break;
+        case "prescEsame":
+            break;
+        case "cambiaPassword":
+            break;
+        default:
+            session.setAttribute("selectedSection", "profilo");
+            break;
+    }
+%>
+
+<c:set var="language" value="${sessionScope.language}" scope="page" />
+<c:set var="sectionToShow" value="${sessionScope.selectedSection}" scope="page" />
+<c:set var="baseUrl" value="<%=request.getContextPath()%>"/>
+<c:set var="url" value="${baseUrl}/pages/homeMB.jsp?language=" scope="page" />
+
+<fmt:setLocale value="${language}" />
+<fmt:setBundle basename="labels" />
+
+
 <!DOCTYPE html>
 <html>
 
@@ -34,20 +102,20 @@
         const labelLoadingButtons = "loading";
         const labelSuccessButtons = "success";
         const labelErrorButtons = "error";
+        let baseUrl = "<%=request.getContextPath()%>";
+
         $(document).ready(function () {
             /* $('#esamiFatti > tbody > tr').click(function () {
                 alert("riga cliccata")
             }); */
             // $('#evadiRicette').hide();
 
-            let labelCercaPaz = "Cerca pazienti";
-
             $("#idpaziente").select2({
                 placeholder: 'Cerca Pazienti',
                 width: 300,
                 allowClear: true,
                 ajax: {
-                    url: "http://localhost:8080/SSO_war_exploded/api/pazienti",
+                    url: baseUrl + "/api/pazienti",
                     datatype: "json",
                     data: function (params) {
                         var query = {
@@ -71,7 +139,7 @@
                     }
                 }
             });
-            // let urlSelectRicette = 'http://localhost:8080/SSO_war_exploded/api/pazienti/'+$('#idpaziente').children("option:selected").val()+'/ricette/?evaseonly=false&nonevaseonly=true'
+            // let urlSelectRicette = baseUrl + '/api/pazienti/'+$('#idpaziente').children("option:selected").val()+'/ricette/?evaseonly=false&nonevaseonly=true'
             //
             // $("#idricetta").select2({
             //     placeholder: 'Cerca Farmaci',
@@ -111,7 +179,7 @@
                 allowClear: true,
                 ajax: {
                     url: function () {
-                        let urlSelectRicette = 'http://localhost:8080/SSO_war_exploded/api/pazienti/'+$('#idpaziente').children("option:selected").val()+'/ricette/?evaseonly=false&nonevaseonly=true'
+                        let urlSelectRicette = baseUrl + '/api/pazienti/'+$('#idpaziente').children("option:selected").val()+'/ricette/?evaseonly=false&nonevaseonly=true'
                         return urlSelectRicette
                     },
                     datatype: "json",
@@ -142,7 +210,7 @@
             $("#formEvadiRicetta").submit(function(event){
                 loadingButton("#btnEvadiRicetta",labelLoadingButtons)
                 event.preventDefault(); //prevent default action
-                let urlEvadiRicetta = 'http://localhost:8080/SSO_war_exploded/api/pazienti/'+$('#idpaziente').val()+'/ricette/'+$('#idricetta').val();
+                let urlEvadiRicetta = baseUrl + '/api/pazienti/'+$('#idpaziente').val()+'/ricette/'+$('#idricetta').val()
                 let form_data = "idfarmacia=${sessionScope.utente.id}"
                 $.ajax({
                     url : urlEvadiRicetta,
@@ -248,12 +316,16 @@
                                                 <div class="container-fluid">
                                                     <label for="idpaziente">Nome del paziente</label>
                                                     <select class="select2EvadiRicetta" type="text" id="idpaziente" name="idpaziente" required="required"></select>
+                                                    <%--                                                <br>--%>
                                                 </div>
                                                 <div class="container-fluid" style="padding-top: 1rem">
                                                     <label for="idricetta">Nome del farmaco</label>
                                                     <select class="select2EvadiRicetta" type="text" id="idricetta" name="idricetta" required="required"></select>
                                                 </div>
+
                                             </div>
+
+
                                             <div class="form-group">
                                                 <button id="btnEvadiRicetta" type="submit">Evadi</button>
                                             </div>

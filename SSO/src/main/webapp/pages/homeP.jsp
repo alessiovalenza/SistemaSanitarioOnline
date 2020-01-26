@@ -1,4 +1,71 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="java.io.File" %>
+<%@ page import="it.unitn.disi.wp.progetto.commons.Utilities" %>
+<%@ page import="java.util.Enumeration" %>
+<%@ page import="java.util.Locale" %>
+
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java"%>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri = "http://java.sun.com/jsp/jstl/functions"%>
+
+<%
+    String languageSession = (String)session.getAttribute("language");
+    String languageParam = (String)request.getParameter("language");
+
+    if(languageParam != null) {
+        session.setAttribute("language", languageParam);
+    }
+    else if(languageSession == null) {
+        Enumeration<Locale> locales = request.getLocales();
+
+        boolean found = false;
+        Locale matchingLocale = null;
+        while(locales.hasMoreElements() && !found) {
+            Locale locale = locales.nextElement();
+            if(locale.getLanguage().equals("it") ||
+                    locale.getLanguage().equals("en") ||
+                    locale.getLanguage().equals("fr")) {
+                found = true;
+                matchingLocale = locale;
+            }
+        }
+
+        session.setAttribute("language", matchingLocale != null ? matchingLocale.toString() : "it_IT");
+    }
+
+    String selectedSection = (String)session.getAttribute("selectedSection") != null ? (String)session.getAttribute("selectedSection") : "";
+    switch(selectedSection) {
+        case "profilo":
+            break;
+        case "pazienti":
+            break;
+        case "schedaPaz":
+            break;
+        case "prescFarmaco":
+            break;
+        case "prescVisita":
+            break;
+        case "erogaVisita":
+            break;
+        case "prescEsame":
+            break;
+        case "cambiaPassword":
+            break;
+        default:
+            session.setAttribute("selectedSection", "profilo");
+            break;
+    }
+%>
+
+<c:set var="language" value="${sessionScope.language}" scope="page" />
+<c:set var="sectionToShow" value="${sessionScope.selectedSection}" scope="page" />
+<c:set var="baseUrl" value="<%=request.getContextPath()%>"/>
+<c:set var="url" value="${baseUrl}/pages/homeMB.jsp?language=" scope="page" />
+
+<fmt:setLocale value="${language}" />
+<fmt:setBundle basename="labels" />
+
 <!DOCTYPE html>
 <html>
 
@@ -47,7 +114,7 @@
                 loadingButton("#btnCambiaMedico",labelLoadingButtons)
                 event.preventDefault(); //prevent default action
                 let form_data = $(this).serialize(); //Encode form elements for submission
-                let url = 'http://localhost:8080/SSO_war_exploded/api/pazienti/' + ${sessionScope.utente.id} + '/medicobase'
+                let url = baseUrl + '/api/pazienti/' + ${sessionScope.utente.id} + '/medicobase'
 
                 $.ajax({
                     url : url,
@@ -84,7 +151,7 @@
                 $("#profilo").fadeOut(0);
                 $("#formNostro").fadeOut(0);
                 $("#ricette").fadeOut(0);
-                let url = 'http://localhost:8080/SSO_war_exploded/api/pazienti/${sessionScope.utente.id}/medicobase'
+                let url = baseUrl + '/api/pazienti/${sessionScope.utente.id}/medicobase'
                 $.ajax({
                     type: "GET",
                     url: url,
@@ -127,7 +194,7 @@
                 $("#formNostro").fadeOut(0);
                 $("#cambiaMedico").fadeOut(0);
                 $("#ricette").fadeOut(0);
-                let urlEsamiNonErogati = "http://localhost:8080/SSO_war_exploded/api/utenti/${sessionScope.utente.id}/esamiprescritti?erogationly=false&nonerogationly=false";
+                let urlEsamiNonErogati = baseUrl + "/api/utenti/${sessionScope.utente.id}/esamiprescritti?erogationly=false&nonerogationly=false";
                 $('#esamiNonErogati').DataTable( {
                     "processing": true,
                     "serverSide": true,
@@ -144,7 +211,7 @@
 
                     ]
                 } );
-                let urlEsamiErogati = "http://localhost:8080/SSO_war_exploded/api/utenti/"+ ${sessionScope.utente.id} +"/esamiprescritti?erogationly=true&nonerogationly=false";
+                let urlEsamiErogati = baseUrl + "/api/utenti/"+ ${sessionScope.utente.id} +"/esamiprescritti?erogationly=true&nonerogationly=false";
                 $('#esamiErogati').DataTable( {
                     "processing": true,
                     "serverSide": true,
@@ -180,7 +247,7 @@
                 $("#formNostro").fadeOut(0);
                 $("#ricette").fadeOut(0);
                 $("#cambiaMedico").fadeIn(0);
-                let urlCambioMedico = 'http://localhost:8080/SSO_war_exploded/api/general/medicibase/?idprovincia='+'${sessionScope.utente.prov}'
+                let urlCambioMedico = baseUrl + '/api/general/medicibase/?idprovincia='+'${sessionScope.utente.prov}'
                 $("#idmedicobase").click(function(){
                     alert("pre")
                     $("#idmedicobase").select2({
@@ -251,7 +318,7 @@
                 $("#esami").fadeOut(0);
                 $("#formNostro").fadeOut(0);
                 $("#cambiaMedico").fadeOut(0);
-                let urlRicetteNonEvase = "http://localhost:8080/SSO_war_exploded/api/utenti/"+ ${sessionScope.utente.id} +"/ricette?evaseonly=false&nonevaseonly=true";
+                let urlRicetteNonEvase = baseUrl + "/api/utenti/"+ ${sessionScope.utente.id} +"/ricette?evaseonly=false&nonevaseonly=true";
                 $('#ricetteNonEvase').DataTable( {
                     "processing": true,
                     "serverSide": true,
@@ -269,7 +336,7 @@
                         { "data": "esame.nome" }
                     ]
                 } );
-                let urlRicetteEvase = "http://localhost:8080/SSO_war_exploded/api/utenti/"+ ${sessionScope.utente.id} +"/ricette?evaseonly=true&nonevaseonly=false";
+                let urlRicetteEvase = baseUrl + "/api/utenti/"+ ${sessionScope.utente.id} +"/ricette?evaseonly=true&nonevaseonly=false";
                 $('#ricetteEvase').DataTable( {
                     "processing": true,
                     "serverSide": true,
@@ -405,7 +472,7 @@
                         <h1>form nostro</h1>
                     </div>
                     <div class="form-content">
-                        <form method="post" action="http://localhost:8080/SSO_war_exploded/api/medicobase/esameprescritto">
+                        <form method="post" action= "${baseUrl}/api/medicobase/esameprescritto">
                             <div class="form-group">
                                 <label for="idesame">Username</label>
                                 <input type="text" id="idesame" name="idesame" required="required"/>
@@ -641,6 +708,7 @@
 
 
 <script type="text/javascript">
+    let baseUrl = "<%=request.getContextPath()%>";
     $(document).ready(function () {
 
         // $('#sidebar').on('hidden.bs.collapse', function() {
@@ -681,6 +749,7 @@
     });
 </script>
 <script>appendImages()</script>
+</div>
 </body>
 
 </html>

@@ -1,4 +1,71 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="java.io.File" %>
+<%@ page import="it.unitn.disi.wp.progetto.commons.Utilities" %>
+<%@ page import="java.util.Enumeration" %>
+<%@ page import="java.util.Locale" %>
+
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java"%>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri = "http://java.sun.com/jsp/jstl/functions"%>
+
+<%
+    String languageSession = (String)session.getAttribute("language");
+    String languageParam = (String)request.getParameter("language");
+
+    if(languageParam != null) {
+        session.setAttribute("language", languageParam);
+    }
+    else if(languageSession == null) {
+        Enumeration<Locale> locales = request.getLocales();
+
+        boolean found = false;
+        Locale matchingLocale = null;
+        while(locales.hasMoreElements() && !found) {
+            Locale locale = locales.nextElement();
+            if(locale.getLanguage().equals("it") ||
+                    locale.getLanguage().equals("en") ||
+                    locale.getLanguage().equals("fr")) {
+                found = true;
+                matchingLocale = locale;
+            }
+        }
+
+        session.setAttribute("language", matchingLocale != null ? matchingLocale.toString() : "it_IT");
+    }
+
+    String selectedSection = (String)session.getAttribute("selectedSection") != null ? (String)session.getAttribute("selectedSection") : "";
+    switch(selectedSection) {
+        case "profilo":
+            break;
+        case "pazienti":
+            break;
+        case "schedaPaz":
+            break;
+        case "prescFarmaco":
+            break;
+        case "prescVisita":
+            break;
+        case "erogaVisita":
+            break;
+        case "prescEsame":
+            break;
+        case "cambiaPassword":
+            break;
+        default:
+            session.setAttribute("selectedSection", "profilo");
+            break;
+    }
+%>
+
+<c:set var="language" value="${sessionScope.language}" scope="page" />
+<c:set var="sectionToShow" value="${sessionScope.selectedSection}" scope="page" />
+<c:set var="baseUrl" value="<%=request.getContextPath()%>"/>
+<c:set var="url" value="${baseUrl}/pages/homeMB.jsp?language=" scope="page" />
+
+<fmt:setLocale value="${language}" />
+<fmt:setBundle basename="labels" />
+
 <!DOCTYPE html>
 <html>
 
@@ -32,7 +99,7 @@
     <script src="../scripts/utils.js"></script>
     <script>
         let components = new Set();
-
+        let baseUrl = "<%=request.getContextPath()%>";
         $(document).ready(function() {
             populateComponents();
             hideComponents();

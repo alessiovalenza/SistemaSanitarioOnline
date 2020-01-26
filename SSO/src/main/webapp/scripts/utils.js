@@ -51,7 +51,7 @@ function showComponent(componentName){
     });
 
     $.ajax({
-        url : "http://localhost:8080/SSO_war_exploded/section?selectedSection=" + componentName,
+        url : baseUrl + "/section?selectedSection=" + componentName,
         type : "POST",
         contentType : false,
         processData : false,
@@ -133,7 +133,7 @@ function initSelect2PazientiByMB(idSelect, idMedico, langCode, labelCerca) {
         width: 300,
         allowClear: true,
         ajax: {
-            url: "http://localhost:8080/SSO_war_exploded/api/medicibase/" + idMedico + "/pazienti?datericettavisita=false",
+            url: baseUrl + "/api/medicibase/" + idMedico + "/pazienti?datericettavisita=false",
             datatype: "json",
             data: function (params) {
                 var query = {
@@ -173,7 +173,7 @@ function initSelect2General(tipoItem, idSelect, langCode, labelCerca) {
         width: 300,
         allowClear: true,
         ajax: {
-            url: "http://localhost:8080/SSO_war_exploded/api/general/" + tipoItem + "/",
+            url: baseUrl + "/api/general/" + tipoItem + "/",
             datatype: "json",
             data: function (params) {
                 var query = {
@@ -234,7 +234,7 @@ function appendImages(imagesIDs, carouselId, basePath, extension) {
 }
 
 function initCarousel(idUtente, carouselId, basePath, extension) {
-    let urlFotoUtente = "http://localhost:8080/SSO_war_exploded/api/utenti/" + idUtente + "/foto";
+    let urlFotoUtente = baseUrl + "/api/utenti/" + idUtente + "/foto";
     $.ajax({
         url : urlFotoUtente,
         type: "GET",
@@ -252,7 +252,7 @@ function initCarousel(idUtente, carouselId, basePath, extension) {
 }
 
 function initAvatar(idUtente, avatarId, basePath, extension) {
-    let urlFotoUtente = "http://localhost:8080/SSO_war_exploded/api/utenti/" + idUtente + "/foto";
+    let urlFotoUtente = baseUrl + "/api/utenti/" + idUtente + "/foto";
     $.ajax({
         url : urlFotoUtente,
         type: "GET",

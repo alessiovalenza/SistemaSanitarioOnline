@@ -11,6 +11,7 @@ import it.unitn.disi.wp.progetto.persistence.entities.TokenPsw;
 import it.unitn.disi.wp.progetto.persistence.entities.Utente;
 import it.unitn.disi.wp.progetto.servlets.exceptions.SSOServletException;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -80,6 +81,7 @@ public class PassResetServlet extends HttpServlet {
     }
 
     private void emailStep(String email, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+        String baseUrl = request.getContextPath();
         DAOFactory daoFactory = (DAOFactory) super.getServletContext().getAttribute("daoFactory");
         System.out.println("in emailStep method");
         long id;
@@ -92,7 +94,7 @@ public class PassResetServlet extends HttpServlet {
                 token = Utilities.generaToken();
                 TokenPswDAO tokenPswDAO = daoFactory.getDAO(TokenPswDAO.class);
                 tokenPswDAO.creaToken(sha512(token), id);
-                createAndSendEmail(utente, token);
+                createAndSendEmail(utente, token, baseUrl);
                 System.out.println("email inviata");
                 request.setAttribute("msg", emailSentMessage);
                 request.getRequestDispatcher(sendEmailUrl).include(request, response);
@@ -136,8 +138,8 @@ public class PassResetServlet extends HttpServlet {
         }
     }
 
-    private void createAndSendEmail(Utente utente, String token){
-        String link = "http://localhost:8080/SSO_war_exploded/passreset?token=" + token;
+    private void createAndSendEmail(Utente utente, String token, String baseUrl){
+        String link = baseUrl + "/passreset?token=" + token;
         String testo = String.format("Gentile utente %s %s,\npuò recuperare la password al seguente link:\n%s\nDistinti saluti", utente.getCognome(), utente.getNome(), link);
         Utilities.sendEmail(Collections.singletonList(new Email(utente.getEmail(), "Password Recovery", testo)));
     }

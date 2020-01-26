@@ -7,7 +7,8 @@
 
 <c:set var="language" value="${sessionScope.language}" scope="page" />
 <c:set var="sectionToShow" value="${sessionScope.selectedSection}" scope="page" />
-<c:set var="url" value="http://localhost:8080/SSO_war_exploded/pages/mappe.jsp?language=" scope="page" />
+<c:set var="baseUrl" value="<%=request.getContextPath()%>"/>
+<c:set var="url" value="${baseUrl}/pages/homeMB.jsp?language=" scope="page" />
 
 <fmt:setLocale value="${language}" />
 <fmt:setBundle basename="labels" />
@@ -30,7 +31,7 @@
 <body>
 <div id="mapContainer"></div>
 <script>
-
+    let baseUrl = "<%=request.getContextPath()%>";
     function HEREPlaces (map, platform) {
         this.map = map;
         this.placeSearch = new H.places.Search (platform.getPlacesService());
@@ -87,7 +88,7 @@
 
                 $.ajax({
                     type: "GET",
-                    url: "http://localhost:8080/SSO_war_exploded/api/pazienti/"+ ${sessionScope.utente.id} +"/ricette?evaseonly=false&nonevaseonly=true",
+                    url: baseUrl + "/api/pazienti/"+ ${sessionScope.utente.id} +"/ricette?evaseonly=false&nonevaseonly=true",
                         success: function (data) {
                         if (data[0] && distance <= 2000) {
                             notifyMe();
