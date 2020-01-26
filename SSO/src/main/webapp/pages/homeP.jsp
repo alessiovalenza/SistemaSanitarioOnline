@@ -140,7 +140,6 @@
             // });
             $('#medico').hide();
             $('#esami').hide();
-            $('#formNostro').hide();
             $('#cambiaMedico').hide();
             $('#ricette').hide();
 
@@ -149,7 +148,6 @@
                 $("#cambiaMedico").fadeOut(0);
                 $("#esami").fadeOut(0);
                 $("#profilo").fadeOut(0);
-                $("#formNostro").fadeOut(0);
                 $("#ricette").fadeOut(0);
                 let url = baseUrl + '/api/pazienti/${sessionScope.utente.id}/medicobase'
                 $.ajax({
@@ -182,7 +180,6 @@
                 $("#medico").fadeOut(0);
                 $("#cambiaMedico").fadeOut(0);
                 $("#profilo").fadeIn(0);
-                $("#formNostro").fadeOut(0);
                 $("#ricette").fadeOut(0);
                 $("#profilo").fadeIn(0);
             });
@@ -191,7 +188,6 @@
                 $('#esamiNonErogati').DataTable().destroy()
                 $("#medico").fadeOut(0);
                 $("#profilo").fadeOut(0);
-                $("#formNostro").fadeOut(0);
                 $("#cambiaMedico").fadeOut(0);
                 $("#ricette").fadeOut(0);
                 let urlEsamiNonErogati = baseUrl + "/api/pazienti/${sessionScope.utente.id}/esamiprescritti?erogationly=false&nonerogationly=true";
@@ -232,19 +228,10 @@
                 } );
                 $("#esami").fadeIn(0);
             });
-            $("#formControl").click(function(){
-                $("#medico").fadeOut(0);
-                $("#profilo").fadeOut(0);
-                $("#esami").fadeOut(0);
-                $("#cambiaMedico").fadeOut(0);
-                $("#ricette").fadeOut(0);
-                $("#formNostro").fadeIn(0);
-            });
             $("#cambiaMedicoControl").click(function(){
                 $("#medico").fadeOut(0);
                 $("#profilo").fadeOut(0);
                 $("#esami").fadeOut(0);
-                $("#formNostro").fadeOut(0);
                 $("#ricette").fadeOut(0);
                 $("#cambiaMedico").fadeIn(0);
                 let urlCambioMedico = baseUrl + '/api/general/medicibase/?idprovincia='+'${sessionScope.utente.prov}'
@@ -316,7 +303,6 @@
                 $("#medico").fadeOut(0);
                 $("#profilo").fadeOut(0);
                 $("#esami").fadeOut(0);
-                $("#formNostro").fadeOut(0);
                 $("#cambiaMedico").fadeOut(0);
                 let urlRicetteNonEvase = baseUrl + "/api/pazienti/"+ ${sessionScope.utente.id} +"/ricette?evaseonly=false&nonevaseonly=true";
                 $('#ricetteNonEvase').DataTable( {
@@ -422,9 +408,6 @@
                 <a href="#" class="componentControl" id ="ricetteControl">Visualizza ricette</a>
             </li>
             <li>
-                <a href="#" class="componentControl" id ="formControl">Visualizza form nostro</a>
-            </li>
-            <li>
                 <a href="../mappe.jsp" id="mappeControl">Visualizza mappe</a>
             </li>
             <li>
@@ -464,33 +447,6 @@
                 </div>
             </div>
         </div>
-        <div class="container-fluid" align="center" id="formNostro">
-            <div class="form" method="post" >
-                <div class="form-toggle"></div>
-                <div class="form-panel one">
-                    <div class="form-header">
-                        <h1>form nostro</h1>
-                    </div>
-                    <div class="form-content">
-                        <form method="post" action= "${baseUrl}/api/medicobase/esameprescritto">
-                            <div class="form-group">
-                                <label for="idesame">Username</label>
-                                <input type="text" id="idesame" name="idesame" required="required"/>
-                            </div>
-                            <div class="form-group">
-                                <label for="idpaziente">Password</label>
-                                <input type="password" id="idpaziente" name="idpaziente" required="required"/>
-                            </div>
-
-                            <div class="form-group">
-                                <button type="submit">Log In</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
 
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
