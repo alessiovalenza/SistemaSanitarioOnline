@@ -215,12 +215,17 @@
 
             initSelect2General("visite", "#idvisita", langSelect2, labelCercaVisite);
 
-            initUploadFoto("#formUploadFoto", ${sessionScope.utente.id}, "#btnUploadFoto");
+            let labelUpload = document.getElementById("btnUploadFoto").innerHTML;
+            initUploadFoto("#formUploadFoto", ${sessionScope.utente.id}, "#btnUploadFoto", labelUpload);
 
             initAvatar(${sessionScope.utente.id}, "avatarImg", basePath, extension);
 
-            initCambioPassword("#formCambiaPassword", "#vecchiaPassword", "#nuovaPassword", "#ripetiPassword", ${sessionScope.utente.id}, "#btnCambiaPassword",labelLoadingButtons,labelSuccessButtons,labelErrorButtons);
+            let labelMismatch = "La controlla di aver scritto correttamente la nuova password";
+            let labelWrongPw = "Password vecchia non corretta. Riprova";
+            let labelBtnPw = document.getElementById("btnCambiaPassword").innerHTML;
+            initCambioPassword("#formCambiaPassword", "#vecchiaPassword", "#nuovaPassword", "#ripetiPassword", ${sessionScope.utente.id}, "#btnCambiaPassword", "messaggioCambioPw", labelWrongPw, labelMismatch, labelBtnPw);
 
+            let labelErogaVisita = document.getElementById("btnErogaVisita").innerHTML;
             $("#formErogaVisita").submit(function(event){
                 loadingButton("#btnErogaVisita",labelLoadingButtons)
                 event.preventDefault(); //prevent default action
@@ -231,24 +236,27 @@
                     type: "POST",
                     data : formData,
                     success: function (data) {
-                        $('.select2ErogaVisita').val(null).trigger("change")
-                        $('#anamnesi').val("")
-                        successButton("#btnErogaVisita",labelSuccessButtons)
-                        document.getElementById("erogaVisitaBaseOK").classList.toggle("show");
-                        setTimeout(function() {
-                            document.getElementById("erogaVisitaBaseOK").classList.toggle("show");
-                        }, 3000);
+                        $('.select2ErogaVisita').val(null).trigger("change");
+                        $('#anamnesi').val("");
+                        successButton("#btnErogaVisita",labelSuccessButtons);
                     },
                     complete: function(){
 
                     },
                     error: function(xhr, status, error) {
                         errorButton("#btnErogaVisita",labelErrorButtons)
-                        alert(xhr.responseText);
+                        //alert(xhr.responseText);
                     }
                 });
             });
+            $('.select2ErogaVisita').on("change", function () {
+                resetButton("#btnErogaVisita", labelErogaVisita);
+            });
+            $('#anamnesi').on("click", function () {
+                resetButton("#btnErogaVisita", labelErogaVisita);
+            });
 
+            let labelPrescFarmaco = document.getElementById("btnPrescriviFarmaco").innerHTML;
             $("#formPrescFarmaco").submit(function(event) {
                 event.preventDefault(); //prevent default action
 
@@ -261,23 +269,23 @@
                     type: "POST",
                     data : formData,
                     success: function (data) {
-                        successButton("#btnPrescriviFarmaco",labelSuccessButtons)
-                        $('.select2PrescFarmaco').val(null).trigger("change")
-                        document.getElementById("prescriviFarmacoOK").classList.toggle("show");
-                        setTimeout(function() {
-                            document.getElementById("prescriviFarmacoOK").classList.toggle("show");
-                        }, 3000);
+                        $('.select2PrescFarmaco').val(null).trigger("change");
+                        successButton("#btnPrescriviFarmaco",labelSuccessButtons);
                     },
                     complete: function(){
 
                     },
                     error: function(xhr, status, error) {
-                        alert(xhr.responseText);
-                        errorButton("#btnPrescriviFarmaco",labelErrorButtons)
+                        //alert(xhr.responseText);
+                        errorButton("#btnPrescriviFarmaco",labelErrorButtons);
                     }
                 });
             });
+            $('.select2PrescFarmaco').on("change", function () {
+                resetButton("#btnPrescriviFarmaco", labelPrescFarmaco);
+            });
 
+            let labelPrescEsame = document.getElementById("btnPrescriviEsame").innerHTML;
             $("#formPrescEsame").submit(function(event){
                 event.preventDefault(); //prevent default action
                 loadingButton("#btnPrescriviEsame",labelLoadingButtons)
@@ -288,23 +296,23 @@
                     type: "POST",
                     data : formData,
                     success: function (data) {
-                        $('.select2PrescEsame').val(null).trigger("change")
-                        successButton("#btnPrescriviEsame",labelSuccessButtons)
-                        document.getElementById("prescriviEsameOK").classList.toggle("show");
-                        setTimeout(function() {
-                            document.getElementById("prescriviEsameOK").classList.toggle("show");
-                        }, 3000);
+                        $('.select2PrescEsame').val(null).trigger("change");
+                        successButton("#btnPrescriviEsame",labelSuccessButtons);
                     },
                     complete: function(){
 
                     },
                     error: function(xhr, status, error) {
-                        errorButton("#btnPrescriviEsame",labelErrorButtons)
-                        alert(xhr.responseText);
+                        errorButton("#btnPrescriviEsame",labelErrorButtons);
+                        //alert(xhr.responseText);
                     }
                 });
             });
+            $('.select2PrescEsame').on("change", function () {
+                resetButton("#btnPrescriviEsame", labelPrescEsame);
+            });
 
+            let labelPrescVisita = document.getElementById("btnPrescriviVisita").innerHTML;
             $("#formPrescVisita").submit(function(event){
                 loadingButton("#btnPrescriviVisita",labelLoadingButtons)
                 event.preventDefault(); //prevent default action
@@ -315,18 +323,17 @@
                     type: "POST",
                     data : formData,
                     success: function (data) {
-                        successButton("#btnPrescriviVisita",labelSuccessButtons)
-                        $('.select2PrescVisita').val(null).trigger("change")
-                        document.getElementById("prescriviVisitaOK").classList.toggle("show");
-                        setTimeout(function() {
-                            document.getElementById("prescriviVisitaOK").classList.toggle("show");
-                        }, 3000);
+                        $('.select2PrescVisita').val(null).trigger("change");
+                        successButton("#btnPrescriviVisita",labelSuccessButtons);
                     },
                     error: function(xhr, status, error) {
                         errorButton("#btnPrescriviVisita",labelErrorButtons)
-                        alert(xhr.responseText);
+                        //alert(xhr.responseText);
                     }
                 });
+            });
+            $('.select2PrescVisita').on("change", function () {
+                resetButton("#btnPrescriviVisita", labelPrescVisita);
             });
 
             $("#formScheda").submit(function(event){
@@ -1295,7 +1302,6 @@
                                                 </div>
                                                 <div class="form-group popup container">
                                                     <button id ="btnPrescriviFarmaco" type="submit" class="btn btn-primary " >Prescrivi</button>
-                                                    <span class="popuptext" id="prescriviFarmacoOK"><fmt:message key="farpres"/></span>
                                                 </div>
 
                                             </form>
@@ -1335,7 +1341,6 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <button id ="btnPrescriviVisita" type="submit"><fmt:message key="pres"/></button>
-                                                    <span class="popuptext" id="prescriviVisitaOK"><fmt:message key="visspecpres"/></span>
                                                 </div>
                                             </form>
                                         </div>
@@ -1373,8 +1378,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <button id ="btnPrescriviEsame" type="submit"><fmt:message key="prescrizione"/></button>
-                                                    <span class="popuptext" id="prescriviEsameOK"><fmt:message key="esprescr"/></span>
+                                                    <button id ="btnPrescriviEsame" type="submit"><fmt:message key="pres"/></button>
                                                 </div>
                                             </form>
                                         </div>
@@ -1404,16 +1408,15 @@
                                                 <div class="form-group">
                                                     <div class="container-fluid" style="padding-top: 1rem">
                                                         <label for="idmedicobaseVisita"><fmt:message key="nomepaz"/></label>
-                                                        <select class="select2ErogaVisita" type="text" id="idmedicobaseVisita" name="idmedicobaseVisita" required="required"></select>
+                                                        <select class="select2ErogaVisita inputErogaVisita" type="text" id="idmedicobaseVisita" name="idmedicobaseVisita" required="required"></select>
                                                     </div>
                                                     <div class="container-fluid" style="padding-top: 1rem">
                                                         <label for="anamnesi"><fmt:message key="anamn"/></label>
-                                                        <textarea type="text" id="anamnesi" name="anamnesi" required="required"></textarea>
+                                                        <textarea class="inputErogaVisita" type="text" id="anamnesi" name="anamnesi" required="required"></textarea>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <button id ="btnErogaVisita" type="submit"><fmt:message key="erovis"/></button>
-                                                    <span class="popuptext" id="erogaVisitaBaseOK"><fmt:message key="visero"/></span>
                                                 </div>
                                             </form>
                                         </div>
@@ -1439,19 +1442,20 @@
                                             <h1>Cambia password</h1>
                                         </div>
                                         <div class="form-content">
+                                            <div class="alert alert-warning" role="alert" id="messaggioCambioPw"></div>
                                             <form id="formCambiaPassword" >
                                                 <div class="form-group">
                                                     <div class="container-fluid" style="padding-top: 1rem">
                                                         <label for="vecchiaPassword">Vecchia password</label>
-                                                        <input type="password" id="vecchiaPassword" name="vecchiaPassword" required="required"/>
+                                                        <input class="inputCambiaPassword" type="password" id="vecchiaPassword" name="vecchiaPassword" required="required"/>
                                                     </div>
                                                     <div class="container-fluid" style="padding-top: 1rem">
                                                         <label for="nuovaPassword">Nuova password</label>
-                                                        <input type="password" id="nuovaPassword" name="nuovaPassword" required="required"/>
+                                                        <input class="inputCambiaPassword" type="password" id="nuovaPassword" name="nuovaPassword" required="required"/>
                                                     </div>
                                                     <div class="container-fluid" style="padding-top: 1rem">
                                                         <label for="ripetiPassword">Ripeti nuova password</label>
-                                                        <input type="password" id="ripetiPassword" name="ripetiPassword" required="required"/>
+                                                        <input class="inputCambiaPassword" type="password" id="ripetiPassword" name="ripetiPassword" required="required"/>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
