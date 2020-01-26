@@ -35,7 +35,8 @@ public class ContextListener implements ServletContextListener {
 
         try {
             //JDBCDAOFactory.configure(url, username, password);
-            JDBCDAOFactory.configure(url_davide, username_davide, password_davide);
+            //JDBCDAOFactory.configure(url_davide, username_davide, password_davide);
+            JDBCDAOFactory.configure(url, username, password);
 
             DAOFactory daoFactory = JDBCDAOFactory.getInstance();
 

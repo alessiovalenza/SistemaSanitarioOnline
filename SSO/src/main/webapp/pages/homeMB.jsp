@@ -60,7 +60,8 @@
 
 <c:set var="language" value="${sessionScope.language}" scope="page" />
 <c:set var="sectionToShow" value="${sessionScope.selectedSection}" scope="page" />
-<c:set var="url" value="http://localhost:8080/SSO_war_exploded/pages/homeMB.jsp?language=" scope="page" />
+<c:set var="baseUrl" value="<%=request.getContextPath()%>"/>
+<c:set var="url" value="${baseUrl}/pages/homeMB.jsp?language=" scope="page" />
 
 <fmt:setLocale value="${language}" />
 <fmt:setBundle basename="labels" />
@@ -125,6 +126,7 @@
     <script type="text/javascript">
         let components = new Set();
         let labelAlertFoto = "Puoi caricare file solo con estensione .jpeg/.jpg";
+        let baseUrl = "<%=request.getContextPath()%>";
         const labelLoadingButtons = "loading";
         const labelSuccessButtons = "success";
         const labelErrorButtons = "error";
@@ -222,7 +224,7 @@
             $("#formErogaVisita").submit(function(event){
                 loadingButton("#btnErogaVisita",labelLoadingButtons)
                 event.preventDefault(); //prevent default action
-                let urlErogaVisita = "http://localhost:8080/SSO_war_exploded/api/pazienti/"+$("#idmedicobaseVisita").val()+"/visitebase"
+                let urlErogaVisita = baseUrl + "/api/pazienti/"+$("#idmedicobaseVisita").val()+"/visitebase"
                 let formData = "idmedicobase=${sessionScope.utente.id}&anamnesi="+$("#anamnesi").val() //Encode form elements for submission
                 $.ajax({
                     url : urlErogaVisita,
@@ -252,7 +254,7 @@
 
                 loadingButton("#btnPrescriviFarmaco",labelLoadingButtons)
 
-                let urlPrescFarmaco = "http://localhost:8080/SSO_war_exploded/api/pazienti/"+$('#idmedicobaseFarmaco').val()+"/ricette";
+                let urlPrescFarmaco = baseUrl + "/api/pazienti/"+$('#idmedicobaseFarmaco').val()+"/ricette";
                 let formData = "idmedicobase=${sessionScope.utente.id}&idfarmaco="+$("#idfarmaco").val(); //Encode form elements for submission
                 $.ajax({
                     url : urlPrescFarmaco,
@@ -279,7 +281,7 @@
             $("#formPrescEsame").submit(function(event){
                 event.preventDefault(); //prevent default action
                 loadingButton("#btnPrescriviEsame",labelLoadingButtons)
-                let urlPrescFarmaco = "http://localhost:8080/SSO_war_exploded/api/pazienti/"+$("#idmedicobaseEsame").val()+"/esamiprescritti"
+                let urlPrescFarmaco = baseUrl + "/api/pazienti/"+$("#idmedicobaseEsame").val()+"/esamiprescritti"
                 let formData = "idmedicobase=${sessionScope.utente.id}&idesame="+$("#idesame").val() //Encode form elements for submission
                 $.ajax({
                     url : urlPrescFarmaco,
@@ -306,7 +308,7 @@
             $("#formPrescVisita").submit(function(event){
                 loadingButton("#btnPrescriviVisita",labelLoadingButtons)
                 event.preventDefault(); //prevent default action
-                let urlPrescVisita = 'http://localhost:8080/SSO_war_exploded/api/pazienti/'+$('#idmedicobaseVisitaSpec').val()+'/visitespecialistiche'
+                let urlPrescVisita = baseUrl + '/api/pazienti/'+$('#idmedicobaseVisitaSpec').val()+'/visitespecialistiche'
                 let formData = "idmedicobase=${sessionScope.utente.id}&idvisita="+$("#idvisita").val() //Encode form elements for submission
                 $.ajax({
                     url : urlPrescVisita,
@@ -338,7 +340,7 @@
                 initCarousel($('#idpazienteScheda').val(), "carouselInnerPaziente", basePath, extension);
 
                 $('#dataPazienteScheda').DataTable().destroy()
-                let urlDataPaziente = "http://localhost:8080/SSO_war_exploded/api/pazienti/"+$('#idpazienteScheda').val();
+                let urlDataPaziente = baseUrl + "/api/pazienti/"+$('#idpazienteScheda').val();
                 $('#dataPazienteScheda').DataTable( {
                     "processing": false,
                     "ordering": false,
@@ -384,7 +386,7 @@
                 } );
 
                 $('#visiteBasePazienteScheda').DataTable().destroy()
-                let urlVisiteBase = "http://localhost:8080/SSO_war_exploded/api/pazienti/"+$('#idpazienteScheda').val()+"/visitebase"
+                let urlVisiteBase = baseUrl + "/api/pazienti/"+$('#idpazienteScheda').val()+"/visitebase"
                 let table = $('#visiteBasePazienteScheda').DataTable( {
                     "processing": true,
                     "ordering": true,
@@ -433,7 +435,7 @@
                 } );
 
                 $('#visiteSpecialisticheErogatePazienteScheda').DataTable().destroy()
-                let urlVisiteSpacialisticheErogate = "http://localhost:8080/SSO_war_exploded/api/pazienti/"+$('#idpazienteScheda').val()+"/visitespecialistiche/?erogateonly=true&nonerogateonly=false"
+                let urlVisiteSpacialisticheErogate = baseUrl + "/api/pazienti/"+$('#idpazienteScheda').val()+"/visitespecialistiche/?erogateonly=true&nonerogateonly=false"
                 $('#visiteSpecialisticheErogatePazienteScheda').DataTable( {
                     "processing": true,
                     "ordering": true,
@@ -484,7 +486,7 @@
                 } );
 
                 $('#visiteSpecialisticheNonErogatePazienteScheda').DataTable().destroy()
-                let urlVisiteSpacialisticheNonErogate = "http://localhost:8080/SSO_war_exploded/api/pazienti/"+$('#idpazienteScheda').val()+"/visitespecialistiche/?erogateonly=false&nonerogateonly=true"
+                let urlVisiteSpacialisticheNonErogate = baseUrl + "/api/pazienti/"+$('#idpazienteScheda').val()+"/visitespecialistiche/?erogateonly=false&nonerogateonly=true"
                 $('#visiteSpecialisticheNonErogatePazienteScheda').DataTable( {
                     "processing": true,
                     "ordering": true,
@@ -525,7 +527,7 @@
                 } );
 
                 $('#ricetteEvasePazienteScheda').DataTable().destroy()
-                let urlRicetteEvase = "http://localhost:8080/SSO_war_exploded/api/pazienti/"+$('#idpazienteScheda').val()+"/ricette/?evaseonly=true&nonevaseonly=false"
+                let urlRicetteEvase = baseUrl + "/api/pazienti/"+$('#idpazienteScheda').val()+"/ricette/?evaseonly=true&nonevaseonly=false"
                 $('#ricetteEvasePazienteScheda').DataTable( {
                     "processing": true,
                     "ordering": true,
@@ -572,7 +574,7 @@
                 } );
 
                 $('#ricetteNonEvasePazienteScheda').DataTable().destroy()
-                let urlRicetteNonEvase = "http://localhost:8080/SSO_war_exploded/api/pazienti/"+$('#idpazienteScheda').val()+"/ricette/?evaseonly=false&nonevaseonly=true"
+                let urlRicetteNonEvase = baseUrl + "/api/pazienti/"+$('#idpazienteScheda').val()+"/ricette/?evaseonly=false&nonevaseonly=true"
                 $('#ricetteNonEvasePazienteScheda').DataTable( {
                     "processing": true,
                     "ordering": true,
@@ -615,7 +617,7 @@
                 } );
 
                 $('#esamiErogatiPazienteScheda').DataTable().destroy()
-                let urlEsamiErogati = "http://localhost:8080/SSO_war_exploded/api/pazienti/"+$('#idpazienteScheda').val()+"/esamiprescritti/?erogationly=true&nonerogationly=false"
+                let urlEsamiErogati = baseUrl + "/api/pazienti/"+$('#idpazienteScheda').val()+"/esamiprescritti/?erogationly=true&nonerogationly=false"
                 $('#esamiErogatiPazienteScheda').DataTable( {
                     "processing": true,
                     "ordering": true,
@@ -664,7 +666,7 @@
                 } );
 
                 $('#esamiNonErogatiPazienteScheda').DataTable().destroy()
-                let urlEsamiNonErogati = "http://localhost:8080/SSO_war_exploded/api/pazienti/"+$('#idpazienteScheda').val()+"/esamiprescritti/?erogationly=false&nonerogationly=true"
+                let urlEsamiNonErogati = baseUrl + "/api/pazienti/"+$('#idpazienteScheda').val()+"/esamiprescritti/?erogationly=false&nonerogationly=true"
                 $('#esamiNonErogatiPazienteScheda').DataTable( {
                     "processing": true,
                     "ordering": true,
@@ -713,7 +715,7 @@
             $("#pazientiControl").click(() => {
                 showComponent("pazienti");
                 $("#tablePazienti").DataTable().destroy()
-                let urlPazienti = "http://localhost:8080/SSO_war_exploded/api/medicibase/${sessionScope.utente.id}/pazienti?datericettavisita=true";
+                let urlPazienti = baseUrl + "/api/medicibase/${sessionScope.utente.id}/pazienti?datericettavisita=true";
                 $("#tablePazienti").DataTable( {
                     "processing": true,
                     "ordering": true,
