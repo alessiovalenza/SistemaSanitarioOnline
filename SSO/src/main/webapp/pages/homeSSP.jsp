@@ -113,6 +113,7 @@
         const labelLoadingButtons = "loading";
         const labelSuccessButtons = "success";
         const labelErrorButtons = "error";
+
         $(document).ready(function() {
 
             $('#dismiss, .overlay').on('click', function () {
@@ -166,8 +167,11 @@
                 width: 300,
                 allowClear: true,
                 ajax: {
-                    url: "http://localhost:8080/SSO_war_exploded/api/pazienti/" +
-                        $("#idPaziente").children("option:selected").val() + "/esamiprescritti/?erogationly=false&nonerogationly=true",
+                    url: function() {
+                        let urlEsamiPaziente = "http://localhost:8080/SSO_war_exploded/api/pazienti/" +
+                            $("#idPaziente").children("option:selected").val() + "/esamiprescritti/?erogationly=false&nonerogationly=true";
+                        return urlEsamiPaziente;
+                    },
                     datatype: "json",
                     data: function (params) {
                         var query = {
