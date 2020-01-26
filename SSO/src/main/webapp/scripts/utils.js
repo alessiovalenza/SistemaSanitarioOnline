@@ -18,6 +18,30 @@ function populateComponents(){
  * esegue il fadeIn del component che ha id=componentName e il fadeOut di tutti gli altri
  */
 function showComponent(componentName){
+    $(".componentControl").css("background-color", "#1e88e5");
+    $(".componentControl").css("color", "#fff")
+    $(".componentControl").data("focus",false);
+
+    let tmp="#"+componentName+"Control"
+    console.log(this)
+    $(tmp).css("background-color", "#fff");
+    $(tmp).css("color", "#7386D5");
+    $(tmp).data("focus",true);
+
+
+    $(".componentControl").mouseover(function () {
+        if ($(this).data("focus") != true){
+                $(this).css("background-color", "#CDCDCD");
+                $(this).css("color", "#1e88e5");
+        }
+    }).mouseout(function () {
+        if ($(this).data("focus") != true) {
+            $(this).css("background-color", "#1e88e5");
+            $(this).css("color", "#fff");
+        }
+    })
+
+
     components.forEach( (c) => {
         if (componentName === c.attr("id")){
             c.fadeIn(0);
