@@ -375,3 +375,18 @@ function initCambioPassword(formId, oldPwId, newPwId, ripetiPwId, idUtente, btnI
         }
     });
 }
+
+function setNomeProvincia(targetId, idProvincia) {
+    $.ajax({
+        url : baseUrl + "/api/general/province/" + idProvincia,
+        type : "GET",
+        contentType : false,
+        processData : false,
+        success: function(data) {
+            document.getElementById(targetId).textContent = data.nome;
+        },
+        error: function(xhr, status, error) {
+            document.getElementById(targetId).textContent = idProvincia;
+        }
+    });
+}

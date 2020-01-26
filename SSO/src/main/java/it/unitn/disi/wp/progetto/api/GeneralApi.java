@@ -11,10 +11,7 @@ import it.unitn.disi.wp.progetto.servlets.exceptions.SSOServletException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
@@ -35,6 +32,36 @@ public class GeneralApi extends Api{
             List<Provincia> province = provinciaDAO.getAll();
             String jsonResult = gson.toJson(province);
             res = Response.ok(jsonResult).build();
+        }catch (DAOFactoryException e) {
+            throw new ApiException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                    e.getMessage() + " - Impossible to get dao interface for storage system");
+        } catch (DAOException e) {
+            throw new ApiException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                    e.getMessage() + " - Errors occurred when accessing storage system");
+        }
+        return res;
+    }
+
+    @GET
+    @Path("province/{idProvincia}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getProvince(@PathParam("idProvincia") String idProvincia){
+        Response res;
+
+        if(idProvincia == null) {
+            throw new ApiException(HttpServletResponse.SC_BAD_REQUEST, "You must provide the id of the provincia");
+        }
+
+        try {
+            ProvinciaDAO provinciaDAO = daoFactory.getDAO(ProvinciaDAO.class);
+            Provincia provinca = provinciaDAO.getByPrimaryKey(idProvincia);
+            if(provinca != null) {
+                String jsonResult = gson.toJson(provinca);
+                res = Response.ok(jsonResult).build();
+            }
+            else {
+                throw new ApiException(HttpServletResponse.SC_NOT_FOUND, "Provincia with such an id not found");
+            }
         }catch (DAOFactoryException e) {
             throw new ApiException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
                     e.getMessage() + " - Impossible to get dao interface for storage system");

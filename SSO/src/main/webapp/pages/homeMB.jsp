@@ -270,7 +270,6 @@
                     },
                     complete: function(){
 
-
                     },
                     error: function(xhr, status, error) {
                         alert(xhr.responseText);
@@ -289,7 +288,6 @@
                     type: "POST",
                     data : formData,
                     success: function (data) {
-
                         $('.select2PrescEsame').val(null).trigger("change")
                         successButton("#btnPrescriviEsame",labelSuccessButtons)
                         document.getElementById("prescriviEsameOK").classList.toggle("show");
