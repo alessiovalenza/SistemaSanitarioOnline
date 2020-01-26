@@ -55,11 +55,11 @@
                     data : form_data,
                     success: function (data) {
 
-                    },
-                    complete: function(){
                         $('.select2ErogaVisitaSpec').val(null).trigger("change")
                         $("#anamnesi").val("")
                         successButton("#btnErogaVisitaSpec",labelSuccessButtons)
+                    },
+                    complete: function(){
                     },
                     error: function(xhr, status, error) {
                         errorButton("#btnErogaVisitaSpec",labelErrorButtons)

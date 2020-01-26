@@ -56,10 +56,10 @@
                     success: function (data) {
                         // alert("va")
 
-                    },
-                    complete: function(){
                         $('#idmedicobase').val(null).trigger("change")
                         successButton("#btnCambiaMedico",labelSuccessButtons)
+                    },
+                    complete: function(){
                     },
                     error: function(xhr, status, error) {
                         errorButton("#btnCambiaMedico",labelErrorButtons)

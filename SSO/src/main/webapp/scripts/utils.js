@@ -291,6 +291,7 @@ function fileValidation(fotoId, buttonId, labelEstensioneAlert){
 
 function initUploadFoto(formId, idUtente, popupId) {
     $(formId).submit(function(e){
+        loadingButton(popupId,labelLoadingButtons)
         e.preventDefault();
         let formData = new FormData($(formId)[0]);
         $.ajax({
@@ -300,9 +301,11 @@ function initUploadFoto(formId, idUtente, popupId) {
             contentType : false,
             processData : false,
             success: function() {
+                successButton(popupId,labelSuccessButtons)
                 alert("Immagine aggiunta con successo!");
             },
             error: function(xhr, status, error) {
+                errorButton(popupId,labelErrorButtons)
                 alert(xhr.responseText);
             }
         });
@@ -310,7 +313,7 @@ function initUploadFoto(formId, idUtente, popupId) {
 }
 
 function loadingButton(id,labelLoading) {
-    const loadingText = '<i class="fa fa-circle-o-notch fa-spin"></i>'+labelLoading;//mettete qua le stringhe per la lingua
+    const loadingText = '<i class="fa fa-circle-o-notch fa-spin"></i>'+labelLoadingButtons;//mettete qua le stringhe per la lingua
     let $this = $(id);
     $(id).css("background-color", "#1565c0");
 
@@ -323,19 +326,20 @@ function loadingButton(id,labelLoading) {
 }
 
 function successButton(id,labelSuccess) {
-    const successText = '<i class="fas fa-check"></i>'+labelSuccess;//mettete qua le stringhe per la lingua
+    const successText = '<i class="fas fa-check"></i>'+labelSuccessButtons;//mettete qua le stringhe per la lingua
     $(id).html(successText)
     $(id).css("background-color", "#4BB543");
 }
 
 function errorButton(id,labelError) {
-    const errorText = '<i class="fas fa-exclamation-triangle"></i>'+labelError;//mettete qua le stringhe per la lingua
+    const errorText = '<i class="fas fa-exclamation-triangle"></i>'+labelErrorButtons;//mettete qua le stringhe per la lingua
     $(id).css("background-color", "#cc0000");
     $(id).html(errorText)
 }
 
-function initCambioPassword(formId, oldPwId, newPwId, ripetiPwId, idUtente, btnId) {
+function initCambioPassword(formId, oldPwId, newPwId, ripetiPwId, idUtente, btnId,labelLoading,labelSuccess,labelError) {
     $(formId).submit(function (event) {
+        loadingButton(btnId,labelLoadingButtons)
         event.preventDefault();
         if($(newPwId).val() == $(ripetiPwId).val()) {
             let urlCambioPw = "/SSO_war_exploded/api/utenti/" + idUtente + "/password";
@@ -345,15 +349,20 @@ function initCambioPassword(formId, oldPwId, newPwId, ripetiPwId, idUtente, btnI
                 type: "PUT",
                 data: formData,
                 success: function (data) {
+
                     alert("Password cambiata con successo");
+                    $('.inputCambiaPassword').val("")
+                    successButton(btnId,labelSuccessButtons)
                 },
                 complete: function () {
-
                 },
                 error: function (xhr, status, error) {
+                    errorButton(btnId,labelErrorButtons)
+                    $('.inputCambiaPassword').val("")
                     if (status == 401) {
                         alert("La vecchia password è errata. Riprova");
                     } else {
+
                         alert(xhr.responseText);
                     }
                 }
@@ -361,6 +370,8 @@ function initCambioPassword(formId, oldPwId, newPwId, ripetiPwId, idUtente, btnI
         }
         else {
             alert("Mismatch tra la nuova password e la ripetizione");
+            errorButton(btnId,labelErrorButtons)
+            $('.inputCambiaPassword').val("")
         }
     });
 }

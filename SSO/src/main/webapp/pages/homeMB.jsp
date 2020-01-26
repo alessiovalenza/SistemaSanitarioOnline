@@ -213,11 +213,11 @@
 
             initSelect2General("visite", "#idvisita", langSelect2, labelCercaVisite);
 
-            initUploadFoto("#formUploadFoto", ${sessionScope.utente.id}, "");
+            initUploadFoto("#formUploadFoto", ${sessionScope.utente.id}, "#btnUploadFoto");
 
             initAvatar(${sessionScope.utente.id}, "avatarImg", basePath, extension);
 
-            initCambioPassword("#formCambiaPassword", "#vecchiaPassword", "#nuovaPassword", "#ripetiPassword", ${sessionScope.utente.id}, "");
+            initCambioPassword("#formCambiaPassword", "#vecchiaPassword", "#nuovaPassword", "#ripetiPassword", ${sessionScope.utente.id}, "#btnCambiaPassword",labelLoadingButtons,labelSuccessButtons,labelErrorButtons);
 
             $("#formErogaVisita").submit(function(event){
                 loadingButton("#btnErogaVisita",labelLoadingButtons)
@@ -229,9 +229,6 @@
                     type: "POST",
                     data : formData,
                     success: function (data) {
-
-                    },
-                    complete: function(){
                         $('.select2ErogaVisita').val(null).trigger("change")
                         $('#anamnesi').val("")
                         successButton("#btnErogaVisita",labelSuccessButtons)
@@ -239,6 +236,9 @@
                         setTimeout(function() {
                             document.getElementById("erogaVisitaBaseOK").classList.toggle("show");
                         }, 3000);
+                    },
+                    complete: function(){
+
                     },
                     error: function(xhr, status, error) {
                         errorButton("#btnErogaVisita",labelErrorButtons)
@@ -259,14 +259,15 @@
                     type: "POST",
                     data : formData,
                     success: function (data) {
+                        successButton("#btnPrescriviFarmaco",labelSuccessButtons)
+                        $('.select2PrescFarmaco').val(null).trigger("change")
                         document.getElementById("prescriviFarmacoOK").classList.toggle("show");
                         setTimeout(function() {
                             document.getElementById("prescriviFarmacoOK").classList.toggle("show");
                         }, 3000);
                     },
                     complete: function(){
-                        successButton("#btnPrescriviFarmaco",labelSuccessButtons)
-                        $('.select2PrescFarmaco').val(null).trigger("change")
+
 
                     },
                     error: function(xhr, status, error) {
@@ -287,14 +288,15 @@
                     data : formData,
                     success: function (data) {
 
-                    },
-                    complete: function(){
                         $('.select2PrescEsame').val(null).trigger("change")
                         successButton("#btnPrescriviEsame",labelSuccessButtons)
                         document.getElementById("prescriviEsameOK").classList.toggle("show");
                         setTimeout(function() {
                             document.getElementById("prescriviEsameOK").classList.toggle("show");
                         }, 3000);
+                    },
+                    complete: function(){
+
                     },
                     error: function(xhr, status, error) {
                         errorButton("#btnPrescriviEsame",labelErrorButtons)
@@ -313,15 +315,15 @@
                     type: "POST",
                     data : formData,
                     success: function (data) {
-
-                    },
-                    complete: function(){
                         successButton("#btnPrescriviVisita",labelSuccessButtons)
                         $('.select2PrescVisita').val(null).trigger("change")
                         document.getElementById("prescriviVisitaOK").classList.toggle("show");
                         setTimeout(function() {
                             document.getElementById("prescriviVisitaOK").classList.toggle("show");
                         }, 3000);
+                    },
+                    complete: function(){
+
                     },
                     error: function(xhr, status, error) {
                         errorButton("#btnPrescriviVisita",labelErrorButtons)
@@ -1444,15 +1446,15 @@
                                                 <div class="form-group">
                                                     <div class="container-fluid" style="padding-top: 1rem">
                                                         <label for="vecchiaPassword">Vecchia password</label>
-                                                        <input type="password" id="vecchiaPassword" name="vecchiaPassword" required="required"/>
+                                                        <input class="inputCambiaPassword" type="password" id="vecchiaPassword" name="vecchiaPassword" required="required"/>
                                                     </div>
                                                     <div class="container-fluid" style="padding-top: 1rem">
                                                         <label for="nuovaPassword">Nuova password</label>
-                                                        <input type="password" id="nuovaPassword" name="nuovaPassword" required="required"/>
+                                                        <input class="inputCambiaPassword" type="password" id="nuovaPassword" name="nuovaPassword" required="required"/>
                                                     </div>
                                                     <div class="container-fluid" style="padding-top: 1rem">
                                                         <label for="ripetiPassword">Ripeti nuova password</label>
-                                                        <input type="password" id="ripetiPassword" name="ripetiPassword" required="required"/>
+                                                        <input class="inputCambiaPassword" type="password" id="ripetiPassword" name="ripetiPassword" required="required"/>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">

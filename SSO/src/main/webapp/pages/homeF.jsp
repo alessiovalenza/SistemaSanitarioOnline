@@ -150,10 +150,10 @@
                     data : form_data,
                     success: function (data) {
 
-                    },
-                    complete: function(){
                         $('.select2EvadiRicetta').val(null).trigger("change")
                         successButton("#btnEvadiRicetta",labelSuccessButtons)
+                    },
+                    complete: function(){
                     },
                     error: function(xhr, status, error) {
                         errorButton("#btnEvadiRicetta",labelErrorButtons)
