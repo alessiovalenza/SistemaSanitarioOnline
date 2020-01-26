@@ -194,7 +194,7 @@
                 $("#formNostro").fadeOut(0);
                 $("#cambiaMedico").fadeOut(0);
                 $("#ricette").fadeOut(0);
-                let urlEsamiNonErogati = baseUrl + "/api/utenti/${sessionScope.utente.id}/esamiprescritti?erogationly=false&nonerogationly=false";
+                let urlEsamiNonErogati = baseUrl + "/api/pazienti/${sessionScope.utente.id}/esamiprescritti?erogationly=false&nonerogationly=true";
                 $('#esamiNonErogati').DataTable( {
                     "processing": true,
                     "serverSide": true,
@@ -211,7 +211,7 @@
 
                     ]
                 } );
-                let urlEsamiErogati = baseUrl + "/api/utenti/"+ ${sessionScope.utente.id} +"/esamiprescritti?erogationly=true&nonerogationly=false";
+                let urlEsamiErogati = baseUrl + "/api/pazienti/"+ ${sessionScope.utente.id} +"/esamiprescritti?erogationly=true&nonerogationly=false";
                 $('#esamiErogati').DataTable( {
                     "processing": true,
                     "serverSide": true,
@@ -318,7 +318,7 @@
                 $("#esami").fadeOut(0);
                 $("#formNostro").fadeOut(0);
                 $("#cambiaMedico").fadeOut(0);
-                let urlRicetteNonEvase = baseUrl + "/api/utenti/"+ ${sessionScope.utente.id} +"/ricette?evaseonly=false&nonevaseonly=true";
+                let urlRicetteNonEvase = baseUrl + "/api/pazienti/"+ ${sessionScope.utente.id} +"/ricette?evaseonly=false&nonevaseonly=true";
                 $('#ricetteNonEvase').DataTable( {
                     "processing": true,
                     "serverSide": true,
@@ -336,7 +336,7 @@
                         { "data": "esame.nome" }
                     ]
                 } );
-                let urlRicetteEvase = baseUrl + "/api/utenti/"+ ${sessionScope.utente.id} +"/ricette?evaseonly=true&nonevaseonly=false";
+                let urlRicetteEvase = baseUrl + "/api/pazienti/"+ ${sessionScope.utente.id} +"/ricette?evaseonly=true&nonevaseonly=false";
                 $('#ricetteEvase').DataTable( {
                     "processing": true,
                     "serverSide": true,
@@ -416,7 +416,7 @@
                 <a href="#" class="componentControl" id="cambiaMedicoControl">Cambia medico di base</a>
             </li>
             <li>
-                <a href="#"  class="componentControl" id ="esamiControl">Visualizza esami fatti</a>
+                <a href="#"  class="componentControl" id ="esamiControl">Visualizza esami</a>
             </li>
             <li>
                 <a href="#" class="componentControl" id ="ricetteControl">Visualizza ricette</a>
@@ -708,7 +708,6 @@
 
 
 <script type="text/javascript">
-    let baseUrl = "<%=request.getContextPath()%>";
     $(document).ready(function () {
 
         // $('#sidebar').on('hidden.bs.collapse', function() {
