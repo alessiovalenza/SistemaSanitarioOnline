@@ -897,7 +897,10 @@
                     <a href="#" class="componentControl" id="cambiaPasswordControl">Cambia password</a>
                 </li>
                 <li>
-                    <a href="../logout">Log out</a>
+                    <a href="../logout?forgetme=0">Log out</a>
+                </li>
+                <li>
+                    <a href="../logout?forgetme=1">Cambia account</a>
                 </li>
             </ul>
         </nav>
@@ -942,7 +945,7 @@
                                         <form action="#" id="formUploadFoto" method="POST" role="form" enctype="multipart/form-data">
                                             <div>
                                                 <input style="float: left; height: 35pt" class="btn btn-primary" type="file" id="fotoToUpload" name="foto"
-                                                       onchange="return fileValidation('fotoToUpload','btnUploadFoto',labelAlertFoto)"/>
+                                                       onchange="return fileValidation('fotoToUpload', 'btnUploadFoto', labelAlertFoto)"/>
                                                 <button style="float:right; height: 35pt; background: grey;" class="btn btn-primary" type="submit" id="btnUploadFoto" disabled><fmt:message key="carica"/> </button>
                                             </div>
                                         </form>

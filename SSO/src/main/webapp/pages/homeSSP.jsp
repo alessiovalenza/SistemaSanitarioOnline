@@ -179,6 +179,12 @@
             <li>
                 <a href="#" class="componentControl" id="richiamo2Control">Richiama chi è già stato richiamato</a>
             </li>
+            <li>
+                <a href="../logout?forgetme=0">Log out</a>
+            </li>
+            <li>
+                <a href="../logout?forgetme=1">Cambia account</a>
+            </li>
         </ul>
     </nav>
 

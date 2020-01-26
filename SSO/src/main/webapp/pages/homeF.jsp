@@ -181,8 +181,6 @@
         });
     </script>
 
-
-
 </head>
 
 <body>
@@ -202,6 +200,12 @@
         <ul class="list-unstyled">
             <li>
                 <a href="#" class="componentControl" id="ricetteControl">Evadi Ricette</a>
+            </li>
+            <li>
+                <a href="../logout?forgetme=0">Log out</a>
+            </li>
+            <li>
+                <a href="../logout?forgetme=1">Cambia account</a>
             </li>
 
         </ul>

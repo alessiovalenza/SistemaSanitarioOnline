@@ -358,7 +358,10 @@
                 <a href="../mappe.jsp" id="mappeControl">Visualizza mappe</a>
             </li>
             <li>
-                <a href="../logout">Log out</a>
+                <a href="../logout?forgetme=0">Log out</a>
+            </li>
+            <li>
+                <a href="../logout?forgetme=1">Cambia account</a>
             </li>
 
         </ul>
