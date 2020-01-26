@@ -132,7 +132,7 @@
 
                         $('#idmedicobase').val(null).trigger("change")
                         successButton("#btnCambiaMedico",labelSuccessButtons)
-                    },
+                    }.data,
                     complete: function(){
                     },
                     error: function(xhr, status, error) {
@@ -180,6 +180,7 @@
                 $('#esamiNonErogati').DataTable( {
                     "processing": true,
                     "serverSide": true,
+                    "scrollX": true,
                     "ajax": {
                         "url": urlEsamiNonErogati,
                         "type":"GET",
@@ -195,6 +196,7 @@
                 } );
                 let urlEsamiErogati = baseUrl + "/api/pazienti/"+ ${sessionScope.utente.id} +"/esamiprescritti?erogationly=true&nonerogationly=false";
                 $('#esamiErogati').DataTable( {
+                    "scrollX": true,
                     "processing": true,
                     "serverSide": true,
                     "ajax": {
@@ -282,6 +284,7 @@
                 $('#ricetteNonEvase').DataTable().destroy()
                 let urlRicetteNonEvase = baseUrl + "/api/pazienti/"+ ${sessionScope.utente.id} +"/ricette?evaseonly=false&nonevaseonly=true";
                 $('#ricetteNonEvase').DataTable( {
+                    "scrollX": true,
                     "processing": true,
                     "serverSide": true,
                     "ajax": {
@@ -300,6 +303,7 @@
                 } );
                 let urlRicetteEvase = baseUrl + "/api/pazienti/"+ ${sessionScope.utente.id} +"/ricette?evaseonly=true&nonevaseonly=false";
                 $('#ricetteEvase').DataTable( {
+                    "scrollX": true,
                     "processing": true,
                     "serverSide": true,
                     "ajax": {
@@ -538,7 +542,7 @@
         </div>
         <div id="esami" class="tool component">
             <h2>esami non erogati</h2>
-            <div class="table-responsive">
+            <div class="container-fluid">
                 <table id="esamiNonErogati" class="table table-striped table-hover ">
                     <thead>
                     <tr>
@@ -551,7 +555,7 @@
                 </table>
             </div>
             <h2>esami erogati</h2>
-            <div class="table-responsive">
+            <div class="container-fluid">
                 <table id="esamiErogati" class="table table-striped table-hover ">
                     <thead>
                     <tr>
@@ -569,7 +573,7 @@
         </div>
         <div id="ricette" class="component tool">
             <h2>ricette non evase ovviamente dovete cambiare i campi</h2>
-            <div class="table-responsive">
+            <div class="container-fluid">
                 <table id="ricetteNonEvase" class="table table-striped table-hover ">
                     <thead>
                     <tr>
@@ -585,7 +589,7 @@
                 </table>
             </div>
             <h2>ricette evase ovviamente dovete cambiare i campi </h2>
-            <div class="table-responsive">
+            <div class="container-fluid">
                 <table id="ricetteEvase" class="table table-striped table-hover ">
                     <thead>
                     <tr>

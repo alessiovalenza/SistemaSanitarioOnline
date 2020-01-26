@@ -346,6 +346,7 @@
                 $('#dataPazienteScheda').DataTable().destroy()
                 let urlDataPaziente = baseUrl + "/api/pazienti/"+$('#idpazienteScheda').val();
                 $('#dataPazienteScheda').DataTable( {
+                    "scrollX": true,
                     "processing": false,
                     "ordering": false,
                     "paging": false,
@@ -393,6 +394,8 @@
                 let urlVisiteBase = baseUrl + "/api/pazienti/"+$('#idpazienteScheda').val()+"/visitebase"
                 let table = $('#visiteBasePazienteScheda').DataTable( {
                     "processing": true,
+                    "scrollX": true,
+                    "responsive": true,
                     "ordering": true,
                     "paging": true,
                     "searching": true,
@@ -442,6 +445,7 @@
                 let urlVisiteSpacialisticheErogate = baseUrl + "/api/pazienti/"+$('#idpazienteScheda').val()+"/visitespecialistiche/?erogateonly=true&nonerogateonly=false"
                 $('#visiteSpecialisticheErogatePazienteScheda').DataTable( {
                     "processing": true,
+                    "scrollX": true,
                     "ordering": true,
                     "paging": true,
                     "searching": true,
@@ -494,6 +498,7 @@
                 $('#visiteSpecialisticheNonErogatePazienteScheda').DataTable( {
                     "processing": true,
                     "ordering": true,
+                    "scrollX": true,
                     "paging": true,
                     "searching": true,
                     "serverSide": false,
@@ -536,6 +541,7 @@
                     "processing": true,
                     "ordering": true,
                     "paging": true,
+                    "scrollX": true,
                     "searching": true,
                     "serverSide": false,
                     "language": {
@@ -582,6 +588,7 @@
                 $('#ricetteNonEvasePazienteScheda').DataTable( {
                     "processing": true,
                     "ordering": true,
+                    "scrollX": true,
                     "paging": true,
                     "searching": true,
                     "serverSide": false,
@@ -626,6 +633,7 @@
                     "processing": true,
                     "ordering": true,
                     "paging": true,
+                    "scrollX": true,
                     "searching": true,
                     "serverSide": false,
                     "language": {
@@ -674,6 +682,7 @@
                 $('#esamiNonErogatiPazienteScheda').DataTable( {
                     "processing": true,
                     "ordering": true,
+                    "scrollX": true,
                     "paging": true,
                     "searching": true,
                     "serverSide": false,
@@ -723,6 +732,7 @@
                 $("#tablePazienti").DataTable( {
                     "processing": true,
                     "ordering": true,
+                    "scrollX": true,
                     "paging": true,
                     "searching": true,
                     "serverSide": false,
@@ -1064,7 +1074,7 @@
 
                             <div class="col-md-12">
                                 <h5><fmt:message key="datipaz"/></h5>
-                                <div class="table table-responsive">
+                                <div class="container-fluid">
                                     <table id="dataPazienteScheda" class="table table-striped table-hover ">
                                         <thead>
                                         <tr>
@@ -1083,7 +1093,7 @@
                             <br/>
                             <div class="col-md-12">
                                 <h5><fmt:message key="visbas"/></h5>
-                                <div class="table table-responsive">
+                                <div class="container-fluid">
                                     <table id="visiteBasePazienteScheda" class="table table-striped table-hover ">
                                         <thead>
                                         <tr>
@@ -1107,7 +1117,7 @@
                             <br/>
                             <div class="col-md-12">
                                 <h5><fmt:message key="ricev"/></h5>
-                                <div class="table table-responsive">
+                                <div class="container-fluid">
                                     <table id="ricetteEvasePazienteScheda" class="table table-striped table-hover ">
                                         <thead>
                                         <tr>
@@ -1135,7 +1145,7 @@
                             <br/>
                             <div class="col-md-12">
                                 <h5><fmt:message key="ricnevas"/></h5>
-                                <div class="table table-responsive">
+                                <div class="container-fluid">
                                     <table id="ricetteNonEvasePazienteScheda" class="table table-striped table-hover ">
                                         <thead>
                                         <tr>
@@ -1161,7 +1171,7 @@
                             <br/>
                             <div class="col-md-12">
                                 <h5><fmt:message key="esero"/></h5>
-                                <div class="table table-responsive">
+                                <div class="container-fluid">
                                     <table id="esamiErogatiPazienteScheda" class="table table-striped table-hover ">
                                         <thead>
                                         <tr>
@@ -1191,7 +1201,7 @@
                             <br/>
                             <div class="col-md-12">
                                 <h5><fmt:message key="esnero"/></h5>
-                                <div class="table table-responsive">
+                                <div class="container-fluid">
                                     <table id="esamiNonErogatiPazienteScheda" class="table table-striped table-hover ">
                                         <thead>
                                         <tr>
@@ -1217,7 +1227,7 @@
                             <br/>
                             <div class="col-md-12">
                                 <h5><fmt:message key="visspecero"/></h5>
-                                <div class="table table-responsive">
+                                <div class="container-fluid">
                                     <table id="visiteSpecialisticheErogatePazienteScheda" class="table table-striped table-hover ">
                                         <thead>
                                         <tr>
@@ -1249,7 +1259,7 @@
                             <br/>
                             <div class="col-md-12">
                                 <h5><fmt:message key="visspecnero"/></h5>
-                                <div class="table table-responsive">
+                                <div class="container-fluid">
                                     <table id="visiteSpecialisticheNonErogatePazienteScheda" class="table table-striped table-hover ">
                                         <thead>
                                         <tr>
