@@ -165,7 +165,7 @@
             $("#idEsame").select2({
                 placeholder: labelCercaEsamiPresc,
                 language: langSelect2,
-                width: 300,
+                width: "100%",
                 allowClear: true,
                 ajax: {
                     url: function() {
