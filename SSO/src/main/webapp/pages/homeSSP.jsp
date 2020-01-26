@@ -31,6 +31,7 @@
     <!-- Our Custom scripts-->
     <script src="../scripts/utils.js"></script>
     <script>
+        let baseUrl = "<%=request.getContextPath()%>";
         let components = new Set();
         const labelLoadingButtons = "loading";
         const labelSuccessButtons = "success";
