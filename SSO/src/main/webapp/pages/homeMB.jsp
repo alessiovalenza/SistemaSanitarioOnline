@@ -1452,7 +1452,7 @@
                                             <h1>Cambia password</h1>
                                         </div>
                                         <div class="form-content">
-                                            <div class="alert alert-warning" role="alert" id="messaggioCambioPw"></div>
+                                            <div class="alert alert-warning" role="alert" id="messaggioCambioPw">this shoudln't be visualized<br>ever</div>
                                             <form id="formCambiaPassword" >
                                                 <div class="form-group">
                                                     <div class="container-fluid" style="padding-top: 1rem">
