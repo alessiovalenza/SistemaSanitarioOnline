@@ -34,7 +34,7 @@
                                               style="height: 42px;padding: 0px;margin: 0px;">
                 <a class="navbar-brand" href="index.jsp"
                    style="padding: 3px;color: rgb(255,255,255);">
-                    Ministero della salute
+                    <fmt:message key="ministero_della_salute"/>
                 </a>
             </div>
         </nav>
@@ -44,7 +44,7 @@
             <p>${msg}</p>
             <div class="row">
                 <div class="col-md-12">
-                    <h5>Inserisci la tua email</h5>
+                    <h5><fmt:message key="Inserisci_la_tua_email"/></h5>
                     <hr>
                     <br>
                     <form action="passreset" method="get">
@@ -52,7 +52,7 @@
                             <label for="email">Email</label>
                             <input type="email" class="form-control" name="email" id="email" required>
                         </div>
-                        <button type="submit" class="btn btn-primary">Invia</button>
+                        <button type="submit" class="btn btn-primary"><fmt:message key="Invia"/></button>
                     </form>
                 </div>
             </div>
@@ -60,11 +60,7 @@
     </div>
 
     <footer>
-        via Sommarive, 5 - 38123 Trento (Povo)
-        Tel. +39 1234 567890
-        CF e P.IVA 12345678901
-        Numero verde 800 12345
-
+        <fmt:message key="footer"/>
     </footer>
 </div>
 </body>
