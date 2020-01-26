@@ -272,8 +272,8 @@ function initUploadFoto(formId, idUtente, popupId) {
     });
 }
 
-function loadingButton(id) {
-    const loadingText = '<i class="fa fa-circle-o-notch fa-spin"></i> loading...';//mettete qua le stringhe per la lingua
+function loadingButton(id,labelLoading) {
+    const loadingText = '<i class="fa fa-circle-o-notch fa-spin"></i>'+labelLoading;//mettete qua le stringhe per la lingua
     let $this = $(id);
     $(id).css("background-color", "#1565c0");
 
@@ -285,14 +285,14 @@ function loadingButton(id) {
     }
 }
 
-function successButton(id) {
-    const successText = '<i class="fas fa-check"></i> success';//mettete qua le stringhe per la lingua
+function successButton(id,labelSuccess) {
+    const successText = '<i class="fas fa-check"></i>'+labelSuccess;//mettete qua le stringhe per la lingua
     $(id).html(successText)
     $(id).css("background-color", "#4BB543");
 }
 
-function errorButton(id) {
-    const errorText = '<i class="fas fa-exclamation-triangle"></i> error';//mettete qua le stringhe per la lingua
+function errorButton(id,labelError) {
+    const errorText = '<i class="fas fa-exclamation-triangle"></i>'+labelError;//mettete qua le stringhe per la lingua
     $(id).css("background-color", "#cc0000");
     $(id).html(errorText)
 }
