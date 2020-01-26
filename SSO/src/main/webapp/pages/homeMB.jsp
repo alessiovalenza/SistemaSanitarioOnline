@@ -125,6 +125,9 @@
     <script type="text/javascript">
         let components = new Set();
         let labelAlertFoto = "Puoi caricare file solo con estensione .jpeg/.jpg";
+        const labelLoadingButtons = "loading";
+        const labelSuccessButtons = "success";
+        const labelErrorButtons = "error";
 
         $(document).ready(function () {
             $('#dismiss, .overlay').on('click', function () {
@@ -217,7 +220,7 @@
             initCambioPassword("#formCambiaPassword", "#vecchiaPassword", "#nuovaPassword", "#ripetiPassword", ${sessionScope.utente.id}, "");
 
             $("#formErogaVisita").submit(function(event){
-                loadingButton("#btnErogaVisita")
+                loadingButton("#btnErogaVisita",labelLoadingButtons)
                 event.preventDefault(); //prevent default action
                 let urlErogaVisita = "http://localhost:8080/SSO_war_exploded/api/pazienti/"+$("#idmedicobaseVisita").val()+"/visitebase"
                 let formData = "idmedicobase=${sessionScope.utente.id}&anamnesi="+$("#anamnesi").val() //Encode form elements for submission
@@ -231,14 +234,14 @@
                     complete: function(){
                         $('.select2ErogaVisita').val(null).trigger("change")
                         $('#anamnesi').val("")
-                        successButton("#btnErogaVisita")
+                        successButton("#btnErogaVisita",labelSuccessButtons)
                         document.getElementById("erogaVisitaBaseOK").classList.toggle("show");
                         setTimeout(function() {
                             document.getElementById("erogaVisitaBaseOK").classList.toggle("show");
                         }, 3000);
                     },
                     error: function(xhr, status, error) {
-                        errorButton("#btnErogaVisita")
+                        errorButton("#btnErogaVisita",labelErrorButtons)
                         alert(xhr.responseText);
                     }
                 });
@@ -247,7 +250,7 @@
             $("#formPrescFarmaco").submit(function(event) {
                 event.preventDefault(); //prevent default action
 
-                loadingButton("#btnPrescriviFarmaco")
+                loadingButton("#btnPrescriviFarmaco",labelLoadingButtons)
 
                 let urlPrescFarmaco = "http://localhost:8080/SSO_war_exploded/api/pazienti/"+$('#idmedicobaseFarmaco').val()+"/ricette";
                 let formData = "idmedicobase=${sessionScope.utente.id}&idfarmaco="+$("#idfarmaco").val(); //Encode form elements for submission
@@ -262,20 +265,20 @@
                         }, 3000);
                     },
                     complete: function(){
-                        successButton("#btnPrescriviFarmaco")
+                        successButton("#btnPrescriviFarmaco",labelSuccessButtons)
                         $('.select2PrescFarmaco').val(null).trigger("change")
 
                     },
                     error: function(xhr, status, error) {
                         alert(xhr.responseText);
-                        errorButton("#btnPrescriviFarmaco")
+                        errorButton("#btnPrescriviFarmaco",labelErrorButtons)
                     }
                 });
             });
 
             $("#formPrescEsame").submit(function(event){
                 event.preventDefault(); //prevent default action
-                loadingButton("#btnPrescriviEsame")
+                loadingButton("#btnPrescriviEsame",labelLoadingButtons)
                 let urlPrescFarmaco = "http://localhost:8080/SSO_war_exploded/api/pazienti/"+$("#idmedicobaseEsame").val()+"/esamiprescritti"
                 let formData = "idmedicobase=${sessionScope.utente.id}&idesame="+$("#idesame").val() //Encode form elements for submission
                 $.ajax({
@@ -287,21 +290,21 @@
                     },
                     complete: function(){
                         $('.select2PrescEsame').val(null).trigger("change")
-                        successButton("#btnPrescriviEsame")
+                        successButton("#btnPrescriviEsame",labelSuccessButtons)
                         document.getElementById("prescriviEsameOK").classList.toggle("show");
                         setTimeout(function() {
                             document.getElementById("prescriviEsameOK").classList.toggle("show");
                         }, 3000);
                     },
                     error: function(xhr, status, error) {
-                        errorButton("#btnPrescriviEsame")
+                        errorButton("#btnPrescriviEsame",labelErrorButtons)
                         alert(xhr.responseText);
                     }
                 });
             });
 
             $("#formPrescVisita").submit(function(event){
-                loadingButton("#btnPrescriviVisita")
+                loadingButton("#btnPrescriviVisita",labelLoadingButtons)
                 event.preventDefault(); //prevent default action
                 let urlPrescVisita = 'http://localhost:8080/SSO_war_exploded/api/pazienti/'+$('#idmedicobaseVisitaSpec').val()+'/visitespecialistiche'
                 let formData = "idmedicobase=${sessionScope.utente.id}&idvisita="+$("#idvisita").val() //Encode form elements for submission
@@ -313,7 +316,7 @@
 
                     },
                     complete: function(){
-                        successButton("#btnPrescriviVisita")
+                        successButton("#btnPrescriviVisita",labelSuccessButtons)
                         $('.select2PrescVisita').val(null).trigger("change")
                         document.getElementById("prescriviVisitaOK").classList.toggle("show");
                         setTimeout(function() {
@@ -321,7 +324,7 @@
                         }, 3000);
                     },
                     error: function(xhr, status, error) {
-                        errorButton("#btnPrescriviVisita")
+                        errorButton("#btnPrescriviVisita",labelErrorButtons)
                         alert(xhr.responseText);
                     }
                 });
@@ -897,7 +900,10 @@
                     <a href="#" class="componentControl" id="cambiaPasswordControl">Cambia password</a>
                 </li>
                 <li>
-                    <a href="../logout">Log out</a>
+                    <a href="../logout?forgetme=0">Log out</a>
+                </li>
+                <li>
+                    <a href="../logout?forgetme=1">Cambia account</a>
                 </li>
             </ul>
         </nav>
@@ -942,7 +948,7 @@
                                         <form action="#" id="formUploadFoto" method="POST" role="form" enctype="multipart/form-data">
                                             <div>
                                                 <input style="float: left; height: 35pt" class="btn btn-primary" type="file" id="fotoToUpload" name="foto"
-                                                       onchange="return fileValidation('fotoToUpload','btnUploadFoto',labelAlertFoto)"/>
+                                                       onchange="return fileValidation('fotoToUpload', 'btnUploadFoto', labelAlertFoto)"/>
                                                 <button style="float:right; height: 35pt; background: grey;" class="btn btn-primary" type="submit" id="btnUploadFoto" disabled><fmt:message key="carica"/> </button>
                                             </div>
                                         </form>

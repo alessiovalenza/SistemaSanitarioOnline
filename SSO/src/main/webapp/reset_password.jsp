@@ -33,6 +33,7 @@
             $("form").submit(function(e){
                 if (!isValid()) {
                     e.preventDefault();
+                    <fmt:message key="Nuova_password"/>
                     alert("le password non coincidono")
                 }
             });
@@ -47,7 +48,7 @@
                 style="height: 42px;padding: 0px;margin: 0px;">
             <a class="navbar-brand" href="index.jsp"
                 style="padding: 3px;font-family: default;color: rgb(255,255,255);">
-                Ministero della salute
+                <fmt:message key="Ministero_della_salute"/>
             </a>
         </div>
     </nav>
@@ -55,18 +56,18 @@
     <div class="container" style="padding-top: 5%">
         <div class="row">
             <div class="col-md-12">
-                <h5>Inserisci la nuova password</h5>
+                <h5><fmt:message key="Inserisci_la_nuova_password"/></h5>
                 <form action="passreset" method="post">
                     <div class="form-group">
-                        <label for="new_password">Nuova password</label>
+                        <label for="new_password"><fmt:message key="Nuova_password"/></label>
                         <input type="password" class="form-control" name="new_password" id = "new_password">
                     </div>
                     <div class="form-group">
-                        <label for="repeat_password">Riscrivi la nuova password</label>
+                        <label for="repeat_password"><fmt:message key="Riscrivi_la_nuova_password"/></label>
                         <input type="password" class="form-control" name="repeat_password" id = "repeat_password">
                     </div>
 
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary"><fmt:message key="Submit"/></button>
                 </form>
             </div>
         </div>
@@ -75,10 +76,7 @@
     <nav class="navbar"
         style="background-color: #51b5e0;font-family: 'Open Sans', sans-serif; border-style: groove; border-width: 1px;border-color:lightgray;bottom: 0;position: fixed;width: 100%; height: 4rem;">
         <p class="navbar-text" style="font-family: default;color: rgb(255,255,255); font-size: inherit">
-            via Sommarive, 5 - 38123 Trento (Povo)
-            Tel. +39 1234 567890
-            CF e P.IVA 12345678901
-            Numero verde 800 12345
+            <fmt:message key="footer"/>
         </p>
     </nav>
 </body>

@@ -55,7 +55,6 @@
             <img class="avatar" alt="Avatar" src="../assets/img/logo_repubblica_colori.png"
                  data-holder-rendered="true">
             <h3>${sessionScope.utente.nome} ${sessionScope.utente.cognome}</h3>
-            <h6>${sessionScope.utente.cognome}</h6>
         </div>
 
         <ul class="list-unstyled components">
@@ -66,7 +65,10 @@
                 <a href="#" class="componentControl" id="reportControl">Report</a>
             </li>
             <li>
-                <a href="../logout">Log out</a>
+                <a href="../logout?forgetme=0">Log out</a>
+            </li>
+            <li>
+                <a href="../logout?forgetme=1">Cambia account</a>
             </li>
         </ul>
     </nav>

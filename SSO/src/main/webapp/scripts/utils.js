@@ -18,6 +18,30 @@ function populateComponents(){
  * esegue il fadeIn del component che ha id=componentName e il fadeOut di tutti gli altri
  */
 function showComponent(componentName){
+    $(".componentControl").css("background-color", "#1e88e5");
+    $(".componentControl").css("color", "#fff")
+    $(".componentControl").data("focus",false);
+
+    let tmp="#"+componentName+"Control"
+    console.log(this)
+    $(tmp).css("background-color", "#fff");
+    $(tmp).css("color", "#7386D5");
+    $(tmp).data("focus",true);
+
+
+    $(".componentControl").mouseover(function () {
+        if ($(this).data("focus") != true){
+                $(this).css("background-color", "#CDCDCD");
+                $(this).css("color", "#1e88e5");
+        }
+    }).mouseout(function () {
+        if ($(this).data("focus") != true) {
+            $(this).css("background-color", "#1e88e5");
+            $(this).css("color", "#fff");
+        }
+    })
+
+
     components.forEach( (c) => {
         if (componentName === c.attr("id")){
             c.fadeIn(0);
@@ -285,8 +309,8 @@ function initUploadFoto(formId, idUtente, popupId) {
     });
 }
 
-function loadingButton(id) {
-    const loadingText = '<i class="fa fa-circle-o-notch fa-spin"></i> loading...';//mettete qua le stringhe per la lingua
+function loadingButton(id,labelLoading) {
+    const loadingText = '<i class="fa fa-circle-o-notch fa-spin"></i>'+labelLoading;//mettete qua le stringhe per la lingua
     let $this = $(id);
     $(id).css("background-color", "#1565c0");
 
@@ -298,14 +322,14 @@ function loadingButton(id) {
     }
 }
 
-function successButton(id) {
-    const successText = '<i class="fas fa-check"></i> success';//mettete qua le stringhe per la lingua
+function successButton(id,labelSuccess) {
+    const successText = '<i class="fas fa-check"></i>'+labelSuccess;//mettete qua le stringhe per la lingua
     $(id).html(successText)
     $(id).css("background-color", "#4BB543");
 }
 
-function errorButton(id) {
-    const errorText = '<i class="fas fa-exclamation-triangle"></i> error';//mettete qua le stringhe per la lingua
+function errorButton(id,labelError) {
+    const errorText = '<i class="fas fa-exclamation-triangle"></i>'+labelError;//mettete qua le stringhe per la lingua
     $(id).css("background-color", "#cc0000");
     $(id).html(errorText)
 }

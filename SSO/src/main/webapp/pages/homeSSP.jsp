@@ -59,6 +59,7 @@
 
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -109,6 +110,9 @@
 
     <script>
         let components = new Set();
+        const labelLoadingButtons = "loading";
+        const labelSuccessButtons = "success";
+        const labelErrorButtons = "error";
         $(document).ready(function() {
 
             $('#dismiss, .overlay').on('click', function () {
@@ -162,11 +166,8 @@
                 width: 300,
                 allowClear: true,
                 ajax: {
-                    url: function() {
-                        let urlEsami = "http://localhost:8080/SSO_war_exploded/api/pazienti/" +
-                        $("#idPaziente").children("option:selected").val() + "/esamiprescritti/?erogationly=false&nonerogationly=true";
-                        return urlEsami;
-                    },
+                    url: "http://localhost:8080/SSO_war_exploded/api/pazienti/" +
+                        $("#idPaziente").children("option:selected").val() + "/esamiprescritti/?erogationly=false&nonerogationly=true",
                     datatype: "json",
                     data: function (params) {
                         var query = {
@@ -180,8 +181,8 @@
                         var myResults = [];
                         $.each(data, function (index, item) {
                             myResults.push({
-                                'id': item.id,
-                                'text': item.esame.nome + " " + item.esame.descrizione + ", prescritta da " +
+                                "id": item.id,
+                                "text": item.esame.nome + " " + item.esame.descrizione + ", prescritta da " +
                                     ( item.medicoBase !== undefined ?
                                         ( item.medicoBase.nome + " " + item.medicoBase.cognome ) : ("SSP")
                                     ) + " il " + item.emissione
@@ -215,8 +216,8 @@
 
             $("#formRichiamo1").submit(function(event){
                 event.preventDefault(); //prevent default action
-                loadingButton("#btnRichiamo1");
-                let form_data = "infeta="+$("#infetaRichiamo1").val()+"&idesame="+$("#idesameRichiamo1").val()+"&supeta="+$("#supetaRichiamo1").val()+"&idprovincia=${sessionScope.utente.prov}" //Encode form elements for submission
+                loadingButton("#btnRichiamo1",labelLoadingButtons);
+                let form_data = "infeta="+$("#infetaRichiamo1").val()+"&idesame="+$("#idesameRichiamo1").val()+"&supeta="+$("#supetaRichiamo1").val()+"&idprovincia=${sessionScope.utente.prov}"; //Encode form elements for submission
                 $.ajax({
                     url : "http://localhost:8080/SSO_war_exploded/api/pazienti/richiamo1",
                     type: "POST",
@@ -226,10 +227,10 @@
                     },
                     complete: function(){
                         $('.inputRichiamo1').val(null).trigger("change")
-                        successButton("#btnRichiamo1")
+                        successButton("#btnRichiamo1",labelSuccessButtons);
                     },
                     error: function(xhr, status, error) {
-                        errorButton("#btnRichiamo1")
+                        errorButton("#btnRichiamo1",labelErrorButtons);
                         alert(xhr.responseText);
                     }
                 });
@@ -237,7 +238,7 @@
 
             $("#formRichiamo2").submit(function(event){
                 event.preventDefault(); //prevent default action
-                loadingButton("#btnRichiamo2");
+                loadingButton("#btnRichiamo2",labelLoadingButtons);
                 let form_data = "infeta="+$("#infetaRichiamo2").val()+"&idesame="+$("#idesameRichiamo2").val()+"&idprovincia=${sessionScope.utente.prov}" //Encode form elements for submission
                 $.ajax({
                     url : "http://localhost:8080/SSO_war_exploded/api/pazienti/richiamo2",
@@ -247,11 +248,11 @@
 
                     },
                     complete: function(){
-                        successButton("#btnRichiamo2")
+                        successButton("#btnRichiamo2",labelSuccessButtons);
                         $('.inputRichiamo2').val(null).trigger("change")
                     },
                     error: function(xhr, status, error) {
-                        errorButton("#btnRichiamo2")
+                        errorButton("#btnRichiamo2",labelErrorButtons);
                         alert(xhr.responseText);
                     }
                 });
@@ -307,7 +308,6 @@
         <div id="content">
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
-
                     <button type="button" id="sidebarCollapse" class="btn btn-info">
                         <i class="fas fa-align-left"></i>
                     </button>
@@ -412,27 +412,18 @@
                                         <div class="form-content">
                                             <form id="formRichiamo1" >
                                                 <div class="form-group">
-                                                    <div class="container-fluid" style="padding-top: 1rem">
-                                                        <label for="infetaRichiamo1">limite inferiore di età</label>
+                                                    <div class="container-fluid">
+                                                        <label for="infetaRichiamo1">Limite inferiore di età</label>
                                                         <input class="inputRichiamo1" type="number" min="0" id="infetaRichiamo1" name="infeta" required="required"></input>
-                                                        <div class="spinner-border text-primary" role="status">
-                                                            <span class="sr-only">Loading...</span>
-                                                        </div>
                                                         <br>
                                                     </div>
                                                     <div class="container-fluid" style="padding-top: 1rem">
-                                                        <label for="supetaRichiamo1">limite superiore di età</label>
+                                                        <label for="supetaRichiamo1">Limite superiore di età</label>
                                                         <input class="inputRichiamo1" type="number" min="0" id="supetaRichiamo1" name="supeta" required="required"></input>
-                                                        <div class="spinner-border text-primary" role="status">
-                                                            <span class="sr-only">Loading...</span>
-                                                        </div>
                                                     </div>
                                                     <div class="container-fluid" style="padding-top: 1rem">
-                                                        <label for="idesameRichiamo1">Nome dell'esame</label>
+                                                        <label for="idesameRichiamo1">Esame</label>
                                                         <select class="inputRichiamo1" type="text" id="idesameRichiamo1" name="idesame" required="required"></select>
-                                                        <div class="spinner-border text-primary" role="status">
-                                                            <span class="sr-only">Loading...</span>
-                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
@@ -459,25 +450,19 @@
                                     <div class="form-toggle"></div>
                                     <div class="form-panel one">
                                         <div class="form-header">
-                                            <h1>Effetua richiamo</h1>
+                                            <h1>Effetua un richiamo</h1>
                                         </div>
                                         <div class="form-content">
                                             <form id="formRichiamo2">
                                                 <div class="form-group">
                                                     <div class="container-fluid">
-                                                        <label for="infetaRichiamo2">limite inferiore di età</label>
+                                                        <label for="infetaRichiamo2">Limite inferiore di età</label>
                                                         <input class="inputRichiamo2" type="number" min="0" id="infetaRichiamo2" name="infeta" required="required"></input>
-                                                        <div class="spinner-border text-primary" role="status">
-                                                            <span class="sr-only">Loading...</span>
-                                                        </div>
-                                                        <br>
+                                                       <br>
                                                     </div>
                                                     <div class="container-fluid" style="padding-top: 1rem">
-                                                        <label for="idesameRichiamo2">Nome dell'esame</label>
+                                                        <label for="idesameRichiamo2">Esame</label>
                                                         <select class="inputRichiamo2" type="text" id="idesameRichiamo2" name="idesame" required="required"></select>
-                                                        <div class="spinner-border text-primary" role="status">
-                                                            <span class="sr-only">Loading...</span>
-                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">

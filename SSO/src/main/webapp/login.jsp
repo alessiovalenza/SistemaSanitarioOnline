@@ -36,7 +36,7 @@
                 style="height: 42px;padding: 0px;margin: 0px;">
                 <a class="navbar-brand" href="index.jsp"
                    style="padding: 3px;color: rgb(255,255,255);">
-                    Ministero della salute
+                    <fmt:message key="Ministero_della_salute"/>
                     </a>
                 </div>
             </nav>
@@ -59,7 +59,7 @@
                 </form>
 
                 <div id="formFooter">
-                    <a class="underlineHover" href="sendEmail.jsp">Forgot Password?</a>
+                    <a class="underlineHover" href="sendEmail.jsp"><fmt:message key="Forgot_Password?"/></a>
                 </div>
 
             </div>
@@ -69,11 +69,7 @@
         </div>
 
         <footer>
-            via Sommarive, 5 - 38123 Trento (Povo)
-            Tel. +39 1234 567890
-            CF e P.IVA 12345678901
-            Numero verde 800 12345
-
+            <fmt:message key="footer"/>
         </footer>
     </div>
 

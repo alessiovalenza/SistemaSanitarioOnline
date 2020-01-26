@@ -31,6 +31,9 @@
     <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
     <script src="../scripts/utils.js"></script>
     <script>
+        const labelLoadingButtons = "loading";
+        const labelSuccessButtons = "success";
+        const labelErrorButtons = "error";
         $(document).ready(function () {
             /* $('#esamiFatti > tbody > tr').click(function () {
                 alert("riga cliccata")
@@ -137,7 +140,7 @@
 
 
             $("#formEvadiRicetta").submit(function(event){
-                loadingButton("#btnEvadiRicetta")
+                loadingButton("#btnEvadiRicetta",labelLoadingButtons)
                 event.preventDefault(); //prevent default action
                 let urlEvadiRicetta = 'http://localhost:8080/SSO_war_exploded/api/pazienti/'+$('#idpaziente').val()+'/ricette/'+$('#idricetta').val();
                 let form_data = "idfarmacia=${sessionScope.utente.id}"
@@ -150,10 +153,10 @@
                     },
                     complete: function(){
                         $('.select2EvadiRicetta').val(null).trigger("change")
-                        successButton("#btnEvadiRicetta")
+                        successButton("#btnEvadiRicetta",labelSuccessButtons)
                     },
                     error: function(xhr, status, error) {
-                        errorButton("#btnEvadiRicetta")
+                        errorButton("#btnEvadiRicetta",labelErrorButtons)
                         alert(xhr.responseText);
                     }
                 });
@@ -183,8 +186,6 @@
         });
     </script>
 
-
-
 </head>
 
 <body>
@@ -197,13 +198,18 @@
         </div>
         <div class="sidebar-header">
             <img class="avatar" alt="Avatar" src="../assets/img/logo_repubblica_colori.png" data-holder-rendered="true">
-            <h3>Nome Cognome</h3>
-            <h6>esempio@email.com</h6>
+            <h3>${sessionScope.utente.nome} ${sessionScope.utente.cognome}</h3>
         </div>
 
         <ul class="list-unstyled">
             <li>
                 <a href="#" class="componentControl" id="ricetteControl">Evadi Ricette</a>
+            </li>
+            <li>
+                <a href="../logout?forgetme=0">Log out</a>
+            </li>
+            <li>
+                <a href="../logout?forgetme=1">Cambia account</a>
             </li>
 
         </ul>

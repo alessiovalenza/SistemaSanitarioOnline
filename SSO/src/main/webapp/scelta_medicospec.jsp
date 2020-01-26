@@ -6,7 +6,7 @@
 
 <c:set var="language" value="${sessionScope.language}" scope="page" />
 <c:set var="sectionToShow" value="${sessionScope.selectedSection}" scope="page" />
-<c:set var="url" value="http://localhost:8080/SSO_war_exploded/pages/scelta_medico.jsp?language=" scope="page" />
+<c:set var="url" value="http://localhost:8080/SSO_war_exploded/pages/scelta_medicospec.jsp?language=" scope="page" />
 
 <fmt:setLocale value="${language}" />
 <fmt:setBundle basename="labels" />
@@ -36,7 +36,7 @@
                                               style="height: 42px;padding: 0px;margin: 0px;">
                 <a class="navbar-brand" href="index.jsp"
                    style="padding: 3px;color: rgb(255,255,255);">
-                    Ministero della salute
+                    <fmt:message key="Ministero_della_salute"/>
                 </a>
             </div>
         </nav>
@@ -49,7 +49,7 @@
                     <a href="medicospecialista?ruolo=ms">
                         <div class="card">
                             <div class="card-body" style="text-align: center">
-                                <h2>Medico</h2> <img style="height: 25rem;max-width: 100%;object-fit:contain; "
+                                <h2><fmt:message key="Medico"/></h2> <img style="height: 25rem;max-width: 100%;object-fit:contain; "
                                                      src="assets/img/logo_medico.jpeg">
                             </div>
                         </div>
@@ -62,7 +62,7 @@
                     <a href="medicospecialista?ruolo=p">
                         <div class="card">
                             <div class="card-body" style="text-align:center;">
-                                <h2>Paziente</h2><img style="height: 25rem;max-width: 100%;object-fit:contain; "
+                                <h2><fmt:message key="Paziente"/></h2><img style="height: 25rem;max-width: 100%;object-fit:contain; "
                                                       src="assets/img/logo_paziente.png">
                             </div>
                         </div>
@@ -73,10 +73,7 @@
     </div>
     <br>
     <footer>
-        via Sommarive, 5 - 38123 Trento (Povo)
-        Tel. +39 1234 567890
-        CF e P.IVA 12345678901
-        Numero verde 800 12345
+        <fmt:message key="footer"/>
     </footer>
 </div>
 </body>

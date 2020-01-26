@@ -98,11 +98,6 @@ a:focus {
     background: #fff;
 }
 
-#sidebar ul li a:focus {
-    color: #fff;
-    background: blue;
-}
-
 #sidebar ul li.active>a,
 a[aria-expanded="true"] {
     color: #fff;
