@@ -322,9 +322,6 @@
                             document.getElementById("prescriviVisitaOK").classList.toggle("show");
                         }, 3000);
                     },
-                    complete: function(){
-
-                    },
                     error: function(xhr, status, error) {
                         errorButton("#btnPrescriviVisita",labelErrorButtons)
                         alert(xhr.responseText);
@@ -1446,15 +1443,15 @@
                                                 <div class="form-group">
                                                     <div class="container-fluid" style="padding-top: 1rem">
                                                         <label for="vecchiaPassword">Vecchia password</label>
-                                                        <input class="inputCambiaPassword" type="password" id="vecchiaPassword" name="vecchiaPassword" required="required"/>
+                                                        <input type="password" id="vecchiaPassword" name="vecchiaPassword" required="required"/>
                                                     </div>
                                                     <div class="container-fluid" style="padding-top: 1rem">
                                                         <label for="nuovaPassword">Nuova password</label>
-                                                        <input class="inputCambiaPassword" type="password" id="nuovaPassword" name="nuovaPassword" required="required"/>
+                                                        <input type="password" id="nuovaPassword" name="nuovaPassword" required="required"/>
                                                     </div>
                                                     <div class="container-fluid" style="padding-top: 1rem">
                                                         <label for="ripetiPassword">Ripeti nuova password</label>
-                                                        <input class="inputCambiaPassword" type="password" id="ripetiPassword" name="ripetiPassword" required="required"/>
+                                                        <input type="password" id="ripetiPassword" name="ripetiPassword" required="required"/>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">

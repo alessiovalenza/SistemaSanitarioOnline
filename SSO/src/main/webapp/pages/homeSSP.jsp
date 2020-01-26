@@ -209,11 +209,14 @@
                     type: "PUT",
                     data : formData,
                     success: function (data) {
-                        alert("Esame ergoato");
+                        $(".inputErogaEsame").val(null).trigger("change");
+                        successButton("#btnErogaEsame",labelSuccessButtons);
                     },
                     complete: function(){
+
                     },
                     error: function(xhr, status, error) {
+                        errorButton("#btnErogaEsame",labelErrorButtons);
                         alert(xhr.responseText);
                     }
                 });
@@ -222,11 +225,11 @@
             $("#formRichiamo1").submit(function(event){
                 event.preventDefault(); //prevent default action
                 loadingButton("#btnRichiamo1",labelLoadingButtons)
-                let form_data = "infeta="+$("#infetaRichiamo1").val()+"&idesame="+$("#idesameRichiamo1").val()+"&supeta="+$("#supetaRichiamo1").val()+"&idprovincia=${sessionScope.utente.prov}" //Encode form elements for submission
+                let formData = "infeta="+$("#infetaRichiamo1").val()+"&idesame="+$("#idesameRichiamo1").val()+"&supeta="+$("#supetaRichiamo1").val()+"&idprovincia=${sessionScope.utente.prov}" //Encode form elements for submission
                 $.ajax({
                     url : baseUrl + "/api/pazienti/richiamo1",
                     type: "POST",
-                    data : form_data,
+                    data : formData,
                     success: function (data) {
                         $('.inputRichiamo1').val(null).trigger("change")
                         successButton("#btnRichiamo1",labelSuccessButtons)
@@ -244,11 +247,11 @@
             $("#formRichiamo2").submit(function(event){
                 event.preventDefault(); //prevent default action
                 loadingButton("#btnRichiamo2",labelLoadingButtons)
-                let form_data = "infeta="+$("#infetaRichiamo2").val()+"&idesame="+$("#idesameRichiamo2").val()+"&idprovincia=${sessionScope.utente.prov}" //Encode form elements for submission
+                let formData = "infeta="+$("#infetaRichiamo2").val()+"&idesame="+$("#idesameRichiamo2").val()+"&idprovincia=${sessionScope.utente.prov}" //Encode form elements for submission
                 $.ajax({
                     url : baseUrl + "/api/pazienti/richiamo2",
                     type: "POST",
-                    data : form_data,
+                    data : formData,
                     success: function (data) {
                         successButton("#btnRichiamo2",labelSuccessButtons)
                         $('.inputRichiamo2').val(null).trigger("change")
@@ -343,15 +346,15 @@
                                             <div class="form-group">
                                                 <div class="container-fluid">
                                                     <label for="idPaziente">Nome del paziente</label>
-                                                    <select class="select2EvadiRicetta" type="text" id="idPaziente" name="idpaziente" required="required"></select>
+                                                    <select class="inputErogaEsame" type="text" id="idPaziente" name="idpaziente" required="required"></select>
                                                 </div>
                                                 <div class="container-fluid" style="padding-top: 1rem">
                                                     <label for="idEsame">Nome dell'esame</label>
-                                                    <select class="select2EvadiRicetta" type="text" id="idEsame" name="idesame" required="required"></select>
+                                                    <select class="inputErogaEsame" type="text" id="idEsame" name="idesame" required="required"></select>
                                                 </div>
                                                 <div class="container-fluid" style="padding-top: 1rem">
                                                     <label for="esito">Esito</label>
-                                                    <textarea type="text" id="esito" name="esito" required="required"></textarea>
+                                                    <textarea class="inputErogaEsame" type="text" id="esito" name="esito" required="required"></textarea>
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -489,6 +492,7 @@
             </div>
         </div>
     </div>
+
 </div>
 </body>
 </html>
