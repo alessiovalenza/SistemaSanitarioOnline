@@ -30,9 +30,9 @@
                                                                                                                                                                                                                                                                                    data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon" style="border-color: white;"></span></button>
             <div class="collapse navbar-collapse" id="navcol-1">
                 <ul class="nav navbar-nav">
-                    <li class="nav-item" role="presentation"><a class="nav-link active" href="profilo.jsp" style="font-family: default;color: rgb(255,255,255);">Profilo</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" style="color: rgb(255,255,255);font-family: default;" href="pazienti.jsp">Pazienti</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="prescriviEsame.jsp" style="color: rgb(255,255,255);font-family: default;">Prescrivi esame</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link active" href="profilo.jsp" style="font-family: default;color: rgb(255,255,255);"><fmt:message key="Profilo"/></a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" style="color: rgb(255,255,255);font-family: default;" href="pazienti.jsp"><fmt:message key="Profilo"/></a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="prescriviEsame.jsp" style="color: rgb(255,255,255);font-family: default;"><fmt:message key="Prescrivi_esame"/></a></li>
                 </ul>
                 <ul class="nav navbar-nav">
                     <li class="nav-item" role="presentation"></li>
@@ -40,7 +40,7 @@
                     <li class="nav-item" role="presentation"></li>
                 </ul>
                 <ul class="nav navbar-nav">
-                    <li class="nav-item" role="presentation"><a class="nav-link active" href="prescriviFarmaco.jsp" style="color: rgb(255,255,255);">Prescrivi farmaco</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link active" href="prescriviFarmaco.jsp" style="color: rgb(255,255,255);"><fmt:message key="Prescrivi_farmaco"/></a></li>
                     <li class="nav-item" role="presentation"></li>
                     <li class="nav-item" role="presentation"></li>
                 </ul>
@@ -52,7 +52,7 @@
     <div class="container profile profile-view" id="profile">
         <div class="row">
             <div class="col-md-12 alert-col relative">
-                <div class="alert alert-info absolue center" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button><span>Profile save with success</span></div>
+                <div class="alert alert-info absolue center" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button><span><fmt:message key="Profile_save_with_success"/></span></div>
             </div>
         </div>
         <form>
@@ -66,19 +66,19 @@
                     <hr>
                     <div class="form-row">
                         <div class="col-sm-12 col-md-6">
-                            <div class="form-group"><label>Firstname </label><input class="form-control" type="text" name="firstname"></div>
+                            <div class="form-group"><label><fmt:message key="Firstname"/> </label><input class="form-control" type="text" name="firstname"></div>
                         </div>
                         <div class="col-sm-12 col-md-6">
-                            <div class="form-group"><label>Lastname </label><input class="form-control" type="text" name="lastname"></div>
+                            <div class="form-group"><label><fmt:message key="Lastname"/> </label><input class="form-control" type="text" name="lastname"></div>
                         </div>
                     </div>
-                    <div class="form-group"><label>Email </label><input class="form-control" type="email" autocomplete="off" required="" name="email"></div>
+                    <div class="form-group"><label><fmt:message key="Email"/> </label><input class="form-control" type="email" autocomplete="off" required="" name="email"></div>
                     <div class="form-row">
                         <div class="col-sm-12 col-md-6">
-                            <div class="form-group"><label>Password </label><input class="form-control" type="password" name="password" autocomplete="off" required=""></div>
+                            <div class="form-group"><label><fmt:message key="Password"/> </label><input class="form-control" type="password" name="password" autocomplete="off" required=""></div>
                         </div>
                         <div class="col-sm-12 col-md-6">
-                            <div class="form-group"><label>Confirm Password</label><input class="form-control" type="password" name="confirmpass" autocomplete="off" required=""></div>
+                            <div class="form-group"><label><fmt:message key="Confirm_password"/></label><input class="form-control" type="password" name="confirmpass" autocomplete="off" required=""></div>
                         </div>
                     </div>
                     <hr>

@@ -7,7 +7,7 @@
 
 <c:set var="language" value="${sessionScope.language}" scope="page" />
 <c:set var="sectionToShow" value="${sessionScope.selectedSection}" scope="page" />
-<c:set var="url" value="http://localhost:8080/SSO_war_exploded/pages/requesti_password.jsp?language=" scope="page" />
+<c:set var="url" value="http://localhost:8080/SSO_war_exploded/pages/request_password.jsp?language=" scope="page" />
 
 <fmt:setLocale value="${language}" />
 <fmt:setBundle basename="labels" />
@@ -52,7 +52,7 @@
                                               style="height: 42px;padding: 0px;margin: 0px;">
                 <a class="navbar-brand" href="index.jsp"
                    style="padding: 3px;color: rgb(255,255,255);">
-                    Ministero della salute
+                    <fmt:message key="ministero_della_salute"/>
                 </a>
             </div>
         </nav>
@@ -61,16 +61,16 @@
         <div class="container" style="padding-top: 5%">
             <div class="row">
                 <div class="col-md-12">
-                    <h3>Richiesta reset Password</h3>
+                    <h3><fmt:message key="Richiesta_reset_Password"/></h3>
 
-                    <h5>Inserisci la tua e-mail e riceverai un modulo per reimpostare la tua password</h5>
+                    <h5><fmt:message key="inserisci"/></h5>
                     <form action="reset_password.jsp">
                         <div class="form-group">
-                            <label for="email">Email address:</label>
+                            <label for="email"><fmt:message key="Email_address"/></label>
                             <input type="email" class="form-control" id="email">
                         </div>
 
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" class="btn btn-primary"><fmt:message key="Submit"/></button>
                     </form>
 
 
@@ -79,11 +79,7 @@
         </div>
     </div>
     <footer>
-        via Sommarive, 5 - 38123 Trento (Povo)
-        Tel. +39 1234 567890
-        CF e P.IVA 12345678901
-        Numero verde 800 12345
-
+        <fmt:message key="footer"/>
     </footer>
 </div>
 </body>

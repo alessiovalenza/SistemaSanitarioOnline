@@ -26,13 +26,13 @@
 
 <body>
     <nav class="navbar navbar-light navbar-expand-md sticky-top" style="background-color: #51b5e0;font-family: 'Open Sans', sans-serif;padding: 11px;padding: 11px;border-style: groove; border-width: 1px; border-color:lightgray">
-        <div class="container-fluid"><img src="assets/img/logo_repubblica_colori.png" style="height: 42px;padding: 0px;margin: 0px;"><a class="navbar-brand" href="index.jsp" style="padding: 3px;font-family: default;color: rgb(255,255,255)">Ministero della salute</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+        <div class="container-fluid"><img src="assets/img/logo_repubblica_colori.png" style="height: 42px;padding: 0px;margin: 0px;"><a class="navbar-brand" href="index.jsp" style="padding: 3px;font-family: default;color: rgb(255,255,255)"><fmt:message key="ministero_della_salute"/></a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
             <div
                 class="collapse navbar-collapse" id="navcol-1">
                 <ul class="nav navbar-nav">
-                    <li class="nav-item" role="presentation"><a class="nav-link active" href="profilo.jsp" style="font-family: default;color: rgb(255,255,255)">Profilo</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" style="color: rgb(255,255,255);font-family: default;" href="pazienti.jsp">Pazienti</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="prescriviEsame.jsp" style="color: rgb(255,255,255);font-family: default;">Prescrivi esame</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link active" href="profilo.jsp" style="font-family: default;color: rgb(255,255,255)"><fmt:message key="Profilo"/></a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" style="color: rgb(255,255,255);font-family: default;" href="pazienti.jsp"><fmt:message key="Pazienti"/></a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="prescriviEsame.jsp" style="color: rgb(255,255,255);font-family: default;"><fmt:message key="Prescrivi_esame"/></a></li>
                 </ul>
                 <ul class="nav navbar-nav">
                     <li class="nav-item" role="presentation"></li>
@@ -40,7 +40,7 @@
                     <li class="nav-item" role="presentation"></li>
                 </ul>
                 <ul class="nav navbar-nav">
-                    <li class="nav-item" role="presentation"><a class="nav-link active" href="prescriviFarmaco.jsp" style="color: rgb(255,255,255)">Prescrivi farmaco</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link active" href="prescriviFarmaco.jsp" style="color: rgb(255,255,255)"><fmt:message key="Prescrivi_farmaco"/></a></li>
                     <li class="nav-item" role="presentation"></li>
                     <li class="nav-item" role="presentation"></li>
                 </ul>
@@ -51,14 +51,14 @@
     <div class="container" style="text-align: left; padding-top: 10vh" >
             <form method="POST" autocomplete="on">
                 <div class="form-group">
-                    <label for="paziente">Paziente:</label>
+                    <label for="paziente"><fmt:message key="Paziente"/>:</label>
                     <input type="text" class="form-control" id="paziente">
                 </div>
                 <div class="form-group">
-                    <label for="pwd">Farmaco:</label>
+                    <label for="pwd"><fmt:message key="Farmaco"/>:</label>
                     <input type="text" class="form-control" id="farmaco">
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary"><fmt:message key="Submit"/></button>
             </form>
         </div>
 </body>
