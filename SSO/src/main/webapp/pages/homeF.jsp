@@ -196,8 +196,7 @@
         </div>
         <div class="sidebar-header">
             <img class="avatar" alt="Avatar" src="../assets/img/logo_repubblica_colori.png" data-holder-rendered="true">
-            <h3>Nome Cognome</h3>
-            <h6>esempio@email.com</h6>
+            <h3>${sessionScope.utente.nome} ${sessionScope.utente.cognome}</h3>
         </div>
 
         <ul class="list-unstyled">

@@ -166,7 +166,6 @@
             <img class="avatar" alt="Avatar" src="../assets/img/logo_repubblica_colori.png"
                  data-holder-rendered="true">
             <h3>${sessionScope.utente.nome} ${sessionScope.utente.cognome}</h3>
-            <h6>${sessionScope.utente.cognome}</h6>
         </div>
 
         <ul class="list-unstyled components">
