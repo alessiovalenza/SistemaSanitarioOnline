@@ -133,7 +133,7 @@ public class LoginServlet extends HttpServlet {
             DAOFactory daoFactory = (DAOFactory) super.getServletContext().getAttribute("daoFactory");
             TokenRememberMeDAO tokenRememberMeDAO = daoFactory.getDAO(TokenRememberMeDAO.class);
             UtenteDAO utenteDAO = daoFactory.getDAO(UtenteDAO.class);
-            TokenRememberMe tokenRememberMe = tokenRememberMeDAO.getTokenByToken(sha512(token));
+            TokenRememberMe tokenRememberMe = tokenRememberMeDAO.getByPrimaryKey(sha512(token));
             if(tokenRememberMe != null){
                 id = tokenRememberMe.getIdUtente();
                 utente = utenteDAO.getByPrimaryKey(id);

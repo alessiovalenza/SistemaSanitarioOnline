@@ -50,6 +50,8 @@
             break;
         case "prescEsame":
             break;
+        case "cambiaPassword":
+            break;
         default:
             session.setAttribute("selectedSection", "profilo");
             break;
@@ -211,6 +213,8 @@
             initUploadFoto("#formUploadFoto", ${sessionScope.utente.id}, "");
 
             initAvatar(${sessionScope.utente.id}, "avatarImg", basePath, extension);
+
+            initCambioPassword("#formCambiaPassword", "#vecchiaPassword", "#nuovaPassword", "#ripetiPassword", ${sessionScope.utente.id}, "");
 
             $("#formErogaVisita").submit(function(event){
                 loadingButton("#btnErogaVisita")
@@ -816,6 +820,7 @@
             $('#erogaVisitaControl').click(() => showComponent("erogaVisita"));
             $('#prescEsameControl').click(() => showComponent("prescEsame"));
             $('#schedaPazControl').click(() => showComponent("schedaPaz"));
+            $('#cambiaPasswordControl').click(() => showComponent("cambiaPassword"));
 
             populateComponents();
             hideComponents();
@@ -836,7 +841,34 @@
                 <img id="avatarImg" class="avatar" data-holder-rendered="true">
                 <br><br>
                 <h4>${sessionScope.utente.nome} ${sessionScope.utente.cognome}</h4>
-                <h6>${sessionScope.utente.email}</h6>
+                <br>
+                <div class="sidebar-lang">
+                    <c:choose>
+                        <c:when test="${!fn:startsWith(language, 'it')}">
+                            <a href="${url}it_IT">italiano</a>
+                        </c:when>
+                        <c:otherwise>
+                            <b>italiano</b>
+                        </c:otherwise>
+                    </c:choose>
+                    <c:choose>
+                        <c:when test="${!fn:startsWith(language, 'en')}">
+                            <a href="${url}en_EN">english</a>
+                        </c:when>
+                        <c:otherwise>
+                            <b>english</b>
+                        </c:otherwise>
+                    </c:choose>
+                    <c:choose>
+                        <c:when test="${!fn:startsWith(language, 'fr')}">
+                            <a href="${url}fr_FR">français</a>
+                        </c:when>
+                        <c:otherwise>
+                            <b>français</b>
+                        </c:otherwise>
+                    </c:choose>
+
+                </div>
             </div>
 
             <ul class="list-unstyled">
@@ -862,6 +894,9 @@
                     <a href="#" class="componentControl" id="erogaVisitaControl"><fmt:message key="erovis"/></a>
                 </li>
                 <li>
+                    <a href="#" class="componentControl" id="cambiaPasswordControl">Cambia password</a>
+                </li>
+                <li>
                     <a href="../logout">Log out</a>
                 </li>
             </ul>
@@ -875,34 +910,6 @@
                     <button type="button" id="sidebarCollapse" class="btn btn-info">
                         <i class="fas fa-align-justify"></i>
                     </button>
-
-                    <div class="headerWidget">
-                        <c:choose>
-                            <c:when test="${!fn:startsWith(language, 'en')}">
-                                <a href="${url}en_EN">english</a>
-                            </c:when>
-                            <c:otherwise>
-                                english
-                            </c:otherwise>
-                        </c:choose> |
-                        <c:choose>
-                            <c:when test="${!fn:startsWith(language, 'it')}">
-                                <a href="${url}it_IT">italiano</a>
-                            </c:when>
-                            <c:otherwise>
-                                italiano
-                            </c:otherwise>
-                        </c:choose> |
-                        <c:choose>
-                            <c:when test="${!fn:startsWith(language, 'fr')}">
-                                <a href="${url}fr_FR">français</a>
-                            </c:when>
-                            <c:otherwise>
-                                français
-                            </c:otherwise>
-                        </c:choose>
-
-                    </div>
                 </div>
             </nav>
 
@@ -1402,6 +1409,48 @@
                                                 <div class="form-group">
                                                     <button id ="btnErogaVisita" type="submit"><fmt:message key="erovis"/></button>
                                                     <span class="popuptext" id="erogaVisitaBaseOK"><fmt:message key="visero"/></span>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="cambiaPassword" class="tool component">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3>Cambia la tua password per l'accesso al sistema</h3>
+                            <hr>
+                            <div class="container-fluid" align="center">
+                                <div class="form"  >
+                                    <div class="form-toggle"></div>
+                                    <div class="form-panel one">
+                                        <div class="form-header">
+                                            <h1>Cambia password</h1>
+                                        </div>
+                                        <div class="form-content">
+                                            <form id="formCambiaPassword" >
+                                                <div class="form-group">
+                                                    <div class="container-fluid" style="padding-top: 1rem">
+                                                        <label for="vecchiaPassword">Vecchia password</label>
+                                                        <input type="password" id="vecchiaPassword" name="vecchiaPassword" required="required"/>
+                                                    </div>
+                                                    <div class="container-fluid" style="padding-top: 1rem">
+                                                        <label for="nuovaPassword">Nuova password</label>
+                                                        <input type="password" id="nuovaPassword" name="nuovaPassword" required="required"/>
+                                                    </div>
+                                                    <div class="container-fluid" style="padding-top: 1rem">
+                                                        <label for="ripetiPassword">Ripeti nuova password</label>
+                                                        <input type="password" id="ripetiPassword" name="ripetiPassword" required="required"/>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <button id ="btnCambiaPassword" type="submit">Procedi</button>
                                                 </div>
                                             </form>
                                         </div>

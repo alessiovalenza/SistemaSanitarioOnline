@@ -248,9 +248,6 @@ function initUploadFoto(formId, idUtente, popupId) {
     });
 }
 
-
-
-
 function loadingButton(id) {
     const loadingText = '<i class="fa fa-circle-o-notch fa-spin"></i> loading...';//mettete qua le stringhe per la lingua
     let $this = $(id);
@@ -263,13 +260,46 @@ function loadingButton(id) {
         $this.html(loadingText);
     }
 }
+
 function successButton(id) {
     const successText = '<i class="fas fa-check"></i> success';//mettete qua le stringhe per la lingua
     $(id).html(successText)
     $(id).css("background-color", "#4BB543");
 }
+
 function errorButton(id) {
     const errorText = '<i class="fas fa-exclamation-triangle"></i> error';//mettete qua le stringhe per la lingua
     $(id).css("background-color", "#cc0000");
     $(id).html(errorText)
+}
+
+function initCambioPassword(formId, oldPwId, newPwId, ripetiPwId, idUtente, btnId) {
+    $(formId).submit(function (event) {
+        event.preventDefault();
+        if($(newPwId).val() == $(ripetiPwId).val()) {
+            let urlCambioPw = "/SSO_war_exploded/api/utenti/" + idUtente + "/password";
+            let formData = "vecchiapassword=" + $(oldPwId).val() + "&nuovapassword=" + $(newPwId).val();
+            $.ajax({
+                url: urlCambioPw,
+                type: "PUT",
+                data: formData,
+                success: function (data) {
+                    alert("Password cambiata con successo");
+                },
+                complete: function () {
+
+                },
+                error: function (xhr, status, error) {
+                    if (status == 401) {
+                        alert("La vecchia password è errata. Riprova");
+                    } else {
+                        alert(xhr.responseText);
+                    }
+                }
+            });
+        }
+        else {
+            alert("Mismatch tra la nuova password e la ripetizione");
+        }
+    });
 }

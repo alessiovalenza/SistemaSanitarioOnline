@@ -3,6 +3,7 @@ package it.unitn.disi.wp.progetto.api;
 import it.unitn.disi.wp.progetto.api.exceptions.ApiException;
 import it.unitn.disi.wp.progetto.commons.Utilities;
 import it.unitn.disi.wp.progetto.persistence.dao.FotoDAO;
+import it.unitn.disi.wp.progetto.persistence.dao.TokenRememberMeDAO;
 import it.unitn.disi.wp.progetto.persistence.dao.UtenteDAO;
 import it.unitn.disi.wp.progetto.persistence.dao.exceptions.DAOException;
 import it.unitn.disi.wp.progetto.persistence.dao.exceptions.DAOFactoryException;
@@ -147,9 +148,10 @@ public class UtenteApi extends Api {
     @Path("{idutente}/password")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response changePassword(@PathParam("idutente") long idUtente,
-                                   @FormParam("password") String password) {
-        if(password == null) {
-            throw new ApiException(HttpServletResponse.SC_BAD_REQUEST, "You must provide the new password");
+                                   @FormParam("vecchiapassword") String vecchiaPassword,
+                                   @FormParam("nuovapassword") String nuovaPassword) {
+        if(vecchiaPassword == null || nuovaPassword == null) {
+            throw new ApiException(HttpServletResponse.SC_BAD_REQUEST, "You must provide the old and the new password");
         }
 
         Response res;
@@ -158,13 +160,22 @@ public class UtenteApi extends Api {
             Utente utente = utenteDAO.getByPrimaryKey(idUtente);
 
             if(utente != null) {
-                String hash = Utilities.sha512(password, utente.getSalt());
-                utenteDAO.updatePassword(idUtente, hash, utente.getSalt());
-                HttpSession session = request.getSession(false);
-                if (session != null) {
-                    session.setAttribute("utente", utenteDAO.getByPrimaryKey(utente.getId()));
+                String hashVecchia = Utilities.sha512(vecchiaPassword, utente.getSalt());
+                if(hashVecchia.equals(utente.getPassword())) {
+                    String hashNuova = Utilities.sha512(nuovaPassword, utente.getSalt());
+                    utenteDAO.updatePassword(idUtente, hashNuova, utente.getSalt());
+                    HttpSession session = request.getSession(false);
+                    if (session != null) {
+                        session.setAttribute("utente", utenteDAO.getByPrimaryKey(utente.getId()));
+                    }
+                    res = EMPTY_RESPONSE;
+
+                    TokenRememberMeDAO tokenDAO = daoFactory.getDAO(TokenRememberMeDAO.class);
+                    tokenDAO.deleteTokenByUtente(utente.getId());
                 }
-                res = EMPTY_RESPONSE;
+                else {
+                    throw new ApiException(HttpServletResponse.SC_UNAUTHORIZED, "Old password is incorrect");
+                }
             }
             else {
                 throw new ApiException(HttpServletResponse.SC_NOT_FOUND, "Utente with such an id not found");
