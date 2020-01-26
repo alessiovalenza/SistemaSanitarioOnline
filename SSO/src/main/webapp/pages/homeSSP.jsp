@@ -283,7 +283,6 @@
 
             setNomeProvincia("nomeProvincia", "${sessionScope.utente.prov}");
 
-            $(".spinner-border").hide();
             $("#erogaEsameControl").click(() => showComponent("erogaEsame"));
             $("#reportControl").click(() => showComponent("report"));
             $("#richiamo1Control").click(() => showComponent("richiamo1"));

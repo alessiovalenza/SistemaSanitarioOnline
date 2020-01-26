@@ -38,19 +38,9 @@
     switch(selectedSection) {
         case "profilo":
             break;
-        case "pazienti":
+        case "erogaVisitaSpec":
             break;
-        case "schedaPaz":
-            break;
-        case "prescFarmaco":
-            break;
-        case "prescVisita":
-            break;
-        case "erogaVisita":
-            break;
-        case "prescEsame":
-            break;
-        case "cambiaPassword":
+        case "schedaPaziente":
             break;
         default:
             session.setAttribute("selectedSection", "profilo");
@@ -110,8 +100,9 @@
             $('#profilo').show();
             $('#profiloControl').click(() => showComponent('profilo'));
             $('#erogaVisitaSpecControl').click(() => showComponent('erogaVisitaSpec'));
+            $('#schedaPazienteControl').click(() => showComponent('schedaPaziente'));
 
-
+            document.getElementById("${sectionToShow}Control").click();
 
             $("#formErogaVisitaSpec").submit(function(event){
                 loadingButton("#btnErogaVisitaSpec",labelLoadingButtons)
@@ -225,6 +216,9 @@
                 <a href="#" class="componentControl" id="erogaVisitaSpecControl">Eroga visita</a>
             </li>
             <li>
+                <a href="#" class="componentControl" id="schedaPazienteControl">Visualizza scheda paziente</a>
+            </li>
+            <li>
                 <a href="../logout?forgetme=0">Log out</a>
             </li>
             <li>
@@ -264,7 +258,7 @@
         </div>
 
 
-        <div id="erogaVisitaSpec" class="component">
+        <div id="erogaVisitaSpec" class="tool component">
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
@@ -312,6 +306,11 @@
                 </div>
             </div>
         </div>
+
+        <div class="tool component" id="schedaPaziente">
+            copia incolla da mb dopo
+        </div>
+
     </div>
     <div class="overlay"></div>
 </div>
