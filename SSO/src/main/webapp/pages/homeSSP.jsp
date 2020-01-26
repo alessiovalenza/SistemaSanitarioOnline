@@ -190,7 +190,7 @@
                                 "text": item.esame.nome + " " + item.esame.descrizione + ", prescritta da " +
                                     ( item.medicoBase !== undefined ?
                                             ( item.medicoBase.nome + " " + item.medicoBase.cognome ) : ("SSP")
-                                    ) + " il " + item.emissione
+                                    ) + " il " + item.prescrizione
                             });
                         });
                         return {
@@ -492,7 +492,6 @@
             </div>
         </div>
     </div>
-
 </div>
 </body>
 </html>
