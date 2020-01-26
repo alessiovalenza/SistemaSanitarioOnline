@@ -1,6 +1,16 @@
 <%@ page import="it.unitn.disi.wp.progetto.servlets.exceptions.SSOServletException"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8" isErrorPage="true" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isErrorPage="true" %>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri = "http://java.sun.com/jsp/jstl/functions"%>
+
+<c:set var="language" value="${sessionScope.language}" scope="page" />
+<c:set var="sectionToShow" value="${sessionScope.selectedSection}" scope="page" />
+<c:set var="url" value="http://localhost:8080/SSO_war_exploded/pages/serlvet_error_page.jsp?language=" scope="page" />
+
+<fmt:setLocale value="${language}" />
+<fmt:setBundle basename="labels" />
 
 <%
     SSOServletException exc = (SSOServletException) exception;
@@ -38,7 +48,7 @@
                                               style="height: 42px;padding: 0px;margin: 0px;">
                 <a class="navbar-brand" href="/SSO_war_exploded"
                    style="padding: 3px;color: rgb(255,255,255);">
-                    Ministero della salute
+                    <fmt:message key="Ministero_della_salute"/>
                 </a>
             </div>
         </nav>
@@ -57,10 +67,7 @@
 
     </div>
     <footer>
-        via Sommarive, 5 - 38123 Trento (Povo)
-        Tel. +39 1234 567890
-        CF e P.IVA 12345678901
-        Numero verde 800 12345
+        <fmt:message key="footer"/>
 
     </footer>
 </div>

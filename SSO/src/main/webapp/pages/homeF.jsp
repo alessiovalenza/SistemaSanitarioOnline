@@ -99,6 +99,7 @@
     <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
     <script src="../scripts/utils.js"></script>
     <script>
+        let baseUrl = "<%=request.getContextPath()%>";
         const labelLoadingButtons = "loading";
         const labelSuccessButtons = "success";
         const labelErrorButtons = "error";

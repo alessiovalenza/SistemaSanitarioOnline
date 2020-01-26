@@ -31,6 +31,7 @@
     <!-- Our Custom scripts-->
     <script src="../scripts/utils.js"></script>
     <script>
+        let baseUrl = "<%=request.getContextPath()%>";
         let components = new Set();
         const labelLoadingButtons = "loading";
         const labelSuccessButtons = "success";
@@ -50,7 +51,7 @@
                 width: '100%',
                 allowClear: true,
                 ajax: {
-                    url: "http://localhost:8080/SSO_war_exploded/api/general/esami/",
+                    url: baseUrl + "/api/general/esami/",
                     datatype: "json",
                     data: function (params) {
                         var query = {
@@ -80,7 +81,7 @@
                 width: '100%',
                 allowClear: true,
                 ajax: {
-                    url: "http://localhost:8080/SSO_war_exploded/api/general/esami/",
+                    url: baseUrl + "/api/general/esami/",
                     datatype: "json",
                     data: function (params) {
                         var query = {
@@ -110,7 +111,7 @@
                 loadingButton("#btnRichiamo1",labelLoadingButtons)
                 let form_data = "infeta="+$("#infetaRichiamo1").val()+"&idesame="+$("#idesameRichiamo1").val()+"&supeta="+$("#supetaRichiamo1").val()+"&idprovincia=${sessionScope.utente.prov}" //Encode form elements for submission
                 $.ajax({
-                    url : "http://localhost:8080/SSO_war_exploded/api/pazienti/richiamo1",
+                    url : baseUrl + "/api/pazienti/richiamo1",
                     type: "POST",
                     data : form_data,
                     success: function (data) {
@@ -131,7 +132,7 @@
                 loadingButton("#btnRichiamo2",labelLoadingButtons)
                 let form_data = "infeta="+$("#infetaRichiamo2").val()+"&idesame="+$("#idesameRichiamo2").val()+"&idprovincia=${sessionScope.utente.prov}" //Encode form elements for submission
                 $.ajax({
-                    url : "http://localhost:8080/SSO_war_exploded/api/pazienti/richiamo2",
+                    url : baseUrl + "/api/pazienti/richiamo2",
                     type: "POST",
                     data : form_data,
                     success: function (data) {

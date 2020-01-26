@@ -93,7 +93,7 @@ function initSelect2Pazienti(idSelect, idProvincia, langCode, labelCerca) {
         width: '100%',
         allowClear: true,
         ajax: {
-            url: "http://localhost:8080/SSO_war_exploded/api/pazienti" + (idProvincia == null ? "" : "?idprovincia=" + idProvincia),
+            url: baseUrl + "/api/pazienti" + (idProvincia == null ? "" : "?idprovincia=" + idProvincia),
             datatype: "json",
             data: function (params) {
                 var query = {
@@ -295,7 +295,7 @@ function initUploadFoto(formId, idUtente, popupId) {
         e.preventDefault();
         let formData = new FormData($(formId)[0]);
         $.ajax({
-            url : "/SSO_war_exploded/api/utenti/" + idUtente + "/foto",
+            url : baseUrl + "/api/utenti/" + idUtente + "/foto",
             type : "POST",
             data : formData,
             contentType : false,
@@ -342,7 +342,7 @@ function initCambioPassword(formId, oldPwId, newPwId, ripetiPwId, idUtente, btnI
         loadingButton(btnId,labelLoadingButtons)
         event.preventDefault();
         if($(newPwId).val() == $(ripetiPwId).val()) {
-            let urlCambioPw = "/SSO_war_exploded/api/utenti/" + idUtente + "/password";
+            let urlCambioPw = baseUrl + "/api/utenti/" + idUtente + "/password";
             let formData = "vecchiapassword=" + $(oldPwId).val() + "&nuovapassword=" + $(newPwId).val();
             $.ajax({
                 url: urlCambioPw,

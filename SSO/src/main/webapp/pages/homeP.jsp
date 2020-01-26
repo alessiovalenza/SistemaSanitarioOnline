@@ -107,9 +107,9 @@
         const labelLoadingButtons = "loading";
         const labelSuccessButtons = "success";
         const labelErrorButtons = "error";
+        let baseUrl = "<%=request.getContextPath()%>";
 
         $(document).ready(function(){
-
             $("#formPutCambiaMedico").submit(function(event){
                 loadingButton("#btnCambiaMedico",labelLoadingButtons)
                 event.preventDefault(); //prevent default action
