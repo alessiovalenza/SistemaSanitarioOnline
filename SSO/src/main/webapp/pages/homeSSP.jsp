@@ -189,7 +189,7 @@
                                 "id": item.id,
                                 "text": item.esame.nome + " " + item.esame.descrizione + ", prescritta da " +
                                     ( item.medicoBase !== undefined ?
-                                        ( item.medicoBase.nome + " " + item.medicoBase.cognome ) : ("SSP")
+                                            ( item.medicoBase.nome + " " + item.medicoBase.cognome ) : ("SSP")
                                     ) + " il " + item.emissione
                             });
                         });
@@ -280,18 +280,18 @@
 </head>
 
 <body>
-    <div class="wrapper">
-        <!-- Sidebar  -->
-        <nav id="sidebar">
-            <div id="dismiss">
-                <i class="fas fa-arrow-left"></i>
-            </div>
-            <div class="sidebar-header">
-                <img class="avatar" alt="Avatar" src="../assets/img/logo_repubblica_colori.png"
-                     data-holder-rendered="true">
-                <br/><br/>
-                <h5>Servizio sanitario provinciale</h5> <h3 id="nomeProvincia"></h3>
-            </div>
+<div class="wrapper">
+    <!-- Sidebar  -->
+    <nav id="sidebar">
+        <div id="dismiss">
+            <i class="fas fa-arrow-left"></i>
+        </div>
+        <div class="sidebar-header">
+            <img class="avatar" alt="Avatar" src="../assets/img/logo_repubblica_colori.png"
+                 data-holder-rendered="true">
+            <br/><br/>
+            <h5>Servizio sanitario provinciale</h5> <h3 id="nomeProvincia"></h3>
+        </div>
 
         <ul class="list-unstyled components">
             <li>
@@ -315,50 +315,49 @@
         </ul>
     </nav>
 
-        <!-- Page Content  -->
-        <div id="content">
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <div class="container-fluid">
-                    <button type="button" id="sidebarCollapse" class="btn btn-info">
-                        <i class="fas fa-align-left"></i>
-                    </button>
-                </div>
-            </nav>
+    <!-- Page Content  -->
+    <div id="content">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <button type="button" id="sidebarCollapse" class="btn btn-info">
+                    <i class="fas fa-align-left"></i>
+                </button>
+            </div>
+        </nav>
 
-            <div id="erogaEsame" class="tool component">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h3>Eroga un esame prescritto ad un paziente</h3>
-                            <hr>
-                            <div class="container-fluid" align="center">
-                                <div class="form"  >
-                                    <div class="form-toggle"></div>
-                                    <div class="form-panel one">
-                                        <div class="form-header">
-                                            <h1>Eroga esame</h1>
-                                        </div>
-                                        <div class="form-content">
-                                            <form id="formErogaEsame" >
-                                                <div class="form-group">
-                                                    <div class="container-fluid">
-                                                        <label for="idPaziente">Nome del paziente</label>
-                                                        <select class="select2EvadiRicetta" type="text" id="idPaziente" name="idpaziente" required="required"></select>
-                                                    </div>
-                                                    <div class="container-fluid" style="padding-top: 1rem">
-                                                        <label for="idEsame">Nome dell'esame</label>
-                                                        <select class="select2EvadiRicetta" type="text" id="idEsame" name="idesame" required="required"></select>
-                                                    </div>
-                                                    <div class="container-fluid" style="padding-top: 1rem">
-                                                        <label for="esito">Esito</label>
-                                                        <textarea type="text" id="esito" name="esito" required="required"></textarea>
-                                                    </div>
+        <div id="erogaEsame" class="tool component">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3>Eroga un esame prescritto ad un paziente</h3>
+                        <hr>
+                        <div class="container-fluid" align="center">
+                            <div class="form"  >
+                                <div class="form-toggle"></div>
+                                <div class="form-panel one">
+                                    <div class="form-header">
+                                        <h1>Eroga esame</h1>
+                                    </div>
+                                    <div class="form-content">
+                                        <form id="formErogaEsame" >
+                                            <div class="form-group">
+                                                <div class="container-fluid">
+                                                    <label for="idPaziente">Nome del paziente</label>
+                                                    <select class="select2EvadiRicetta" type="text" id="idPaziente" name="idpaziente" required="required"></select>
                                                 </div>
-                                                <div class="form-group">
-                                                    <button id="btnErogaEsame" type="submit">Eroga</button>
+                                                <div class="container-fluid" style="padding-top: 1rem">
+                                                    <label for="idEsame">Nome dell'esame</label>
+                                                    <select class="select2EvadiRicetta" type="text" id="idEsame" name="idesame" required="required"></select>
                                                 </div>
-                                            </form>
-                                        </div>
+                                                <div class="container-fluid" style="padding-top: 1rem">
+                                                    <label for="esito">Esito</label>
+                                                    <textarea type="text" id="esito" name="esito" required="required"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <button id="btnErogaEsame" type="submit">Eroga</button>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -366,39 +365,39 @@
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div id="report" class="component">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h3>Scarica report</h3>
-                            <hr>
-                            <div class="container-fluid" align="center">
-                                <div class="form"  >
-                                    <div class="form-toggle"></div>
-                                    <div class="form-panel one">
-                                        <div class="form-header">
-                                            <h1>Seleziona il periodo</h1>
-                                        </div>
-                                        <div class="form-content">
-                                            <form id="formScaricaReport" action="../docs/reportprov" method="GET">
-                                                <div class="form-group">
-                                                    <div class="container-fluid" style="padding-top: 1rem">
-                                                        <label for="fromReport">Dal giorno</label>
-                                                        <input type="date" id="fromReport" name="fromDay" required="required"/>
-                                                        <br>
-                                                    </div>
-                                                    <div class="container-fluid" style="padding-top: 1rem">
-                                                        <label for="toReport">Al giorno</label>
-                                                        <input type="date" id="toReport" name="toDay" required="required"/>
-                                                    </div>
-                                                    <input type="hidden" name="idprovincia" value="${sessionScope.utente.prov}"/>
+        <div id="report" class="component">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3>Scarica report</h3>
+                        <hr>
+                        <div class="container-fluid" align="center">
+                            <div class="form"  >
+                                <div class="form-toggle"></div>
+                                <div class="form-panel one">
+                                    <div class="form-header">
+                                        <h1>Seleziona il periodo</h1>
+                                    </div>
+                                    <div class="form-content">
+                                        <form id="formScaricaReport" action="../docs/reportprov" method="GET">
+                                            <div class="form-group">
+                                                <div class="container-fluid" style="padding-top: 1rem">
+                                                    <label for="fromReport">Dal giorno</label>
+                                                    <input type="date" id="fromReport" name="fromDay" required="required"/>
+                                                    <br>
                                                 </div>
-                                                <div class="form-group">
-                                                    <button id ="btnReport" type="submit">Scarica</button>
+                                                <div class="container-fluid" style="padding-top: 1rem">
+                                                    <label for="toReport">Al giorno</label>
+                                                    <input type="date" id="toReport" name="toDay" required="required"/>
                                                 </div>
-                                            </form>
-                                        </div>
+                                                <input type="hidden" name="idprovincia" value="${sessionScope.utente.prov}"/>
+                                            </div>
+                                            <div class="form-group">
+                                                <button id ="btnReport" type="submit">Scarica</button>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -406,42 +405,42 @@
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div id="richiamo1" class="component">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h3>Effetua un richiamo per range di età</h3>
-                            <hr>
-                            <div class="container-fluid" align="center">
-                                <div class="form"  >
-                                    <div class="form-toggle"></div>
-                                    <div class="form-panel one">
-                                        <div class="form-header">
-                                            <h1>Effetua richiamo</h1>
-                                        </div>
-                                        <div class="form-content">
-                                            <form id="formRichiamo1" >
-                                                <div class="form-group">
-                                                    <div class="container-fluid">
-                                                        <label for="infetaRichiamo1">Limite inferiore di età</label>
-                                                        <input class="inputRichiamo1" type="number" min="0" id="infetaRichiamo1" name="infeta" required="required"></input>
-                                                        <br>
-                                                    </div>
-                                                    <div class="container-fluid" style="padding-top: 1rem">
-                                                        <label for="supetaRichiamo1">Limite superiore di età</label>
-                                                        <input class="inputRichiamo1" type="number" min="0" id="supetaRichiamo1" name="supeta" required="required"></input>
-                                                    </div>
-                                                    <div class="container-fluid" style="padding-top: 1rem">
-                                                        <label for="idesameRichiamo1">Esame</label>
-                                                        <select class="inputRichiamo1" type="text" id="idesameRichiamo1" name="idesame" required="required"></select>
-                                                    </div>
+        <div id="richiamo1" class="component">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3>Effetua un richiamo per range di età</h3>
+                        <hr>
+                        <div class="container-fluid" align="center">
+                            <div class="form"  >
+                                <div class="form-toggle"></div>
+                                <div class="form-panel one">
+                                    <div class="form-header">
+                                        <h1>Effetua richiamo</h1>
+                                    </div>
+                                    <div class="form-content">
+                                        <form id="formRichiamo1" >
+                                            <div class="form-group">
+                                                <div class="container-fluid">
+                                                    <label for="infetaRichiamo1">Limite inferiore di età</label>
+                                                    <input class="inputRichiamo1" type="number" min="0" id="infetaRichiamo1" name="infeta" required="required"></input>
+                                                    <br>
                                                 </div>
-                                                <div class="form-group">
-                                                    <button id ="btnRichiamo1" type="submit">Richiama</button>
+                                                <div class="container-fluid" style="padding-top: 1rem">
+                                                    <label for="supetaRichiamo1">Limite superiore di età</label>
+                                                    <input class="inputRichiamo1" type="number" min="0" id="supetaRichiamo1" name="supeta" required="required"></input>
                                                 </div>
-                                            </form>
-                                        </div>
+                                                <div class="container-fluid" style="padding-top: 1rem">
+                                                    <label for="idesameRichiamo1">Esame</label>
+                                                    <select class="inputRichiamo1" type="text" id="idesameRichiamo1" name="idesame" required="required"></select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <button id ="btnRichiamo1" type="submit">Richiama</button>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -449,38 +448,38 @@
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div id="richiamo2" class="component">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h3>Effetua un richiamo per chi è già stato richiamato in passato</h3>
-                            <hr>
-                            <div class="container-fluid" align="center">
-                                <div class="form"  >
-                                    <div class="form-toggle"></div>
-                                    <div class="form-panel one">
-                                        <div class="form-header">
-                                            <h1>Effetua un richiamo</h1>
-                                        </div>
-                                        <div class="form-content">
-                                            <form id="formRichiamo2">
-                                                <div class="form-group">
-                                                    <div class="container-fluid">
-                                                        <label for="infetaRichiamo2">Limite inferiore di età</label>
-                                                        <input class="inputRichiamo2" type="number" min="0" id="infetaRichiamo2" name="infeta" required="required"></input>
-                                                       <br>
-                                                    </div>
-                                                    <div class="container-fluid" style="padding-top: 1rem">
-                                                        <label for="idesameRichiamo2">Esame</label>
-                                                        <select class="inputRichiamo2" type="text" id="idesameRichiamo2" name="idesame" required="required"></select>
-                                                    </div>
+        <div id="richiamo2" class="component">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3>Effetua un richiamo per chi è già stato richiamato in passato</h3>
+                        <hr>
+                        <div class="container-fluid" align="center">
+                            <div class="form"  >
+                                <div class="form-toggle"></div>
+                                <div class="form-panel one">
+                                    <div class="form-header">
+                                        <h1>Effetua un richiamo</h1>
+                                    </div>
+                                    <div class="form-content">
+                                        <form id="formRichiamo2">
+                                            <div class="form-group">
+                                                <div class="container-fluid">
+                                                    <label for="infetaRichiamo2">Limite inferiore di età</label>
+                                                    <input class="inputRichiamo2" type="number" min="0" id="infetaRichiamo2" name="infeta" required="required"></input>
+                                                    <br>
                                                 </div>
-                                                <div class="form-group">
-                                                    <button id ="btnRichiamo2" type="submit">Richiama</button>
+                                                <div class="container-fluid" style="padding-top: 1rem">
+                                                    <label for="idesameRichiamo2">Esame</label>
+                                                    <select class="inputRichiamo2" type="text" id="idesameRichiamo2" name="idesame" required="required"></select>
                                                 </div>
-                                            </form>
-                                        </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <button id ="btnRichiamo2" type="submit">Richiama</button>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -490,5 +489,6 @@
             </div>
         </div>
     </div>
+</div>
 </body>
 </html>

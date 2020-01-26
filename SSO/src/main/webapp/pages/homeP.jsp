@@ -281,7 +281,7 @@
                 });
                 $("#idmedicobase").select2({
                     placeholder: 'Cerca Medici',
-                    width: 300,
+                    width: '100%',
                     allowClear: true,
                     ajax: {
                         url: urlCambioMedico,
