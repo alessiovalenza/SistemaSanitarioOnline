@@ -19,6 +19,7 @@ import java.security.SecureRandom;
 import java.util.*;
 import javax.servlet.http.*;
 import javax.ws.rs.core.Response;
+import javax.xml.bind.DatatypeConverter;
 
 public class Utilities {
     public final static String PAZIENTE_RUOLO = "p";
@@ -113,8 +114,7 @@ public class Utilities {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-512");
             byte[] messageDigest = md.digest(input.getBytes());
-            BigInteger no = new BigInteger(1, messageDigest);
-            return no.toString(16);
+            return DatatypeConverter.printHexBinary(messageDigest).toLowerCase();
         }catch (NoSuchAlgorithmException ex) {
             ex.printStackTrace();
         }
@@ -124,31 +124,6 @@ public class Utilities {
     //sha512 per i token
     public static String sha512(String givenPass) {
         return computeHash(givenPass, TOKEN_SALT);
-    }
-
-    public static String getMainPageFromRole(String ruolo){
-        String url = "/";
-        switch(ruolo){
-            case FARMACIA_RUOLO:
-                url = "/farmacia";
-                break;
-            case MEDICO_BASE_RUOLO:
-                url = "/medicobase";
-                break;
-            case MEDICO_SPECIALISTA_RUOLO:
-                url = "/medicospecialista";
-                break;
-            case PAZIENTE_RUOLO:
-                url = "/paziente";
-                break;
-            case SSN_RUOLO:
-                url = "/ssn";
-                break;
-            case SSP_RUOLO:
-                url = "/ssp";
-                break;
-        }
-        return url;
     }
 
     public static boolean urlIsLike(String url, List<String> urlsList){

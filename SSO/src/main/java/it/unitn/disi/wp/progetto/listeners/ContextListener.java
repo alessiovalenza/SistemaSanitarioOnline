@@ -10,6 +10,7 @@ import it.unitn.disi.wp.progetto.persistence.entities.Utente;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
+import java.util.List;
 import java.util.logging.Logger;
 
 @WebListener
