@@ -32,6 +32,9 @@
     <script src="../scripts/utils.js"></script>
     <script>
         let components = new Set();
+        const labelLoadingButtons = "loading";
+        const labelSuccessButtons = "success";
+        const labelErrorButtons = "error";
         $(document).ready(function() {
             populateComponents();
             hideComponents();
@@ -42,7 +45,7 @@
 
 
             $("#formErogaVisitaSpec").submit(function(event){
-                loadingButton("#btnErogaVisitaSpec")
+                loadingButton("#btnErogaVisitaSpec",labelLoadingButtons)
                 event.preventDefault(); //prevent default action
                 let form_data = "idmedicospec=${sessionScope.utente.id}&anamnesi="+$("#anamnesi").val()
                 let urlErogaVisitaSpec="http://localhost:8080/SSO_war_exploded/api/pazienti/"+$("#idpazienteErogaVisitaSpec").val()+"/visitespecialistiche/"+$("#idvisitaErogaVisitaSpec").val()
@@ -56,10 +59,10 @@
                     complete: function(){
                         $('.select2ErogaVisitaSpec').val(null).trigger("change")
                         $("#anamnesi").val("")
-                        successButton("#btnErogaVisitaSpec")
+                        successButton("#btnErogaVisitaSpec",labelSuccessButtons)
                     },
                     error: function(xhr, status, error) {
-                        errorButton("#btnErogaVisitaSpec")
+                        errorButton("#btnErogaVisitaSpec",labelErrorButtons)
                         alert(xhr.responseText);
                     }
                 });
@@ -143,7 +146,6 @@
             <img class="avatar" alt="Avatar" src="propic.jpeg"
                  data-holder-rendered="true">
             <h3>${sessionScope.utente.nome} ${sessionScope.utente.cognome}</h3>
-            <h6>${sessionScope.utente.cognome}</h6>
         </div>
 
         <ul class="list-unstyled components">

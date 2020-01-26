@@ -37,11 +37,14 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/js/select2.min.js"></script>
     <script src="../scripts/utils.js"></script>
     <script>
+        const labelLoadingButtons = "loading";
+        const labelSuccessButtons = "success";
+        const labelErrorButtons = "error";
 
         $(document).ready(function(){
 
             $("#formPutCambiaMedico").submit(function(event){
-                loadingButton("#btnCambiaMedico")
+                loadingButton("#btnCambiaMedico",labelLoadingButtons)
                 event.preventDefault(); //prevent default action
                 let form_data = $(this).serialize(); //Encode form elements for submission
                 let url = 'http://localhost:8080/SSO_war_exploded/api/pazienti/' + ${sessionScope.utente.id} + '/medicobase'
@@ -56,10 +59,10 @@
                     },
                     complete: function(){
                         $('#idmedicobase').val(null).trigger("change")
-                        successButton("#btnCambiaMedico")
+                        successButton("#btnCambiaMedico",labelSuccessButtons)
                     },
                     error: function(xhr, status, error) {
-                        errorButton("#btnCambiaMedico")
+                        errorButton("#btnCambiaMedico",labelErrorButtons)
                         alert(xhr.responseText);
                     }
                 });
