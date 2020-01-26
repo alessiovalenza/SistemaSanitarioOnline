@@ -112,7 +112,7 @@
 
             $("#idpaziente").select2({
                 placeholder: 'Cerca Pazienti',
-                width: 300,
+                width: '100%',
                 allowClear: true,
                 ajax: {
                     url: baseUrl + "/api/pazienti",
@@ -175,7 +175,7 @@
 
             $("#idricetta").select2({
                 placeholder: 'Cerca Farmaci',
-                width: 300,
+                width: '100%',
                 allowClear: true,
                 ajax: {
                     url: function () {

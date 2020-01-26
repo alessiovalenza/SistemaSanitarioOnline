@@ -90,7 +90,7 @@ function initSelect2Pazienti(idSelect, idProvincia, langCode, labelCerca) {
     $(idSelect).select2({
         placeholder: labelCerca,
         language: langCode,
-        width: 300,
+        width: '100%',
         allowClear: true,
         ajax: {
             url: "http://localhost:8080/SSO_war_exploded/api/pazienti" + (idProvincia == null ? "" : "?idprovincia=" + idProvincia),
@@ -130,7 +130,7 @@ function initSelect2PazientiByMB(idSelect, idMedico, langCode, labelCerca) {
     $(idSelect).select2({
         placeholder: labelCerca,
         language: langCode,
-        width: 300,
+        width: '100%',
         allowClear: true,
         ajax: {
             url: baseUrl + "/api/medicibase/" + idMedico + "/pazienti?datericettavisita=false",
@@ -170,7 +170,7 @@ function initSelect2General(tipoItem, idSelect, langCode, labelCerca) {
     $(idSelect).select2({
         placeholder: labelCerca,
         language: langCode,
-        width: 300,
+        width: '100%',
         allowClear: true,
         ajax: {
             url: baseUrl + "/api/general/" + tipoItem + "/",

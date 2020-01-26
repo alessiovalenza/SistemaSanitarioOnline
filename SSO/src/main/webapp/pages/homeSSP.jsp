@@ -47,7 +47,7 @@
 
             $("#idesameRichiamo1").select2({
                 placeholder: 'Cerca Esami',
-                width: 300,
+                width: '100%',
                 allowClear: true,
                 ajax: {
                     url: "http://localhost:8080/SSO_war_exploded/api/general/esami/",
@@ -77,7 +77,7 @@
 
             $("#idesameRichiamo2").select2({
                 placeholder: 'Cerca Esami',
-                width: 300,
+                width: '100%',
                 allowClear: true,
                 ajax: {
                     url: "http://localhost:8080/SSO_war_exploded/api/general/esami/",
