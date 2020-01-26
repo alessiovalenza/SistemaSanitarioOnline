@@ -24,6 +24,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script>
+
+
         function isValid(){
             let new_pass = $("#new_password").val()
             let repeat_pass = $("#repeat_password").val()
@@ -33,8 +35,7 @@
             $("form").submit(function(e){
                 if (!isValid()) {
                     e.preventDefault();
-                    <fmt:message key="Nuova_password"/>
-                    alert("le password non coincidono")
+                    alert("<fmt:message key="le_password_non_coincidono"/>")
                 }
             });
         });
