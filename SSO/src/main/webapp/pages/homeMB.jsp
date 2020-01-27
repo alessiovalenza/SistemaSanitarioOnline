@@ -476,7 +476,7 @@
 </head>
 
 <body>
-    <div> <!--class="wrapper">-->
+    <div class="wrapper">
         <!-- Sidebar  -->
         <nav id="sidebar">
             <div id="dismiss">
