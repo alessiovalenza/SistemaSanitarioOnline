@@ -182,6 +182,7 @@
             $('#esamiControl').click(() => showComponent('esami'));
             $('#ricetteControl').click(() => showComponent('ricette'));
             $('#visiteBaseControl').click(() => showComponent('visiteBase'));
+            $('#visiteSpecialisticheControl').click(() => showComponent('visiteSpecialistiche'));
             $('#mappeControl').click(() => showComponent('mappe'));
 
             document.getElementById("${sectionToShow}Control").click();
@@ -319,13 +320,13 @@
                         }
                     },
                     "columns": [
-                        { "data": "esame.nome" },//qua ovviamente va cambiato i
-                        { "data": "esame.descrizione" },
-                        { "data": "medicoBase.cognome" },
+                        { "data": "nomeEsame" },
+                        { "data": "descrizioneEsame" },
+                        { "data": "nomeMedicoBase" },
+                        { "data": "cognomeMedicoBase" },
                         { "data": "prescrizione" },
                         { "data": "erogazione" },
                         { "data": "esito" }
-
                     ]
                 } );
             });
@@ -366,13 +367,14 @@
             $("#ricetteControl").click(function(){
                 $('#ricetteEvase').DataTable().destroy()
                 $('#ricetteNonEvase').DataTable().destroy()
+
                 let urlRicetteNonEvase = baseUrl + "/api/pazienti/"+ ${sessionScope.utente.id} +"/ricette?evaseonly=false&nonevaseonly=true";
                 $('#ricetteNonEvase').DataTable( {
                     "autoWidth": false,
                     "responsive": true,
                     "processing": true,
-                    "scrollX": false,
                     "ordering": true,
+                    "scrollX": false,
                     "paging": true,
                     "searching": true,
                     "serverSide": false,
@@ -382,25 +384,45 @@
                     "ajax": {
                         "url": urlRicetteNonEvase,
                         "type":"GET",
-                        "dataSrc": ""
+                        "dataSrc": function (json) {
+                            let returnData = new Array();
+                            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                            for(let i=0;i< json.length; i++) {
+                                let emissione = new Date(json[i].emissione);
+                                emissione=emissione.toLocaleDateString("${fn:replace(language, '_', '-')}",options);
+                                returnData.push({
+                                    'farmacoNome': json[i].farmaco.nome,
+                                    'farmacoDescrizione': json[i].farmaco.descrizione,
+                                    'medicoBaseCognome': json[i].medicoBase.cognome,
+                                    'medicoBaseNome': json[i].medicoBase.nome,
+                                    'emissione': emissione
+                                });
+                            }
+                            return returnData;
+                        },
+                        "error": function(xhr, status, error) {
+                            console.log(xhr.responseText);
+                            //alert(xhr.responseText);
+                        }
                     },
-                    "columns": [    //mettete in ordine le colonne in base a come le avete messe sull'html, seguite l'esempio che ho fatto con gli esami
-                        { "data": "esame.nome" },//ovviamente tutto da cambiare
-                        { "data": "esame.descrizione" },
-                        { "data": "medicoBase.cognome" },
-                        { "data": "prescrizione" },
-                        { "data": "esame.nome" },
-                        { "data": "esame.nome" }
+                    "columns": [
+                        { "data": "farmacoNome" },
+                        { "data": "farmacoDescrizione" },
+                        { "data": "medicoBaseNome" },
+                        { "data": "medicoBaseCognome" },
+                        { "data": "emissione" }
                     ]
                 } );
-                let urlRicetteEvase = baseUrl + "/api/pazienti/"+ ${sessionScope.utente.id} +"/ricette?evaseonly=true&nonevaseonly=false";
+
+
+                let urlRicetteEvase = baseUrl + "/api/pazienti/"+${sessionScope.utente.id}+"/ricette/?evaseonly=true&nonevaseonly=false"
                 $('#ricetteEvase').DataTable( {
                     "autoWidth": false,
                     "responsive": true,
                     "processing": true,
-                    "scrollX": false,
                     "ordering": true,
                     "paging": true,
+                    "scrollX": false,
                     "searching": true,
                     "serverSide": false,
                     "language": {
@@ -409,17 +431,40 @@
                     "ajax": {
                         "url": urlRicetteEvase,
                         "type":"GET",
-                        "dataSrc": ""
+                        "dataSrc": function (json) {
+                            let returnData = new Array();
+                            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                            for(let i=0;i< json.length; i++) {
+                                let emissione = new Date(json[i].emissione);
+                                emissione=emissione.toLocaleDateString("${fn:replace(language, '_', '-')}",options);
+                                let evasione = new Date(json[i].evasione);
+                                evasione=evasione.toLocaleDateString("${fn:replace(language, '_', '-')}",options);
+                                returnData.push({
+                                    'farmacoNome': json[i].farmaco.nome,
+                                    'farmacoDescrizione': json[i].farmaco.descrizione,
+                                    'medicoBaseCognome': json[i].medicoBase.cognome,
+                                    'medicoBaseNome': json[i].medicoBase.nome,
+                                    'emissione': emissione,
+                                    'evasione': evasione
+                                });
+                            }
+                            return returnData;
+                        },
+                        "error": function(xhr, status, error) {
+                            console.log(xhr.responseText);
+                            //alert(xhr.responseText);
+                        }
                     },
-                    "columns": [    //mettete in ordine le colonne in base a come le avete messe sull'html, seguite l'esempio che ho fatto con gli esami
-                        { "data": "esame.nome" },//ovviamente tutto da cambiare
-                        { "data": "esame.descrizione" },
-                        { "data": "medicoBase.cognome" },
-                        { "data": "prescrizione" },
-                        { "data": "esame.nome" },
-                        { "data": "esame.nome" }
+                    "columns": [
+                        { "data": "farmacoNome" },
+                        { "data": "farmacoDescrizione" },
+                        { "data": "medicoBaseNome" },
+                        { "data": "medicoBaseCognome" },
+                        { "data": "emissione" },
+                        { "data": "evasione" }
                     ]
                 } );
+
 
             });
 
@@ -446,7 +491,7 @@
                             const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
                             for(let i=0;i< json.length; i++) {
                                 let erogazione = new Date(json[i].erogazione);
-                                erogazione=erogazione.toLocaleDateString(fmtDateCode,options);
+                                erogazione=erogazione.toLocaleDateString("${fn:replace(language, '_', '-')}",options);
                                 returnData.push({
                                     'medicoBaseCognome': json[i].medicoBase.cognome,
                                     'medicoBaseNome': json[i].medicoBase.nome,
@@ -471,6 +516,110 @@
                         { "data": "anamnesi" }
                     ]
                 } );
+            })
+
+
+            $("#visiteSpecialisticheControl").click(function () {
+                $('#visiteSpecialisticheErogate').DataTable().destroy()
+                let urlVisiteSpacialisticheErogate = baseUrl + "/api/pazienti/"+${sessionScope.utente.id}+"/visitespecialistiche/?erogateonly=true&nonerogateonly=false"
+                $('#visiteSpecialisticheErogate').DataTable( {
+                    "autoWidth": false,
+                    "processing": true,
+                    "responsive": true,
+                    "scrollX": false,
+                    "ordering": true,
+                    "paging": true,
+                    "searching": true,
+                    "serverSide": false,
+                    "language": {
+                        "url": urlLangDataTable
+                    },
+                    "ajax": {
+                        "url": urlVisiteSpacialisticheErogate,
+                        "type":"GET",
+                        "dataSrc": function (json) {
+                            let returnData = new Array();
+                            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                            for(let i=0;i< json.length; i++) {
+                                let prescrizione = new Date(json[i].prescrizione);
+                                prescrizione=prescrizione.toLocaleDateString("${fn:replace(language, '_', '-')}",options);
+                                let erogazione = new Date(json[i].erogazione);
+                                erogazione=erogazione.toLocaleDateString("${fn:replace(language, '_', '-')}",options);
+                                returnData.push({
+                                    'visitaNome': json[i].visita.nome,
+                                    'medicoSpecialistaCognome': json[i].medicoSpecialista.cognome,
+                                    'medicoSpecialistaNome': json[i].medicoSpecialista.nome,
+                                    'medicoBaseCognome': json[i].medicoBase.cognome,
+                                    'medicoBaseNome': json[i].medicoBase.nome,
+                                    'prescrizione': prescrizione,
+                                    'erogazione': erogazione,
+                                    'anamnesi': json[i].anamnesi
+                                });
+                            }
+                            return returnData;
+                        },
+                        "error": function(xhr, status, error) {
+                            console.log(xhr.responseText);
+                            //alert(xhr.responseText);
+                        }
+                    },
+                    "columns": [
+                        { "data": "visitaNome" },
+                        { "data": "medicoSpecialistaNome" },
+                        { "data": "medicoSpecialistaCognome" },
+                        { "data": "medicoBaseNome" },
+                        { "data": "medicoBaseCognome" },
+                        { "data": "prescrizione" },
+                        { "data": "erogazione" },
+                        { "data": "anamnesi" }
+                    ]
+                } );
+
+                $('#visiteSpecialisticheNonErogate').DataTable().destroy()
+                let urlVisiteSpacialisticheNonErogate = baseUrl + "/api/pazienti/"+${sessionScope.utente.id}+"/visitespecialistiche/?erogateonly=false&nonerogateonly=true"
+                $('#visiteSpecialisticheNonErogate').DataTable( {
+                    "autoWidth": false,
+                    "responsive": true,
+                    "processing": true,
+                    "ordering": true,
+                    "scrollX": false,
+                    "paging": true,
+                    "searching": true,
+                    "serverSide": false,
+                    "language": {
+                        "url": urlLangDataTable
+                    },
+                    "ajax": {
+                        "url": urlVisiteSpacialisticheNonErogate,
+                        "type":"GET",
+                        "dataSrc": function (json) {
+                            let returnData = new Array();
+                            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                            for(let i=0;i< json.length; i++) {
+                                let prescrizione = new Date(json[i].prescrizione);
+                                prescrizione=prescrizione.toLocaleDateString("${fn:replace(language, '_', '-')}",options);
+                                returnData.push({
+                                    'visitaNome': json[i].visita.nome,
+                                    'medicoBaseCognome': json[i].medicoBase.cognome,
+                                    'medicoBaseNome': json[i].medicoBase.nome,
+                                    'prescrizione': prescrizione
+                                });
+                            }
+                            return returnData;
+                        },
+                        "error": function(xhr, status, error) {
+                            console.log(xhr.responseText);
+                            //alert(xhr.responseText);
+                        }
+                    },
+                    "columns": [
+                        { "data": "visitaNome" },
+                        { "data": "medicoBaseNome" },
+                        { "data": "medicoBaseCognome" },
+                        { "data": "prescrizione" }
+                    ]
+                } );
+
             })
 
 
@@ -538,6 +687,9 @@
             </li>
             <li>
                 <a href="#" class="componentControl" id ="visiteBaseControl">Visualizza visite base</a>
+            </li>
+            <li>
+                <a href="#" class="componentControl" id ="visiteSpecialisticheControl">Visualizza visite specialistiche</a>
             </li>
             <li>
                 <a href="../mappe.jsp" target="_blank" class="componentControl" id="mappeControl">Visualizza mappe</a>
@@ -625,36 +777,34 @@
             </div>
 
             <div id="ricette" class="component tool">
-                <h2>ricette non evase ovviamente dovete cambiare i campi</h2>
-                <div class="container-fluid">
-                    <table id="ricetteNonEvase" class="table table-striped table-hover ">
-                        <thead>
-                        <tr>
-                            <th>Nome</th>
-                            <th>Descrizione</th>
-                            <th>Medico</th>
-                            <th>Data prescrizione</th>
-                            <th>Data erogazione</th>
-                            <th>Esito</th>
-                        </tr>
-                        </thead>
-
-                    </table>
-                </div>
-                <h2>ricette evase ovviamente dovete cambiare i campi </h2>
+                <h5><fmt:message key="ricev"/></h5>
                 <div class="container-fluid">
                     <table id="ricetteEvase" class="table table-striped table-hover ">
                         <thead>
                         <tr>
-                            <th>Nome</th>
-                            <th>Descrizione</th>
-                            <th>Medico</th>
-                            <th>Data prescrizione</th>
-                            <th>Data erogazione</th>
-                            <th>Esito</th>
+                            <th><fmt:message key="nomefar"/></th>
+                            <th><fmt:message key="desfar"/></th>
+                            <th><fmt:message key="nomemb"/></th>
+                            <th><fmt:message key="cognomemb"/></th>
+                            <th><fmt:message key="prescrizione"/></th>
+                            <th><fmt:message key="evas"/></th>
                         </tr>
                         </thead>
-
+                    </table>
+                </div>
+                <br/>
+                <h5><fmt:message key="ricnevas"/></h5>
+                <div class="container-fluid">
+                    <table id="ricetteNonEvase" class="table table-striped table-hover ">
+                        <thead>
+                        <tr>
+                            <th><fmt:message key="nomefar"/></th>
+                            <th><fmt:message key="desfar"/></th>
+                            <th><fmt:message key="nomemb"/></th>
+                            <th><fmt:message key="cognomemb"/></th>
+                            <th><fmt:message key="prescrizione"/></th>
+                        </tr>
+                        </thead>
                     </table>
                 </div>
             </div>
@@ -670,6 +820,41 @@
                             <th><fmt:message key="cognomemb"/></th>
                             <th><fmt:message key="dataero"/></th>
                             <th><fmt:message key="anamn"/></th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+
+
+            <div id="visiteSpecialistiche" class="component tool">
+                <h5><fmt:message key="visspecero"/></h5>
+                <div class="container-fluid">
+                    <table id="visiteSpecialisticheErogate" class="table table-striped table-hover ">
+                        <thead>
+                        <tr>
+                            <th><fmt:message key="nomevis"/></th>
+                            <th><fmt:message key="nomems"/></th>
+                            <th><fmt:message key="cognomems"/></th>
+                            <th><fmt:message key="nomemb"/></th>
+                            <th><fmt:message key="cognomemb"/></th>
+                            <th><fmt:message key="prescrizione"/></th>
+                            <th><fmt:message key="ero"/></th>
+                            <th><fmt:message key="anamn"/></th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+                <br/>
+                <h5><fmt:message key="visspecnero"/></h5>
+                <div class="container-fluid">
+                    <table id="visiteSpecialisticheNonErogate" class="table table-striped table-hover ">
+                        <thead>
+                        <tr>
+                            <th><fmt:message key="nomevis"/></th>
+                            <th><fmt:message key="nomemb"/></th>
+                            <th><fmt:message key="cognomemb"/></th>
+                            <th><fmt:message key="prescrizione"/></th>
                         </tr>
                         </thead>
                     </table>
