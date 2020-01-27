@@ -415,13 +415,13 @@
 
     <!-- Page Content  -->
     <div id="content">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container-fluid">
-                <button type="button" id="sidebarCollapse" class="btn btn-info">
-                    <i class="fas fa-align-left"></i>
-                </button>
-            </div>
-        </nav>
+        <div class="container">
+            <button type="button" id="sidebarCollapse" class="btn btn-info">
+                <i class="fas fa-align-left"></i>
+                <span>Toggle Sidebar</span>
+            </button>
+        </div>
+        <br>
 
         <div id="erogaEsame" class="tool component">
             <div class="container">
@@ -453,7 +453,7 @@
                                                 </div>
                                             </div>
                                             <input required="true" id="idPagato" type="checkbox">Ticket di <fmt:formatNumber value="<%=EsamePrescrittoDAO.PREZZO_TICKET%>" type="currency" currencyCode="EUR"/> pagato<br>
-                                            <div class="form-group">
+                                            <div class="form-group container">
                                                 <button id="btnErogaEsame" type="submit">Eroga</button>
                                             </div>
                                         </form>
@@ -493,7 +493,7 @@
                                                 </div>
                                                 <input type="hidden" name="idprovincia" value="${sessionScope.utente.prov}"/>
                                             </div>
-                                            <div class="form-group">
+                                            <div class="form-group container">
                                                 <button id ="btnReport" type="submit">Scarica</button>
                                             </div>
                                         </form>
@@ -536,7 +536,7 @@
                                                     <select class="inputRichiamo1" type="text" id="idesameRichiamo1" name="idesame" required="required"></select>
                                                 </div>
                                             </div>
-                                            <div class="form-group">
+                                            <div class="form-group container">
                                                 <button id ="btnRichiamo1" type="submit">Richiama</button>
                                             </div>
                                         </form>
@@ -575,7 +575,7 @@
                                                     <select class="inputRichiamo2" type="text" id="idesameRichiamo2" name="idesame" required="required"></select>
                                                 </div>
                                             </div>
-                                            <div class="form-group">
+                                            <div class="form-group container">
                                                 <button id ="btnRichiamo2" type="submit">Richiama</button>
                                             </div>
                                         </form>
@@ -618,7 +618,7 @@
                                                     <input class="inputCambiaPassword" type="password" id="ripetiPassword" name="ripetiPassword" required="required"/>
                                                 </div>
                                             </div>
-                                            <div class="form-group">
+                                            <div class="form-group container">
                                                 <button id ="btnCambiaPassword" type="submit">Procedi</button>
                                             </div>
                                         </form>

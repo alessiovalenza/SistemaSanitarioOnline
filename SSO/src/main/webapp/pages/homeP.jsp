@@ -38,22 +38,20 @@
     switch(selectedSection) {
         case "profilo":
             break;
-        case "pazienti":
+        case "medico":
             break;
-        case "schedaPaz":
+        case "cambiaMedico":
             break;
-        case "prescFarmaco":
+        case "esami":
             break;
-        case "prescVisita":
+        case "ricette":
             break;
-        case "erogaVisita":
+        case "visita":
             break;
-        case "prescEsame":
-            break;
-        case "cambiaPassword":
+        case "mappe":
             break;
         default:
-            session.setAttribute("selectedSection", "pazienti");
+            session.setAttribute("selectedSection", "profilo");
             break;
     }
 %>
@@ -66,8 +64,9 @@
 <fmt:setLocale value="${language}" />
 <fmt:setBundle basename="labels" />
 
-<!-- <!DOCTYPE html> -->
+<!DOCTYPE html>
 <html>
+
 <head>
     <title>Dashboard Paziente</title>
 
@@ -122,8 +121,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css"></link>
     <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 
-    <!-- Maps -->
-    <link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel = "stylesheet">
+    <!-- Mappe -->
     <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.0/mapsjs-ui.css" />
     <script type="text/javascript" charset="UTF-8" src="https://js.api.here.com/v3/3.0/mapsjs-core.js"></script>
     <script type="text/javascript" charset="UTF-8" src="https://js.api.here.com/v3/3.0/mapsjs-service.js"></script>
@@ -352,27 +350,6 @@
         let baseUrl = "<%=request.getContextPath()%>";
 
         $(document).ready(function(){
-            $('#dismiss, .overlay').on('click', function () {
-                // hide sidebar
-                $('#sidebar').removeClass('active');
-                // hide overlay
-                $('.overlay').removeClass('active');
-            });
-            $('.componentControl, .overlay').on('click', function () {
-                // hide sidebar
-                $('#sidebar').removeClass('active');
-                // hide overlay
-                $('.overlay').removeClass('active');
-            });
-
-            $('#sidebarCollapse').on('click', function () {
-                // open sidebar
-                $('#sidebar').addClass('active');
-                // fade in the overlay
-                $('.overlay').addClass('active');
-                $('.collapse.in').toggleClass('in');
-                $('a[aria-expanded=true]').attr('aria-expanded', 'false');
-            });
 
             let langSelect2;
             <c:choose>
@@ -410,6 +387,20 @@
             let extension = ".<%=Utilities.USER_IMAGE_EXT%>";
 
             initAvatar(${sessionScope.utente.id}, "avatarImg", basePathCarousel, extension);
+
+
+            populateComponents();
+            hideComponents();
+            $('#profilo').show();
+            $('#profiloControl').click(() => showComponent('profilo'));
+            $('#medicoControl').click(() => showComponent('medico'));
+            $('#cambiaMedicoControl').click(() => showComponent('cambiaMedico'));
+            $('#esamiControl').click(() => showComponent('esami'));
+            $('#ricetteControl').click(() => showComponent('ricette'));
+            $('#mappeControl').click(() => showComponent('mappe'));
+
+            document.getElementById("${sectionToShow}Control").click();
+
 
             $("#formPutCambiaMedico").submit(function(event){
                 loadingButton("#btnCambiaMedico",labelLoadingButtons)
@@ -470,7 +461,6 @@
                     "responsive": true,
                     "processing": true,
                     "scrollX": false,
-                    "responsive": true,
                     "ordering": true,
                     "paging": true,
                     "searching": true,
@@ -481,14 +471,29 @@
                     "ajax": {
                         "url": urlEsamiNonErogati,
                         "type":"GET",
-                        "dataSrc": ""
+                        "dataSrc": function (json) {
+                            let returnData = new Array();
+                            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                            for(let i=0;i< json.length; i++) {
+                                let prescrizione = new Date(json[i].prescrizione);
+                                prescrizione=prescrizione.toLocaleDateString("${fn:replace(language, '_', '-')}",options);
+                                returnData.push({
+                                    'nomeEsame': json[i].esame.nome,
+                                    'descrizioneEsame': json[i].esame.descrizione,
+                                    'cognomeMedicoBase': json[i].medicoBase == undefined ? "" : json[i].medicoBase.cognome,
+                                    'nomeMedicoBase': json[i].medicoBase == undefined ? "" : json[i].medicoBase.nome,
+                                    'prescrizione': prescrizione
+                                });
+                            }
+                            return returnData;
+                        },
                     },
                     "columns": [
-                        { "data": "esame.nome" },//qua ovviamente va cambiato i
-                        { "data": "esame.descrizione" },
-                        { "data": "medicoBase.cognome" },
+                        { "data": "nomeEsame" },
+                        { "data": "descrizioneEsame" },
+                        { "data": "nomeMedicoBase" },
+                        { "data": "cognomeMedicoBase" },
                         { "data": "prescrizione" }
-
                     ]
                 } );
                 let urlEsamiErogati = baseUrl + "/api/pazienti/"+ ${sessionScope.utente.id} +"/esamiprescritti?erogationly=true&nonerogationly=false";
@@ -497,7 +502,6 @@
                     "responsive": true,
                     "processing": true,
                     "scrollX": false,
-                    "responsive": true,
                     "ordering": true,
                     "paging": true,
                     "searching": true,
@@ -508,7 +512,26 @@
                     "ajax": {
                         "url": urlEsamiErogati,
                         "type":"GET",
-                        "dataSrc": ""
+                        "dataSrc": function (json) {
+                            let returnData = new Array();
+                            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                            for(let i=0;i< json.length; i++) {
+                                let prescrizione = new Date(json[i].prescrizione);
+                                prescrizione=prescrizione.toLocaleDateString("${fn:replace(language, '_', '-')}",options);
+                                let erogazione = new Date(json[i].erogazione);
+                                erogazione=erogazione.toLocaleDateString("${fn:replace(language, '_', '-')}",options);
+                                returnData.push({
+                                    'nomeEsame': json[i].esame.nome,
+                                    'descrizioneEsame': json[i].esame.descrizione,
+                                    'cognomeMedicoBase': json[i].medicoBase == undefined ? "" : json[i].medicoBase.cognome,
+                                    'nomeMedicoBase': json[i].medicoBase == undefined ? "" : json[i].medicoBase.nome,
+                                    'prescrizione': prescrizione,
+                                    'erogazione': erogazione,
+                                    'esito': json[i].esito
+                                });
+                            }
+                            return returnData;
+                        }
                     },
                     "columns": [
                         { "data": "esame.nome" },//qua ovviamente va cambiato i
@@ -521,39 +544,39 @@
                     ]
                 } );
             });
+            let urlCambioMedico = baseUrl + '/api/general/medicibase/?idprovincia='+'${sessionScope.utente.prov}'
 
-            let urlMedici = baseUrl + "/api/general/medicibase/?idprovincia='+'${sessionScope.utente.prov}";
-            /*$("#idmedicobase").select2({
-                placeholder: 'Cerca Medici',
-                width: '100%',
-                allowClear: true,
-                ajax: {
-                    url: urlMedici,
-                    datatype: "json",
-                    data: function (params) {
-                        var query = {
-                            term: params.term,
-                            type: 'public',
-                            page: params.page || 1
-                        }
-                        return query;
-                    },
-                    processResults: function (data) {
-                        var myResults = [];
-                        $.each(data, function (index, item) {
-                            if (item.id != ${sessionScope.utente.id}) {
-                                myResults.push({
-                                    'id': item.id,
-                                    'text': item.nome
-                                });
+                $("#idmedicobase").select2({
+                    placeholder: 'Cerca Medici',
+                    width: '100%',
+                    allowClear: true,
+                    ajax: {
+                        url: urlCambioMedico,
+                        datatype: "json",
+                        data: function (params) {
+                            var query = {
+                                term: params.term,
+                                type: 'public',
+                                page: params.page || 1
                             }
-                        });
-                        return {
-                            results: myResults
-                        };
+                            return query;
+                        },
+                        processResults: function (data) {
+                            var myResults = [];
+                            $.each(data, function (index, item) {
+                                if (item.id != ${sessionScope.utente.id}) {
+                                    myResults.push({
+                                        'id': item.id,
+                                        'text': item.nome
+                                    });
+                                }
+                            });
+                            return {
+                                results: myResults
+                            };
+                        }
                     }
-                }
-            });*/
+                });
 
             $("#ricetteControl").click(function(){
                 $('#ricetteEvase').DataTable().destroy()
@@ -564,7 +587,6 @@
                     "responsive": true,
                     "processing": true,
                     "scrollX": false,
-                    "responsive": true,
                     "ordering": true,
                     "paging": true,
                     "searching": true,
@@ -592,7 +614,6 @@
                     "responsive": true,
                     "processing": true,
                     "scrollX": false,
-                    "responsive": true,
                     "ordering": true,
                     "paging": true,
                     "searching": true,
@@ -616,63 +637,83 @@
                 } );
 
             });
-
-            $("#profiloControl").click(() => showComponent("profilo"));
-            $("#medicoControl").click(() => showComponent("medico"));
-            $("#cambiaMedicoControl").click(() => showComponent("cambiaMedico"));
-            $("#esamiControl").click(() => showComponent("esami"));
-            $("#ricetteControl").click(() => showComponent("ricette"));
-            $("#visiteControl").click(() => showComponent("visite"));
-            $("#mappeControl").click(() => showComponent("mappe"));
-            $("#cambiaPasswordControl").click(() => showComponent("cambiaPassword"));
-
-            populateComponents();
-            hideComponents();
-
-            document.getElementById("mappeControl").click();
         });
+
     </script>
 </head>
 
 <body>
-    <div> <!-- class="wrapper">-->
-        <!-- Sidebar  -->
-        <nav id="sidebar">
-            <div id="dismiss">
-                <i class="fas fa-arrow-left"></i>
-            </div>
-            <div class="sidebar-header">
-                <img class="avatar" id="avatarImg" data-holder-rendered="true">
-                <h4>${sessionScope.utente.nome} ${sessionScope.utente.cognome}</h4>
-            </div>
 
-            <ul class="list-unstyled components">
-                <li>
-                    <a href="#" class="componentControl" id="profiloControl">Profilo</a>
-                </li>
-                <li>
-                    <a href="#" class="componentControl" id="medicoControl">Visualizza medico di base</a>
-                </li>
-                <li>
-                    <a href="#" class="componentControl" id="cambiaMedicoControl">Cambia medico di base</a>
-                </li>
-                <li>
-                    <a href="#"  class="componentControl" id ="esamiControl">Visualizza esami</a>
-                </li>
-                <li>
-                    <a href="#" class="componentControl" id ="ricetteControl">Visualizza ricette</a>
-                </li>
-                <li>
-                    <a href="#" class="componentControl" id="mappeControl">Visualizza mappe</a>
-                </li>
-                <li>
-                    <a href="../logout?forgetme=0">Log out</a>
-                </li>
-                <li>
-                    <a href="../logout?forgetme=1">Cambia account</a>
-                </li>
-            </ul>
-        </nav>
+
+<div class="wrapper">
+    <!-- Sidebar  -->
+    <nav id="sidebar">
+        <div id="dismiss">
+            <i class="fas fa-arrow-left"></i>
+        </div>
+        <div class="sidebar-header">
+            <img class="avatar" id="avatarImg" data-holder-rendered="true">
+            <h4>${sessionScope.utente.nome} ${sessionScope.utente.cognome}</h4>
+            <br>
+            <div class="sidebar-lang">
+                <c:choose>
+                    <c:when test="${!fn:startsWith(language, 'it')}">
+                        <a href="${url}it_IT">italiano</a>
+                    </c:when>
+                    <c:otherwise>
+                        <b>italiano</b>
+                    </c:otherwise>
+                </c:choose>
+                <c:choose>
+                    <c:when test="${!fn:startsWith(language, 'en')}">
+                        <a href="${url}en_EN">english</a>
+                    </c:when>
+                    <c:otherwise>
+                        <b>english</b>
+                    </c:otherwise>
+                </c:choose>
+                <c:choose>
+                    <c:when test="${!fn:startsWith(language, 'fr')}">
+                        <a href="${url}fr_FR">français</a>
+                    </c:when>
+                    <c:otherwise>
+                        <b>français</b>
+                    </c:otherwise>
+                </c:choose>
+            </div>
+        </div>
+
+        <ul class="list-unstyled components">
+            <li>
+                <a href="#" class="componentControl" id="profiloControl">Profilo</a>
+            </li>
+            <li>
+                <a href="#" class="componentControl" id="medicoControl">Visualizza medico di base</a>
+            </li>
+            <li>
+                <a href="#" class="componentControl" id="cambiaMedicoControl">Cambia medico di base</a>
+            </li>
+            <li>
+                <a href="#"  class="componentControl" id ="esamiControl">Visualizza esami</a>
+            </li>
+            <li>
+                <a href="#" class="componentControl" id ="ricetteControl">Visualizza ricette</a>
+            </li>
+            <li>
+                <a href="#" class="componentControl" id ="visiteControl">Visualizza visite</a>
+            </li>
+            <li>
+                <a href="#" class="componentControl" id="mappeControl">Visualizza mappe</a>
+            </li>
+            <li>
+                <a href="../logout?forgetme=0">Log out</a>
+            </li>
+            <li>
+                <a href="../logout?forgetme=1">Cambia account</a>
+            </li>
+
+        </ul>
+    </nav>
 
         <!-- Page Content  -->
         <div id="content">
@@ -704,16 +745,14 @@
                                     <select type="text" id="idmedicobase" name="idmedicobase" required="true"></select>
                                     <span class="glyphicon glyphicon-ok"></span>
                                 </div>
-
-
-                                <div class="form-group">
-                                    <button id ="btnCambiaMedico" type="submit">Cambia</button>
-                                </div>
-                            </form>
-                        </div>
+                            <div class="form-group">
+                                <button id ="btnCambiaMedico" type="submit">Cambia</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
+        </div>
 
             <div id="esami" class="tool component">
                 <h2>esami non erogati</h2>
@@ -783,31 +822,35 @@
                 </div>
             </div>
 
-            <div class="tool component" id="medico">
-                <div class="card" >
+        <div class="tool component" id="medico">
+            <div class="card" >
 
-                    <img src="3.jpeg" class="rounded mx-auto d-block">
-                    <div class="card-body">
-                        <div style="clear: both; padding-top: 0.5rem">
-                            <h5 style="float: left">Nome:  </h5>
-                            <h5 align="right" id="nomeMedico"></h5>
-                        </div>
-                        <hr>
-                        <div style="clear: both">
-                            <h5 style="float: left">Cognome:  </h5>
-                            <h5 align="right" id="cognomeMedico"></h5>
-                        </div>
-                        <hr>
-
-                        <div style="clear: both">
-                            <h5 style="float: left">Sesso:  </h5>
-                            <h5 align="right" id="sessoMedico"></h5>
-                        </div>
-                        <hr>
+                <img src="3.jpeg" class="rounded mx-auto d-block">
+                <div class="card-body">
+                    <div style="clear: both; padding-top: 0.5rem">
+                        <h5 style="float: left">Nome:  </h5>
+                        <h5 align="right" id="nomeMedico"></h5>
                     </div>
+                    <hr>
+                    <div style="clear: both">
+                        <h5 style="float: left">Cognome:  </h5>
+                        <h5 align="right" id="cognomeMedico"></h5>
+                    </div>
+                    <hr>
+
+                    <div style="clear: both">
+                        <h5 style="float: left">Sesso:  </h5>
+                        <h5 align="right" id="sessoMedico"></h5>
+                    </div>
+                    <hr>
                 </div>
             </div>
         </div>
+
+
     </div>
+
+</div>
 </body>
+
 </html>

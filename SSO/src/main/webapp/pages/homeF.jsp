@@ -47,7 +47,7 @@
 <c:set var="language" value="${sessionScope.language}" scope="page" />
 <c:set var="sectionToShow" value="${sessionScope.selectedSection}" scope="page" />
 <c:set var="baseUrl" value="<%=request.getContextPath()%>"/>
-<c:set var="url" value="${baseUrl}/pages/homeMB.jsp?language=" scope="page" />
+<c:set var="url" value="${baseUrl}/pages/homeF.jsp?language=" scope="page" />
 
 <fmt:setLocale value="${language}" />
 <fmt:setBundle basename="labels" />
@@ -245,6 +245,33 @@
         <div class="sidebar-header">
             <img class="avatar" alt="Avatar" src="../assets/img/logo_repubblica_colori.png" data-holder-rendered="true">
             <h3>${sessionScope.utente.nome} ${sessionScope.utente.cognome}</h3>
+            <br>
+            <div class="sidebar-lang">
+                <c:choose>
+                    <c:when test="${!fn:startsWith(language, 'it')}">
+                        <a href="${url}it_IT">italiano</a>
+                    </c:when>
+                    <c:otherwise>
+                        <b>italiano</b>
+                    </c:otherwise>
+                </c:choose>
+                <c:choose>
+                    <c:when test="${!fn:startsWith(language, 'en')}">
+                        <a href="${url}en_EN">english</a>
+                    </c:when>
+                    <c:otherwise>
+                        <b>english</b>
+                    </c:otherwise>
+                </c:choose>
+                <c:choose>
+                    <c:when test="${!fn:startsWith(language, 'fr')}">
+                        <a href="${url}fr_FR">français</a>
+                    </c:when>
+                    <c:otherwise>
+                        <b>français</b>
+                    </c:otherwise>
+                </c:choose>
+            </div>
         </div>
 
         <ul class="list-unstyled">
@@ -263,17 +290,6 @@
 
     <!-- Page Content  -->
     <div id="content">
-
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container-fluid">
-
-                <button type="button" id="sidebarCollapse" class="btn btn-info">
-                    <i class="fas fa-align-justify"></i>
-                </button>
-
-                <h3>SSC</h3>
-            </div>
-        </nav>
 
         <div id="evadiRicette" class="tool component">
             <div class="container">

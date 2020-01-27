@@ -56,7 +56,7 @@
 <html>
 
 <head>
-    <title>Dashboard SSN</title>
+    <title><fmt:message key="Dashboard_SSN"/></title>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -111,39 +111,65 @@
             <img class="avatar" alt="Avatar" src="../assets/img/logo_repubblica_colori.png"
                  data-holder-rendered="true">
             <h3>${sessionScope.utente.nome} ${sessionScope.utente.cognome}</h3>
+            <br>
+            <div class="sidebar-lang">
+                <c:choose>
+                    <c:when test="${!fn:startsWith(language, 'it')}">
+                        <a href="${url}it_IT">italiano</a>
+                    </c:when>
+                    <c:otherwise>
+                        <b>italiano</b>
+                    </c:otherwise>
+                </c:choose>
+                <c:choose>
+                    <c:when test="${!fn:startsWith(language, 'en')}">
+                        <a href="${url}en_EN">english</a>
+                    </c:when>
+                    <c:otherwise>
+                        <b>english</b>
+                    </c:otherwise>
+                </c:choose>
+                <c:choose>
+                    <c:when test="${!fn:startsWith(language, 'fr')}">
+                        <a href="${url}fr_FR">français</a>
+                    </c:when>
+                    <c:otherwise>
+                        <b>français</b>
+                    </c:otherwise>
+                </c:choose>
+            </div>
         </div>
 
         <ul class="list-unstyled components">
             <li>
-                <a href="#" class="componentControl" id="reportControl">Report</a>
+                <a href="#" class="componentControl" id="reportControl"><fmt:message key="Report"/></a>
             </li>
             <li>
-                <a href="../logout?forgetme=0">Log out</a>
+                <a href="../logout?forgetme=0"><fmt:message key="Log_out"/></a>
             </li>
             <li>
-                <a href="../logout?forgetme=1">Cambia account</a>
+                <a href="../logout?forgetme=1"><fmt:message key="Cambia_account"/></a>
             </li>
         </ul>
     </nav>
 
     <!-- Page Content  -->
     <div id="content">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container-fluid">
 
-                <button type="button" id="sidebarCollapse" class="btn btn-info">
-                    <i class="fas fa-align-left"></i>
-                </button>
-            </div>
-        </nav>
-
+        <div class="container">
+            <button type="button" id="sidebarCollapse" class="btn btn-info">
+                <i class="fas fa-align-left"></i>
+                <span>Toggle Sidebar</span>
+            </button>
+        </div>
+        <br>
 
         <div class="tool component" id="report">
             <div class="card">
                 <div class="card-body">
                     <div style="clear: both; padding-top: 0.5rem">
                         <form action="../docs/reportnazionale" method="get">
-                            <p class="lead">Scarica il report: </p>
+                            <p class="lead"><fmt:message key="Scarica_il_report"/>: </p>
                             <input type="submit" class="btn btn-primary btn-lg" value="download">
                         </form>
                     </div>

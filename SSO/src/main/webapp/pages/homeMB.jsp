@@ -551,15 +551,13 @@
 
         <!-- Page Content  -->
         <div id="content">
-
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <div class="container-fluid">
-                    <button type="button" id="sidebarCollapse" class="btn btn-info">
-                        <i class="fas fa-align-justify"></i>
-                    </button>
-                </div>
-            </nav>
-
+            <div class="container">
+                <button type="button" id="sidebarCollapse" class="btn btn-info">
+                    <i class="fas fa-align-left"></i>
+                    <span>Toggle Sidebar</span>
+                </button>
+            </div>
+            <br>
             <div id="profilo" class="tool component">
                 <div class="container">
                     <div class="row">
@@ -651,10 +649,14 @@
             <div id="schedaPaz" class="tool component  container-fluid" >
                 <h3><fmt:message key="selpaz"/></h3>
                 <hr>
-                <form id="formScheda">
-                    <label for="idpazienteScheda"><fmt:message key="nomepaz"/></label>
-                    <select type="text" id="idpazienteScheda" name="idpazienteScheda" required="required"></select>
-                    <button class="bottone" style="padding-left: 1em" type="submit"><fmt:message key="cerca"/></button>
+                <form id="formScheda" class="container" style="max-width: 200px" >
+                    <div class="row">
+                        <div class="form-group">
+                            <label  class="col-sm" for="idpazienteScheda"><fmt:message key="nomepaz"/></label>
+                            <select class="col-sm" style="max-width: 200px" type="text" id="idpazienteScheda" name="idpazienteScheda" required="required"></select>
+                            <button class="col-sm" class="bottone" style="margin-top: 1em" type="submit"><fmt:message key="cerca"/></button>
+                        </div>
+                    </div>
                 </form>
                 <br>
 
@@ -870,8 +872,8 @@
                                                         <select class="select2PrescVisita" type="text" id="idvisita" name="idvisita" required="required"></select>
                                                     </div>
                                                 </div>
-                                                <div class="form-group">
-                                                    <button id ="btnPrescriviVisita" type="submit"><fmt:message key="pres"/></button>
+                                                <div class="form-group container">
+                                                    <button id ="btnPrescriviVisita" class="btn btn-primary" type="submit"><fmt:message key="pres"/></button>
                                                 </div>
                                             </form>
                                         </div>
@@ -908,7 +910,7 @@
                                                         <select class="select2PrescEsame" type="text" id="idesame" name="idesame" required="required"></select>
                                                     </div>
                                                 </div>
-                                                <div class="form-group">
+                                                <div class="form-group container">
                                                     <button id ="btnPrescriviEsame" type="submit"><fmt:message key="pres"/></button>
                                                 </div>
                                             </form>
@@ -946,7 +948,7 @@
                                                         <textarea class="inputErogaVisita textAreaAnamnesi" type="text" id="anamnesi" name="anamnesi" required="required"></textarea>
                                                     </div>
                                                 </div>
-                                                <div class="form-group">
+                                                <div class="form-group container">
                                                     <button id ="btnErogaVisita" type="submit"><fmt:message key="erovis"/></button>
                                                 </div>
                                             </form>
@@ -989,7 +991,7 @@
                                                         <input class="inputCambiaPassword" type="password" id="ripetiPassword" name="ripetiPassword" required="required"/>
                                                     </div>
                                                 </div>
-                                                <div class="form-group">
+                                                <div class="form-group container">
                                                     <button id ="btnCambiaPassword" type="submit">Procedi</button>
                                                 </div>
                                             </form>
