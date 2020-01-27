@@ -120,6 +120,7 @@
             $('#cambiaMedicoControl').click(() => showComponent('cambiaMedico'));
             $('#esamiControl').click(() => showComponent('esami'));
             $('#ricetteControl').click(() => showComponent('ricette'));
+            $('#mappeControl').click(() => showComponent('mappe'));
 
             document.getElementById("${sectionToShow}Control").click();
 
@@ -148,15 +149,6 @@
                     }
                 });
             });
-
-            // $('#esamiFatti > tbody > tr').click(function() {// questa roba andava prima di datatables quindi ora la commento
-            //     alert("riga cliccata")
-            // });
-            $('#medico').hide();
-            $('#esami').hide();
-            $('#cambiaMedico').hide();
-            $('#ricette').hide();
-
 
             $("#medicoControl").click(function(){
                 let url = baseUrl + '/api/pazienti/${sessionScope.utente.id}/medicobase'
@@ -410,7 +402,7 @@
 
     <!-- Page Content  -->
     <div id="content">
-        <div class="container-fluid" align="center" id="mappe">
+        <div class="container-fluid tool component" align="center" id="mappe">
             <div id="mapContainer"></div>
             <script>
                 function HEREPlaces (map, platform) {
@@ -658,6 +650,7 @@
                 </button>
             </div>
         </nav>
+
         <div class="tool component"  id="profilo">
 
             <div class="card" >
@@ -762,6 +755,7 @@
                 </div>
             </div>
         </div>
+
         <div id="esami" class="tool component">
             <h2>esami non erogati</h2>
             <div class="container-fluid">
@@ -793,6 +787,7 @@
             </div>
 
         </div>
+
         <div id="ricette" class="component tool">
             <h2>ricette non evase ovviamente dovete cambiare i campi</h2>
             <div class="container-fluid">
@@ -827,6 +822,7 @@
                 </table>
             </div>
         </div>
+
         <div class="tool component" id="medico">
             <div class="card" >
 
@@ -851,6 +847,7 @@
                 </div>
             </div>
         </div>
+
     <div class="overlay"></div>
     </div>
 
