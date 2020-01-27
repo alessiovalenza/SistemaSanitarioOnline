@@ -56,7 +56,7 @@
 <html>
 
 <head>
-    <title>Dashboard SSN</title>
+    <title><fmt:message key="Dashboard_SSN"/></title>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -115,13 +115,13 @@
 
         <ul class="list-unstyled components">
             <li>
-                <a href="#" class="componentControl" id="reportControl">Report</a>
+                <a href="#" class="componentControl" id="reportControl"><fmt:message key="Report"/></a>
             </li>
             <li>
-                <a href="../logout?forgetme=0">Log out</a>
+                <a href="../logout?forgetme=0"><fmt:message key="Log_out"/></a>
             </li>
             <li>
-                <a href="../logout?forgetme=1">Cambia account</a>
+                <a href="../logout?forgetme=1"><fmt:message key="Cambia_account"/></a>
             </li>
         </ul>
     </nav>
@@ -134,7 +134,7 @@
                 <div class="card-body">
                     <div style="clear: both; padding-top: 0.5rem">
                         <form action="../docs/reportnazionale" method="get">
-                            <p class="lead">Scarica il report: </p>
+                            <p class="lead"><fmt:message key="Scarica_il_report"/>: </p>
                             <input type="submit" class="btn btn-primary btn-lg" value="download">
                         </form>
                     </div>
