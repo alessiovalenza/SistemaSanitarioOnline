@@ -627,6 +627,8 @@
             </div>
 
             <div id="pazienti" class="container-fluid component">
+                <h3>Visualizza il tuo parco pazienti</h3>
+                <hr>
                 <div class="container-fluid">
                     <table id="tablePazienti" class="table table-striped table-hover responsive nowrap display" style="width:100%">
                         <thead>

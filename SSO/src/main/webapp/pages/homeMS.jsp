@@ -487,10 +487,14 @@
             <div id="schedaPaz" class="tool component  container-fluid" >
                 <h3><fmt:message key="selpaz"/></h3>
                 <hr>
-                <form id="formScheda">
-                    <label for="idpazienteScheda"><fmt:message key="nomepaz"/></label>
-                    <select type="text" id="idpazienteScheda" name="idpazienteScheda" required="required"></select>
-                    <button class="bottone" style="padding-left: 1em" type="submit"><fmt:message key="cerca"/></button>
+                <form id="formScheda" class="container" style="max-width: 200px" >
+                    <div class="row">
+                        <div class="form-group">
+                            <label  class="col-sm" for="idpazienteScheda"><fmt:message key="nomepaz"/></label>
+                            <select class="col-sm" style="max-width: 200px" type="text" id="idpazienteScheda" name="idpazienteScheda" required="required"></select>
+                            <button class="col-sm" class="bottone" style="margin-top: 1em" type="submit"><fmt:message key="cerca"/></button>
+                        </div>
+                    </div>
                 </form>
                 <br>
                 <div id="schedaPaziente" class="container-fluid">
