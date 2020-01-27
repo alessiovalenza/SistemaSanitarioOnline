@@ -24,7 +24,6 @@ import java.util.List;
 
 import static it.unitn.disi.wp.progetto.commons.Utilities.urlIsLike;
 
-
 @WebFilter(filterName = "AuthZFilter")
 public class AuthZFilter implements Filter {
     private List<String> excludedUrls;

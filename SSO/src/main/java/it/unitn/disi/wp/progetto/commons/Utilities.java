@@ -88,7 +88,8 @@ public class Utilities {
                     msg.setFrom(new InternetAddress(username));
                     msg.setRecipients(Message.RecipientType.TO, addressRecipient);
                     msg.setSubject(subject);
-                    msg.setText(text);
+                    msg.setContent(text, "text/html; charset=utf-8");
+                    //msg.setText(text);
                     msg.setSentDate(new Date());
                     msg.saveChanges();
 
