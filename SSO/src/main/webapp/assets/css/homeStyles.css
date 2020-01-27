@@ -375,18 +375,12 @@ only screen and (max-width: 760px),
     border-radius: 4px;
     box-sizing: border-box;
     padding: 12px 20px;
-    color: rgba(0, 0, 0, 0.6);
+    color: rgba(0, 0, 0, 0.8);
     font-family: inherit;
     font-size: inherit;
     font-weight: 500;
     line-height: inherit;
     transition: 0.3s ease;
-}
-.form-group input:focus {
-    color: rgba(0, 0, 0, 0.8);
-}
-.form-group input {
-    color: #FFFFFF;
 }
 .form-group button {
     outline: none;
