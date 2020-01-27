@@ -158,6 +158,7 @@
     <param-value>
       index.jsp
       login.jsp
+      sendEmail.jsp
       LoginServlet
       assets[\S]*
       scripts[\S]*
