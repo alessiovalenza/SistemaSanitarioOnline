@@ -159,6 +159,8 @@
       index.jsp
       login.jsp
       sendEmail.jsp
+      res/email.txt
+      passreset
       LoginServlet
       assets[\S]*
       scripts[\S]*

@@ -15,6 +15,11 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @WebServlet(name="LoginServlet", urlPatterns = {"/LoginServlet"})
 public class LoginServlet extends HttpServlet {
@@ -42,15 +47,17 @@ public class LoginServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-        Utente utente;
+        Utente utente = null;
 
         String msg = request.getParameter("rp") == null ? "" : "La password è stata modificata con successo";
         request.setAttribute("msg", msg);
 
         //controllo se l'utente è già loggato
         HttpSession s = request.getSession(false);
-        utente = (Utente) s.getAttribute("utente");
-        System.out.println(utente != null ? "utente " + utente.getNome() + " già loggato" : "utente non loggato");
+        if (s != null) {
+            utente = (Utente) s.getAttribute("utente");
+            System.out.println(utente != null ? "utente " + utente.getNome() + " già loggato" : "utente non loggato");
+        }
 
         //se l'utente non è già loggato allora controllo se ha il cookie rememberMe
         if (utente == null) {

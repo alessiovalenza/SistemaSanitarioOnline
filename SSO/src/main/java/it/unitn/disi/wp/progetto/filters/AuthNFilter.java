@@ -99,11 +99,13 @@ public class AuthNFilter implements Filter {
                 request.setAttribute("isAuthenticated", true);
                 chain.doFilter(request, response);
             } else {
-                System.out.println("login non effettuato. Redirect a LoginServlet");
+                String res = httpRequest.getRequestURI();
+                System.out.println("Impossibile accedere a " + res + " : login non effettuato. Redirect a LoginServlet");
                 httpResponse.sendRedirect(httpRequest.getContextPath() + "/index.jsp");
             }
         }else {
-            System.out.println("Risorsa ad accesso libero");
+            String res = httpRequest.getRequestURI();
+            System.out.println("Accesso a " + res + " consentito: risorsa ad accesso libero");
             chain.doFilter(request, response);
         }
     }

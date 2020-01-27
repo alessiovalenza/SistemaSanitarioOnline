@@ -18,7 +18,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Collections;
 
 import static it.unitn.disi.wp.progetto.commons.Utilities.sha512;
@@ -81,7 +89,7 @@ public class PassResetServlet extends HttpServlet {
     }
 
     private void emailStep(String email, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-        String baseUrl = request.getContextPath();
+        String baseUrl = request.getRequestURL().toString();
         DAOFactory daoFactory = (DAOFactory) super.getServletContext().getAttribute("daoFactory");
         System.out.println("in emailStep method");
         long id;
@@ -139,8 +147,33 @@ public class PassResetServlet extends HttpServlet {
     }
 
     private void createAndSendEmail(Utente utente, String token, String baseUrl){
+
+        /*
         String link = baseUrl + "/passreset?token=" + token;
         String testo = String.format("Gentile utente %s %s,\npuò recuperare la password al seguente link:\n%s\nDistinti saluti", utente.getCognome(), utente.getNome(), link);
         Utilities.sendEmail(Collections.singletonList(new Email(utente.getEmail(), "Password Recovery", testo)));
+        */
+
+        /*
+        String link = baseUrl + "/passreset?token=" + token;
+        String testo = String.format("Gentile utente %s %s,\npuò recuperare la password al seguente link:\n%s\nDistinti saluti", utente.getCognome(), utente.getNome(), link);
+        Utilities.oldSendEmail(utente.getEmail(), "Password Recovery", testo);
+        */
+
+
+        String link = baseUrl + "?token=" + token;
+        try {
+            URL resource = getServletContext().getResource("res/email.txt");
+            Path path = Paths.get(resource.getPath());
+            String content = Files.readString(path, StandardCharsets.UTF_8);
+            content = content.replaceFirst("(%s)", utente.getCognome() + " " + utente.getNome());
+            content = content.replaceFirst("(%s)", link);
+            Utilities.sendEmail(Collections.singletonList(new Email(utente.getEmail(), "Password Recovery", content)));
+        }catch(IOException e){
+            e.printStackTrace();
+            System.out.println("Qualcosa è andato storto");
+        }
+
+
     }
 }
