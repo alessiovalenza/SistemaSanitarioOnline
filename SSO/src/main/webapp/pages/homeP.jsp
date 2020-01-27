@@ -703,7 +703,7 @@
                 <a href="#" class="componentControl" id ="visiteControl">Visualizza visite</a>
             </li>
             <li>
-                <a href="#" class="componentControl" id="mappeControl">Visualizza mappe</a>
+                <a href="../mappe.jsp" target="_blank" class="componentControl" id="mappeControl">Visualizza mappe</a>
             </li>
             <li>
                 <a href="../logout?forgetme=0">Log out</a>
