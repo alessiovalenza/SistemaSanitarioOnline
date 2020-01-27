@@ -521,3 +521,8 @@ select2 {
 #schedaPaziente {
     display: none;
 }
+
+.dataTables_filter input {
+    border-radius: 30px;
+    width: 50%;
+}

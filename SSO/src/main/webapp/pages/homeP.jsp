@@ -274,40 +274,8 @@
                     ]
                 } );
             });
+            let urlCambioMedico = baseUrl + '/api/general/medicibase/?idprovincia='+'${sessionScope.utente.prov}'
 
-            $("#cambiaMedicoControl").click(function(){
-                let urlCambioMedico = baseUrl + '/api/general/medicibase/?idprovincia='+'${sessionScope.utente.prov}'
-                $("#idmedicobase").click(function(){
-                    alert("pre")
-                    $("#idmedicobase").select2({
-                        ajax: {
-                            url: urlCambioMedico,
-                            datatype: "json",
-                            data: function (params) {
-                                var query = {
-                                    term: "",
-                                    type: 'public',
-                                    page: params.page || 1
-                                }
-                                return query;
-                            },
-                            processResults: function (data) {
-                                var myResults = [];
-                                $.each(data, function (index, item) {
-                                    myResults.push({
-                                        'id': item.id,
-                                        'text': item.nome
-                                    });
-                                });
-                                return {
-                                    results: myResults
-                                };
-                            }
-                        }
-                    });
-                    $("#idmedicobase").val(null).trigger("change");
-
-                });
                 $("#idmedicobase").select2({
                     placeholder: 'Cerca Medici',
                     width: '100%',
@@ -326,10 +294,12 @@
                         processResults: function (data) {
                             var myResults = [];
                             $.each(data, function (index, item) {
-                                myResults.push({
-                                    'id': item.id,
-                                    'text': item.nome
-                                });
+                                if (item.id != ${sessionScope.utente.id}) {
+                                    myResults.push({
+                                        'id': item.id,
+                                        'text': item.nome
+                                    });
+                                }
                             });
                             return {
                                 results: myResults
@@ -337,9 +307,7 @@
                         }
                     }
                 });
-                $("#idmedicobase").val(null).trigger("change");
 
-            });
             $("#ricetteControl").click(function(){
                 $('#ricetteEvase').DataTable().destroy()
                 $('#ricetteNonEvase').DataTable().destroy()
@@ -690,6 +658,18 @@
             </script>
         </div>
 
+
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+
+                <button type="button" id="sidebarCollapse" class="btn btn-info">
+                    <i class="fas fa-align-left"></i>
+                    <span>Toggle Sidebar</span>
+                </button>
+            </div>
+        </nav>
+
         <div class="container-fluid tool component" align="center" id="cambiaMedico">
             <div class="form">
                 <div class="form-toggle"></div>
@@ -714,16 +694,6 @@
                 </div>
             </div>
         </div>
-
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container-fluid">
-
-                <button type="button" id="sidebarCollapse" class="btn btn-info">
-                    <i class="fas fa-align-left"></i>
-                    <span>Toggle Sidebar</span>
-                </button>
-            </div>
-        </nav>
 
         <div class="tool component"  id="profilo">
 
