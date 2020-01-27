@@ -23,7 +23,7 @@ public class LoginServlet extends HttpServlet {
     private String password;
     private String rememberMe;
     private String loginUrl = "/login.jsp";
-    private final int REMEMBER_ME_EXPIRE_TIME = 60 * 60 * 24 * 30; // 30 giorni
+    private static final int REMEMBER_ME_EXPIRE_TIME = 60 * 60 * 24 * 30; // 30 giorni
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         email = request.getParameter("email");
@@ -51,7 +51,7 @@ public class LoginServlet extends HttpServlet {
         String token = c != null ? c.getValue(): null;
         utente = token != null ? getUtentebyToken(token) : null;
         System.out.println("utente is: " + utente);
-        if (utente != null) {
+        if (utente != null || (request.getSession(false) != null)) {
             System.out.println("autenticato, redirect alla home");
             createSessionAndDispatch(request, response, utente);
         }else{

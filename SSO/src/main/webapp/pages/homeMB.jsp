@@ -53,7 +53,7 @@
         case "cambiaPassword":
             break;
         default:
-            session.setAttribute("selectedSection", "profilo");
+            session.setAttribute("selectedSection", "pazienti");
             break;
     }
 %>
@@ -119,6 +119,10 @@
     <!--DataTables JS -->
     <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css"></link>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css"></link>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 
     <!-- Utils JS -->
     <script src="../scripts/utils.js"></script>
@@ -743,9 +747,11 @@
                 $("#tablePazienti").DataTable().destroy()
                 let urlPazienti = baseUrl + "/api/medicibase/${sessionScope.utente.id}/pazienti?datericettavisita=true";
                 $("#tablePazienti").DataTable( {
+                    "autoWidth": false,
+                    "responsive": true,
                     "processing": true,
                     "ordering": true,
-                    "scrollX": true,
+                    "scrollX": false,
                     "paging": true,
                     "searching": true,
                     "serverSide": false,
@@ -863,7 +869,7 @@
 </head>
 
 <body>
-    <div class="wrapper">
+    <div> <!--class="wrapper">-->
         <!-- Sidebar  -->
         <nav id="sidebar">
             <div id="dismiss">
@@ -904,10 +910,10 @@
 
             <ul class="list-unstyled">
                 <li>
-                    <a href="#" class="componentControl" id="profiloControl"><fmt:message key="profilo"/></a>
+                    <a href="#" class="componentControl" id="pazientiControl"><fmt:message key="paz"/></a>
                 </li>
                 <li>
-                    <a href="#" class="componentControl" id="pazientiControl"><fmt:message key="paz"/></a>
+                    <a href="#" class="componentControl" id="profiloControl"><fmt:message key="profilo"/></a>
                 </li>
                 <li>
                     <a href="#" class="componentControl" id="schedaPazControl"><fmt:message key="scpaz"/></a>
@@ -1014,11 +1020,11 @@
                 </div>
             </div>
 
-            <div id="pazienti" class="container-fluid component">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="table table-responsive">
-                            <table id="tablePazienti" class="table table-striped table-hover ">
+            <div id="pazienti"> <!--class="container-fluid component">-->
+                <div> <!--class="row">-->
+                    <div> <!--class="col-md-12">-->
+                        <div> <!--class="table table-responsive"> table table-striped table-hover-->
+                            <table id="tablePazienti" class="display responsive nowrap" style="width: 100%">
                                 <thead>
                                 <tr>
                                     <th><fmt:message key="nome"/></th>
