@@ -122,7 +122,7 @@
         this.clearSearch();
         this.searchResults = places.map(function(place){
 
-            var iconUrl = 'assets/img/1.jpg';
+            var iconUrl = '../assets/img/1.jpg';
 
             var iconOptions = {
                 // The icon's size in pixel:
@@ -161,6 +161,15 @@
 
         this.places = new HEREPlaces(this.map, this.platform);
 
+        var lan;
+        switch ('${sessionScope.language}'){
+            case 'it_IT': lan = 'it-IT'; break;
+            case 'fr_FR': lan = 'fr-FR'; break;
+            case 'en_EN': lan = 'en-EN'; break;
+            default: lan = 'it-IT';
+        }
+
+        var ui = H.ui.UI.createDefault(this.map, defaultLayers, lan);
 
     }
 
