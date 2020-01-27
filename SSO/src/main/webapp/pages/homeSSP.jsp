@@ -265,37 +265,52 @@
                 resetButton("#btnErogaEsame", labelErogaEs);
             });
 
+            document.getElementById("messaggioRichiamo1").style.visibility = "hidden";
             let labelRichiamo1 = document.getElementById("btnRichiamo1").innerHTML;
+            let labelErrorRange = "Il limite inferiore di età deve essere minore o uguale al limite superiore";
             $("#formRichiamo1").submit(function(event){
                 event.preventDefault(); //prevent default action
-                loadingButton("#btnRichiamo1",labelLoadingButtons)
-                let formData = "infeta="+$("#infetaRichiamo1").val()+"&idesame="+$("#idesameRichiamo1").val()+"&supeta="+$("#supetaRichiamo1").val()+"&idprovincia=${sessionScope.utente.prov}" //Encode form elements for submission
-                $.ajax({
-                    url : baseUrl + "/api/pazienti/richiamo1",
-                    type: "POST",
-                    data : formData,
-                    success: function (data) {
-                        $('.inputRichiamo1').val(null).trigger("change")
-                        successButton("#btnRichiamo1",labelSuccessButtons)
-                    },
-                    complete: function(){
+                if($("#infetaRichiamo1").val() <= $("#supetaRichiamo1").val()) {
+                    loadingButton("#btnRichiamo1",labelLoadingButtons)
+                    let formData = "infeta="+$("#infetaRichiamo1").val()+"&idesame="+$("#idesameRichiamo1").val()+"&supeta="+$("#supetaRichiamo1").val()+"&idprovincia=${sessionScope.utente.prov}" //Encode form elements for submission
+                    $.ajax({
+                        url : baseUrl + "/api/pazienti/richiamo1",
+                        type: "POST",
+                        data : formData,
+                        success: function (data) {
+                            $('.inputRichiamo1').val(null).trigger("change")
+                            successButton("#btnRichiamo1",labelSuccessButtons)
+                        },
+                        complete: function(){
 
-                    },
-                    error: function(xhr, status, error) {
-                        errorButton("#btnRichiamo1",labelErrorButtons);
-                        console.log(xhr.responseText);
-                        //alert(xhr.responseText);
-                    }
-                });
+                        },
+                        error: function(xhr, status, error) {
+                            errorButton("#btnRichiamo1",labelErrorButtons);
+                            console.log(xhr.responseText);
+                            //alert(xhr.responseText);
+                        }
+                    });
+                }
+                else {
+                    document.getElementById("messaggioRichiamo1").style.visibility ="visible";
+                    document.getElementById("messaggioRichiamo1").textContent = labelErrorRange;
+                    errorButton("#btnRichiamo1", labelErrorButtons);
+                }
             });
             $('.inputRichiamo1').on("change", function () {
+                document.getElementById("messaggioRichiamo1").style.visibility = "hidden";
                 resetButton("#btnRichiamo1", labelRichiamo1);
+                document.getElementById("messaggioRichiamo1").textContent = "";
             });
             $('.inputRichiamo1').on("click", function () {
+                document.getElementById("messaggioRichiamo1").style.visibility = "hidden";
+                document.getElementById("messaggioRichiamo1").textContent = "";
                 resetButton("#btnRichiamo1", labelRichiamo1);
             });
             $('.inputRichiamo1').on("input", function () {
+                document.getElementById("messaggioRichiamo1").style.visibility = "hidden";
                 resetButton("#btnRichiamo1", labelRichiamo1);
+                document.getElementById("messaggioRichiamo1").textContent = "";
             });
 
             let labelRichiamo2 = document.getElementById("btnRichiamo2").innerHTML;
@@ -330,6 +345,8 @@
             $('.inputRichiamo2').on("input", function () {
                 resetButton("#btnRichiamo2", labelRichiamo2);
             });
+
+            initReport();
 
             setNomeProvincia("nomeProvincia", "${sessionScope.utente.prov}");
 
@@ -480,21 +497,23 @@
                                         <h1>Seleziona il periodo</h1>
                                     </div>
                                     <div class="form-content">
+                                        <div class="alert alert-warning" role="alert" id="messaggioReport"></div>
                                         <form id="formScaricaReport" action="../docs/reportprov" method="GET">
                                             <div class="form-group">
                                                 <div class="container-fluid" style="padding-top: 1rem">
                                                     <label for="fromReport">Dal giorno</label>
-                                                    <input type="date" id="fromReport" name="fromDay" required="required"/>
+                                                    <input class="inputReport" type="date" id="fromReport" name="fromDay" required="required"/>
                                                     <br>
                                                 </div>
                                                 <div class="container-fluid" style="padding-top: 1rem">
                                                     <label for="toReport">Al giorno</label>
-                                                    <input type="date" id="toReport" name="toDay" required="required"/>
+                                                    <input class="inputReport" type="date" id="toReport" name="toDay" required="required"/>
                                                 </div>
                                                 <input type="hidden" name="idprovincia" value="${sessionScope.utente.prov}"/>
                                             </div>
                                             <div class="form-group container">
-                                                <button id ="btnReport" type="submit">Scarica</button>
+                                                <button id ="btnReport" type="submit"
+                                                        onclick="return checkReport('#fromReport', '#toReport', 'messaggioReport', '#btnReport', 'Il periodo selezione non è valido', 'Scarica')">Scarica</button>
                                             </div>
                                         </form>
                                     </div>
@@ -520,6 +539,7 @@
                                         <h1>Effetua richiamo</h1>
                                     </div>
                                     <div class="form-content">
+                                        <div class="alert alert-warning" role="alert" id="messaggioRichiamo1"></div>
                                         <form id="formRichiamo1" >
                                             <div class="form-group">
                                                 <div class="container-fluid">

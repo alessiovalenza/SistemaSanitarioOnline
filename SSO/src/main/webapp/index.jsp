@@ -6,7 +6,7 @@
 
 <c:set var="language" value="${sessionScope.language}" scope="page" />
 <c:set var="baseUrl" value="<%=request.getContextPath()%>"/>
-<c:set var="url" value="${baseUrl}/pages/homeMB.jsp?language=" scope="page" />
+<c:set var="url" value="${baseUrl}?language=" scope="page" />
 
 <fmt:setLocale value="${language}" />
 <fmt:setBundle basename="labels" />
@@ -18,7 +18,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><fmt:message key="servizio_sanitario"/></title>
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="${baseUrl}/assets/img/favicon.ico" type="image/x-icon">
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/styles.css">
@@ -39,7 +39,7 @@
         <header>
             <nav class="navbar-expand-md sticky-top "
                  style="background-color: #1565c0;padding: 11px;border-style: groove; border-width: 0pt; border-color:lightgray">
-                <div class="container-fluid"><img src="assets/img/logo_repubblica_colori.png"
+                <div class="container-fluid"><img src="${baseUrl}/assets/img/logo_repubblica_colori.png"
                                                   style="height: 42px;padding: 0px;margin: 0px;">
                     <a class="navbar-brand" href="index.jsp"
                        style="padding: 3px;color: rgb(255,255,255);">

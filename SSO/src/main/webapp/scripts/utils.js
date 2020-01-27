@@ -396,10 +396,12 @@ function initCambioPassword(formId, oldPwId, newPwId, ripetiPwId, idUtente, btnI
 
     $('.inputCambiaPassword').click(function () {
         document.getElementById(msgId).style.visibility ="hidden";
+        document.getElementById(msgId).textContent = "";
         resetButton(btnId, labelBtn);
     });
     $('.inputCambiaPassword').on("input", function () {
         document.getElementById(msgId).style.visibility ="hidden";
+        document.getElementById(msgId).textContent = "";
         resetButton(btnId, labelBtn);
     });
 }
@@ -828,5 +830,30 @@ function initFormSchedaPaz(basePathScheda, extension, fmtDateCode, urlLangDataTa
         } );
 
         document.getElementById("schedaPaziente").style.display="block";
+    });
+}
+
+function checkReport(fromDay, toDay, msgId, btnId, labelErrorReport, labelBtn) {
+    if($(fromDay).val() <= $(toDay).val()) {
+        document.getElementById(msgId).style.visibility ="hidden";
+        document.getElementById(msgId).textContent = "";
+        resetButton(btnId, labelBtn);
+        return true;
+    }
+    else {
+        document.getElementById(msgId).style.visibility ="visible";
+        document.getElementById(msgId).textContent = labelErrorReport;
+        errorButton(btnId,labelErrorButtons);
+        return false;
+    }
+}
+
+function initReport() {
+    document.getElementById("messaggioReport").style.visibility ="hidden";
+    let labelReport = document.getElementById("btnReport").innerHTML;
+    $('.inputReport').on("click", function () {
+        resetButton("#btnReport", labelReport);
+        document.getElementById("messaggioReport").style.visibility ="hidden";
+        document.getElementById("messaggioReport").textContent = "";
     });
 }

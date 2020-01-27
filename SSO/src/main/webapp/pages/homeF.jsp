@@ -49,7 +49,8 @@
 
 <c:set var="language" value="${sessionScope.language}" scope="page" />
 <c:set var="sectionToShow" value="${sessionScope.selectedSection}" scope="page" />
-<c:set var="url" value="http://localhost:8080/SSO_war_exploded/pages/homeF.jsp?language=" scope="page" />
+<c:set var="baseUrl" value="<%=request.getContextPath()%>"/>
+<c:set var="url" value="${baseUrl}/pages/homeF.jsp?language=" scope="page" />
 
 <fmt:setLocale value="${language}" />
 <fmt:setBundle basename="labels" />
@@ -246,7 +247,7 @@
                 <i class="fas fa-arrow-left"></i>
             </div>
             <div class="sidebar-header">
-                <img class="avatar" alt="Avatar" src="../assets/img/croce_verde.jpg" data-holder-rendered="true">
+                <img class="avatar" alt="Avatar" src="${baseUrl}/assets/img/logo_farmacia.jpeg" data-holder-rendered="true">
                 <br><br>
                 <h3>Farmacia ${sessionScope.utente.nome} ${sessionScope.utente.cognome}</h3>
                 <br>
