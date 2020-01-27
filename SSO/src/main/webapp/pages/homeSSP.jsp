@@ -470,7 +470,7 @@
                                                 </div>
                                             </div>
                                             <input required="true" id="idPagato" type="checkbox">Ticket di <fmt:formatNumber value="<%=EsamePrescrittoDAO.PREZZO_TICKET%>" type="currency" currencyCode="EUR"/> pagato<br>
-                                            <div class="form-group container">
+                                            <div class="form-group container" style="padding-top: 1rem">
                                                 <button id="btnErogaEsame" type="submit">Eroga</button>
                                             </div>
                                         </form>
