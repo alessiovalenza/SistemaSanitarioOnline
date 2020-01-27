@@ -122,6 +122,8 @@
             initCambioPassword("#formCambiaPassword", "#vecchiaPassword", "#nuovaPassword", "#ripetiPassword", ${sessionScope.utente.id},
                 "#btnCambiaPassword", "messaggioCambioPw", labelWrongPw, labelMismatch, labelBtnPw);
 
+            initReport();
+
             populateComponents();
             hideComponents();
 
@@ -213,20 +215,22 @@
                                         <h1>Seleziona il periodo</h1>
                                     </div>
                                     <div class="form-content">
+                                        <div class="alert alert-warning" role="alert" id="messaggioReport"></div>
                                         <form id="formScaricaReport" action="../docs/reportnazionale" method="GET">
                                             <div class="form-group">
                                                 <div class="container-fluid" style="padding-top: 1rem">
                                                     <label for="fromReport">Dal giorno</label>
-                                                    <input type="date" id="fromReport" name="fromDay" required="required"/>
+                                                    <input class="inputReport" type="date" id="fromReport" name="fromDay" required="required"/>
                                                     <br>
                                                 </div>
                                                 <div class="container-fluid" style="padding-top: 1rem">
                                                     <label for="toReport">Al giorno</label>
-                                                    <input type="date" id="toReport" name="toDay" required="required"/>
+                                                    <input class="inputReport" type="date" id="toReport" name="toDay" required="required"/>
                                                 </div>
                                             </div>
                                             <div class="form-group container">
-                                                <button id ="btnReport" type="submit">Scarica</button>
+                                                <button id ="btnReport" type="submit"
+                                                        onclick="return checkReport('#fromReport', '#toReport', 'messaggioReport', '#btnReport', 'Il periodo selezione non è valido', 'Scarica')">Scarica</button>
                                             </div>
                                         </form>
                                     </div>
