@@ -483,7 +483,6 @@ function initFormSchedaPaz(basePathScheda, extension, fmtDateCode, urlLangDataTa
             "responsive": true,
             "processing": true,
             "scrollX": false,
-            "responsive": true,
             "ordering": true,
             "paging": true,
             "searching": true,
