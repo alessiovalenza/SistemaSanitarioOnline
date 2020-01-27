@@ -145,6 +145,12 @@
             </c:otherwise>
             </c:choose>
 
+            let basePathCarousel = "${baseUrl}/<%=Utilities.USER_IMAGES_FOLDER%>/${sessionScope.utente.id}/";
+            let extension = ".<%=Utilities.USER_IMAGE_EXT%>";
+
+            initAvatar(${sessionScope.utente.id}, "avatarImg", basePathCarousel, extension);
+
+
             populateComponents();
             hideComponents();
             $('#profilo').show();
@@ -435,8 +441,7 @@
             <i class="fas fa-arrow-left"></i>
         </div>
         <div class="sidebar-header">
-            <img class="avatar" alt="Avatar" src="propic.jpeg"
-                 data-holder-rendered="true">
+            <img class="avatar" id="avatarImg" data-holder-rendered="true">
             <h4>${sessionScope.utente.nome} ${sessionScope.utente.cognome}</h4>
         </div>
 
