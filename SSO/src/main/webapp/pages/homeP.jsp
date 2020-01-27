@@ -238,6 +238,7 @@
 
                 });
             });
+
             $("#esamiControl").click(function(){
                 $('#esamiErogati').DataTable().destroy()
                 $('#esamiNonErogati').DataTable().destroy()
@@ -330,39 +331,40 @@
                     ]
                 } );
             });
+
             let urlCambioMedico = baseUrl + '/api/general/medicibase/?idprovincia='+'${sessionScope.utente.prov}'
 
-                $("#idmedicobase").select2({
-                    placeholder: 'Cerca Medici',
-                    width: '100%',
-                    allowClear: true,
-                    ajax: {
-                        url: urlCambioMedico,
-                        datatype: "json",
-                        data: function (params) {
-                            var query = {
-                                term: params.term,
-                                type: 'public',
-                                page: params.page || 1
-                            }
-                            return query;
-                        },
-                        processResults: function (data) {
-                            var myResults = [];
-                            $.each(data, function (index, item) {
-                                if (item.id != ${sessionScope.utente.id}) {
-                                    myResults.push({
-                                        'id': item.id,
-                                        'text': item.nome
-                                    });
-                                }
-                            });
-                            return {
-                                results: myResults
-                            };
+            $("#idmedicobase").select2({
+                placeholder: 'Cerca Medici',
+                width: '100%',
+                allowClear: true,
+                ajax: {
+                    url: urlCambioMedico,
+                    datatype: "json",
+                    data: function (params) {
+                        var query = {
+                            term: params.term,
+                            type: 'public',
+                            page: params.page || 1
                         }
+                        return query;
+                    },
+                    processResults: function (data) {
+                        var myResults = [];
+                        $.each(data, function (index, item) {
+                            if (item.id != ${sessionScope.utente.id}) {
+                                myResults.push({
+                                    'id': item.id,
+                                    'text': item.nome
+                                });
+                            }
+                        });
+                        return {
+                            results: myResults
+                        };
                     }
-                });
+                }
+            });
 
             $("#ricetteControl").click(function(){
                 $('#ricetteEvase').DataTable().destroy()
@@ -415,7 +417,7 @@
                 } );
 
 
-                let urlRicetteEvase = baseUrl + "/api/pazienti/"+${sessionScope.utente.id}+"/ricette/?evaseonly=true&nonevaseonly=false"
+                let urlRicetteEvase = baseUrl + "/api/pazienti/"+ ${sessionScope.utente.id}+"/ricette/?evaseonly=true&nonevaseonly=false"
                 $('#ricetteEvase').DataTable( {
                     "autoWidth": false,
                     "responsive": true,
@@ -470,7 +472,7 @@
 
             $("#visiteBaseControl").click(function () {
                 $('#visiteBaseTable').DataTable().destroy()
-                let urlVisiteBase = baseUrl + "/api/pazienti/"+${sessionScope.utente.id}+"/visitebase"
+                let urlVisiteBase = baseUrl + "/api/pazienti/"+ ${sessionScope.utente.id} +"/visitebase"
                 let table = $('#visiteBaseTable').DataTable( {
                     "autoWidth": false,
                     "responsive": true,
@@ -518,10 +520,9 @@
                 } );
             })
 
-
             $("#visiteSpecialisticheControl").click(function () {
                 $('#visiteSpecialisticheErogate').DataTable().destroy()
-                let urlVisiteSpacialisticheErogate = baseUrl + "/api/pazienti/"+${sessionScope.utente.id}+"/visitespecialistiche/?erogateonly=true&nonerogateonly=false"
+                let urlVisiteSpacialisticheErogate = baseUrl + "/api/pazienti/" + ${sessionScope.utente.id} + "/visitespecialistiche/?erogateonly=true&nonerogateonly=false"
                 $('#visiteSpecialisticheErogate').DataTable( {
                     "autoWidth": false,
                     "processing": true,
@@ -576,7 +577,7 @@
                 } );
 
                 $('#visiteSpecialisticheNonErogate').DataTable().destroy()
-                let urlVisiteSpacialisticheNonErogate = baseUrl + "/api/pazienti/"+${sessionScope.utente.id}+"/visitespecialistiche/?erogateonly=false&nonerogateonly=true"
+                let urlVisiteSpacialisticheNonErogate = baseUrl + "/api/pazienti/"+ ${sessionScope.utente.id}+"/visitespecialistiche/?erogateonly=false&nonerogateonly=true"
                 $('#visiteSpecialisticheNonErogate').DataTable( {
                     "autoWidth": false,
                     "responsive": true,
@@ -622,6 +623,70 @@
 
             })
 
+            function notifyMe() {
+                // Let's check if the browser supports notifications
+                if (!("Notification" in window)) {
+                    alert("This browser does not support desktop notification");
+                }
+
+                // Let's check whether notification permissions have already been granted
+                else if (Notification.permission === "granted") {
+                    // If it's okay let's create a notification
+                    var notification = new Notification("Hai delle ricette non evase; se vuoi qui vicino trovi una farmacia ;)");
+                }
+
+                // Otherwise, we need to ask the user for permission
+                else if (Notification.permission !== "denied") {
+                    Notification.requestPermission().then(function (permission) {
+                        // If the user accepts, let's create a notification
+                        if (permission === "granted") {
+                            var notification = new Notification("Hai delle ricette non evase; se vuoi qui vicino trovi una farmacia ;)");
+                        }
+                    });
+                }
+            }
+
+            function sendEmail(){
+                $.get("../mappeEmail.jsp")
+            }
+
+            navigator.geolocation.getCurrentPosition(showPosition);
+
+            function showPosition(position) {
+                $.ajax({
+                    type: "GET",
+                    url: "https://places.sit.ls.hereapi.com/places/v1/discover/search"+
+                        "?app_id=eXyeKXjLMDyo92pFfzNf"+
+                        "&app_code=QuU-fH5ZjNfHHzf2IZHEkg"+
+                        "&at="+ position.coords.latitude + "," + position.coords.longitude +
+                        "&q=pharmacies"+
+                        "&pretty",
+                    success: function (data) {
+                        if (data.results && data.results.items) {
+
+                            var distance = data.results.items[0].distance;
+                            $.ajax({
+                                type: "GET",
+                                url: baseUrl + "/api/pazienti/"+ ${sessionScope.utente.id} +"/ricette?evaseonly=false&nonevaseonly=true",
+                                success: function (data) {
+                                    //if (data[0] && distance <= 2000) {
+                                        notifyMe();
+                                        $(sendEmail());
+                                    //}
+                                }
+                            });
+
+                        } else {
+                            onError(data);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+
+                        console.log("errore" + xhr.responseText);
+                    }
+
+                });
+            }
 
         });
 

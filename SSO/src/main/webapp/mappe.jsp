@@ -46,28 +46,6 @@
 
     HEREPlaces.prototype.getPlaces = function(query, onSuccessCallback) {
         var onSuccess, onError;
-        function notifyMe() {
-            // Let's check if the browser supports notifications
-            if (!("Notification" in window)) {
-                alert("This browser does not support desktop notification");
-            }
-
-            // Let's check whether notification permissions have already been granted
-            else if (Notification.permission === "granted") {
-                // If it's okay let's create a notification
-                var notification = new Notification("Hai delle ricette non evase; se vuoi qui vicino trovi una farmacia ;)");
-            }
-
-            // Otherwise, we need to ask the user for permission
-            else if (Notification.permission !== "denied") {
-                Notification.requestPermission().then(function (permission) {
-                    // If the user accepts, let's create a notification
-                    if (permission === "granted") {
-                        var notification = new Notification("Hai delle ricette non evase; se vuoi qui vicino trovi una farmacia ;)");
-                    }
-                });
-            }
-        }
 
         onSuccess = function(data) {
             if (data.results && data.results.items) {
@@ -78,23 +56,6 @@
                         lng: place.position[1]
                     };
                     return place;
-                });
-
-                var distance = data.results.items[0].distance;
-
-                function sendEmail(){
-                    $.get("mappeEmail.jsp")
-                }
-
-                $.ajax({
-                    type: "GET",
-                    url: baseUrl + "/api/pazienti/"+ ${sessionScope.utente.id} +"/ricette?evaseonly=false&nonevaseonly=true",
-                        success: function (data) {
-                        if (data[0] && distance <= 2000) {
-                            notifyMe();
-                            $(sendEmail());
-                        }
-                    }
                 });
 
                 onSuccessCallback(data.results.items);
@@ -122,7 +83,7 @@
         this.clearSearch();
         this.searchResults = places.map(function(place){
 
-            var iconUrl = '../assets/img/croce_farmacia.jpg';
+            var iconUrl = 'assets/img/croce_farmacia.jpg';
 
             var iconOptions = {
                 // The icon's size in pixel:
@@ -229,13 +190,13 @@
     });
 
     var coordinates = {
-        lat: 45.365349,
-        lng: 10.923873
+        lat: 44.73914,
+        lng: 10.61476
     };
 
     var mapOptions = {
         center: coordinates,
-        zoom: 15
+        zoom: 14
     };
 
     var map = new HEREMap(mapContainer, platform, mapOptions);
