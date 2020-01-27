@@ -26,12 +26,17 @@
     </head>
     <body>
         <%@ page import="static it.unitn.disi.wp.progetto.commons.Utilities.sendEmail"%>
+        <%@ page import="it.unitn.disi.wp.progetto.commons.Email"%>
         <%@ page import="it.unitn.disi.wp.progetto.persistence.entities.Utente" %>
+        <%@ page import="java.util.ArrayList" %>
 
         <% Utente utente = (Utente) session.getAttribute("utente");
-            String email = "frapava98@gmail.com"; //utente.getEmail();
+            String recipient = utente.getEmail();
             String subject = "Promemoria";
-            String text = "Hai delle ricette non evase; se vuoi qui vicino trovi una farmacia" ; %>
-        <% sendEmail(email, subject, text); %>
+            String text = "Hai delle ricette non evase; se vuoi qui vicino trovi una farmacia" ;
+            Email email = new Email(recipient, subject, text);
+            ArrayList<Email> emails = new ArrayList();
+            emails.add(new Email(recipient, subject, text));
+            sendEmail(emails); %>
     </body>
 </html>
