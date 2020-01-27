@@ -129,6 +129,14 @@
     <!-- Page Content  -->
     <div id="content">
 
+        <div class="container">
+            <button type="button" id="sidebarCollapse" class="btn btn-info">
+                <i class="fas fa-align-left"></i>
+                <span>Toggle Sidebar</span>
+            </button>
+        </div>
+        <br>
+
         <div class="tool component" id="report">
             <div class="card">
                 <div class="card-body">

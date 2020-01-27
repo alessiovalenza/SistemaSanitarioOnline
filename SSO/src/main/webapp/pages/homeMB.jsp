@@ -551,7 +551,13 @@
 
         <!-- Page Content  -->
         <div id="content">
-
+            <div class="container">
+                <button type="button" id="sidebarCollapse" class="btn btn-info">
+                    <i class="fas fa-align-left"></i>
+                    <span>Toggle Sidebar</span>
+                </button>
+            </div>
+            <br>
             <div id="profilo" class="tool component">
                 <div class="container">
                     <div class="row">

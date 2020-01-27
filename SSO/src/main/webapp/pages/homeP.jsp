@@ -503,6 +503,14 @@
 
     <!-- Page Content  -->
     <div id="content">
+
+        <div class="container">
+            <button type="button" id="sidebarCollapse" class="btn btn-info">
+                <i class="fas fa-align-left"></i>
+                <span>Toggle Sidebar</span>
+            </button>
+        </div>
+        <br>
         <div class="container-fluid tool component" align="center" id="mappe">
             <div id="mapContainer"></div>
             <script>
@@ -716,18 +724,6 @@
                 console.log("Ciaone!")
             </script>
         </div>
-
-
-
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container-fluid">
-
-                <button type="button" id="sidebarCollapse" class="btn btn-info">
-                    <i class="fas fa-align-left"></i>
-                    <span>Toggle Sidebar</span>
-                </button>
-            </div>
-        </nav>
 
         <div class="container-fluid tool component" align="center" id="cambiaMedico">
             <div class="form">
