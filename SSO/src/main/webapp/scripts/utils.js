@@ -419,3 +419,415 @@ function setNomeProvincia(targetId, idProvincia) {
         }
     });
 }
+
+function initFormSchedaPaz(basePathScheda, extension, fmtDateCode, urlLangDataTable) {
+    $("#formScheda").submit(function(event){
+        event.preventDefault();
+        let pathCarouselPaz = basePathScheda + $('#idpazienteScheda').val() + "/";
+        initCarousel($('#idpazienteScheda').val(), "carouselInnerPaziente", pathCarouselPaz, extension);
+
+        $('#dataPazienteScheda').DataTable().destroy()
+        let urlDataPaziente = baseUrl + "/api/pazienti/"+$('#idpazienteScheda').val();
+        $('#dataPazienteScheda').DataTable( {
+            "responsive": true,
+            "autoWidth": false,
+            "scrollX": false,
+            "processing": false,
+            "ordering": false,
+            "paging": false,
+            "searching": false,
+            "serverSide": false,
+            "info": false,
+            "language": {
+                "url": urlLangDataTable
+            },
+            "ajax": {
+                "url": urlDataPaziente,
+                "type":"GET",
+                "dataSrc": function (json) {
+                    let returnData = new Array();
+                    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                    let dataNascita = new Date(json.dataNascita);
+                    dataNascita=dataNascita.toLocaleDateString(fmtDateCode);
+                    returnData.push({
+                        'nome': json.nome,
+                        'cognome': json.cognome,
+                        'dataNascita': dataNascita,
+                        'luogoNascita': json.luogoNascita,
+                        'codiceFiscale': json.codiceFiscale,
+                        'sesso': json.sesso,
+                        'email': json.email
+                    });
+                    return returnData;
+                },
+                "error": function(xhr, status, error) {
+                    console.log(xhr.responseText);
+                    //alert(xhr.responseText);
+                }
+            },
+            "columns": [
+                { "data": "nome" },
+                { "data": "cognome" },
+                { "data": "dataNascita" },
+                { "data": "luogoNascita" },
+                { "data": "codiceFiscale"},
+                { "data": "sesso" },
+                { "data": "email" }
+            ]
+        } );
+
+        $('#visiteBasePazienteScheda').DataTable().destroy()
+        let urlVisiteBase = baseUrl + "/api/pazienti/"+$('#idpazienteScheda').val()+"/visitebase"
+        let table = $('#visiteBasePazienteScheda').DataTable( {
+            "autoWidth": false,
+            "responsive": true,
+            "processing": true,
+            "scrollX": false,
+            "responsive": true,
+            "ordering": true,
+            "paging": true,
+            "searching": true,
+            "serverSide": false,
+            "language": {
+                "url": urlLangDataTable
+            },
+            "ajax": {
+                "url": urlVisiteBase,
+                "type":"GET",
+                "dataSrc": function (json) {
+                    let returnData = new Array();
+                    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                    for(let i=0;i< json.length; i++) {
+                        let erogazione = new Date(json[i].erogazione);
+                        erogazione=erogazione.toLocaleDateString(fmtDateCode,options);
+                        returnData.push({
+                            'medicoBaseCognome': json[i].medicoBase.cognome,
+                            'medicoBaseNome': json[i].medicoBase.nome,
+                            'erogazione': erogazione,
+                            'anamnesi': json[i].anamnesi
+                        });
+                    }
+                    return returnData;
+                },
+                "error": function(xhr, status, error) {
+                    console.log(xhr.responseText);
+                    //alert(xhr.responseText);
+                }
+            },
+            "columnDefs": [
+                { className: "anamnesiColumn", targets: 3 }
+            ],
+            "columns": [
+                { "data": "medicoBaseNome" },
+                { "data": "medicoBaseCognome" },
+                { "data": "erogazione" },
+                { "data": "anamnesi" }
+            ]
+        } );
+
+        $("#visiteBasePazienteScheda tbody").on("click", ".anamnesiColumn", function () {
+            let data = table.row( this ).data();
+            alert(data.anamnesi);
+        } );
+
+        $('#visiteSpecialisticheErogatePazienteScheda').DataTable().destroy()
+        let urlVisiteSpacialisticheErogate = baseUrl + "/api/pazienti/"+$('#idpazienteScheda').val()+"/visitespecialistiche/?erogateonly=true&nonerogateonly=false"
+        $('#visiteSpecialisticheErogatePazienteScheda').DataTable( {
+            "autoWidth": false,
+            "processing": true,
+            "responsive": true,
+            "scrollX": false,
+            "ordering": true,
+            "paging": true,
+            "searching": true,
+            "serverSide": false,
+            "language": {
+                "url": urlLangDataTable
+            },
+            "ajax": {
+                "url": urlVisiteSpacialisticheErogate,
+                "type":"GET",
+                "dataSrc": function (json) {
+                    let returnData = new Array();
+                    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                    for(let i=0;i< json.length; i++) {
+                        let prescrizione = new Date(json[i].prescrizione);
+                        prescrizione=prescrizione.toLocaleDateString(fmtDateCode,options);
+                        let erogazione = new Date(json[i].erogazione);
+                        erogazione=erogazione.toLocaleDateString(fmtDateCode,options);
+                        returnData.push({
+                            'visitaNome': json[i].visita.nome,
+                            'medicoSpecialistaCognome': json[i].medicoSpecialista.cognome,
+                            'medicoSpecialistaNome': json[i].medicoSpecialista.nome,
+                            'medicoBaseCognome': json[i].medicoBase.cognome,
+                            'medicoBaseNome': json[i].medicoBase.nome,
+                            'prescrizione': prescrizione,
+                            'erogazione': erogazione,
+                            'anamnesi': json[i].anamnesi
+                        });
+                    }
+                    return returnData;
+                },
+                "error": function(xhr, status, error) {
+                    console.log(xhr.responseText);
+                    //alert(xhr.responseText);
+                }
+            },
+            "columns": [
+                { "data": "visitaNome" },
+                { "data": "medicoSpecialistaNome" },
+                { "data": "medicoSpecialistaCognome" },
+                { "data": "medicoBaseNome" },
+                { "data": "medicoBaseCognome" },
+                { "data": "prescrizione" },
+                { "data": "erogazione" },
+                { "data": "anamnesi" }
+            ]
+        } );
+
+        $('#visiteSpecialisticheNonErogatePazienteScheda').DataTable().destroy()
+        let urlVisiteSpacialisticheNonErogate = baseUrl + "/api/pazienti/"+$('#idpazienteScheda').val()+"/visitespecialistiche/?erogateonly=false&nonerogateonly=true"
+        $('#visiteSpecialisticheNonErogatePazienteScheda').DataTable( {
+            "autoWidth": false,
+            "responsive": true,
+            "processing": true,
+            "ordering": true,
+            "scrollX": false,
+            "paging": true,
+            "searching": true,
+            "serverSide": false,
+            "language": {
+                "url": urlLangDataTable
+            },
+            "ajax": {
+                "url": urlVisiteSpacialisticheNonErogate,
+                "type":"GET",
+                "dataSrc": function (json) {
+                    let returnData = new Array();
+                    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                    for(let i=0;i< json.length; i++) {
+                        let prescrizione = new Date(json[i].prescrizione);
+                        prescrizione=prescrizione.toLocaleDateString(fmtDateCode,options);
+                        returnData.push({
+                            'visitaNome': json[i].visita.nome,
+                            'medicoBaseCognome': json[i].medicoBase.cognome,
+                            'medicoBaseNome': json[i].medicoBase.nome,
+                            'prescrizione': prescrizione
+                        });
+                    }
+                    return returnData;
+                },
+                "error": function(xhr, status, error) {
+                    console.log(xhr.responseText);
+                    //alert(xhr.responseText);
+                }
+            },
+            "columns": [
+                { "data": "visitaNome" },
+                { "data": "medicoBaseNome" },
+                { "data": "medicoBaseCognome" },
+                { "data": "prescrizione" }
+            ]
+        } );
+
+        $('#ricetteEvasePazienteScheda').DataTable().destroy()
+        let urlRicetteEvase = baseUrl + "/api/pazienti/"+$('#idpazienteScheda').val()+"/ricette/?evaseonly=true&nonevaseonly=false"
+        $('#ricetteEvasePazienteScheda').DataTable( {
+            "autoWidth": false,
+            "responsive": true,
+            "processing": true,
+            "ordering": true,
+            "paging": true,
+            "scrollX": false,
+            "searching": true,
+            "serverSide": false,
+            "language": {
+                "url": urlLangDataTable
+            },
+            "ajax": {
+                "url": urlRicetteEvase,
+                "type":"GET",
+                "dataSrc": function (json) {
+                    let returnData = new Array();
+                    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                    for(let i=0;i< json.length; i++) {
+                        let emissione = new Date(json[i].emissione);
+                        emissione=emissione.toLocaleDateString(fmtDateCode,options);
+                        let evasione = new Date(json[i].evasione);
+                        evasione=evasione.toLocaleDateString(fmtDateCode,options);
+                        returnData.push({
+                            'farmacoNome': json[i].farmaco.nome,
+                            'farmacoDescrizione': json[i].farmaco.descrizione,
+                            'medicoBaseCognome': json[i].medicoBase.cognome,
+                            'medicoBaseNome': json[i].medicoBase.nome,
+                            'emissione': emissione,
+                            'evasione': evasione
+                        });
+                    }
+                    return returnData;
+                },
+                "error": function(xhr, status, error) {
+                    console.log(xhr.responseText);
+                    //alert(xhr.responseText);
+                }
+            },
+            "columns": [
+                { "data": "farmacoNome" },
+                { "data": "farmacoDescrizione" },
+                { "data": "medicoBaseNome" },
+                { "data": "medicoBaseCognome" },
+                { "data": "emissione" },
+                { "data": "evasione" }
+            ]
+        } );
+
+        $('#ricetteNonEvasePazienteScheda').DataTable().destroy()
+        let urlRicetteNonEvase = baseUrl + "/api/pazienti/"+$('#idpazienteScheda').val()+"/ricette/?evaseonly=false&nonevaseonly=true"
+        $('#ricetteNonEvasePazienteScheda').DataTable( {
+            "autoWidth": false,
+            "responsive": true,
+            "processing": true,
+            "ordering": true,
+            "scrollX": false,
+            "paging": true,
+            "searching": true,
+            "serverSide": false,
+            "language": {
+                "url": urlLangDataTable
+            },
+            "ajax": {
+                "url": urlRicetteNonEvase,
+                "type":"GET",
+                "dataSrc": function (json) {
+                    let returnData = new Array();
+                    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                    for(let i=0;i< json.length; i++) {
+                        let emissione = new Date(json[i].emissione);
+                        emissione=emissione.toLocaleDateString(fmtDateCode,options);
+                        returnData.push({
+                            'farmacoNome': json[i].farmaco.nome,
+                            'farmacoDescrizione': json[i].farmaco.descrizione,
+                            'medicoBaseCognome': json[i].medicoBase.cognome,
+                            'medicoBaseNome': json[i].medicoBase.nome,
+                            'emissione': emissione
+                        });
+                    }
+                    return returnData;
+                },
+                "error": function(xhr, status, error) {
+                    console.log(xhr.responseText);
+                    //alert(xhr.responseText);
+                }
+            },
+            "columns": [
+                { "data": "farmacoNome" },
+                { "data": "farmacoDescrizione" },
+                { "data": "medicoBaseNome" },
+                { "data": "medicoBaseCognome" },
+                { "data": "emissione" }
+            ]
+        } );
+
+        $('#esamiErogatiPazienteScheda').DataTable().destroy()
+        let urlEsamiErogati = baseUrl + "/api/pazienti/"+$('#idpazienteScheda').val()+"/esamiprescritti/?erogationly=true&nonerogationly=false"
+        $('#esamiErogatiPazienteScheda').DataTable( {
+            "autoWidth": false,
+            "responsive": true,
+            "processing": true,
+            "ordering": true,
+            "paging": true,
+            "scrollX": false,
+            "searching": true,
+            "serverSide": false,
+            "language": {
+                "url": urlLangDataTable
+            },
+            "ajax": {
+                "url": urlEsamiErogati,
+                "type":"GET",
+                "dataSrc": function (json) {
+                    let returnData = new Array();
+                    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                    for(let i=0;i< json.length; i++) {
+                        let prescrizione = new Date(json[i].prescrizione);
+                        prescrizione=prescrizione.toLocaleDateString(fmtDateCode,options);
+                        let erogazione = new Date(json[i].erogazione);
+                        erogazione=erogazione.toLocaleDateString(fmtDateCode,options);
+                        returnData.push({
+                            'nomeEsame': json[i].esame.nome,
+                            'descrizioneEsame': json[i].esame.descrizione,
+                            'cognomeMedicoBase': json[i].medicoBase == undefined ? "" : json[i].medicoBase.cognome,
+                            'nomeMedicoBase': json[i].medicoBase == undefined ? "" : json[i].medicoBase.nome,
+                            'prescrizione': prescrizione,
+                            'erogazione': erogazione,
+                            'esito': json[i].esito
+                        });
+                    }
+                    return returnData;
+                },
+                "error": function(xhr, status, error) {
+                    console.log(xhr.responseText);
+                    //alert(xhr.responseText);
+                }
+            },
+            "columns": [
+                { "data": "nomeEsame" },
+                { "data": "descrizioneEsame" },
+                { "data": "nomeMedicoBase" },
+                { "data": "cognomeMedicoBase" },
+                { "data": "prescrizione" },
+                { "data": "erogazione" },
+                { "data": "esito" }
+            ]
+        } );
+
+        $('#esamiNonErogatiPazienteScheda').DataTable().destroy()
+        let urlEsamiNonErogati = baseUrl + "/api/pazienti/"+$('#idpazienteScheda').val()+"/esamiprescritti/?erogationly=false&nonerogationly=true"
+        $('#esamiNonErogatiPazienteScheda').DataTable( {
+            "autoWidth": false,
+            "responsive": true,
+            "processing": true,
+            "ordering": true,
+            "scrollX": false,
+            "paging": true,
+            "searching": true,
+            "serverSide": false,
+            "language": {
+                "url": urlLangDataTable
+            },
+            "ajax": {
+                "url": urlEsamiNonErogati,
+                "type":"GET",
+                "dataSrc": function (json) {
+                    let returnData = new Array();
+                    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                    for(let i=0;i< json.length; i++) {
+                        let prescrizione = new Date(json[i].prescrizione);
+                        prescrizione=prescrizione.toLocaleDateString(fmtDateCode,options);
+                        returnData.push({
+                            'nomeEsame': json[i].esame.nome,
+                            'descrizioneEsame': json[i].esame.descrizione,
+                            'cognomeMedicoBase': json[i].medicoBase == undefined ? "" : json[i].medicoBase.cognome,
+                            'nomeMedicoBase': json[i].medicoBase == undefined ? "" : json[i].medicoBase.nome,
+                            'prescrizione': prescrizione
+                        });
+                    }
+                    return returnData;
+                },
+                "error": function(xhr, status, error) {
+                    console.log(xhr.responseText);
+                    //alert(xhr.responseText);
+                }
+            },
+            "columns": [
+                { "data": "nomeEsame" },
+                { "data": "descrizioneEsame" },
+                { "data": "nomeMedicoBase" },
+                { "data": "cognomeMedicoBase" },
+                { "data": "prescrizione" }
+            ]
+        } );
+
+        document.getElementById("schedaPaziente").style.display="block";
+    });
+}

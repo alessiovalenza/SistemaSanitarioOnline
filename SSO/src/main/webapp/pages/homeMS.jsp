@@ -277,6 +277,10 @@
                 $("#idPagato").prop("checked",false);
             });
 
+            initSelect2Pazienti("#idpazienteScheda", null, langSelect2, labelCercaPaz);
+            let basePathScheda = "${baseUrl}/<%=Utilities.USER_IMAGES_FOLDER%>/";
+            initFormSchedaPaz(basePathScheda, extension, "${fn:replace(language, '_', '-')}", urlLangDataTable);
+
             populateComponents();
             hideComponents();
 
@@ -401,6 +405,162 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="schedaPaz" class="tool component  container-fluid" >
+                <h3><fmt:message key="selpaz"/></h3>
+                <hr>
+                <form id="formScheda">
+                    <label for="idpazienteScheda"><fmt:message key="nomepaz"/></label>
+                    <select type="text" id="idpazienteScheda" name="idpazienteScheda" required="required"></select>
+                    <button class="bottone" style="padding-left: 1em" type="submit"><fmt:message key="cerca"/></button>
+                </form>
+                <br>
+                <div id="schedaPaziente" class="container-fluid">
+                    <div class="text-center">
+                        <div data-interval="false" id="carouselPazienteControls" class="carousel slide"
+                             data-ride="carousel">
+                            <div id="carouselInnerPaziente" class="carousel-inner">
+                            </div>
+                            <a class="carousel-control-prev" href="#carouselPazienteControls" role="button"
+                               data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" href="#carouselPazienteControls" role="button"
+                               data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </div>
+                    </div>
+                    <h5><fmt:message key="datipaz"/></h5>
+                    <div class="container-fluid">
+                        <table id="dataPazienteScheda" class="table table-striped table-hover ">
+                            <thead>
+                            <tr>
+                                <th><fmt:message key="nome"/></th>
+                                <th><fmt:message key="cognome"/></th>
+                                <th><fmt:message key="datanas"/></th>
+                                <th><fmt:message key="luogonas"/></th>
+                                <th><fmt:message key="codfis"/></th>
+                                <th><fmt:message key="sesso"/></th>
+                                <th><fmt:message key="email"/></th>
+                            </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <br/>
+                    <h5><fmt:message key="visbas"/></h5>
+                    <div class="container-fluid">
+                        <table id="visiteBasePazienteScheda" class="table table-striped table-hover ">
+                            <thead>
+                            <tr>
+                                <th><fmt:message key="nomemb"/></th>
+                                <th><fmt:message key="cognomemb"/></th>
+                                <th><fmt:message key="dataero"/></th>
+                                <th><fmt:message key="anamn"/></th>
+                            </tr>
+                            </thead>
+                        </table>
+                    </div>
+
+                    <br/>
+                    <h5><fmt:message key="ricev"/></h5>
+                    <div class="container-fluid">
+                        <table id="ricetteEvasePazienteScheda" class="table table-striped table-hover ">
+                            <thead>
+                            <tr>
+                                <th><fmt:message key="nomefar"/></th>
+                                <th><fmt:message key="desfar"/></th>
+                                <th><fmt:message key="nomemb"/></th>
+                                <th><fmt:message key="cognomemb"/></th>
+                                <th><fmt:message key="prescrizione"/></th>
+                                <th><fmt:message key="evas"/></th>
+                            </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <br/>
+                    <h5><fmt:message key="ricnevas"/></h5>
+                    <div class="container-fluid">
+                        <table id="ricetteNonEvasePazienteScheda" class="table table-striped table-hover ">
+                            <thead>
+                            <tr>
+                                <th><fmt:message key="nomefar"/></th>
+                                <th><fmt:message key="desfar"/></th>
+                                <th><fmt:message key="nomemb"/></th>
+                                <th><fmt:message key="cognomemb"/></th>
+                                <th><fmt:message key="prescrizione"/></th>
+                            </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <br/>
+                    <h5><fmt:message key="esero"/></h5>
+                    <div class="container-fluid">
+                        <table id="esamiErogatiPazienteScheda" class="table table-striped table-hover ">
+                            <thead>
+                            <tr>
+                                <th><fmt:message key="nomeesa"/></th>
+                                <th><fmt:message key="descresa"/></th>
+                                <th><fmt:message key="nomemb"/></th>
+                                <th><fmt:message key="cognomemb"/></th>
+                                <th><fmt:message key="prescrizione"/></th>
+                                <th><fmt:message key="ero"/></th>
+                                <th><fmt:message key="esito"/></th>
+                            </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <br/>
+                    <h5><fmt:message key="esnero"/></h5>
+                    <div class="container-fluid">
+                        <table id="esamiNonErogatiPazienteScheda" class="table table-striped table-hover ">
+                            <thead>
+                            <tr>
+                                <th><fmt:message key="nomeesa"/></th>
+                                <th><fmt:message key="descresa"/></th>
+                                <th><fmt:message key="nomem"/></th>
+                                <th><fmt:message key="cognomem"/></th>
+                                <th><fmt:message key="prescrizione"/></th>
+                            </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <br/>
+                    <h5><fmt:message key="visspecero"/></h5>
+                    <div class="container-fluid">
+                        <table id="visiteSpecialisticheErogatePazienteScheda" class="table table-striped table-hover ">
+                            <thead>
+                            <tr>
+                                <th><fmt:message key="nomevis"/></th>
+                                <th><fmt:message key="nomems"/></th>
+                                <th><fmt:message key="cognomems"/></th>
+                                <th><fmt:message key="nomemb"/></th>
+                                <th><fmt:message key="cognomemb"/></th>
+                                <th><fmt:message key="prescrizione"/></th>
+                                <th><fmt:message key="ero"/></th>
+                                <th><fmt:message key="anamn"/></th>
+                            </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <br/>
+                    <h5><fmt:message key="visspecnero"/></h5>
+                    <div class="container-fluid">
+                        <table id="visiteSpecialisticheNonErogatePazienteScheda" class="table table-striped table-hover ">
+                            <thead>
+                            <tr>
+                                <th><fmt:message key="nomevis"/></th>
+                                <th><fmt:message key="nomemb"/></th>
+                                <th><fmt:message key="cognomemb"/></th>
+                                <th><fmt:message key="prescrizione"/></th>
+                            </tr>
+                            </thead>
+                        </table>
                     </div>
                 </div>
             </div>
