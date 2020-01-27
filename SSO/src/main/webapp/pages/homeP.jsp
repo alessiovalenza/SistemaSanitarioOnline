@@ -112,6 +112,39 @@
         let baseUrl = "<%=request.getContextPath()%>";
 
         $(document).ready(function(){
+
+            let langSelect2;
+            <c:choose>
+            <c:when test="${fn:startsWith(language, 'it')}">
+            langSelect2 = "it";
+            </c:when>
+            <c:when test="${fn:startsWith(language, 'en')}">
+            langSelect2 = "en";
+            </c:when>
+            <c:when test="${fn:startsWith(language, 'fr')}">
+            langSelect2 = "fr";
+            </c:when>
+            <c:otherwise>
+            langSelect2 = "en";
+            </c:otherwise>
+            </c:choose>
+
+            let urlLangDataTable;
+            <c:choose>
+            <c:when test="${fn:startsWith(language, 'it')}">
+            urlLangDataTable = "https://cdn.datatables.net/plug-ins/1.10.20/i18n/Italian.json";
+            </c:when>
+            <c:when test="${fn:startsWith(language, 'en')}">
+            urlLangDataTable = "https://cdn.datatables.net/plug-ins/1.10.20/i18n/English.json";
+            </c:when>
+            <c:when test="${fn:startsWith(language, 'fr')}">
+            urlLangDataTable = "https://cdn.datatables.net/plug-ins/1.10.20/i18n/French.json";
+            </c:when>
+            <c:otherwise>
+            urlLangDataTable = "https://cdn.datatables.net/plug-ins/1.10.20/i18n/English.json";
+            </c:otherwise>
+            </c:choose>
+
             populateComponents();
             hideComponents();
             $('#profilo').show();
@@ -180,9 +213,18 @@
                 $('#esamiNonErogati').DataTable().destroy()
                 let urlEsamiNonErogati = baseUrl + "/api/pazienti/${sessionScope.utente.id}/esamiprescritti?erogationly=false&nonerogationly=true";
                 $('#esamiNonErogati').DataTable( {
+                    "autoWidth": false,
+                    "responsive": true,
                     "processing": true,
-                    "serverSide": true,
-                    "scrollX": true,
+                    "scrollX": false,
+                    "responsive": true,
+                    "ordering": true,
+                    "paging": true,
+                    "searching": true,
+                    "serverSide": false,
+                    "language": {
+                        "url": urlLangDataTable
+                    },
                     "ajax": {
                         "url": urlEsamiNonErogati,
                         "type":"GET",
@@ -198,9 +240,18 @@
                 } );
                 let urlEsamiErogati = baseUrl + "/api/pazienti/"+ ${sessionScope.utente.id} +"/esamiprescritti?erogationly=true&nonerogationly=false";
                 $('#esamiErogati').DataTable( {
-                    "scrollX": true,
+                    "autoWidth": false,
+                    "responsive": true,
                     "processing": true,
-                    "serverSide": true,
+                    "scrollX": false,
+                    "responsive": true,
+                    "ordering": true,
+                    "paging": true,
+                    "searching": true,
+                    "serverSide": false,
+                    "language": {
+                        "url": urlLangDataTable
+                    },
                     "ajax": {
                         "url": urlEsamiErogati,
                         "type":"GET",
@@ -288,9 +339,18 @@
                 $('#ricetteNonEvase').DataTable().destroy()
                 let urlRicetteNonEvase = baseUrl + "/api/pazienti/"+ ${sessionScope.utente.id} +"/ricette?evaseonly=false&nonevaseonly=true";
                 $('#ricetteNonEvase').DataTable( {
-                    "scrollX": true,
+                    "autoWidth": false,
+                    "responsive": true,
                     "processing": true,
-                    "serverSide": true,
+                    "scrollX": false,
+                    "responsive": true,
+                    "ordering": true,
+                    "paging": true,
+                    "searching": true,
+                    "serverSide": false,
+                    "language": {
+                        "url": urlLangDataTable
+                    },
                     "ajax": {
                         "url": urlRicetteNonEvase,
                         "type":"GET",
@@ -307,9 +367,18 @@
                 } );
                 let urlRicetteEvase = baseUrl + "/api/pazienti/"+ ${sessionScope.utente.id} +"/ricette?evaseonly=true&nonevaseonly=false";
                 $('#ricetteEvase').DataTable( {
-                    "scrollX": true,
+                    "autoWidth": false,
+                    "responsive": true,
                     "processing": true,
-                    "serverSide": true,
+                    "scrollX": false,
+                    "responsive": true,
+                    "ordering": true,
+                    "paging": true,
+                    "searching": true,
+                    "serverSide": false,
+                    "language": {
+                        "url": urlLangDataTable
+                    },
                     "ajax": {
                         "url": urlRicetteEvase,
                         "type":"GET",
