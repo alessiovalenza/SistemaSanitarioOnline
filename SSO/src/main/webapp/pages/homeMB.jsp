@@ -981,9 +981,10 @@
                                     <div style="clear: both">
                                         <form action="#" id="formUploadFoto" method="POST" role="form" enctype="multipart/form-data">
                                             <div>
-                                                <input style="float: left; width: 100%; max-width: 200px" class="btn btn-primary" type="file" id="fotoToUpload" name="foto"
+                                                <input style="/*float: left;*/  max-width: 100%" class="btn btn-primary" type="file" id="fotoToUpload" name="foto"
                                                        onchange="return fileValidation('fotoToUpload', 'btnUploadFoto', labelAlertFoto)"/>
-                                                <button style="float:right; height: 35pt; background: grey;" class="btn btn-primary" type="submit" id="btnUploadFoto" disabled><fmt:message key="carica"/> </button>
+                                                <br>
+                                                <button style="/*float:right;*/ height: 35pt; background: grey;" class="btn btn-primary" type="submit" id="btnUploadFoto" disabled><fmt:message key="carica"/> </button>
                                             </div>
                                         </form>
                                     </div>
