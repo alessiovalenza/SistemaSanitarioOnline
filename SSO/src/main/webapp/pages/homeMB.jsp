@@ -947,7 +947,7 @@
                                                     </div>
                                                     <div class="container-fluid" style="padding-top: 1rem">
                                                         <label for="anamnesi"><fmt:message key="anamn"/></label>
-                                                        <textarea class="inputErogaVisita textAreaAnamnesi" type="text" id="anamnesi" name="anamnesi" required="required"></textarea>
+                                                        <textarea placeholder="Scrivi l'anamnesi..." class="inputErogaVisita textAreaAnamnesi" type="text" id="anamnesi" name="anamnesi" required="required"></textarea>
                                                     </div>
                                                 </div>
                                                 <div class="form-group container">

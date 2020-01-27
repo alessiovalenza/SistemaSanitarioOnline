@@ -520,3 +520,6 @@ select2 {
     border-radius: 30px;
     width: 50%;
 }
+textarea{
+    width: 100%;
+}

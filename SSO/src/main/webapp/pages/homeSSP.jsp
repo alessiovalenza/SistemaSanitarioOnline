@@ -466,7 +466,7 @@
                                                 </div>
                                                 <div class="container-fluid" style="padding-top: 1rem;">
                                                     <label for="esito">Esito</label>
-                                                    <textarea style="width: 100%" class="inputErogaEsame" type="text" id="esito" name="esito" required="required"></textarea>
+                                                    <textarea placeholder="Scrivi l'esito..." class="inputErogaEsame" type="text" id="esito" name="esito" required="required"></textarea>
                                                 </div>
                                             </div>
                                             <input required="true" id="idPagato" type="checkbox">Ticket di <fmt:formatNumber value="<%=EsamePrescrittoDAO.PREZZO_TICKET%>" type="currency" currencyCode="EUR"/> pagato<br>

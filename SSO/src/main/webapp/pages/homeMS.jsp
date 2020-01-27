@@ -465,7 +465,7 @@
                                                     </div>
                                                     <div class="container-fluid" style="padding-top: 1rem">
                                                         <label for="anamnesi">Anamnesi</label>
-                                                        <textarea class="textAreaAnamnesi" type="text" id="anamnesi" name="anamnesi" required="required"></textarea>
+                                                        <textarea placeholder="Scrivi l'anamnesi..." class="textAreaAnamnesi" type="text" id="anamnesi" name="anamnesi" required="required"></textarea>
                                                     </div>
                                                 </div>
                                                 <input required="true" id="idPagato" type="checkbox"> Ticket di <fmt:formatNumber value="<%=VisitaMedicoSpecialistaDAO.PREZZO_TICKET%>" type="currency" currencyCode="EUR"/> pagato<br>
