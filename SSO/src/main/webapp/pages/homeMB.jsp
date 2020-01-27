@@ -87,7 +87,6 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-
     <!-- JQeuery JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
@@ -521,9 +520,6 @@
                     <a href="#" class="componentControl" id="pazientiControl"><fmt:message key="paz"/></a>
                 </li>
                 <li>
-                    <a href="#" class="componentControl" id="profiloControl"><fmt:message key="profilo"/></a>
-                </li>
-                <li>
                     <a href="#" class="componentControl" id="schedaPazControl"><fmt:message key="scpaz"/></a>
                 </li>
                 <li>
@@ -537,6 +533,9 @@
                 </li>
                 <li>
                     <a href="#" class="componentControl" id="erogaVisitaControl"><fmt:message key="erovis"/></a>
+                </li>
+                <li>
+                    <a href="#" class="componentControl" id="profiloControl"><fmt:message key="profilo"/></a>
                 </li>
                 <li>
                     <a href="#" class="componentControl" id="cambiaPasswordControl">Cambia password</a>

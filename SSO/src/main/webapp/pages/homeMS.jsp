@@ -79,7 +79,6 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-
     <!-- JQeuery JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
@@ -184,6 +183,10 @@
 
             let basePathCarousel = "${baseUrl}<%=File.separator + Utilities.USER_IMAGES_FOLDER + File.separator%>${sessionScope.utente.id}<%=File.separator%>";
             let extension = ".<%=Utilities.USER_IMAGE_EXT%>";
+            initCarousel(${sessionScope.utente.id}, "carouselInnerProfilo", basePathCarousel, extension);
+
+            let labelUpload = document.getElementById("btnUploadFoto").innerHTML;
+            initUploadFoto("#formUploadFoto", ${sessionScope.utente.id}, "#btnUploadFoto", labelUpload);
 
             initAvatar(${sessionScope.utente.id}, "avatarImg", basePathCarousel, extension);
 
@@ -341,6 +344,9 @@
                     <a href="#" class="componentControl" id="schedaPazControl">Visualizza scheda paziente</a>
                 </li>
                 <li>
+                    <a href="#" class="componentControl" id="profiloControl"><fmt:message key="profilo"/></a>
+                </li>
+                <li>
                     <a href="#" class="componentControl" id="cambiaPasswordControl">Cambia password</a>
                 </li>
                 <li>
@@ -362,6 +368,74 @@
                     </button>
                 </div>
             </nav>
+
+            <div id="profilo" class="tool component">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="text-center">
+                                    <div data-interval="false" id="carouselProfiloControls" class="carousel slide"
+                                         data-ride="carousel">
+                                        <div id="carouselInnerProfilo" class="carousel-inner">
+
+                                        </div>
+                                        <a class="carousel-control-prev" href="#carouselProfiloControls" role="button"
+                                           data-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                        <a class="carousel-control-next" href="#carouselProfiloControls" role="button"
+                                           data-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="card-body">
+                                    <div style="clear: both">
+                                        <form action="#" id="formUploadFoto" method="POST" role="form" enctype="multipart/form-data">
+                                            <div>
+                                                <input style="/*float: left;*/  max-width: 100%" class="btn btn-primary" type="file" id="fotoToUpload" name="foto"
+                                                       onchange="return fileValidation('fotoToUpload', 'btnUploadFoto', labelAlertFoto)"/>
+                                                <br>
+                                                <button style="/*float:right;*/ height: 35pt; background: grey;" class="btn btn-primary" type="submit" id="btnUploadFoto" disabled><fmt:message key="carica"/> </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div style="clear: both; padding-top: 0.5rem">
+                                        <hr>
+                                        <h5 style="float: left"><b><fmt:message key="nome"/></b>:  </h5>
+                                        <h5 align="right">${sessionScope.utente.nome}</h5>
+                                    </div>
+                                    <hr>
+                                    <div style="clear: both">
+                                        <h5 style="float: left"><b><fmt:message key="cognome"/></b>:  </h5>
+                                        <h5 align="right">${sessionScope.utente.cognome}</h5>
+                                    </div>
+                                    <hr>
+                                    <div style="clear: both">
+                                        <h5 style="float: left"><b><fmt:message key="sesso"/></b>:  </h5>
+                                        <h5 align="right">${sessionScope.utente.sesso}</h5>
+                                    </div>
+                                    <hr>
+                                    <div style="clear: both">
+                                        <h5 style="float: left"><b><fmt:message key="codfis"/></b>:  </h5>
+                                        <h5 align="right">${sessionScope.utente.codiceFiscale}</h5>
+                                    </div>
+                                    <hr>
+                                    <div style="clear: both">
+                                        <h5 style="float: left"><b><fmt:message key="datanas"/></b>:  </h5>
+                                        <h5 align="right"><fmt:formatDate value="${sessionScope.utente.dataNascita}"/></h5>
+                                    </div>
+                                    <hr>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div id="erogaVisitaSpec" class="tool component">
                 <div class="container">
