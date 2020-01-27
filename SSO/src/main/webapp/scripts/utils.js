@@ -398,6 +398,10 @@ function initCambioPassword(formId, oldPwId, newPwId, ripetiPwId, idUtente, btnI
         document.getElementById(msgId).style.visibility ="hidden";
         resetButton(btnId, labelBtn);
     });
+    $('.inputCambiaPassword').on("input", function () {
+        document.getElementById(msgId).style.visibility ="hidden";
+        resetButton(btnId, labelBtn);
+    });
 }
 
 function setNomeProvincia(targetId, idProvincia) {

@@ -63,6 +63,8 @@
 <html>
 
 <head>
+    <title>Dashboard Medico di Base</title>
+
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -113,6 +115,7 @@
     <script>
         let baseUrl = "<%=request.getContextPath()%>";
         let components = new Set();
+
         const labelLoadingButtons = "loading";
         const labelSuccessButtons = "success";
         const labelErrorButtons = "error";
@@ -143,18 +146,18 @@
 
             let langSelect2;
             <c:choose>
-            <c:when test="${fn:startsWith(language, 'it')}">
-            langSelect2 = "it";
-            </c:when>
-            <c:when test="${fn:startsWith(language, 'en')}">
-            langSelect2 = "en";
-            </c:when>
-            <c:when test="${fn:startsWith(language, 'fr')}">
-            langSelect2 = "fr";
-            </c:when>
-            <c:otherwise>
-            langSelect2 = "en";
-            </c:otherwise>
+                <c:when test="${fn:startsWith(language, 'it')}">
+                    langSelect2 = "it";
+                </c:when>
+                <c:when test="${fn:startsWith(language, 'en')}">
+                    langSelect2 = "en";
+                </c:when>
+                <c:when test="${fn:startsWith(language, 'fr')}">
+                    langSelect2 = "fr";
+                </c:when>
+                <c:otherwise>
+                    langSelect2 = "en";
+                </c:otherwise>
             </c:choose>
 
             let labelMismatch = "La controlla di aver scritto correttamente la nuova password";
@@ -258,6 +261,9 @@
             $('#esito').on("click", function () {
                 resetButton("#btnErogaEsame", labelErogaEs);
             });
+            $('#esito').on("input", function () {
+                resetButton("#btnErogaEsame", labelErogaEs);
+            });
 
             let labelRichiamo1 = document.getElementById("btnRichiamo1").innerHTML;
             $("#formRichiamo1").submit(function(event){
@@ -288,6 +294,9 @@
             $('.inputRichiamo1').on("click", function () {
                 resetButton("#btnRichiamo1", labelRichiamo1);
             });
+            $('.inputRichiamo1').on("input", function () {
+                resetButton("#btnRichiamo1", labelRichiamo1);
+            });
 
             let labelRichiamo2 = document.getElementById("btnRichiamo2").innerHTML;
             $("#formRichiamo2").submit(function(event){
@@ -316,6 +325,9 @@
                 resetButton("#btnRichiamo2", labelRichiamo2);
             });
             $('.inputRichiamo2').on("click", function () {
+                resetButton("#btnRichiamo2", labelRichiamo2);
+            });
+            $('.inputRichiamo2').on("input", function () {
                 resetButton("#btnRichiamo2", labelRichiamo2);
             });
 
