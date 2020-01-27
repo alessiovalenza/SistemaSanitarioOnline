@@ -1020,11 +1020,11 @@
                 </div>
             </div>
 
-            <div id="pazienti"> <!--class="container-fluid component">-->
-                <div> <!--class="row">-->
-                    <div> <!--class="col-md-12">-->
-                        <div> <!--class="table table-responsive"> table table-striped table-hover-->
-                            <table id="tablePazienti" class="display responsive nowrap" style="width: 100%">
+            <div id="pazienti" class="container-fluid component">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="table table-responsive">
+                            <table id="tablePazienti" class="table table-striped table-hover ">
                                 <thead>
                                 <tr>
                                     <th><fmt:message key="nome"/></th>

@@ -8,9 +8,7 @@ body {
     font-size: 1em;
     background: #fafafa;
 }
-table{
-    width: 100%;
-}
+
 p {
     font-family: 'Roboto','Poppins', sans-serif;
 
@@ -526,8 +524,4 @@ select2 {
 
 #schedaPaziente {
     display: none;
-}
-
-.textAreaAnamnesi {
-    width: 100%;
 }
