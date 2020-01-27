@@ -358,7 +358,7 @@ function errorButton(id,labelError) {
 function initCambioPassword(formId, oldPwId, newPwId, ripetiPwId, idUtente, btnId, msgId, labelErrorPwVecchia, labelErrorMismatch, labelBtn) {
     document.getElementById(msgId).style.visibility = "hidden";
     $(formId).submit(function (event) {
-        loadingButton(btnId,labelLoadingButtons)
+        loadingButton(btnId,labelLoadingButtons);
         event.preventDefault();
         if($(newPwId).val() == $(ripetiPwId).val()) {
             let urlCambioPw = baseUrl + "/api/utenti/" + idUtente + "/password";

@@ -1,7 +1,7 @@
-<%@ page import="java.io.File" %>
-<%@ page import="it.unitn.disi.wp.progetto.commons.Utilities" %>
 <%@ page import="java.util.Enumeration" %>
 <%@ page import="java.util.Locale" %>
+<%@ page import="it.unitn.disi.wp.progetto.commons.Utilities" %>
+<%@ page import="it.unitn.disi.wp.progetto.persistence.dao.EsamePrescrittoDAO" %>
 
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java"%>
 
@@ -38,6 +38,8 @@
     switch(selectedSection) {
         case "report":
             break;
+        case "cambiaPassword":
+            break;
         default:
             session.setAttribute("selectedSection", "report");
             break;
@@ -46,8 +48,7 @@
 
 <c:set var="language" value="${sessionScope.language}" scope="page" />
 <c:set var="sectionToShow" value="${sessionScope.selectedSection}" scope="page" />
-<c:set var="baseUrl" value="<%=request.getContextPath()%>"/>
-<c:set var="url" value="${baseUrl}/pages/homeSSN.jsp?language=" scope="page" />
+<c:set var="url" value="http://localhost:8080/SSO_war_exploded/pages/homeSSN.jsp?language=" scope="page" />
 
 <fmt:setLocale value="${language}" />
 <fmt:setBundle basename="labels" />
@@ -56,51 +57,82 @@
 <html>
 
 <head>
-    <title><fmt:message key="Dashboard_SSN"/></title>
+    <title>Dashboard SSN</title>
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Home</title>
-    <link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel = "stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet"/>
-    <!-- Bootstrap CSS CDN -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/>
     <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="../assets/css/homeStyles.css"/>
     <!-- Scrollbar Custom CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
-    <link rel="stylesheet" href="../assets/css/homeStyles.css">
-    <!-- Font Awesome JS -->
-    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
-    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"> </script>
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css"/>
+    <!-- Select2 CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css"/>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+    <!-- JQeuery JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!-- Custom Scrollbar -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+
+    <!-- Font Awesome JS -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js"
+            integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ"
+            crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js"
+            integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"
+            crossorigin="anonymous"></script>
+
+    <!-- Popper.JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
+            integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
+            crossorigin="anonymous"></script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+    <!-- Select2 JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/js/select2.min.js"></script>
-    <!-- Our Custom scripts-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/i18n/it.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/i18n/en.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/i18n/fr.js"></script>
+
+    <!-- Utils JS -->
     <script src="../scripts/utils.js"></script>
+
     <script>
         let components = new Set();
         let baseUrl = "<%=request.getContextPath()%>";
+
+        const labelLoadingButtons = "loading";
+        const labelSuccessButtons = "success";
+        const labelErrorButtons = "error";
+
         $(document).ready(function() {
+
+            let labelMismatch = "La controlla di aver scritto correttamente la nuova password";
+            let labelWrongPw = "Password vecchia non corretta. Riprova";
+            let labelBtnPw = document.getElementById("btnCambiaPassword").innerHTML;
+            initCambioPassword("#formCambiaPassword", "#vecchiaPassword", "#nuovaPassword", "#ripetiPassword", ${sessionScope.utente.id},
+                "#btnCambiaPassword", "messaggioCambioPw", labelWrongPw, labelMismatch, labelBtnPw);
+
             populateComponents();
             hideComponents();
-            $('#report').show();
+
             $('#reportControl').click(() => showComponent('report'));
+            $('#cambiaPasswordControl').click(() => showComponent('cambiaPassword'));
 
             document.getElementById("${sectionToShow}Control").click();
         });
     </script>
 </head>
-
 <body>
-
 <div class="wrapper">
     <!-- Sidebar  -->
     <nav id="sidebar">
@@ -110,7 +142,8 @@
         <div class="sidebar-header">
             <img class="avatar" alt="Avatar" src="../assets/img/logo_repubblica_colori.png"
                  data-holder-rendered="true">
-            <h3>${sessionScope.utente.nome} ${sessionScope.utente.cognome}</h3>
+            <br/><br/>
+            <h5>Servizio sanitario nazionale</h5>
             <br>
             <div class="sidebar-lang">
                 <c:choose>
@@ -142,20 +175,22 @@
 
         <ul class="list-unstyled components">
             <li>
-                <a href="#" class="componentControl" id="reportControl"><fmt:message key="Report"/></a>
+                <a href="#"class="componentControl" id="reportControl">Report</a>
             </li>
             <li>
-                <a href="../logout?forgetme=0"><fmt:message key="Log_out"/></a>
+                <a href="#" class="componentControl" id="cambiaPasswordControl">Cambia password</a>
             </li>
             <li>
-                <a href="../logout?forgetme=1"><fmt:message key="Cambia_account"/></a>
+                <a href="../logout?forgetme=0">Log out</a>
+            </li>
+            <li>
+                <a href="../logout?forgetme=1">Cambia account</a>
             </li>
         </ul>
     </nav>
 
     <!-- Page Content  -->
     <div id="content">
-
         <div class="container">
             <button type="button" id="sidebarCollapse" class="btn btn-info">
                 <i class="fas fa-align-left"></i>
@@ -164,75 +199,88 @@
         </div>
         <br>
 
-        <div class="tool component" id="report">
-            <div class="card">
-                <div class="card-body">
-                    <div style="clear: both; padding-top: 0.5rem">
-                        <form action="../docs/reportnazionale" method="get">
-                            <p class="lead"><fmt:message key="Scarica_il_report"/>: </p>
-                            <input type="submit" class="btn btn-primary btn-lg" value="download">
-                        </form>
+        <div id="report" class="component">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3>Scarica report</h3>
+                        <hr>
+                        <div class="container-fluid" align="center">
+                            <div class="form"  >
+                                <div class="form-toggle"></div>
+                                <div class="form-panel one">
+                                    <div class="form-header">
+                                        <h1>Seleziona il periodo</h1>
+                                    </div>
+                                    <div class="form-content">
+                                        <form id="formScaricaReport" action="../docs/reportnazionale" method="GET">
+                                            <div class="form-group">
+                                                <div class="container-fluid" style="padding-top: 1rem">
+                                                    <label for="fromReport">Dal giorno</label>
+                                                    <input type="date" id="fromReport" name="fromDay" required="required"/>
+                                                    <br>
+                                                </div>
+                                                <div class="container-fluid" style="padding-top: 1rem">
+                                                    <label for="toReport">Al giorno</label>
+                                                    <input type="date" id="toReport" name="toDay" required="required"/>
+                                                </div>
+                                            </div>
+                                            <div class="form-group container">
+                                                <button id ="btnReport" type="submit">Scarica</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
+        <div id="cambiaPassword" class="tool component">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3>Gestione credenziali</h3>
+                        <hr>
+                        <div class="container-fluid" align="center">
+                            <div class="form"  >
+                                <div class="form-toggle"></div>
+                                <div class="form-panel one">
+                                    <div class="form-header">
+                                        <h1>Cambia password</h1>
+                                    </div>
+                                    <div class="form-content">
+                                        <div class="alert alert-warning" role="alert" id="messaggioCambioPw"></div>
+                                        <form id="formCambiaPassword" >
+                                            <div class="form-group">
+                                                <div class="container-fluid" style="padding-top: 1rem">
+                                                    <label for="vecchiaPassword">Vecchia password</label>
+                                                    <input class="inputCambiaPassword" type="password" id="vecchiaPassword" name="vecchiaPassword" required="required"/>
+                                                </div>
+                                                <div class="container-fluid" style="padding-top: 1rem">
+                                                    <label for="nuovaPassword">Nuova password</label>
+                                                    <input class="inputCambiaPassword" type="password" id="nuovaPassword" name="nuovaPassword" required="required"/>
+                                                </div>
+                                                <div class="container-fluid" style="padding-top: 1rem">
+                                                    <label for="ripetiPassword">Ripeti nuova password</label>
+                                                    <input class="inputCambiaPassword" type="password" id="ripetiPassword" name="ripetiPassword" required="required"/>
+                                                </div>
+                                            </div>
+                                            <div class="form-group container">
+                                                <button id ="btnCambiaPassword" type="submit">Procedi</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="overlay"></div>
 </div>
-
-<!-- jQuery CDN - Slim version (=without AJAX) -->
-<!-- Popper.JS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
-<!-- Bootstrap JS -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-<!-- jQuery Custom Scroller CDN -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
-<script type="text/javascript">
-    let baseUrl = "<%=request.getContextPath()%>";
-
-    $(document).ready(function () {
-
-        // $('#sidebar').on('hidden.bs.collapse', function() {
-        //     alert('dasd')
-        // });
-        // $("#sidebar").mCustomScrollbar({
-        //     theme: "minimal"
-        // });
-        //
-        // $('#sidebarCollapse').on('click', function () {
-        //     $('#sidebar, #content').toggleClass('active');
-        //     $('.collapse.in').toggleClass('in');
-        //     $('a[aria-expanded=true]').attr('aria-expanded', 'false');
-        // });
-
-        $('#dismiss, .overlay').on('click', function () {
-            // hide sidebar
-            $('#sidebar').removeClass('active');
-            // hide overlay
-            $('.overlay').removeClass('active');
-        });
-        $('.componentControl, .overlay').on('click', function () {
-            // hide sidebar
-            $('#sidebar').removeClass('active');
-            // hide overlay
-            $('.overlay').removeClass('active');
-        });
-
-        $('#sidebarCollapse').on('click', function () {
-            // open sidebar
-            $('#sidebar').addClass('active');
-            // fade in the overlay
-            $('.overlay').addClass('active');
-            $('.collapse.in').toggleClass('in');
-            $('a[aria-expanded=true]').attr('aria-expanded', 'false');
-        });
-
-
-
-
-    });
-</script>
 </body>
-
 </html>

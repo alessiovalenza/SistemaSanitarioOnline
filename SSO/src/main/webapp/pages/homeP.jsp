@@ -388,7 +388,6 @@
 
             initAvatar(${sessionScope.utente.id}, "avatarImg", basePathCarousel, extension);
 
-
             populateComponents();
             hideComponents();
             $('#profilo').show();
@@ -397,6 +396,7 @@
             $('#cambiaMedicoControl').click(() => showComponent('cambiaMedico'));
             $('#esamiControl').click(() => showComponent('esami'));
             $('#ricetteControl').click(() => showComponent('ricette'));
+            $('#visiteControl').click(() => showComponent('visite'));
             $('#mappeControl').click(() => showComponent('mappe'));
 
             document.getElementById("${sectionToShow}Control").click();
