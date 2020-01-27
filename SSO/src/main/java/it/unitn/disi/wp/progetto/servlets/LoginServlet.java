@@ -23,7 +23,7 @@ public class LoginServlet extends HttpServlet {
     private String password;
     private String rememberMe;
     private String loginUrl = "/login.jsp";
-    private final int REMEMBER_ME_EXPIRE_TIME = 60 * 60 * 24 * 30; // 30 giorni
+    private static final int REMEMBER_ME_EXPIRE_TIME = 60 * 60 * 24 * 30; // 30 giorni
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         email = request.getParameter("email");
@@ -42,15 +42,24 @@ public class LoginServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-        Utente utente = null;
+        Utente utente;
 
         String msg = request.getParameter("rp") == null ? "" : "La password è stata modificata con successo";
         request.setAttribute("msg", msg);
 
-        Cookie c = getCookieByName(request.getCookies(), "rememberMe");
-        String token = c != null ? c.getValue(): null;
-        utente = token != null ? getUtentebyToken(token) : null;
-        System.out.println("utente is: " + utente);
+        //controllo se l'utente è già loggato
+        HttpSession s = request.getSession(false);
+        utente = (Utente) s.getAttribute("utente");
+        System.out.println(utente != null ? "utente " + utente.getNome() + " già loggato" : "utente non loggato");
+
+        //se l'utente non è già loggato allora controllo se ha il cookie rememberMe
+        if (utente == null) {
+            Cookie c = getCookieByName(request.getCookies(), "rememberMe");
+            String token = c != null ? c.getValue() : null;
+            utente = token != null ? getUtentebyToken(token) : null;
+            System.out.println(utente != null ? "utente " + utente.getNome() + " ha il rememberMe" : "l'utente non ha il token rememberMe");
+        }
+
         if (utente != null) {
             System.out.println("autenticato, redirect alla home");
             createSessionAndDispatch(request, response, utente);

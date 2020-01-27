@@ -59,7 +59,8 @@ function showComponent(componentName){
 
         },
         error: function(xhr, status, error) {
-            alert(xhr.responseText);
+            console.log(xhr.responseText);
+            //alert(xhr.responseText);
         }
     });
 }
@@ -116,7 +117,8 @@ function initSelect2Pazienti(idSelect, idProvincia, langCode, labelCerca) {
                 };
             },
             error: function(xhr, status, error) {
-                alert(xhr.responseText);
+                console.log(xhr.responseText);
+                //alert(xhr.responseText);
             }
         }
     });
@@ -156,7 +158,8 @@ function initSelect2PazientiByMB(idSelect, idMedico, langCode, labelCerca) {
                 };
             },
             error: function(xhr, status, error) {
-                alert(xhr.responseText);
+                console.log(xhr.responseText);
+                //alert(xhr.responseText);
             }
         }
     });
@@ -196,7 +199,8 @@ function initSelect2General(tipoItem, idSelect, langCode, labelCerca) {
                 };
             },
             error: function(xhr, status, error) {
-                alert(xhr.responseText);
+                console.log(xhr.responseText);
+                //alert(xhr.responseText);
             }
         }
     });
@@ -246,7 +250,8 @@ function initCarousel(idUtente, carouselId, basePath, extension) {
             appendImages(imagesIDs, carouselId, basePath, extension);
         },
         error: function(xhr, status, error) {
-            alert(xhr.responseText);
+            console.log(xhr.responseText);
+            //alert(xhr.responseText);
         }
     });
 }
@@ -271,7 +276,8 @@ function initAvatar(idUtente, avatarId, basePath, extension) {
             img.src = basePath + data[maxI].id + extension;
         },
         error: function(xhr, status, error) {
-            alert(xhr.responseText);
+            console.log(xhr.responseText);
+            //alert(xhr.responseText);
         }
     });
 }
@@ -289,7 +295,7 @@ function fileValidation(fotoId, buttonId, labelEstensioneAlert){
     }
 }
 
-function initUploadFoto(formId, idUtente, popupId) {
+function initUploadFoto(formId, idUtente, popupId, labelBtn) {
     $(formId).submit(function(e){
         loadingButton(popupId,labelLoadingButtons)
         e.preventDefault();
@@ -302,13 +308,18 @@ function initUploadFoto(formId, idUtente, popupId) {
             processData : false,
             success: function() {
                 successButton(popupId,labelSuccessButtons)
-                alert("Immagine aggiunta con successo!");
+                //alert("Immagine aggiunta con successo!");
             },
             error: function(xhr, status, error) {
+                console.log(xhr.responseText);
                 errorButton(popupId,labelErrorButtons)
-                alert(xhr.responseText);
+                //alert(xhr.responseText);
             }
         });
+    });
+
+    $("#fotoToUpload").click(function () {
+        resetButton("#btnUploadFoto", labelBtn);
     });
 }
 
@@ -316,6 +327,7 @@ function loadingButton(id,labelLoading) {
     const loadingText = '<i class="fa fa-circle-o-notch fa-spin"></i>'+labelLoadingButtons;//mettete qua le stringhe per la lingua
     let $this = $(id);
     $(id).css("background-color", "#1565c0");
+    $(id).prop("disabled", true);
 
     if ($(id).html() !== loadingText) {
         $this.data('original-text', $(id).html());
@@ -323,6 +335,12 @@ function loadingButton(id,labelLoading) {
 
         $this.html(loadingText);
     }
+}
+
+function resetButton(id, labelButton) {
+    $(id).html(labelButton);
+    $(id).css("background-color", "#1565c0");
+    $(id).prop("disabled", false);
 }
 
 function successButton(id,labelSuccess) {
@@ -337,7 +355,8 @@ function errorButton(id,labelError) {
     $(id).html(errorText)
 }
 
-function initCambioPassword(formId, oldPwId, newPwId, ripetiPwId, idUtente, btnId,labelLoading,labelSuccess,labelError) {
+function initCambioPassword(formId, oldPwId, newPwId, ripetiPwId, idUtente, btnId, msgId, labelErrorPwVecchia, labelErrorMismatch, labelBtn) {
+    document.getElementById(msgId).style.visibility = "hidden";
     $(formId).submit(function (event) {
         loadingButton(btnId,labelLoadingButtons)
         event.preventDefault();
@@ -349,30 +368,35 @@ function initCambioPassword(formId, oldPwId, newPwId, ripetiPwId, idUtente, btnI
                 type: "PUT",
                 data: formData,
                 success: function (data) {
-
-                    alert("Password cambiata con successo");
-                    $('.inputCambiaPassword').val("")
-                    successButton(btnId,labelSuccessButtons)
+                    $(".inputCambiaPassword").val("");
+                    successButton(btnId,labelSuccessButtons);
                 },
                 complete: function () {
                 },
                 error: function (xhr, status, error) {
-                    errorButton(btnId,labelErrorButtons)
-                    $('.inputCambiaPassword').val("")
-                    if (status == 401) {
-                        alert("La vecchia password è errata. Riprova");
+                    errorButton(btnId,labelErrorButtons);
+                    $(".inputCambiaPassword").val("");
+                    if (xhr.status == 401) {
+                        document.getElementById(msgId).style.visibility ="visible";
+                        document.getElementById(msgId).textContent = labelErrorPwVecchia;
                     } else {
-
-                        alert(xhr.responseText);
+                        //alert(xhr.responseText);
+                        console.log(xhr.responseText);
                     }
                 }
             });
         }
         else {
-            alert("Mismatch tra la nuova password e la ripetizione");
-            errorButton(btnId,labelErrorButtons)
-            $('.inputCambiaPassword').val("")
+            document.getElementById(msgId).style.visibility ="visible";
+            document.getElementById(msgId).textContent = labelErrorMismatch;
+            errorButton(btnId,labelErrorButtons);
+            $('.inputCambiaPassword').val("");
         }
+    });
+
+    $('.inputCambiaPassword').click(function () {
+        document.getElementById(msgId).style.visibility ="hidden";
+        resetButton(btnId, labelBtn);
     });
 }
 
@@ -386,6 +410,7 @@ function setNomeProvincia(targetId, idProvincia) {
             document.getElementById(targetId).textContent = data.nome;
         },
         error: function(xhr, status, error) {
+            console.log(xhr.responseText);
             document.getElementById(targetId).textContent = idProvincia;
         }
     });

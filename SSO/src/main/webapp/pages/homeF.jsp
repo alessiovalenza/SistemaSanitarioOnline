@@ -36,24 +36,10 @@
 
     String selectedSection = (String)session.getAttribute("selectedSection") != null ? (String)session.getAttribute("selectedSection") : "";
     switch(selectedSection) {
-        case "profilo":
-            break;
-        case "pazienti":
-            break;
-        case "schedaPaz":
-            break;
-        case "prescFarmaco":
-            break;
-        case "prescVisita":
-            break;
-        case "erogaVisita":
-            break;
-        case "prescEsame":
-            break;
-        case "cambiaPassword":
+        case "evadiRicette":
             break;
         default:
-            session.setAttribute("selectedSection", "profilo");
+            session.setAttribute("selectedSection", "evadiRicette");
             break;
     }
 %>
@@ -99,11 +85,11 @@
     <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
     <script src="../scripts/utils.js"></script>
     <script>
+        let components = new Set();
         let baseUrl = "<%=request.getContextPath()%>";
         const labelLoadingButtons = "loading";
         const labelSuccessButtons = "success";
         const labelErrorButtons = "error";
-        let baseUrl = "<%=request.getContextPath()%>";
 
         $(document).ready(function () {
             /* $('#esamiFatti > tbody > tr').click(function () {
@@ -231,27 +217,18 @@
                 });
             });
 
-
-
-            $('#profiloControl').click(function () {
-                $('#erogaMed').fadeOut(0);
-                $('#evadiEicette').fadeOut(0);
-            });
-            $('#erogaMedControl').click(function () {
-                $('#erogaMed').fadeIn(0);
-                $('#evadiRicette').fadeOut(0);
-            });
-            $('#ricetteControl').click(function () {
-                $('#erogaMed').fadeOut(0);
-                $('#evadiRicette').fadeIn(0);
-            });
-
-
             $('#sidebarCollapse').on('click', function () {
                 $('#sidebar, #content').toggleClass('active');
                 $('.collapse.in').toggleClass('in');
                 $('a[aria-expanded=true]').attr('aria-expanded', 'false');
             });
+
+            $("#evadiRicetteControl").click(() => showComponent("evadiRicette"));
+
+            populateComponents();
+            hideComponents();
+
+            document.getElementById("${sectionToShow}Control").click();
         });
     </script>
 
@@ -272,7 +249,7 @@
 
         <ul class="list-unstyled">
             <li>
-                <a href="#" class="componentControl" id="ricetteControl">Evadi Ricette</a>
+                <a href="#" class="componentControl" id="evadiRicetteControl">Evadi Ricette</a>
             </li>
             <li>
                 <a href="../logout?forgetme=0">Log out</a>
@@ -298,7 +275,7 @@
             </div>
         </nav>
 
-        <div id="evadiRicette" class="tool">
+        <div id="evadiRicette" class="tool component">
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">

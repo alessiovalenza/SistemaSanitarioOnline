@@ -53,7 +53,7 @@
         case "cambiaPassword":
             break;
         default:
-            session.setAttribute("selectedSection", "profilo");
+            session.setAttribute("selectedSection", "pazienti");
             break;
     }
 %>
@@ -119,6 +119,10 @@
     <!--DataTables JS -->
     <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css"></link>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css"></link>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 
     <!-- Utils JS -->
     <script src="../scripts/utils.js"></script>
@@ -215,12 +219,18 @@
 
             initSelect2General("visite", "#idvisita", langSelect2, labelCercaVisite);
 
-            initUploadFoto("#formUploadFoto", ${sessionScope.utente.id}, "#btnUploadFoto");
+            let labelUpload = document.getElementById("btnUploadFoto").innerHTML;
+            initUploadFoto("#formUploadFoto", ${sessionScope.utente.id}, "#btnUploadFoto", labelUpload);
 
             initAvatar(${sessionScope.utente.id}, "avatarImg", basePath, extension);
 
-            initCambioPassword("#formCambiaPassword", "#vecchiaPassword", "#nuovaPassword", "#ripetiPassword", ${sessionScope.utente.id}, "#btnCambiaPassword",labelLoadingButtons,labelSuccessButtons,labelErrorButtons);
+            let labelMismatch = "La controlla di aver scritto correttamente la nuova password";
+            let labelWrongPw = "Password vecchia non corretta. Riprova";
+            let labelBtnPw = document.getElementById("btnCambiaPassword").innerHTML;
+            initCambioPassword("#formCambiaPassword", "#vecchiaPassword", "#nuovaPassword", "#ripetiPassword", ${sessionScope.utente.id},
+                "#btnCambiaPassword", "messaggioCambioPw", labelWrongPw, labelMismatch, labelBtnPw);
 
+            let labelErogaVisita = document.getElementById("btnErogaVisita").innerHTML;
             $("#formErogaVisita").submit(function(event){
                 loadingButton("#btnErogaVisita",labelLoadingButtons)
                 event.preventDefault(); //prevent default action
@@ -231,24 +241,28 @@
                     type: "POST",
                     data : formData,
                     success: function (data) {
-                        $('.select2ErogaVisita').val(null).trigger("change")
-                        $('#anamnesi').val("")
-                        successButton("#btnErogaVisita",labelSuccessButtons)
-                        document.getElementById("erogaVisitaBaseOK").classList.toggle("show");
-                        setTimeout(function() {
-                            document.getElementById("erogaVisitaBaseOK").classList.toggle("show");
-                        }, 3000);
+                        $('.select2ErogaVisita').val(null).trigger("change");
+                        $('#anamnesi').val("");
+                        successButton("#btnErogaVisita",labelSuccessButtons);
                     },
                     complete: function(){
 
                     },
                     error: function(xhr, status, error) {
-                        errorButton("#btnErogaVisita",labelErrorButtons)
-                        alert(xhr.responseText);
+                        errorButton("#btnErogaVisita",labelErrorButtons);
+                        console.log(xhr.responseText);
+                        //alert(xhr.responseText);
                     }
                 });
             });
+            $('.select2ErogaVisita').on("change", function () {
+                resetButton("#btnErogaVisita", labelErogaVisita);
+            });
+            $('#anamnesi').on("click", function () {
+                resetButton("#btnErogaVisita", labelErogaVisita);
+            });
 
+            let labelPrescFarmaco = document.getElementById("btnPrescriviFarmaco").innerHTML;
             $("#formPrescFarmaco").submit(function(event) {
                 event.preventDefault(); //prevent default action
 
@@ -261,23 +275,24 @@
                     type: "POST",
                     data : formData,
                     success: function (data) {
-                        successButton("#btnPrescriviFarmaco",labelSuccessButtons)
-                        $('.select2PrescFarmaco').val(null).trigger("change")
-                        document.getElementById("prescriviFarmacoOK").classList.toggle("show");
-                        setTimeout(function() {
-                            document.getElementById("prescriviFarmacoOK").classList.toggle("show");
-                        }, 3000);
+                        $('.select2PrescFarmaco').val(null).trigger("change");
+                        successButton("#btnPrescriviFarmaco",labelSuccessButtons);
                     },
                     complete: function(){
 
                     },
                     error: function(xhr, status, error) {
-                        alert(xhr.responseText);
-                        errorButton("#btnPrescriviFarmaco",labelErrorButtons)
+                        //alert(xhr.responseText);
+                        errorButton("#btnPrescriviFarmaco",labelErrorButtons);
+                        console.log(xhr.responseText);
                     }
                 });
             });
+            $('.select2PrescFarmaco').on("change", function () {
+                resetButton("#btnPrescriviFarmaco", labelPrescFarmaco);
+            });
 
+            let labelPrescEsame = document.getElementById("btnPrescriviEsame").innerHTML;
             $("#formPrescEsame").submit(function(event){
                 event.preventDefault(); //prevent default action
                 loadingButton("#btnPrescriviEsame",labelLoadingButtons)
@@ -288,23 +303,24 @@
                     type: "POST",
                     data : formData,
                     success: function (data) {
-                        $('.select2PrescEsame').val(null).trigger("change")
-                        successButton("#btnPrescriviEsame",labelSuccessButtons)
-                        document.getElementById("prescriviEsameOK").classList.toggle("show");
-                        setTimeout(function() {
-                            document.getElementById("prescriviEsameOK").classList.toggle("show");
-                        }, 3000);
+                        $('.select2PrescEsame').val(null).trigger("change");
+                        successButton("#btnPrescriviEsame",labelSuccessButtons);
                     },
                     complete: function(){
 
                     },
                     error: function(xhr, status, error) {
-                        errorButton("#btnPrescriviEsame",labelErrorButtons)
-                        alert(xhr.responseText);
+                        errorButton("#btnPrescriviEsame",labelErrorButtons);
+                        console.log(xhr.responseText);
+                        //alert(xhr.responseText);
                     }
                 });
             });
+            $('.select2PrescEsame').on("change", function () {
+                resetButton("#btnPrescriviEsame", labelPrescEsame);
+            });
 
+            let labelPrescVisita = document.getElementById("btnPrescriviVisita").innerHTML;
             $("#formPrescVisita").submit(function(event){
                 loadingButton("#btnPrescriviVisita",labelLoadingButtons)
                 event.preventDefault(); //prevent default action
@@ -315,18 +331,18 @@
                     type: "POST",
                     data : formData,
                     success: function (data) {
-                        successButton("#btnPrescriviVisita",labelSuccessButtons)
-                        $('.select2PrescVisita').val(null).trigger("change")
-                        document.getElementById("prescriviVisitaOK").classList.toggle("show");
-                        setTimeout(function() {
-                            document.getElementById("prescriviVisitaOK").classList.toggle("show");
-                        }, 3000);
+                        $('.select2PrescVisita').val(null).trigger("change");
+                        successButton("#btnPrescriviVisita",labelSuccessButtons);
                     },
                     error: function(xhr, status, error) {
                         errorButton("#btnPrescriviVisita",labelErrorButtons)
-                        alert(xhr.responseText);
+                        console.log(xhr.responseText);
+                        //alert(xhr.responseText);
                     }
                 });
+            });
+            $('.select2PrescVisita').on("change", function () {
+                resetButton("#btnPrescriviVisita", labelPrescVisita);
             });
 
             $("#formScheda").submit(function(event){
@@ -339,6 +355,7 @@
                 $('#dataPazienteScheda').DataTable().destroy()
                 let urlDataPaziente = baseUrl + "/api/pazienti/"+$('#idpazienteScheda').val();
                 $('#dataPazienteScheda').DataTable( {
+                    "scrollX": true,
                     "processing": false,
                     "ordering": false,
                     "paging": false,
@@ -368,7 +385,8 @@
                             return returnData;
                         },
                         "error": function(xhr, status, error) {
-                            alert(xhr.responseText);
+                            console.log(xhr.responseText);
+                            //alert(xhr.responseText);
                         }
                     },
                     "columns": [
@@ -386,6 +404,8 @@
                 let urlVisiteBase = baseUrl + "/api/pazienti/"+$('#idpazienteScheda').val()+"/visitebase"
                 let table = $('#visiteBasePazienteScheda').DataTable( {
                     "processing": true,
+                    "scrollX": true,
+                    "responsive": true,
                     "ordering": true,
                     "paging": true,
                     "searching": true,
@@ -412,7 +432,8 @@
                             return returnData;
                         },
                         "error": function(xhr, status, error) {
-                            alert(xhr.responseText);
+                            console.log(xhr.responseText);
+                            //alert(xhr.responseText);
                         }
                     },
                     "columnDefs": [
@@ -435,6 +456,7 @@
                 let urlVisiteSpacialisticheErogate = baseUrl + "/api/pazienti/"+$('#idpazienteScheda').val()+"/visitespecialistiche/?erogateonly=true&nonerogateonly=false"
                 $('#visiteSpecialisticheErogatePazienteScheda').DataTable( {
                     "processing": true,
+                    "scrollX": true,
                     "ordering": true,
                     "paging": true,
                     "searching": true,
@@ -467,7 +489,8 @@
                             return returnData;
                         },
                         "error": function(xhr, status, error) {
-                            alert(xhr.responseText);
+                            console.log(xhr.responseText);
+                            //alert(xhr.responseText);
                         }
                     },
                     "columns": [
@@ -487,6 +510,7 @@
                 $('#visiteSpecialisticheNonErogatePazienteScheda').DataTable( {
                     "processing": true,
                     "ordering": true,
+                    "scrollX": true,
                     "paging": true,
                     "searching": true,
                     "serverSide": false,
@@ -512,7 +536,8 @@
                             return returnData;
                         },
                         "error": function(xhr, status, error) {
-                            alert(xhr.responseText);
+                            console.log(xhr.responseText);
+                            //alert(xhr.responseText);
                         }
                     },
                     "columns": [
@@ -529,6 +554,7 @@
                     "processing": true,
                     "ordering": true,
                     "paging": true,
+                    "scrollX": true,
                     "searching": true,
                     "serverSide": false,
                     "language": {
@@ -557,7 +583,8 @@
                             return returnData;
                         },
                         "error": function(xhr, status, error) {
-                            alert(xhr.responseText);
+                            console.log(xhr.responseText);
+                            //alert(xhr.responseText);
                         }
                     },
                     "columns": [
@@ -575,6 +602,7 @@
                 $('#ricetteNonEvasePazienteScheda').DataTable( {
                     "processing": true,
                     "ordering": true,
+                    "scrollX": true,
                     "paging": true,
                     "searching": true,
                     "serverSide": false,
@@ -601,7 +629,8 @@
                             return returnData;
                         },
                         "error": function(xhr, status, error) {
-                            alert(xhr.responseText);
+                            console.log(xhr.responseText);
+                            //alert(xhr.responseText);
                         }
                     },
                     "columns": [
@@ -619,6 +648,7 @@
                     "processing": true,
                     "ordering": true,
                     "paging": true,
+                    "scrollX": true,
                     "searching": true,
                     "serverSide": false,
                     "language": {
@@ -648,7 +678,8 @@
                             return returnData;
                         },
                         "error": function(xhr, status, error) {
-                            alert(xhr.responseText);
+                            console.log(xhr.responseText);
+                            //alert(xhr.responseText);
                         }
                     },
                     "columns": [
@@ -667,6 +698,7 @@
                 $('#esamiNonErogatiPazienteScheda').DataTable( {
                     "processing": true,
                     "ordering": true,
+                    "scrollX": true,
                     "paging": true,
                     "searching": true,
                     "serverSide": false,
@@ -693,7 +725,8 @@
                             return returnData;
                         },
                         "error": function(xhr, status, error) {
-                            alert(xhr.responseText);
+                            console.log(xhr.responseText);
+                            //alert(xhr.responseText);
                         }
                     },
                     "columns": [
@@ -714,8 +747,11 @@
                 $("#tablePazienti").DataTable().destroy()
                 let urlPazienti = baseUrl + "/api/medicibase/${sessionScope.utente.id}/pazienti?datericettavisita=true";
                 $("#tablePazienti").DataTable( {
+                    "autoWidth": false,
+                    "responsive": true,
                     "processing": true,
                     "ordering": true,
+                    "scrollX": false,
                     "paging": true,
                     "searching": true,
                     "serverSide": false,
@@ -833,7 +869,7 @@
 </head>
 
 <body>
-    <div class="wrapper">
+    <div> <!--class="wrapper">-->
         <!-- Sidebar  -->
         <nav id="sidebar">
             <div id="dismiss">
@@ -869,16 +905,15 @@
                             <b>français</b>
                         </c:otherwise>
                     </c:choose>
-
                 </div>
             </div>
 
             <ul class="list-unstyled">
                 <li>
-                    <a href="#" class="componentControl" id="profiloControl"><fmt:message key="profilo"/></a>
+                    <a href="#" class="componentControl" id="pazientiControl"><fmt:message key="paz"/></a>
                 </li>
                 <li>
-                    <a href="#" class="componentControl" id="pazientiControl"><fmt:message key="paz"/></a>
+                    <a href="#" class="componentControl" id="profiloControl"><fmt:message key="profilo"/></a>
                 </li>
                 <li>
                     <a href="#" class="componentControl" id="schedaPazControl"><fmt:message key="scpaz"/></a>
@@ -946,7 +981,7 @@
                                     <div style="clear: both">
                                         <form action="#" id="formUploadFoto" method="POST" role="form" enctype="multipart/form-data">
                                             <div>
-                                                <input style="float: left; height: 35pt" class="btn btn-primary" type="file" id="fotoToUpload" name="foto"
+                                                <input style="float: left; width: 100%; max-width: 200px" class="btn btn-primary" type="file" id="fotoToUpload" name="foto"
                                                        onchange="return fileValidation('fotoToUpload', 'btnUploadFoto', labelAlertFoto)"/>
                                                 <button style="float:right; height: 35pt; background: grey;" class="btn btn-primary" type="submit" id="btnUploadFoto" disabled><fmt:message key="carica"/> </button>
                                             </div>
@@ -954,27 +989,27 @@
                                     </div>
                                     <div style="clear: both; padding-top: 0.5rem">
                                         <hr>
-                                        <h5 style="float: left"><fmt:message key="nome"/>:  </h5>
+                                        <h5 style="float: left"><b><fmt:message key="nome"/></b>:  </h5>
                                         <h5 align="right">${sessionScope.utente.nome}</h5>
                                     </div>
                                     <hr>
                                     <div style="clear: both">
-                                        <h5 style="float: left"><fmt:message key="cognome"/>:  </h5>
+                                        <h5 style="float: left"><b><fmt:message key="cognome"/></b>:  </h5>
                                         <h5 align="right">${sessionScope.utente.cognome}</h5>
                                     </div>
                                     <hr>
                                     <div style="clear: both">
-                                        <h5 style="float: left"><fmt:message key="sesso"/>:  </h5>
+                                        <h5 style="float: left"><b><fmt:message key="sesso"/></b>:  </h5>
                                         <h5 align="right">${sessionScope.utente.sesso}</h5>
                                     </div>
                                     <hr>
                                     <div style="clear: both">
-                                        <h5 style="float: left"><fmt:message key="codfis"/>:  </h5>
+                                        <h5 style="float: left"><b><fmt:message key="codfis"/></b>:  </h5>
                                         <h5 align="right">${sessionScope.utente.codiceFiscale}</h5>
                                     </div>
                                     <hr>
                                     <div style="clear: both">
-                                        <h5 style="float: left"><fmt:message key="datanas"/>:  </h5>
+                                        <h5 style="float: left"><b><fmt:message key="datanas"/></b>:  </h5>
                                         <h5 align="right"><fmt:formatDate value="${sessionScope.utente.dataNascita}"/></h5>
                                     </div>
                                     <hr>
@@ -1057,7 +1092,7 @@
 
                             <div class="col-md-12">
                                 <h5><fmt:message key="datipaz"/></h5>
-                                <div class="table table-responsive">
+                                <div class="container-fluid">
                                     <table id="dataPazienteScheda" class="table table-striped table-hover ">
                                         <thead>
                                         <tr>
@@ -1076,7 +1111,7 @@
                             <br/>
                             <div class="col-md-12">
                                 <h5><fmt:message key="visbas"/></h5>
-                                <div class="table table-responsive">
+                                <div class="container-fluid">
                                     <table id="visiteBasePazienteScheda" class="table table-striped table-hover ">
                                         <thead>
                                         <tr>
@@ -1100,7 +1135,7 @@
                             <br/>
                             <div class="col-md-12">
                                 <h5><fmt:message key="ricev"/></h5>
-                                <div class="table table-responsive">
+                                <div class="container-fluid">
                                     <table id="ricetteEvasePazienteScheda" class="table table-striped table-hover ">
                                         <thead>
                                         <tr>
@@ -1128,7 +1163,7 @@
                             <br/>
                             <div class="col-md-12">
                                 <h5><fmt:message key="ricnevas"/></h5>
-                                <div class="table table-responsive">
+                                <div class="container-fluid">
                                     <table id="ricetteNonEvasePazienteScheda" class="table table-striped table-hover ">
                                         <thead>
                                         <tr>
@@ -1154,7 +1189,7 @@
                             <br/>
                             <div class="col-md-12">
                                 <h5><fmt:message key="esero"/></h5>
-                                <div class="table table-responsive">
+                                <div class="container-fluid">
                                     <table id="esamiErogatiPazienteScheda" class="table table-striped table-hover ">
                                         <thead>
                                         <tr>
@@ -1184,7 +1219,7 @@
                             <br/>
                             <div class="col-md-12">
                                 <h5><fmt:message key="esnero"/></h5>
-                                <div class="table table-responsive">
+                                <div class="container-fluid">
                                     <table id="esamiNonErogatiPazienteScheda" class="table table-striped table-hover ">
                                         <thead>
                                         <tr>
@@ -1210,7 +1245,7 @@
                             <br/>
                             <div class="col-md-12">
                                 <h5><fmt:message key="visspecero"/></h5>
-                                <div class="table table-responsive">
+                                <div class="container-fluid">
                                     <table id="visiteSpecialisticheErogatePazienteScheda" class="table table-striped table-hover ">
                                         <thead>
                                         <tr>
@@ -1242,7 +1277,7 @@
                             <br/>
                             <div class="col-md-12">
                                 <h5><fmt:message key="visspecnero"/></h5>
-                                <div class="table table-responsive">
+                                <div class="container-fluid">
                                     <table id="visiteSpecialisticheNonErogatePazienteScheda" class="table table-striped table-hover ">
                                         <thead>
                                         <tr>
@@ -1295,7 +1330,6 @@
                                                 </div>
                                                 <div class="form-group popup container">
                                                     <button id ="btnPrescriviFarmaco" type="submit" class="btn btn-primary " >Prescrivi</button>
-                                                    <span class="popuptext" id="prescriviFarmacoOK"><fmt:message key="farpres"/></span>
                                                 </div>
 
                                             </form>
@@ -1335,7 +1369,6 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <button id ="btnPrescriviVisita" type="submit"><fmt:message key="pres"/></button>
-                                                    <span class="popuptext" id="prescriviVisitaOK"><fmt:message key="visspecpres"/></span>
                                                 </div>
                                             </form>
                                         </div>
@@ -1373,8 +1406,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <button id ="btnPrescriviEsame" type="submit"><fmt:message key="prescrizione"/></button>
-                                                    <span class="popuptext" id="prescriviEsameOK"><fmt:message key="esprescr"/></span>
+                                                    <button id ="btnPrescriviEsame" type="submit"><fmt:message key="pres"/></button>
                                                 </div>
                                             </form>
                                         </div>
@@ -1404,16 +1436,15 @@
                                                 <div class="form-group">
                                                     <div class="container-fluid" style="padding-top: 1rem">
                                                         <label for="idmedicobaseVisita"><fmt:message key="nomepaz"/></label>
-                                                        <select class="select2ErogaVisita" type="text" id="idmedicobaseVisita" name="idmedicobaseVisita" required="required"></select>
+                                                        <select class="select2ErogaVisita inputErogaVisita" type="text" id="idmedicobaseVisita" name="idmedicobaseVisita" required="required"></select>
                                                     </div>
                                                     <div class="container-fluid" style="padding-top: 1rem">
                                                         <label for="anamnesi"><fmt:message key="anamn"/></label>
-                                                        <textarea type="text" id="anamnesi" name="anamnesi" required="required"></textarea>
+                                                        <textarea class="inputErogaVisita textAreaAnamnesi" type="text" id="anamnesi" name="anamnesi" required="required"></textarea>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <button id ="btnErogaVisita" type="submit"><fmt:message key="erovis"/></button>
-                                                    <span class="popuptext" id="erogaVisitaBaseOK"><fmt:message key="visero"/></span>
                                                 </div>
                                             </form>
                                         </div>
@@ -1429,7 +1460,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12">
-                            <h3>Cambia la tua password per l'accesso al sistema</h3>
+                            <h3>Gestione password</h3>
                             <hr>
                             <div class="container-fluid" align="center">
                                 <div class="form"  >
@@ -1439,19 +1470,20 @@
                                             <h1>Cambia password</h1>
                                         </div>
                                         <div class="form-content">
+                                            <div class="alert alert-warning" role="alert" id="messaggioCambioPw"></div>
                                             <form id="formCambiaPassword" >
                                                 <div class="form-group">
                                                     <div class="container-fluid" style="padding-top: 1rem">
                                                         <label for="vecchiaPassword">Vecchia password</label>
-                                                        <input type="password" id="vecchiaPassword" name="vecchiaPassword" required="required"/>
+                                                        <input class="inputCambiaPassword" type="password" id="vecchiaPassword" name="vecchiaPassword" required="required"/>
                                                     </div>
                                                     <div class="container-fluid" style="padding-top: 1rem">
                                                         <label for="nuovaPassword">Nuova password</label>
-                                                        <input type="password" id="nuovaPassword" name="nuovaPassword" required="required"/>
+                                                        <input class="inputCambiaPassword" type="password" id="nuovaPassword" name="nuovaPassword" required="required"/>
                                                     </div>
                                                     <div class="container-fluid" style="padding-top: 1rem">
                                                         <label for="ripetiPassword">Ripeti nuova password</label>
-                                                        <input type="password" id="ripetiPassword" name="ripetiPassword" required="required"/>
+                                                        <input class="inputCambiaPassword" type="password" id="ripetiPassword" name="ripetiPassword" required="required"/>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">

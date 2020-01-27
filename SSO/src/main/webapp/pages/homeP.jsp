@@ -38,19 +38,13 @@
     switch(selectedSection) {
         case "profilo":
             break;
-        case "pazienti":
+        case "medico":
             break;
-        case "schedaPaz":
+        case "cambiaMedico":
             break;
-        case "prescFarmaco":
+        case "esami":
             break;
-        case "prescVisita":
-            break;
-        case "erogaVisita":
-            break;
-        case "prescEsame":
-            break;
-        case "cambiaPassword":
+        case "ricette":
             break;
         case "mappe":
             break;
@@ -111,12 +105,25 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/js/select2.min.js"></script>
     <script src="../scripts/utils.js"></script>
     <script>
+        let components = new Set();
         const labelLoadingButtons = "loading";
         const labelSuccessButtons = "success";
         const labelErrorButtons = "error";
         let baseUrl = "<%=request.getContextPath()%>";
 
         $(document).ready(function(){
+            populateComponents();
+            hideComponents();
+            $('#profilo').show();
+            $('#profiloControl').click(() => showComponent('profilo'));
+            $('#medicoControl').click(() => showComponent('medico'));
+            $('#cambiaMedicoControl').click(() => showComponent('cambiaMedico'));
+            $('#esamiControl').click(() => showComponent('esami'));
+            $('#ricetteControl').click(() => showComponent('ricette'));
+
+            document.getElementById("${sectionToShow}Control").click();
+
+
             $("#formPutCambiaMedico").submit(function(event){
                 loadingButton("#btnCambiaMedico",labelLoadingButtons)
                 event.preventDefault(); //prevent default action
@@ -132,7 +139,7 @@
 
                         $('#idmedicobase').val(null).trigger("change")
                         successButton("#btnCambiaMedico",labelSuccessButtons)
-                    },
+                    }.data,
                     complete: function(){
                     },
                     error: function(xhr, status, error) {
@@ -149,14 +156,9 @@
             $('#esami').hide();
             $('#cambiaMedico').hide();
             $('#ricette').hide();
-            $("#mappe").hide();
 
 
             $("#medicoControl").click(function(){
-                $("#cambiaMedico").fadeOut(0);
-                $("#esami").fadeOut(0);
-                $("#profilo").fadeOut(0);
-                $("#ricette").fadeOut(0);
                 let url = baseUrl + '/api/pazienti/${sessionScope.utente.id}/medicobase'
                 $.ajax({
                     type: "GET",
@@ -180,39 +182,15 @@
                     }
 
                 });
-                $("#medico").fadeIn(0);
-                $("#mappe").fadeOut(0);
-
             });
-            $("#profiloControl").click(function(){
-                $("#esami").fadeOut(0);
-                $("#medico").fadeOut(0);
-                $("#cambiaMedico").fadeOut(0);
-                $("#profilo").fadeIn(0);
-                $("#ricette").fadeOut(0);
-                $("#mappe").fadeOut(0);
-            });
-
-            $("#mappeControl").click(function(){
-                $("#esami").fadeOut(0);
-                $("#medico").fadeOut(0);
-                $("#cambiaMedico").fadeOut(0);
-                $("#profilo").fadeOut(0);
-                $("#ricette").fadeOut(0);
-                $("#mappe").fadeIn(0);
-            });
-
             $("#esamiControl").click(function(){
                 $('#esamiErogati').DataTable().destroy()
                 $('#esamiNonErogati').DataTable().destroy()
-                $("#medico").fadeOut(0);
-                $("#profilo").fadeOut(0);
-                $("#cambiaMedico").fadeOut(0);
-                $("#ricette").fadeOut(0);
                 let urlEsamiNonErogati = baseUrl + "/api/pazienti/${sessionScope.utente.id}/esamiprescritti?erogationly=false&nonerogationly=true";
                 $('#esamiNonErogati').DataTable( {
                     "processing": true,
                     "serverSide": true,
+                    "scrollX": true,
                     "ajax": {
                         "url": urlEsamiNonErogati,
                         "type":"GET",
@@ -228,6 +206,7 @@
                 } );
                 let urlEsamiErogati = baseUrl + "/api/pazienti/"+ ${sessionScope.utente.id} +"/esamiprescritti?erogationly=true&nonerogationly=false";
                 $('#esamiErogati').DataTable( {
+                    "scrollX": true,
                     "processing": true,
                     "serverSide": true,
                     "ajax": {
@@ -245,17 +224,9 @@
 
                     ]
                 } );
-                $("#esami").fadeIn(0);
-                $("#mappe").fadeOut(0);
             });
 
             $("#cambiaMedicoControl").click(function(){
-                $("#medico").fadeOut(0);
-                $("#profilo").fadeOut(0);
-                $("#esami").fadeOut(0);
-                $("#ricette").fadeOut(0);
-                $("#mappe").fadeOut(0);
-                $("#cambiaMedico").fadeIn(0);
                 let urlCambioMedico = baseUrl + '/api/general/medicibase/?idprovincia='+'${sessionScope.utente.prov}'
                 $("#idmedicobase").click(function(){
                     alert("pre")
@@ -323,13 +294,9 @@
             $("#ricetteControl").click(function(){
                 $('#ricetteEvase').DataTable().destroy()
                 $('#ricetteNonEvase').DataTable().destroy()
-                $("#medico").fadeOut(0);
-                $("#profilo").fadeOut(0);
-                $("#esami").fadeOut(0);
-                $("#cambiaMedico").fadeOut(0);
-                $("#mappe").fadeOut(0);
                 let urlRicetteNonEvase = baseUrl + "/api/pazienti/"+ ${sessionScope.utente.id} +"/ricette?evaseonly=false&nonevaseonly=true";
                 $('#ricetteNonEvase').DataTable( {
+                    "scrollX": true,
                     "processing": true,
                     "serverSide": true,
                     "ajax": {
@@ -348,6 +315,7 @@
                 } );
                 let urlRicetteEvase = baseUrl + "/api/pazienti/"+ ${sessionScope.utente.id} +"/ricette?evaseonly=true&nonevaseonly=false";
                 $('#ricetteEvase').DataTable( {
+                    "scrollX": true,
                     "processing": true,
                     "serverSide": true,
                     "ajax": {
@@ -364,7 +332,6 @@
                         { "data": "esame.nome" }
                     ]
                 } );
-                $("#ricette").fadeIn(0);
 
             });
         });
@@ -657,7 +624,7 @@
             </script>
         </div>
 
-        <div class="container-fluid" align="center" id="cambiaMedico">
+        <div class="container-fluid tool component" align="center" id="cambiaMedico">
             <div class="form">
                 <div class="form-toggle"></div>
                 <div class="form-panel one">
@@ -691,7 +658,7 @@
                 </button>
             </div>
         </nav>
-        <div class="tool"  id="profilo">
+        <div class="tool component"  id="profilo">
 
             <div class="card" >
                 <div class="text-center" >
@@ -795,9 +762,9 @@
                 </div>
             </div>
         </div>
-        <div id="esami">
+        <div id="esami" class="tool component">
             <h2>esami non erogati</h2>
-            <div class="table-responsive">
+            <div class="container-fluid">
                 <table id="esamiNonErogati" class="table table-striped table-hover ">
                     <thead>
                     <tr>
@@ -810,7 +777,7 @@
                 </table>
             </div>
             <h2>esami erogati</h2>
-            <div class="table-responsive">
+            <div class="container-fluid">
                 <table id="esamiErogati" class="table table-striped table-hover ">
                     <thead>
                     <tr>
@@ -826,9 +793,9 @@
             </div>
 
         </div>
-        <div id="ricette">
+        <div id="ricette" class="component tool">
             <h2>ricette non evase ovviamente dovete cambiare i campi</h2>
-            <div class="table-responsive">
+            <div class="container-fluid">
                 <table id="ricetteNonEvase" class="table table-striped table-hover ">
                     <thead>
                     <tr>
@@ -844,7 +811,7 @@
                 </table>
             </div>
             <h2>ricette evase ovviamente dovete cambiare i campi </h2>
-            <div class="table-responsive">
+            <div class="container-fluid">
                 <table id="ricetteEvase" class="table table-striped table-hover ">
                     <thead>
                     <tr>
@@ -860,7 +827,7 @@
                 </table>
             </div>
         </div>
-        <div class="tool" id="medico">
+        <div class="tool component" id="medico">
             <div class="card" >
 
                 <img src="3.jpeg" class="rounded mx-auto d-block">

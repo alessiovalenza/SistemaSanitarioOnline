@@ -36,24 +36,10 @@
 
     String selectedSection = (String)session.getAttribute("selectedSection") != null ? (String)session.getAttribute("selectedSection") : "";
     switch(selectedSection) {
-        case "profilo":
-            break;
-        case "pazienti":
-            break;
-        case "schedaPaz":
-            break;
-        case "prescFarmaco":
-            break;
-        case "prescVisita":
-            break;
-        case "erogaVisita":
-            break;
-        case "prescEsame":
-            break;
-        case "cambiaPassword":
+        case "report":
             break;
         default:
-            session.setAttribute("selectedSection", "profilo");
+            session.setAttribute("selectedSection", "report");
             break;
     }
 %>
@@ -103,9 +89,10 @@
         $(document).ready(function() {
             populateComponents();
             hideComponents();
-            $('#profilo').show();
-            $('#profiloControl').click(() => showComponent('profilo'));
+            $('#report').show();
             $('#reportControl').click(() => showComponent('report'));
+
+            document.getElementById("${sectionToShow}Control").click();
         });
     </script>
 </head>
@@ -125,9 +112,6 @@
         </div>
 
         <ul class="list-unstyled components">
-            <li>
-                <a href="#" class="componentControl" id="profiloControl">Profilo</a>
-            </li>
             <li>
                 <a href="#" class="componentControl" id="reportControl">Report</a>
             </li>
@@ -151,23 +135,6 @@
             </div>
         </nav>
 
-        <div class="tool component" id="profilo">
-            <div class="card">
-                <div class="card-body">
-                    <div style="clear: both; padding-top: 0.5rem">
-                        <h5 align="center">${sessionScope.utente.nome}</h5>
-                    </div>
-                    <hr>
-                    <div style="clear: both">
-                        <h5 align="left">${sessionScope.utente.luogoNascita}</h5>
-                    </div>
-                    <hr>
-                    <div style="clear: both; padding-top: 0.5rem">
-                        <h5 align="center">${sessionScope.utente.email}</h5>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <div class="tool component" id="report">
             <div class="card">
@@ -232,6 +199,10 @@
             $('.collapse.in').toggleClass('in');
             $('a[aria-expanded=true]').attr('aria-expanded', 'false');
         });
+
+
+
+
     });
 </script>
 </body>

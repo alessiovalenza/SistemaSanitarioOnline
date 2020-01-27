@@ -1,5 +1,7 @@
 <%@ page import="java.util.Enumeration" %>
 <%@ page import="java.util.Locale" %>
+<%@ page import="it.unitn.disi.wp.progetto.commons.Utilities" %>
+<%@ page import="it.unitn.disi.wp.progetto.persistence.dao.EsamePrescrittoDAO" %>
 
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java"%>
 
@@ -52,7 +54,7 @@
 
 <c:set var="language" value="${sessionScope.language}" scope="page" />
 <c:set var="sectionToShow" value="${sessionScope.selectedSection}" scope="page" />
-<c:set var="url" value="http://localhost:8080/SSO_war_exploded/pages/homeMB.jsp?language=" scope="page" />
+<c:set var="url" value="http://localhost:8080/SSO_war_exploded/pages/homeSSP.jsp?language=" scope="page" />
 
 <fmt:setLocale value="${language}" />
 <fmt:setBundle basename="labels" />
@@ -155,6 +157,12 @@
             </c:otherwise>
             </c:choose>
 
+            let labelMismatch = "La controlla di aver scritto correttamente la nuova password";
+            let labelWrongPw = "Password vecchia non corretta. Riprova";
+            let labelBtnPw = document.getElementById("btnCambiaPassword").innerHTML;
+            initCambioPassword("#formCambiaPassword", "#vecchiaPassword", "#nuovaPassword", "#ripetiPassword", ${sessionScope.utente.id},
+                "#btnCambiaPassword", "messaggioCambioPw", labelWrongPw, labelMismatch, labelBtnPw);
+
             let labelCercaEsami = "Cerca esami";
             initSelect2General("esami", "#idesameRichiamo1", langSelect2, labelCercaEsami);
             initSelect2General("esami", "#idesameRichiamo2", langSelect2, labelCercaEsami);
@@ -162,6 +170,7 @@
             let labelCercaPaz = "Cerca pazienti";
             initSelect2Pazienti("#idPaziente", "${sessionScope.utente.prov}", langSelect2, labelCercaPaz);
             let labelCercaEsamiPresc = "Cerca esami prescritti";
+            let erogatori={};
             $("#idEsame").select2({
                 placeholder: labelCercaEsamiPresc,
                 language: langSelect2,
@@ -175,7 +184,7 @@
                     },
                     datatype: "json",
                     data: function (params) {
-                        var query = {
+                        let query = {
                             term: params.term,
                             type: "public",
                             page: params.page || 1
@@ -183,24 +192,43 @@
                         return query;
                     },
                     processResults: function (data) {
-                        var myResults = [];
+                        let myResults = [];
+                        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+
                         $.each(data, function (index, item) {
+                            let prescrizione = new Date(item.prescrizione);
+                            prescrizione=prescrizione.toLocaleDateString("${fn:replace(language, '_', '-')}");
+                            erogatori[item.id]=item.medicoBase;
                             myResults.push({
                                 "id": item.id,
                                 "text": item.esame.nome + " " + item.esame.descrizione + ", prescritta da " +
                                     ( item.medicoBase !== undefined ?
                                             ( item.medicoBase.nome + " " + item.medicoBase.cognome ) : ("SSP")
-                                    ) + " il " + item.prescrizione
+                                    ) + " il " + prescrizione
                             });
                         });
                         return {
                             results: myResults
                         };
+                    },
+                    error: function(xhr, status, error) {
+                        console.log(xhr.responseText);
                     }
                 }
             });
+            $('#idEsame').on('select2:select', function (e) {
+                if (erogatori[$(this).children("option:selected").val()] == undefined){
+                    $("#idPagato").prop("checked",true);
+                    $("#idPagato").prop("disabled",true);
+                }else{
+                    $("#idPagato").prop("checked",false);
+                    $("#idPagato").prop("disabled",false);
+                }
+            });
 
+            let labelErogaEs = document.getElementById("btnErogaEsame").innerHTML;
             $("#formErogaEsame").submit(function(event){
+                loadingButton("#btnErogaEsame",labelLoadingButtons);
                 event.preventDefault(); //prevent default action
                 let formData = "esito="+$("#esito").val(); //Encode form elements for submission
                 let urlErogaEsame = baseUrl + "/api/pazienti/"+$("#idPaziente").val()+"/esamiprescritti/" + $("#idEsame").val();
@@ -210,18 +238,28 @@
                     data : formData,
                     success: function (data) {
                         $(".inputErogaEsame").val(null).trigger("change");
+                        $("#idPagato").prop("checked",false);
+                        $("#idPagato").prop("disabled",false);
                         successButton("#btnErogaEsame",labelSuccessButtons);
                     },
                     complete: function(){
 
                     },
                     error: function(xhr, status, error) {
+                        console.log(xhr.responseText);
                         errorButton("#btnErogaEsame",labelErrorButtons);
-                        alert(xhr.responseText);
+                        //alert(xhr.responseText);
                     }
                 });
             });
+            $('.inputErogaEsame').on("change", function () {
+                resetButton("#btnErogaEsame", labelErogaEs);
+            });
+            $('#esito').on("click", function () {
+                resetButton("#btnErogaEsame", labelErogaEs);
+            });
 
+            let labelRichiamo1 = document.getElementById("btnRichiamo1").innerHTML;
             $("#formRichiamo1").submit(function(event){
                 event.preventDefault(); //prevent default action
                 loadingButton("#btnRichiamo1",labelLoadingButtons)
@@ -238,12 +276,20 @@
 
                     },
                     error: function(xhr, status, error) {
-                        errorButton("#btnRichiamo1",labelErrorButtons)
-                        alert(xhr.responseText);
+                        errorButton("#btnRichiamo1",labelErrorButtons);
+                        console.log(xhr.responseText);
+                        //alert(xhr.responseText);
                     }
                 });
             });
+            $('.inputRichiamo1').on("change", function () {
+                resetButton("#btnRichiamo1", labelRichiamo1);
+            });
+            $('.inputRichiamo1').on("click", function () {
+                resetButton("#btnRichiamo1", labelRichiamo1);
+            });
 
+            let labelRichiamo2 = document.getElementById("btnRichiamo2").innerHTML;
             $("#formRichiamo2").submit(function(event){
                 event.preventDefault(); //prevent default action
                 loadingButton("#btnRichiamo2",labelLoadingButtons)
@@ -253,26 +299,33 @@
                     type: "POST",
                     data : formData,
                     success: function (data) {
-                        successButton("#btnRichiamo2",labelSuccessButtons)
-                        $('.inputRichiamo2').val(null).trigger("change")
+                        $('.inputRichiamo2').val(null).trigger("change");
+                        successButton("#btnRichiamo2",labelSuccessButtons);
                     },
                     complete: function(){
 
                     },
                     error: function(xhr, status, error) {
-                        errorButton("#btnRichiamo2",labelErrorButtons)
-                        alert(xhr.responseText);
+                        errorButton("#btnRichiamo2",labelErrorButtons);
+                        console.log(xhr.responseText);
+                        //alert(xhr.responseText);
                     }
                 });
+            });
+            $('.inputRichiamo2').on("change", function () {
+                resetButton("#btnRichiamo2", labelRichiamo2);
+            });
+            $('.inputRichiamo2').on("click", function () {
+                resetButton("#btnRichiamo2", labelRichiamo2);
             });
 
             setNomeProvincia("nomeProvincia", "${sessionScope.utente.prov}");
 
-            $(".spinner-border").hide();
             $("#erogaEsameControl").click(() => showComponent("erogaEsame"));
             $("#reportControl").click(() => showComponent("report"));
             $("#richiamo1Control").click(() => showComponent("richiamo1"));
             $("#richiamo2Control").click(() => showComponent("richiamo2"));
+            $('#cambiaPasswordControl').click(() => showComponent("cambiaPassword"));
 
             populateComponents();
             hideComponents();
@@ -294,6 +347,33 @@
                  data-holder-rendered="true">
             <br/><br/>
             <h5>Servizio sanitario provinciale</h5> <h3 id="nomeProvincia"></h3>
+            <br>
+            <div class="sidebar-lang">
+                <c:choose>
+                    <c:when test="${!fn:startsWith(language, 'it')}">
+                        <a href="${url}it_IT">italiano</a>
+                    </c:when>
+                    <c:otherwise>
+                        <b>italiano</b>
+                    </c:otherwise>
+                </c:choose>
+                <c:choose>
+                    <c:when test="${!fn:startsWith(language, 'en')}">
+                        <a href="${url}en_EN">english</a>
+                    </c:when>
+                    <c:otherwise>
+                        <b>english</b>
+                    </c:otherwise>
+                </c:choose>
+                <c:choose>
+                    <c:when test="${!fn:startsWith(language, 'fr')}">
+                        <a href="${url}fr_FR">français</a>
+                    </c:when>
+                    <c:otherwise>
+                        <b>français</b>
+                    </c:otherwise>
+                </c:choose>
+            </div>
         </div>
 
         <ul class="list-unstyled components">
@@ -308,6 +388,9 @@
             </li>
             <li>
                 <a href="#" class="componentControl" id="richiamo2Control">Richiama chi è già stato richiamato</a>
+            </li>
+            <li>
+                <a href="#" class="componentControl" id="cambiaPasswordControl">Cambia password</a>
             </li>
             <li>
                 <a href="../logout?forgetme=0">Log out</a>
@@ -352,11 +435,12 @@
                                                     <label for="idEsame">Nome dell'esame</label>
                                                     <select class="inputErogaEsame" type="text" id="idEsame" name="idesame" required="required"></select>
                                                 </div>
-                                                <div class="container-fluid" style="padding-top: 1rem">
+                                                <div class="container-fluid" style="padding-top: 1rem;">
                                                     <label for="esito">Esito</label>
-                                                    <textarea class="inputErogaEsame" type="text" id="esito" name="esito" required="required"></textarea>
+                                                    <textarea style="width: 100%" class="inputErogaEsame" type="text" id="esito" name="esito" required="required"></textarea>
                                                 </div>
                                             </div>
+                                            <input required="true" id="idPagato" type="checkbox">Ticket di <fmt:formatNumber value="<%=EsamePrescrittoDAO.PREZZO_TICKET%>" type="currency" currencyCode="EUR"/> pagato<br>
                                             <div class="form-group">
                                                 <button id="btnErogaEsame" type="submit">Eroga</button>
                                             </div>
@@ -471,7 +555,7 @@
                                             <div class="form-group">
                                                 <div class="container-fluid">
                                                     <label for="infetaRichiamo2">Limite inferiore di età</label>
-                                                    <input class="inputRichiamo2" type="number" min="0" id="infetaRichiamo2" name="infeta" required="required"></input>
+                                                    <input class="inputRichiamo2" type="number" min="0" id="infetaRichiamo2" name="infeta" required="required"/>
                                                     <br>
                                                 </div>
                                                 <div class="container-fluid" style="padding-top: 1rem">
@@ -481,6 +565,49 @@
                                             </div>
                                             <div class="form-group">
                                                 <button id ="btnRichiamo2" type="submit">Richiama</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="cambiaPassword" class="tool component">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3>Gestione password</h3>
+                        <hr>
+                        <div class="container-fluid" align="center">
+                            <div class="form"  >
+                                <div class="form-toggle"></div>
+                                <div class="form-panel one">
+                                    <div class="form-header">
+                                        <h1>Cambia password</h1>
+                                    </div>
+                                    <div class="form-content">
+                                        <div class="alert alert-warning" role="alert" id="messaggioCambioPw"></div>
+                                        <form id="formCambiaPassword" >
+                                            <div class="form-group">
+                                                <div class="container-fluid" style="padding-top: 1rem">
+                                                    <label for="vecchiaPassword">Vecchia password</label>
+                                                    <input class="inputCambiaPassword" type="password" id="vecchiaPassword" name="vecchiaPassword" required="required"/>
+                                                </div>
+                                                <div class="container-fluid" style="padding-top: 1rem">
+                                                    <label for="nuovaPassword">Nuova password</label>
+                                                    <input class="inputCambiaPassword" type="password" id="nuovaPassword" name="nuovaPassword" required="required"/>
+                                                </div>
+                                                <div class="container-fluid" style="padding-top: 1rem">
+                                                    <label for="ripetiPassword">Ripeti nuova password</label>
+                                                    <input class="inputCambiaPassword" type="password" id="ripetiPassword" name="ripetiPassword" required="required"/>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <button id ="btnCambiaPassword" type="submit">Procedi</button>
                                             </div>
                                         </form>
                                     </div>
