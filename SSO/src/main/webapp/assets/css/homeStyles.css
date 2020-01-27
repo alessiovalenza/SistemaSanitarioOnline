@@ -57,6 +57,7 @@ a:focus {
 }
 
 #sidebar {
+   overflow-y: scroll;
     width: 250px;
     position: fixed;
     top: 0;
