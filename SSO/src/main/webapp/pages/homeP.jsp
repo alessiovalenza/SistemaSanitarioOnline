@@ -73,11 +73,57 @@
 
     <title>Home Paziente</title>
 
-    <link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel = "stylesheet">
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet"/>
-    <!-- Bootstrap CSS CDN -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/>
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="../assets/css/homeStyles.css"/>
+    <!-- Scrollbar Custom CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css"/>
+    <!-- Select2 CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- JQeuery JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!-- Custom Scrollbar -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+
+    <!-- Font Awesome JS -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js"
+            integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ"
+            crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js"
+            integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"
+            crossorigin="anonymous"></script>
+
+    <!-- Popper.JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
+            integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
+            crossorigin="anonymous"></script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+    <!-- Select2 JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/i18n/it.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/i18n/en.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/i18n/fr.js"></script>
+
+    <!--DataTables JS -->
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css"></link>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css"></link>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+
     <!-- Mappe -->
     <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.0/mapsjs-ui.css" />
     <script type="text/javascript" charset="UTF-8" src="https://js.api.here.com/v3/3.0/mapsjs-core.js"></script>
@@ -85,24 +131,7 @@
     <script type="text/javascript" charset="UTF-8" src="https://js.api.here.com/v3/3.0/mapsjs-ui.js"></script>
     <script type="text/javascript" charset="UTF-8" src="https://js.api.here.com/v3/3.0/mapsjs-places.js"></script>
     <script type="text/javascript" charset="UTF-8" src="https://js.api.here.com/v3/3.0/mapsjs-mapevents.js"></script>
-    <!-- Scrollbar Custom CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
-    <link rel="stylesheet" href="../assets/css/homeStyles.css">
-    <!-- Font Awesome JS -->
-    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
-    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"> </script>
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
 
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css"/>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/js/select2.min.js"></script>
     <script src="../scripts/utils.js"></script>
     <script>
         let components = new Set();
@@ -223,7 +252,6 @@
                     "responsive": true,
                     "processing": true,
                     "scrollX": false,
-                    "responsive": true,
                     "ordering": true,
                     "paging": true,
                     "searching": true,
@@ -234,14 +262,29 @@
                     "ajax": {
                         "url": urlEsamiNonErogati,
                         "type":"GET",
-                        "dataSrc": ""
+                        "dataSrc": function (json) {
+                            let returnData = new Array();
+                            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                            for(let i=0;i< json.length; i++) {
+                                let prescrizione = new Date(json[i].prescrizione);
+                                prescrizione=prescrizione.toLocaleDateString("${fn:replace(language, '_', '-')}",options);
+                                returnData.push({
+                                    'nomeEsame': json[i].esame.nome,
+                                    'descrizioneEsame': json[i].esame.descrizione,
+                                    'cognomeMedicoBase': json[i].medicoBase == undefined ? "" : json[i].medicoBase.cognome,
+                                    'nomeMedicoBase': json[i].medicoBase == undefined ? "" : json[i].medicoBase.nome,
+                                    'prescrizione': prescrizione
+                                });
+                            }
+                            return returnData;
+                        },
                     },
                     "columns": [
-                        { "data": "esame.nome" },//qua ovviamente va cambiato i
-                        { "data": "esame.descrizione" },
-                        { "data": "medicoBase.cognome" },
+                        { "data": "nomeEsame" },
+                        { "data": "descrizioneEsame" },
+                        { "data": "nomeMedicoBase" },
+                        { "data": "cognomeMedicoBase" },
                         { "data": "prescrizione" }
-
                     ]
                 } );
                 let urlEsamiErogati = baseUrl + "/api/pazienti/"+ ${sessionScope.utente.id} +"/esamiprescritti?erogationly=true&nonerogationly=false";
@@ -250,7 +293,6 @@
                     "responsive": true,
                     "processing": true,
                     "scrollX": false,
-                    "responsive": true,
                     "ordering": true,
                     "paging": true,
                     "searching": true,
@@ -261,7 +303,26 @@
                     "ajax": {
                         "url": urlEsamiErogati,
                         "type":"GET",
-                        "dataSrc": ""
+                        "dataSrc": function (json) {
+                            let returnData = new Array();
+                            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                            for(let i=0;i< json.length; i++) {
+                                let prescrizione = new Date(json[i].prescrizione);
+                                prescrizione=prescrizione.toLocaleDateString("${fn:replace(language, '_', '-')}",options);
+                                let erogazione = new Date(json[i].erogazione);
+                                erogazione=erogazione.toLocaleDateString("${fn:replace(language, '_', '-')}",options);
+                                returnData.push({
+                                    'nomeEsame': json[i].esame.nome,
+                                    'descrizioneEsame': json[i].esame.descrizione,
+                                    'cognomeMedicoBase': json[i].medicoBase == undefined ? "" : json[i].medicoBase.cognome,
+                                    'nomeMedicoBase': json[i].medicoBase == undefined ? "" : json[i].medicoBase.nome,
+                                    'prescrizione': prescrizione,
+                                    'erogazione': erogazione,
+                                    'esito': json[i].esito
+                                });
+                            }
+                            return returnData;
+                        }
                     },
                     "columns": [
                         { "data": "esame.nome" },//qua ovviamente va cambiato i
@@ -317,7 +378,6 @@
                     "responsive": true,
                     "processing": true,
                     "scrollX": false,
-                    "responsive": true,
                     "ordering": true,
                     "paging": true,
                     "searching": true,
@@ -345,7 +405,6 @@
                     "responsive": true,
                     "processing": true,
                     "scrollX": false,
-                    "responsive": true,
                     "ordering": true,
                     "paging": true,
                     "searching": true,
@@ -806,10 +865,11 @@
                 <table id="esamiNonErogati" class="table table-striped table-hover ">
                     <thead>
                     <tr>
-                        <th>Nome</th>
-                        <th>Descrizione</th>
-                        <th>Medico</th>
-                        <th>Data prescrizione</th>
+                        <th><fmt:message key="nomeesa"/></th>
+                        <th><fmt:message key="descresa"/></th>
+                        <th><fmt:message key="nomem"/></th>
+                        <th><fmt:message key="cognomem"/></th>
+                        <th><fmt:message key="prescrizione"/></th>
                     </tr>
                     </thead>
                 </table>
@@ -819,12 +879,13 @@
                 <table id="esamiErogati" class="table table-striped table-hover ">
                     <thead>
                     <tr>
-                        <th>Nome</th>
-                        <th>Descrizione</th>
-                        <th>Medico</th>
-                        <th>Data prescrizione</th>
-                        <th>Data erogazione</th>
-                        <th>Esito</th>
+                        <th><fmt:message key="nomeesa"/></th>
+                        <th><fmt:message key="descresa"/></th>
+                        <th><fmt:message key="nomemb"/></th>
+                        <th><fmt:message key="cognomemb"/></th>
+                        <th><fmt:message key="prescrizione"/></th>
+                        <th><fmt:message key="ero"/></th>
+                        <th><fmt:message key="esito"/></th>
                     </tr>
                     </thead>
                 </table>
