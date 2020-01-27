@@ -202,7 +202,8 @@
             let labelCercaVisitaSpec = "Cerca visita specialistica";
             $("#idvisitaErogaVisitaSpec").select2({
                 placeholder: labelCercaVisitaSpec,
-                width: '100%',
+                language: langSelect2,
+                width: "100%",
                 allowClear: true,
                 ajax: {
                     url: function () {

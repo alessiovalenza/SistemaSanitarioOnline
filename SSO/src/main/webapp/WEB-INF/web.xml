@@ -156,6 +156,7 @@
   <context-param>
     <param-name>excludedurls</param-name>
     <param-value>
+      favicon.ico
       index.jsp
       login.jsp
       sendEmail.jsp
