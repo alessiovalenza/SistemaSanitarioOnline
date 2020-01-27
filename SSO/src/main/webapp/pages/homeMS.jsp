@@ -2,6 +2,7 @@
 <%@ page import="it.unitn.disi.wp.progetto.commons.Utilities" %>
 <%@ page import="java.util.Enumeration" %>
 <%@ page import="java.util.Locale" %>
+<%@ page import="it.unitn.disi.wp.progetto.persistence.dao.VisitaMedicoSpecialistaDAO" %>
 
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java"%>
 
@@ -289,6 +290,7 @@
 
             $('#erogaVisitaSpecControl').click(() => showComponent('erogaVisitaSpec'));
             $('#schedaPazControl').click(() => showComponent('schedaPaz'));
+            $('#profiloControl').click(() => showComponent('profilo'));
             $('#cambiaPasswordControl').click(() => showComponent('cambiaPassword'));
 
             document.getElementById("${sectionToShow}Control").click();
@@ -359,15 +361,14 @@
         </nav>
 
         <!-- Page Content  -->
-
-        <div class="container">
-            <button type="button" id="sidebarCollapse" class="btn btn-info">
-                <i class="fas fa-align-left"></i>
-                <span>Toggle Sidebar</span>
-            </button>
-        </div>
-        <br>
-
+        <div id="content">
+            <div class="container">
+                <button type="button" id="sidebarCollapse" class="btn btn-info">
+                    <i class="fas fa-align-left"></i>
+                    <span>Toggle Sidebar</span>
+                </button>
+            </div>
+            <br>
             <div id="profilo" class="tool component">
                 <div class="container">
                     <div class="row">
@@ -463,10 +464,10 @@
                                                     </div>
                                                     <div class="container-fluid" style="padding-top: 1rem">
                                                         <label for="anamnesi">Anamnesi</label>
-                                                        <textarea type="text" id="anamnesi" name="anamnesi" required="required"></textarea>
+                                                        <textarea class="textAreaAnamnesi" type="text" id="anamnesi" name="anamnesi" required="required"></textarea>
                                                     </div>
                                                 </div>
-                                                <input required="true" id="idPagato" type="checkbox"> Pagato<br>
+                                                <input required="true" id="idPagato" type="checkbox"> Ticket di <fmt:formatNumber value="<%=VisitaMedicoSpecialistaDAO.PREZZO_TICKET%>" type="currency" currencyCode="EUR"/> pagato<br>
                                                 <div class="form-group">
                                                     <div class="container"style="padding-top: 1rem" >
                                                             <button id="btnErogaVisitaSpec" type="submit">Eroga</button>
