@@ -47,7 +47,7 @@
 <c:set var="language" value="${sessionScope.language}" scope="page" />
 <c:set var="sectionToShow" value="${sessionScope.selectedSection}" scope="page" />
 <c:set var="baseUrl" value="<%=request.getContextPath()%>"/>
-<c:set var="url" value="${baseUrl}/pages/homeMB.jsp?language=" scope="page" />
+<c:set var="url" value="${baseUrl}/pages/homeSSN.jsp?language=" scope="page" />
 
 <fmt:setLocale value="${language}" />
 <fmt:setBundle basename="labels" />
@@ -56,6 +56,8 @@
 <html>
 
 <head>
+    <title>Dashboard SSN</title>
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">

@@ -630,26 +630,23 @@
             </div>
 
             <div id="pazienti" class="container-fluid component">
-
-
-                        <div class="container-fluid">
-                            <table id="tablePazienti" class="table table-striped table-hover ">
-                                <thead>
-                                <tr>
-                                    <th><fmt:message key="nome"/></th>
-                                    <th><fmt:message key="cognome"/></th>
-                                    <th><fmt:message key="datanas"/></th>
-                                    <th><fmt:message key="luogonas"/></th>
-                                    <th><fmt:message key="codfis"/></th>
-                                    <th><fmt:message key="sesso"/></th>
-                                    <th><fmt:message key="email"/></th>
-                                    <th><fmt:message key="ulvisbas"/></th>
-                                    <th><fmt:message key="ulricpres"/></th>
-                                </tr>
-                                </thead>
-                            </table>
-                        </div>
-
+                <div class="container-fluid">
+                    <table id="tablePazienti" class="table table-striped table-hover responsive nowrap display" style="width:100%">
+                        <thead>
+                        <tr>
+                            <th><fmt:message key="nome"/></th>
+                            <th><fmt:message key="cognome"/></th>
+                            <th><fmt:message key="datanas"/></th>
+                            <th><fmt:message key="luogonas"/></th>
+                            <th><fmt:message key="codfis"/></th>
+                            <th><fmt:message key="sesso"/></th>
+                            <th><fmt:message key="email"/></th>
+                            <th><fmt:message key="ulvisbas"/></th>
+                            <th><fmt:message key="ulricpres"/></th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
             </div>
 
             <div id="schedaPaz" class="tool component  container-fluid" >
