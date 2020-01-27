@@ -355,7 +355,9 @@
                 $('#dataPazienteScheda').DataTable().destroy()
                 let urlDataPaziente = baseUrl + "/api/pazienti/"+$('#idpazienteScheda').val();
                 $('#dataPazienteScheda').DataTable( {
-                    "scrollX": true,
+                    "responsive": true,
+                    "autoWidth": false,
+                    "scrollX": false,
                     "processing": false,
                     "ordering": false,
                     "paging": false,
@@ -403,8 +405,10 @@
                 $('#visiteBasePazienteScheda').DataTable().destroy()
                 let urlVisiteBase = baseUrl + "/api/pazienti/"+$('#idpazienteScheda').val()+"/visitebase"
                 let table = $('#visiteBasePazienteScheda').DataTable( {
+                    "autoWidth": false,
+                    "responsive": true,
                     "processing": true,
-                    "scrollX": true,
+                    "scrollX": false,
                     "responsive": true,
                     "ordering": true,
                     "paging": true,
@@ -455,8 +459,10 @@
                 $('#visiteSpecialisticheErogatePazienteScheda').DataTable().destroy()
                 let urlVisiteSpacialisticheErogate = baseUrl + "/api/pazienti/"+$('#idpazienteScheda').val()+"/visitespecialistiche/?erogateonly=true&nonerogateonly=false"
                 $('#visiteSpecialisticheErogatePazienteScheda').DataTable( {
+                    "autoWidth": false,
                     "processing": true,
-                    "scrollX": true,
+                    "responsive": true,
+                    "scrollX": false,
                     "ordering": true,
                     "paging": true,
                     "searching": true,
@@ -508,9 +514,11 @@
                 $('#visiteSpecialisticheNonErogatePazienteScheda').DataTable().destroy()
                 let urlVisiteSpacialisticheNonErogate = baseUrl + "/api/pazienti/"+$('#idpazienteScheda').val()+"/visitespecialistiche/?erogateonly=false&nonerogateonly=true"
                 $('#visiteSpecialisticheNonErogatePazienteScheda').DataTable( {
+                    "autoWidth": false,
+                    "responsive": true,
                     "processing": true,
                     "ordering": true,
-                    "scrollX": true,
+                    "scrollX": false,
                     "paging": true,
                     "searching": true,
                     "serverSide": false,
@@ -551,10 +559,12 @@
                 $('#ricetteEvasePazienteScheda').DataTable().destroy()
                 let urlRicetteEvase = baseUrl + "/api/pazienti/"+$('#idpazienteScheda').val()+"/ricette/?evaseonly=true&nonevaseonly=false"
                 $('#ricetteEvasePazienteScheda').DataTable( {
+                    "autoWidth": false,
+                    "responsive": true,
                     "processing": true,
                     "ordering": true,
                     "paging": true,
-                    "scrollX": true,
+                    "scrollX": false,
                     "searching": true,
                     "serverSide": false,
                     "language": {
@@ -600,9 +610,11 @@
                 $('#ricetteNonEvasePazienteScheda').DataTable().destroy()
                 let urlRicetteNonEvase = baseUrl + "/api/pazienti/"+$('#idpazienteScheda').val()+"/ricette/?evaseonly=false&nonevaseonly=true"
                 $('#ricetteNonEvasePazienteScheda').DataTable( {
+                    "autoWidth": false,
+                    "responsive": true,
                     "processing": true,
                     "ordering": true,
-                    "scrollX": true,
+                    "scrollX": false,
                     "paging": true,
                     "searching": true,
                     "serverSide": false,
@@ -645,10 +657,12 @@
                 $('#esamiErogatiPazienteScheda').DataTable().destroy()
                 let urlEsamiErogati = baseUrl + "/api/pazienti/"+$('#idpazienteScheda').val()+"/esamiprescritti/?erogationly=true&nonerogationly=false"
                 $('#esamiErogatiPazienteScheda').DataTable( {
+                    "autoWidth": false,
+                    "responsive": true,
                     "processing": true,
                     "ordering": true,
                     "paging": true,
-                    "scrollX": true,
+                    "scrollX": false,
                     "searching": true,
                     "serverSide": false,
                     "language": {
@@ -696,9 +710,11 @@
                 $('#esamiNonErogatiPazienteScheda').DataTable().destroy()
                 let urlEsamiNonErogati = baseUrl + "/api/pazienti/"+$('#idpazienteScheda').val()+"/esamiprescritti/?erogationly=false&nonerogationly=true"
                 $('#esamiNonErogatiPazienteScheda').DataTable( {
+                    "autoWidth": false,
+                    "responsive": true,
                     "processing": true,
                     "ordering": true,
-                    "scrollX": true,
+                    "scrollX": false,
                     "paging": true,
                     "searching": true,
                     "serverSide": false,
@@ -1022,9 +1038,9 @@
             </div>
 
             <div id="pazienti" class="container-fluid component">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="table table-responsive">
+
+
+                        <div class="container-fluid">
                             <table id="tablePazienti" class="table table-striped table-hover ">
                                 <thead>
                                 <tr>
@@ -1039,29 +1055,13 @@
                                     <th><fmt:message key="ulricpres"/></th>
                                 </tr>
                                 </thead>
-                                <tfoot>
-                                <tr>
-                                    <th><fmt:message key="nome"/></th>
-                                    <th><fmt:message key="cognome"/></th>
-                                    <th><fmt:message key="datanas"/></th>
-                                    <th><fmt:message key="luogonas"/></th>
-                                    <th><fmt:message key="codfis"/></th>
-                                    <th><fmt:message key="sesso"/></th>
-                                    <th><fmt:message key="email"/></th>
-                                    <th><fmt:message key="ulvisbas"/></th>
-                                    <th><fmt:message key="ulricpres"/></th>
-                                </tr>
-                                </tfoot>
                             </table>
                         </div>
-                    </div>
-                </div>
+
             </div>
 
-            <div id="schedaPaz" class="tool component" style="align-content: center;">
-                <div class="col-md-12">
-                    <div class="row">
-                        <div class="col-md-12">
+            <div id="schedaPaz" class="tool component  container-fluid" >
+
                             <h3><fmt:message key="selpaz"/></h3>
                             <hr>
                             <form id="formScheda">
@@ -1070,7 +1070,7 @@
                                 <button class="bottone" style="padding-left: 1em" type="submit"><fmt:message key="cerca"/></button>
                             </form>
                             <br>
-                        </div>
+
                         <div id="schedaPaziente" class="container-fluid">
                             <div class="text-center">
                                 <div data-interval="false" id="carouselPazienteControls" class="carousel slide"
@@ -1091,7 +1091,6 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-12">
                                 <h5><fmt:message key="datipaz"/></h5>
                                 <div class="container-fluid">
                                     <table id="dataPazienteScheda" class="table table-striped table-hover ">
@@ -1107,10 +1106,9 @@
                                         </tr>
                                         </thead>
                                     </table>
-                                </div>
                             </div>
                             <br/>
-                            <div class="col-md-12">
+
                                 <h5><fmt:message key="visbas"/></h5>
                                 <div class="container-fluid">
                                     <table id="visiteBasePazienteScheda" class="table table-striped table-hover ">
@@ -1122,19 +1120,10 @@
                                             <th><fmt:message key="anamn"/></th>
                                         </tr>
                                         </thead>
-                                        <tfoot>
-                                        <tr>
-                                            <th><fmt:message key="nomemb"/></th>
-                                            <th><fmt:message key="cognomemb"/></th>
-                                            <th><fmt:message key="dataero"/></th>
-                                            <th><fmt:message key="anamn"/></th>
-                                        </tr>
-                                        </tfoot>
                                     </table>
                                 </div>
-                            </div>
+
                             <br/>
-                            <div class="col-md-12">
                                 <h5><fmt:message key="ricev"/></h5>
                                 <div class="container-fluid">
                                     <table id="ricetteEvasePazienteScheda" class="table table-striped table-hover ">
@@ -1148,21 +1137,10 @@
                                             <th><fmt:message key="evas"/></th>
                                         </tr>
                                         </thead>
-                                        <tfoot>
-                                        <tr>
-                                            <th><fmt:message key="nomefar"/></th>
-                                            <th><fmt:message key="desfar"/></th>
-                                            <th><fmt:message key="nomemb"/></th>
-                                            <th><fmt:message key="cognomemb"/></th>
-                                            <th><fmt:message key="prescrizione"/></th>
-                                            <th><fmt:message key="evas"/></th>
-                                        </tr>
-                                        </tfoot>
                                     </table>
                                 </div>
-                            </div>
+
                             <br/>
-                            <div class="col-md-12">
                                 <h5><fmt:message key="ricnevas"/></h5>
                                 <div class="container-fluid">
                                     <table id="ricetteNonEvasePazienteScheda" class="table table-striped table-hover ">
@@ -1175,20 +1153,9 @@
                                             <th><fmt:message key="prescrizione"/></th>
                                         </tr>
                                         </thead>
-                                        <tfoot>
-                                        <tr>
-                                            <th><fmt:message key="nomefar"/></th>
-                                            <th><fmt:message key="desfar"/></th>
-                                            <th><fmt:message key="nomemb"/></th>
-                                            <th><fmt:message key="cognomemb"/></th>
-                                            <th><fmt:message key="prescrizione"/></th>
-                                        </tr>
-                                        </tfoot>
                                     </table>
                                 </div>
-                            </div>
                             <br/>
-                            <div class="col-md-12">
                                 <h5><fmt:message key="esero"/></h5>
                                 <div class="container-fluid">
                                     <table id="esamiErogatiPazienteScheda" class="table table-striped table-hover ">
@@ -1203,22 +1170,9 @@
                                             <th><fmt:message key="esito"/></th>
                                         </tr>
                                         </thead>
-                                        <tfoot>
-                                        <tr>
-                                            <th><fmt:message key="nomeesa"/></th>
-                                            <th><fmt:message key="descresa"/></th>
-                                            <th><fmt:message key="nomemb"/></th>
-                                            <th><fmt:message key="cognomemb"/></th>
-                                            <th><fmt:message key="prescrizione"/></th>
-                                            <th><fmt:message key="ero"/></th>
-                                            <th><fmt:message key="esito"/></th>
-                                        </tr>
-                                        </tfoot>
                                     </table>
                                 </div>
-                            </div>
                             <br/>
-                            <div class="col-md-12">
                                 <h5><fmt:message key="esnero"/></h5>
                                 <div class="container-fluid">
                                     <table id="esamiNonErogatiPazienteScheda" class="table table-striped table-hover ">
@@ -1231,20 +1185,9 @@
                                             <th><fmt:message key="prescrizione"/></th>
                                         </tr>
                                         </thead>
-                                        <tfoot>
-                                        <tr>
-                                            <th><fmt:message key="nomeesa"/></th>
-                                            <th><fmt:message key="descresa"/></th>
-                                            <th><fmt:message key="nomem"/></th>
-                                            <th><fmt:message key="cognomem"/></th>
-                                            <th><fmt:message key="prescrizione"/></th>
-                                        </tr>
-                                        </tfoot>
                                     </table>
                                 </div>
-                            </div>
                             <br/>
-                            <div class="col-md-12">
                                 <h5><fmt:message key="visspecero"/></h5>
                                 <div class="container-fluid">
                                     <table id="visiteSpecialisticheErogatePazienteScheda" class="table table-striped table-hover ">
@@ -1260,23 +1203,9 @@
                                             <th><fmt:message key="anamn"/></th>
                                         </tr>
                                         </thead>
-                                        <tfoot>
-                                        <tr>
-                                            <th><fmt:message key="nomevis"/></th>
-                                            <th><fmt:message key="nomems"/></th>
-                                            <th><fmt:message key="cognomems"/></th>
-                                            <th><fmt:message key="nomemb"/></th>
-                                            <th><fmt:message key="cognomemb"/></th>
-                                            <th><fmt:message key="prescrizione"/></th>
-                                            <th><fmt:message key="ero"/></th>
-                                            <th><fmt:message key="anamn"/></th>
-                                        </tr>
-                                        </tfoot>
                                     </table>
                                 </div>
-                            </div>
                             <br/>
-                            <div class="col-md-12">
                                 <h5><fmt:message key="visspecnero"/></h5>
                                 <div class="container-fluid">
                                     <table id="visiteSpecialisticheNonErogatePazienteScheda" class="table table-striped table-hover ">
@@ -1288,20 +1217,10 @@
                                             <th><fmt:message key="prescrizione"/></th>
                                         </tr>
                                         </thead>
-                                        <tfoot>
-                                        <tr>
-                                            <th><fmt:message key="nomevis"/></th>
-                                            <th><fmt:message key="nomemb"/></th>
-                                            <th><fmt:message key="cognomemb"/></th>
-                                            <th><fmt:message key="prescrizione"/></th>
-                                        </tr>
-                                        </tfoot>
                                     </table>
                                 </div>
-                            </div>
                         </div>
-                    </div>
-                </div>
+
             </div>
 
             <div id="prescFarmaco" class="tool component">
