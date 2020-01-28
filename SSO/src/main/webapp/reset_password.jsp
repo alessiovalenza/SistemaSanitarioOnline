@@ -37,7 +37,7 @@
 
 <c:set var="language" value="${sessionScope.language}" scope="page" />
 <c:set var="baseUrl" value="<%=request.getContextPath()%>"/>
-<c:set var="url" value="${baseUrl}/reset_password.jsp?language=" scope="page" />
+<c:set var="url" value="${baseUrl}/passreset?token=${requestScope.token}&language=" scope="page" />
 
 <fmt:setLocale value="${language}" />
 <fmt:setBundle basename="labels" />
@@ -57,6 +57,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="assets/css/styles.css">
 
     <script>
         function checkPassword(){
@@ -69,7 +70,7 @@
                 return true;
             }
             else {
-                document.getElementById("messaggioPw").innerHTML = "La controlla di aver scritto correttamente la nuova password";
+                document.getElementById("messaggioPw").innerHTML = "<fmt:message key='pw_mismtach'/>";
                 document.getElementById("messaggioPw").style.visibility = "visible";
                 return false;
             }
@@ -85,79 +86,78 @@
 </head>
 
 <body>
-    <nav class="navbar-expand-md sticky-top"
-        style="background-color: #51b5e0;font-family: 'Open Sans', sans-serif;padding: 11px; border-style: groove; border-width: 1px;border-color:lightgray">
-        <div class="container-fluid"><img src="assets/img/logo_repubblica_colori.png"
-                style="height: 42px;padding: 0px;margin: 0px;">
-            <a class="navbar-brand" href="index.jsp"
-                style="padding: 3px;font-family: default;color: rgb(255,255,255);">
-                <fmt:message key="Ministero_della_salute"/>
-            </a>
-        </div>
-        <div class="sidebar-lang" float="top" align="right" style="color: white;">
-            <c:choose>
-                <c:when test="${!fn:startsWith(language, 'it')}">
-                    <a href="${url}it_IT" style="color: white;">italiano</a>
-                </c:when>
-                <c:otherwise>
-                    <b>italiano</b>
-                </c:otherwise>
-            </c:choose>
-            <c:choose>
-                <c:when test="${!fn:startsWith(language, 'en')}">
-                    <a href="${url}en_EN" style="color: white;">english</a>
-                </c:when>
-                <c:otherwise>
-                    <b>english</b>
-                </c:otherwise>
-            </c:choose>
-            <c:choose>
-                <c:when test="${!fn:startsWith(language, 'fr')}">
-                    <a href="${url}fr_FR" style="color: white;">français</a>
-                </c:when>
-                <c:otherwise>
-                    <b>français</b>
-                </c:otherwise>
-            </c:choose>
-        </div>
-    </nav>
+<div id="holder">
+    <header>
+        <nav id="navTop" class="navbar-expand-md sticky-top">
+            <div class="container-fluid"><img id="logoMin" src="assets/img/logo_repubblica_colori.png">
+                <a id="linkLandPag" class="navbar-brand" href="index.jsp">
+                    <fmt:message key="ministero_della_salute"/>
+                </a>
+                <div id="selLang" class="sidebar-lang">
+                    <c:choose>
+                        <c:when test="${!fn:startsWith(language, 'it')}">
+                            <a href="${url}it_IT" style="color: white;">italiano</a>
+                        </c:when>
+                        <c:otherwise>
+                            <b>italiano</b>
+                        </c:otherwise>
+                    </c:choose>
+                    <c:choose>
+                        <c:when test="${!fn:startsWith(language, 'en')}">
+                            <a href="${url}en_EN" style="color: white;">english</a>
+                        </c:when>
+                        <c:otherwise>
+                            <b>english</b>
+                        </c:otherwise>
+                    </c:choose>
+                    <c:choose>
+                        <c:when test="${!fn:startsWith(language, 'fr')}">
+                            <a href="${url}fr_FR" style="color: white;">français</a>
+                        </c:when>
+                        <c:otherwise>
+                            <b>français</b>
+                        </c:otherwise>
+                    </c:choose>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div id="body">
+        <div class="container" style="padding-top: 5%">
+            <div class="row">
+                <div class="col-md-12" align="center">
+                    <div class="container-fluid" align="center" style="max-width: 600px">
+                        <h5><fmt:message key="Inserisci_la_nuova_password"/></h5>
+                        <div class="alert alert-warning" role="alert" id="messaggioPw" style="visibility: hidden">
+                            <c:choose>
+                                <c:when test="${not empty msg}"><fmt:message key="${msg}"/></c:when>
+                                <c:otherwise></c:otherwise>
+                            </c:choose>
+                        </div>
+                        <hr>
+                        <br>
+                        <form action="passreset" method="post">
+                            <div class="form-group">
+                                <label for="new_password"><fmt:message key="Nuova_password"/></label>
+                                <input type="password" class="form-control" name="new_password" id = "new_password">
+                            </div>
+                            <div class="form-group">
+                                <label for="repeat_password"><fmt:message key="Riscrivi_la_nuova_password"/></label>
+                                <input type="password" class="form-control" name="repeat_password" id = "repeat_password">
+                            </div>
 
-    <div class="container" style="padding-top: 5%">
-        <div class="row">
-            <div class="col-md-12" align="center">
-                <div class="container-fluid" align="center" style="max-width: 600px">
-                    <h5><fmt:message key="Inserisci_la_nuova_password"/></h5>
-                    <div class="alert alert-warning" role="alert" id="messaggioPw" style="visibility: hidden">
-                        <c:choose>
-                            <c:when test="${not empty msg}"><fmt:message key="${msg}"/></c:when>
-                            <c:otherwise></c:otherwise>
-                        </c:choose>
+                            <button type="submit" class="btn btn-primary" onclick="return checkPassword()"><fmt:message key="Submit"/></button>
+                        </form>
                     </div>
-                    <hr>
-                    <br>
-                    <form action="passreset" method="post">
-                        <div class="form-group">
-                            <label for="new_password"><fmt:message key="Nuova_password"/></label>
-                            <input type="password" class="form-control" name="new_password" id = "new_password">
-                        </div>
-                        <div class="form-group">
-                            <label for="repeat_password"><fmt:message key="Riscrivi_la_nuova_password"/></label>
-                            <input type="password" class="form-control" name="repeat_password" id = "repeat_password">
-                        </div>
-
-                        <button type="submit" class="btn btn-primary" onclick="return checkPassword()"><fmt:message key="Submit"/></button>
-                    </form>
                 </div>
             </div>
         </div>
     </div>
 
-    <nav class="navbar"
-        style="background-color: #51b5e0;font-family: 'Open Sans', sans-serif; border-style: groove; border-width: 1px;border-color:lightgray;bottom: 0;position: fixed;width: 100%; height: 4rem;">
-        <p class="navbar-text" style="font-family: default;color: rgb(255,255,255); font-size: inherit">
-            <fmt:message key="footer"/>
-        </p>
-    </nav>
+    <footer>
+        <fmt:message key="footer"/>
+    </footer>
+    </div>
 </body>
 
 </html>

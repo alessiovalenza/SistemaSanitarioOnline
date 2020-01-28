@@ -195,7 +195,7 @@
                 </c:otherwise>
             </c:choose>
 
-            let labelTooMany = "Troppi elementi corrispondenti alla ricerca. Scrivi più caratteri per affinarla";
+            let labelTooMany = "<fmt:message key='troppi_risultati'/>";
 
             let basePathCarousel = "${baseUrl}<%=File.separator + Utilities.USER_IMAGES_FOLDER + File.separator%>${sessionScope.utente.id}<%=File.separator%>";
             let extension = ".<%=Utilities.USER_IMAGE_EXT%>";

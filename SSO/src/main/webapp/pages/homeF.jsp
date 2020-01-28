@@ -167,7 +167,7 @@
             </c:otherwise>
             </c:choose>
 
-            let labelTooMany = "Troppi elementi corrispondenti alla ricerca. Scrivi più caratteri per affinarla";
+            let labelTooMany = "<fmt:message key='troppi_risultati'/>";
 
             let labelMismatch = "<fmt:message key='Controlla'/>";
             let labelWrongPw = "<fmt:message key='Riprova'/>";

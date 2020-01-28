@@ -27,6 +27,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Timestamp;
 import java.util.Collections;
 
 import static it.unitn.disi.wp.progetto.commons.Utilities.sha512;
@@ -36,6 +37,8 @@ public class PassResetServlet extends HttpServlet {
     String resetUrl = "/reset_password.jsp";
     String sendEmailUrl = "/sendEmail.jsp";
     String emailSentMessage = "email_sent";
+
+    private static final long TOKEN_EXPIRY = 1000 * 60 * 5; //5 minuti in ms
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         DAOFactory daoFactory = (DAOFactory) super.getServletContext().getAttribute("daoFactory");
@@ -130,11 +133,21 @@ public class PassResetServlet extends HttpServlet {
             if (tokenPsw == null){
                 throw new SSOServletException(HttpServletResponse.SC_NOT_FOUND, "Token not found");
             }else{
-                long id = tokenPsw.getIdUtente();
-                System.out.println("Token trovato, corrisponde all'id: " + id);
-                HttpSession session = request.getSession();
-                session.setAttribute("id", id);
-                request.getRequestDispatcher(resetUrl).include(request, response);
+                Timestamp expiry = new Timestamp(System.currentTimeMillis() - TOKEN_EXPIRY);
+                Timestamp lastEdit = tokenPsw.getLastEdit();
+
+                if(lastEdit.compareTo(expiry) >= 0) {
+                    long id = tokenPsw.getIdUtente();
+                    System.out.println("Token trovato, corrisponde all'id: " + id);
+                    HttpSession session = request.getSession();
+                    session.setAttribute("id", id);
+                    request.setAttribute("token", token);
+                    request.getRequestDispatcher(resetUrl).include(request, response);
+                }
+                else {
+                    request.setAttribute("error", "token_expired");
+                    request.getRequestDispatcher(sendEmailUrl).include(request, response);
+                }
             }
         }
         catch (DAOFactoryException e) {
