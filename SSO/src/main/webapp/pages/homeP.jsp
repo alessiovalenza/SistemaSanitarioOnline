@@ -70,7 +70,7 @@
 <html>
 
 <head>
-    <title>Dashboard Paziente</title>
+    <title><fmt:message key='Dashboard_P'/></title>
 
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -211,8 +211,8 @@
 
             initAvatar(${sessionScope.utente.id}, "avatarImg", basePathCarousel, extension);
 
-            let labelMismatch = "La controlla di aver scritto correttamente la nuova password";
-            let labelWrongPw = "Password vecchia non corretta. Riprova";
+            let labelMismatch = "<fmt:message key='Controlla'/>";
+            let labelWrongPw = "<fmt:message key='Riprova'/>";
             let labelBtnPw = document.getElementById("btnCambiaPassword").innerHTML;
             initCambioPassword("#formCambiaPassword", "#vecchiaPassword", "#nuovaPassword", "#ripetiPassword", ${sessionScope.utente.id},
                 "#btnCambiaPassword", "messaggioCambioPw", labelWrongPw, labelMismatch, labelBtnPw);
@@ -384,7 +384,7 @@
             let urlCambioMedico = baseUrl + '/api/general/medicibase/?idprovincia='+'${sessionScope.utente.prov}'
 
             $("#idmedicobase").select2({
-                placeholder: 'Cerca Medici',
+                placeholder: '<fmt:message key="Cerca medici"/>',
                 language: langSelect2,
                 width: '100%',
                 allowClear: true,
@@ -695,13 +695,13 @@
             function notifyMe() {
                 // Let's check if the browser supports notifications
                 if (!("Notification" in window)) {
-                    alert("This browser does not support desktop notification");
+                    alert("<fmt:message key='This_browser'/>");
                 }
 
                 // Let's check whether notification permissions have already been granted
                 else if (Notification.permission === "granted") {
                     // If it's okay let's create a notification
-                    var notification = new Notification("Hai delle ricette non evase; se vuoi qui vicino trovi una farmacia ;)");
+                    var notification = new Notification("<fmt:message key='alert_farmacia'/> ;)");
                 }
 
                 // Otherwise, we need to ask the user for permission
@@ -709,7 +709,7 @@
                     Notification.requestPermission().then(function (permission) {
                         // If the user accepts, let's create a notification
                         if (permission === "granted") {
-                            var notification = new Notification("Hai delle ricette non evase; se vuoi qui vicino trovi una farmacia ;)");
+                            var notification = new Notification("<fmt:message key='alert_farmacia_2'/> ;)");
                         }
                     });
                 }
@@ -820,37 +820,37 @@
 
             <ul class="list-unstyled components">
                 <li>
-                    <a href="#" class="componentControl" id="medicoControl">Visualizza medico di base</a>
+                    <a href="#" class="componentControl" id="medicoControl"><fmt:message key='Visualizza_MB'/> </a>
                 </li>
                 <li>
-                    <a href="#" class="componentControl" id="cambiaMedicoControl">Cambia medico di base</a>
+                    <a href="#" class="componentControl" id="cambiaMedicoControl"><fmt:message key='Cambia_MB'/> </a>
                 </li>
                 <li>
-                    <a href="#"  class="componentControl" id ="esamiControl">Visualizza esami</a>
+                    <a href="#"  class="componentControl" id ="esamiControl"><fmt:message key='Visualizza_esami'/> </a>
                 </li>
                 <li>
-                    <a href="#" class="componentControl" id ="ricetteControl">Visualizza ricette</a>
+                    <a href="#" class="componentControl" id ="ricetteControl"><fmt:message key='Visualizza_ricette'/> </a>
                 </li>
                 <li>
-                    <a href="#" class="componentControl" id ="visiteBaseControl">Visualizza visite base</a>
+                    <a href="#" class="componentControl" id ="visiteBaseControl"><fmt:message key='Visualizza_visite_base'/> </a>
                 </li>
                 <li>
-                    <a href="#" class="componentControl" id ="visiteSpecialisticheControl">Visualizza visite specialistiche</a>
+                    <a href="#" class="componentControl" id ="visiteSpecialisticheControl"><fmt:message key='Visualizza_visite_SP'/> </a>
                 </li>
                 <li>
-                    <a href="../mappe.jsp" target="_blank" class="componentControl" id="mappeControl">Visualizza mappe</a>
+                    <a href="../mappe.jsp" target="_blank" class="componentControl" id="mappeControl"><fmt:message key='Visualizza_mappe'/> </a>
                 </li>
                 <li>
-                    <a href="#" class="componentControl" id="profiloControl">Profilo</a>
+                    <a href="#" class="componentControl" id="profiloControl"><fmt:message key='Profilo'/> </a>
                 </li>
                 <li>
-                    <a href="#" class="componentControl" id="cambiaPasswordControl">Cambia password</a>
+                    <a href="#" class="componentControl" id="cambiaPasswordControl"><fmt:message key='Cambia Password'/> </a>
                 </li>
                 <li>
-                    <a href="../logout?forgetme=0">Log out</a>
+                    <a href="../logout?forgetme=0"><fmt:message key='Log_out'/> </a>
                 </li>
                 <li>
-                    <a href="../logout?forgetme=1">Cambia account</a>
+                    <a href="../logout?forgetme=1"><fmt:message key='Cambia_account'/> </a>
                 </li>
 
             </ul>
@@ -944,17 +944,17 @@
                     <div class="form-toggle"></div>
                     <div class="form-panel one">
                         <div class="form-header">
-                            <h1>Cambia medico di base</h1>
+                            <h1><fmt:message key='Cambia_MB'/> </h1>
                         </div>
                         <div class="form-content">
                             <form id="formPutCambiaMedico">
                                 <div class="form-group">
-                                    <label for="idmedicobase">Nome del medico</label>
+                                    <label for="idmedicobase"><fmt:message key='Nome_del_medico'/> </label>
                                     <select type="text" id="idmedicobase" name="idmedicobase" required="true"></select>
                                     <span class="glyphicon glyphicon-ok"></span>
                                 </div>
                                 <div class="form-group">
-                                    <button id ="btnCambiaMedico" type="submit">Cambia</button>
+                                    <button id ="btnCambiaMedico" type="submit"><fmt:message key='Cambia'/></button>
                                 </div>
                             </form>
                         </div>
@@ -963,7 +963,7 @@
             </div>
 
             <div id="esami" class="tool component">
-                <h2>Esami non erogati</h2>
+                <h2><fmt:message key='Esami_non_erogati'/></h2>
                 <div class="container-fluid">
                     <table id="esamiNonErogati" class="table table-striped table-hover ">
                         <thead>
@@ -977,7 +977,7 @@
                         </thead>
                     </table>
                 </div>
-                <h2>Esami erogati</h2>
+                <h2><fmt:message key='Esami_erogati'/></h2>
                 <div class="container-fluid">
                     <table id="esamiErogati" class="table table-striped table-hover ">
                         <thead>
@@ -989,7 +989,7 @@
                             <th><fmt:message key="prescrizione"/></th>
                             <th><fmt:message key="ero"/></th>
                             <th><fmt:message key="esito"/></th>
-                            <th>Ricevuta</th>
+                            <th><fmt:message key='Ricevuta'/></th>
                         </tr>
                         </thead>
                     </table>
@@ -1007,7 +1007,7 @@
                             <th><fmt:message key="nomemb"/></th>
                             <th><fmt:message key="cognomemb"/></th>
                             <th><fmt:message key="prescrizione"/></th>
-                            <th>PDF</th>
+                            <th><fmt:message key='PDF'/></th>
                         </tr>
                         </thead>
                     </table>
@@ -1023,7 +1023,7 @@
                             <th><fmt:message key="cognomemb"/></th>
                             <th><fmt:message key="prescrizione"/></th>
                             <th><fmt:message key="evas"/></th>
-                            <th>Ricevuta</th>
+                            <th><fmt:message key='Ricevuta'/></th>
                         </tr>
                         </thead>
                     </table>
@@ -1075,7 +1075,7 @@
                             <th><fmt:message key="prescrizione"/></th>
                             <th><fmt:message key="ero"/></th>
                             <th><fmt:message key="anamn"/></th>
-                            <th>Ricevuta</th>
+                            <th><fmt:message key='Ricevuta'/></th>
                         </tr>
                         </thead>
                     </table>
@@ -1138,27 +1138,27 @@
                                     <div class="form-toggle"></div>
                                     <div class="form-panel one">
                                         <div class="form-header">
-                                            <h1>Cambia password</h1>
+                                            <h1><fmt:message key='Cambia Password'/></h1>
                                         </div>
                                         <div class="form-content">
                                             <div class="alert alert-warning" role="alert" id="messaggioCambioPw"></div>
                                             <form id="formCambiaPassword" >
                                                 <div class="form-group">
                                                     <div class="container-fluid" style="padding-top: 1rem">
-                                                        <label for="vecchiaPassword">Vecchia password</label>
+                                                        <label for="vecchiaPassword">Vecchia password<fmt:message key='Vecchia_password'/></label>
                                                         <input class="inputCambiaPassword" type="password" id="vecchiaPassword" name="vecchiaPassword" required="required"/>
                                                     </div>
                                                     <div class="container-fluid" style="padding-top: 1rem">
-                                                        <label for="nuovaPassword">Nuova password</label>
+                                                        <label for="nuovaPassword">Nuova password<fmt:message key='Nuova_password'/></label>
                                                         <input class="inputCambiaPassword" type="password" id="nuovaPassword" name="nuovaPassword" required="required"/>
                                                     </div>
                                                     <div class="container-fluid" style="padding-top: 1rem">
-                                                        <label for="ripetiPassword">Ripeti nuova password</label>
+                                                        <label for="ripetiPassword">Ripeti nuova password<fmt:message key='Ripeti'/></label>
                                                         <input class="inputCambiaPassword" type="password" id="ripetiPassword" name="ripetiPassword" required="required"/>
                                                     </div>
                                                 </div>
                                                 <div class="form-group container">
-                                                    <button id ="btnCambiaPassword" type="submit">Procedi</button>
+                                                    <button id ="btnCambiaPassword" type="submit">Procedi<fmt:message key='Procedi'/></button>
                                                 </div>
                                             </form>
                                         </div>
