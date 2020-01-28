@@ -774,8 +774,8 @@ function initFormSchedaPaz(basePathScheda, extension, fmtDateCode, urlLangDataTa
                         returnData.push({
                             'nomeEsame': json[i].esame.nome,
                             'descrizioneEsame': json[i].esame.descrizione,
-                            'cognomeMedicoBase': json[i].medicoBase == undefined ? "" : json[i].medicoBase.cognome,
-                            'nomeMedicoBase': json[i].medicoBase == undefined ? "" : json[i].medicoBase.nome,
+                            'cognomeMedicoBase': json[i].medicoBase == undefined ? "SSP" : json[i].medicoBase.cognome,
+                            'nomeMedicoBase': json[i].medicoBase == undefined ? "SSP" : json[i].medicoBase.nome,
                             'prescrizione': prescrizione,
                             'erogazione': erogazione,
                             'esito': json[i].esito
@@ -832,8 +832,8 @@ function initFormSchedaPaz(basePathScheda, extension, fmtDateCode, urlLangDataTa
                         returnData.push({
                             'nomeEsame': json[i].esame.nome,
                             'descrizioneEsame': json[i].esame.descrizione,
-                            'cognomeMedicoBase': json[i].medicoBase == undefined ? "" : json[i].medicoBase.cognome,
-                            'nomeMedicoBase': json[i].medicoBase == undefined ? "" : json[i].medicoBase.nome,
+                            'cognomeMedicoBase': json[i].medicoBase == undefined ? "SSP" : json[i].medicoBase.cognome,
+                            'nomeMedicoBase': json[i].medicoBase == undefined ? "SSP" : json[i].medicoBase.nome,
                             'prescrizione': prescrizione
                         });
                     }
