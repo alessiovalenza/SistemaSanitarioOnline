@@ -102,9 +102,17 @@
             <div class="wrapper fadeInDown">
                 <div id="formContent">
                     <div class="alert alert-warning" role="alert">
-                        ${error}
+                        <c:choose>
+                            <c:when test="${not empty error}"><fmt:message key="${error}"/></c:when>
+                            <c:otherwise></c:otherwise>
+                        </c:choose>
                     </div>
-                    <p>${msg}</p>
+                    <p>
+                        <c:choose>
+                            <c:when test="${not empty msg}"><fmt:message key="${msg}"/></c:when>
+                            <c:otherwise></c:otherwise>
+                        </c:choose>
+                    </p>
                     <form name="loginForm" action="LoginServlet" method="post">
                         <input type="email" id="email" class="fadeIn second" name="email" placeholder="Email" required>
                         <input type="password" id="password" class="fadeIn third" name="password" placeholder="Password"

@@ -35,14 +35,14 @@ import static it.unitn.disi.wp.progetto.commons.Utilities.sha512;
 public class PassResetServlet extends HttpServlet {
     String resetUrl = "/reset_password.jsp";
     String sendEmailUrl = "/sendEmail.jsp";
-    String emailSentMessage = "E' stata inviata una email all'indirizzo di posta specificato. Controlla la tua mailbox.";
+    String emailSentMessage = "email_sent";
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         DAOFactory daoFactory = (DAOFactory) super.getServletContext().getAttribute("daoFactory");
         String newPass = request.getParameter("new_password");
         String repeatPass = request.getParameter("repeat_password");
-        if (!newPass.equals(repeatPass)){
-            request.setAttribute("msg", "le password non coincidono.");
+        if (!newPass.equals(repeatPass)) {
+            request.setAttribute("msg", "pw_mismtach");
             System.out.println("le password non coincidono");
             request.getRequestDispatcher(resetUrl).include(request, response);
         }else {
@@ -58,7 +58,7 @@ public class PassResetServlet extends HttpServlet {
                     session.invalidate();
                     TokenPswDAO tokenPswDAO = daoFactory.getDAO(TokenPswDAO.class);
                     tokenPswDAO.deleteToken(id);
-                    request.setAttribute("msg", "La password è stata modificata con successo");
+                    request.setAttribute("msg", "pw_modified_OK");
                     response.sendRedirect("LoginServlet?rp=1");
                 }else{
                     throw new SSOServletException(HttpServletResponse.SC_NOT_FOUND, "Id not found");
@@ -107,7 +107,8 @@ public class PassResetServlet extends HttpServlet {
                 request.setAttribute("msg", emailSentMessage);
                 request.getRequestDispatcher(sendEmailUrl).include(request, response);
             }else{
-                throw new SSOServletException(HttpServletResponse.SC_NOT_FOUND, "Email not found");
+                request.setAttribute("error", "email_not_found");
+                request.getRequestDispatcher(sendEmailUrl).include(request, response);
             }
         }
         catch (DAOFactoryException e) {

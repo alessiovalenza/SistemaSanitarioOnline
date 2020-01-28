@@ -38,7 +38,7 @@ public class LoginServlet extends HttpServlet {
         Utente utente = doAuthN(email, password);
 
         if (utente == null){
-            request.setAttribute("error", "Username o password errati. Riprovare");
+            request.setAttribute("error", "login_pwemail_wrong");
             doGet(request, response);
         }else{
             setCookieRM(utente, response);
@@ -49,7 +49,7 @@ public class LoginServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         Utente utente = null;
 
-        String msg = request.getParameter("rp") == null ? "" : "La password è stata modificata con successo";
+        String msg = request.getParameter("rp") == null ? "" : "pw_modified_OK";
         request.setAttribute("msg", msg);
 
         //controllo se l'utente è già loggato
