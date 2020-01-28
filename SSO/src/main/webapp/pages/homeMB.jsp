@@ -417,7 +417,7 @@
                                         'codiceFiscale': json[i].paziente.codiceFiscale,
                                         'sesso': json[i].paziente.sesso,
                                         'email': json[i].paziente.email,
-                                        'dataUltimaVisitaBase': "",
+                                        'dataUltimaVisitaBase': "Ancora nessuna visita",
                                         'getDataUltimaRicetta':  ricetta,
                                     })
                                 }
@@ -435,7 +435,7 @@
                                         'sesso': json[i].paziente.sesso,
                                         'email': json[i].paziente.email,
                                         'dataUltimaVisitaBase':  visita,
-                                        'getDataUltimaRicetta': "",
+                                        'getDataUltimaRicetta': "Ancora nessuna ricetta",
                                     })
                                 }
                                 if (json[i].dataUltimaVisitaBase == undefined && json[i].getDataUltimaRicetta == undefined){
@@ -449,8 +449,8 @@
                                         'codiceFiscale': json[i].paziente.codiceFiscale,
                                         'sesso': json[i].paziente.sesso,
                                         'email': json[i].paziente.email,
-                                        'dataUltimaVisitaBase': "",
-                                        'getDataUltimaRicetta': "",
+                                        'dataUltimaVisitaBase': "Ancora nessuna visita",
+                                        'getDataUltimaRicetta': "Ancora nessuna ricetta",
                                     })
                                 }
                             }
