@@ -384,7 +384,7 @@
             let urlCambioMedico = baseUrl + '/api/general/medicibase/?idprovincia='+'${sessionScope.utente.prov}'
 
             $("#idmedicobase").select2({
-                placeholder: 'Cerca Medici',
+                placeholder: '<fmt:message key="Cerca medici"/>',
                 language: langSelect2,
                 width: '100%',
                 allowClear: true,
