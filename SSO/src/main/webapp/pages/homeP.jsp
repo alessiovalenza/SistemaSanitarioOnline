@@ -129,9 +129,9 @@
 
     <script>
         let components = new Set();
-        const labelLoadingButtons = "loading";
-        const labelSuccessButtons = "success";
-        const labelErrorButtons = "error";
+        const labelLoadingButtons = "<fmt:message key='Loading'/>";
+        const labelSuccessButtons = "<fmt:message key='Succed'/>";
+        const labelErrorButtons = "<fmt:message key='Error'/>";
         let baseUrl = "<%=request.getContextPath()%>";
 
         $(document).ready(function(){
@@ -898,11 +898,11 @@
                                 <div class="card-body">
                                     <div style="clear: both">
                                         <form action="#" id="formUploadFoto" method="POST" role="form" enctype="multipart/form-data">
-                                            <div>
-                                                <input style="/*float: left;*/  max-width: 100%" class="btn btn-primary" type="file" id="fotoToUpload" name="foto"
+                                            <div class="row">
+                                                <input style="/*float: left;*/  max-width: 330px" class="btn btn-primary float-left" type="file" id="fotoToUpload" name="foto"
                                                        onchange="return fileValidation('fotoToUpload', 'btnUploadFoto', labelAlertFoto)"/>
-                                                <br>
-                                                <button style="/*float:right;*/ height: 35pt; background: grey;" class="btn btn-primary" type="submit" id="btnUploadFoto" disabled><fmt:message key="carica"/> </button>
+                                                <div class="col-sm" style="width: 100%;min-width: 10px"></div>
+                                                <button style="max-width: 80px; height: 35pt; background: grey;" class="btn btn-primary float-right"  type="submit" id="btnUploadFoto" disabled><fmt:message key="carica"/> </button>
                                             </div>
                                         </form>
                                     </div>
@@ -1145,21 +1145,21 @@
                                             <form id="formCambiaPassword" >
                                                 <div class="form-group">
                                                     <div class="container-fluid" style="padding-top: 1rem">
-                                                        <label for="vecchiaPassword">Vecchia password<fmt:message key='Vecchia_password'/></label>
+                                                        <label for="vecchiaPassword"><fmt:message key='Vecchia_password'/></label>
                                                         <input class="inputCambiaPassword" type="password" id="vecchiaPassword" name="vecchiaPassword" required="required"/>
                                                     </div>
                                                     <div class="container-fluid" style="padding-top: 1rem">
-                                                        <label for="nuovaPassword">Nuova password<fmt:message key='Nuova_password'/></label>
+                                                        <label for="nuovaPassword"><fmt:message key='Nuova_password'/></label>
                                                         <input class="inputCambiaPassword" type="password" id="nuovaPassword" name="nuovaPassword" required="required"/>
                                                     </div>
                                                     <div class="container-fluid" style="padding-top: 1rem">
-                                                        <label for="ripetiPassword">Ripeti nuova password<fmt:message key='Ripeti'/></label>
+                                                        <label for="ripetiPassword"><fmt:message key='Ripeti'/></label>
                                                         <input class="inputCambiaPassword" type="password" id="ripetiPassword" name="ripetiPassword" required="required"/>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                 <div class="form-group container">
-                                                    <button id ="btnCambiaPassword" type="submit">Procedi<fmt:message key='Procedi'/></button>
+                                                    <button id ="btnCambiaPassword" type="submit"><fmt:message key='Procedi'/></button>
                                                 </div>
                                             </form>
                                         </div>

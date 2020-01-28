@@ -131,9 +131,9 @@
         let components = new Set();
         let baseUrl = "<%=request.getContextPath()%>";
 
-        const labelLoadingButtons = "loading";
-        const labelSuccessButtons = "success";
-        const labelErrorButtons = "error";
+        const labelLoadingButtons = "<fmt:message key='Loading'/>";
+        const labelSuccessButtons = "<fmt:message key='Succed'/>";
+        const labelErrorButtons = "<fmt:message key='Error'/>";
         let labelAlertFoto = "Puoi caricare file solo con estensione .jpeg/.jpg";
 
         $(document).ready(function () {
@@ -598,11 +598,11 @@
                                 <div class="card-body">
                                     <div style="clear: both">
                                         <form action="#" id="formUploadFoto" method="POST" role="form" enctype="multipart/form-data">
-                                            <div>
-                                                <input style="/*float: left;*/  max-width: 100%" class="btn btn-primary" type="file" id="fotoToUpload" name="foto"
+                                            <div class="row">
+                                                <input style="/*float: left;*/  max-width: 330px" class="btn btn-primary float-right" type="file" id="fotoToUpload" name="foto"
                                                        onchange="return fileValidation('fotoToUpload', 'btnUploadFoto', labelAlertFoto)"/>
-                                                <br>
-                                                <button style="/*float:right;*/ height: 35pt; background: grey;" class="btn btn-primary" type="submit" id="btnUploadFoto" disabled><fmt:message key="carica"/> </button>
+                                                <div class="col-sm" style="width: 100%;min-width: 10px"></div>
+                                                <button style="max-width: 80px; height: 35pt; background: grey;" class="btn btn-primary float-right" type="submit" id="btnUploadFoto" disabled><fmt:message key="carica"/> </button>
                                             </div>
                                         </form>
                                     </div>

@@ -117,9 +117,9 @@
         let baseUrl = "<%=request.getContextPath()%>";
         let components = new Set();
 
-        const labelLoadingButtons = "loading";
-        const labelSuccessButtons = "success";
-        const labelErrorButtons = "error";
+        const labelLoadingButtons = "<fmt:message key='Loading'/>";
+        const labelSuccessButtons = "<fmt:message key='Succed'/>";
+        const labelErrorButtons = "<fmt:message key='Error'/>";
 
         $(document).ready(function() {
 
@@ -219,10 +219,10 @@
                             erogatori[item.id]=item.medicoBase;
                             myResults.push({
                                 "id": item.id,
-                                "text": item.esame.nome + " " + item.esame.descrizione + ", prescritta da " +
+                                "text": item.esame.nome + " " + item.esame.descrizione + ", <fmt:message key='prescritta da'/> " +
                                     ( item.medicoBase !== undefined ?
                                             ( item.medicoBase.nome + " " + item.medicoBase.cognome ) : ("SSP")
-                                    ) + " il " + prescrizione
+                                    ) + " <fmt:message key='il'/> " + prescrizione
                             });
                         });
                         return {
