@@ -59,7 +59,7 @@
 <html>
 
 <head>
-    <title>Dashboard Farmacia</title>
+    <title><fmt:message key="Dashboard_Farmacia"/></title>
 
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -155,15 +155,15 @@
             </c:otherwise>
             </c:choose>
 
-            let labelMismatch = "La controlla di aver scritto correttamente la nuova password";
-            let labelWrongPw = "Password vecchia non corretta. Riprova";
+            let labelMismatch = "<fmt:message key='Controlla'/>";
+            let labelWrongPw = "<fmt:message key='Riprova'/>";
             let labelBtnPw = document.getElementById("btnCambiaPassword").innerHTML;
             initCambioPassword("#formCambiaPassword", "#vecchiaPassword", "#nuovaPassword", "#ripetiPassword", ${sessionScope.utente.id},
                 "#btnCambiaPassword", "messaggioCambioPw", labelWrongPw, labelMismatch, labelBtnPw);
 
-            let labelCercaPaz = "Cerca pazienti";
+            let labelCercaPaz = "<fmt:message key='Cerca_pazienti'/>";
             initSelect2Pazienti("#idpaziente", null, langSelect2, labelCercaPaz);
-            let labelCercaRicette = "Cerca ricetta";
+            let labelCercaRicette = "<fmt:message key='Cerca_ricetta'/>";
             $("#idricetta").select2({
                 placeholder: labelCercaRicette,
                 language: langSelect2,
@@ -255,7 +255,7 @@
                 <div class="sidebar-lang">
                     <c:choose>
                         <c:when test="${!fn:startsWith(language, 'it')}">
-                            <a href="${url}it_IT">italiano</a>
+                            <a href="${url}it_IT">Italiano</a>
                         </c:when>
                         <c:otherwise>
                             <b>italiano</b>
@@ -282,16 +282,16 @@
 
             <ul class="list-unstyled">
                 <li>
-                    <a href="#" class="componentControl" id="evadiRicettaControl">Evadi Ricette</a>
+                    <a href="#" class="componentControl" id="evadiRicettaControl"><fmt:message key='Evadi_Ricette'/></a>
                 </li>
                 <li>
-                    <a href="#" class="componentControl" id="cambiaPasswordControl">Cambia password</a>
+                    <a href="#" class="componentControl" id="cambiaPasswordControl"><fmt:message key='Cambia Password'/></a>
                 </li>
                 <li>
-                    <a href="../logout?forgetme=0">Log out</a>
+                    <a href="../logout?forgetme=0"><fmt:message key='Log_out'/></a>
                 </li>
                 <li>
-                    <a href="../logout?forgetme=1">Cambia account</a>
+                    <a href="../logout?forgetme=1"><fmt:message key='Cambia_account'/></a>
                 </li>
             </ul>
         </nav>
@@ -302,30 +302,30 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12">
-                            <h3>Evadi una ricetta ad un paziente</h3>
+                            <h3><fmt:message key='Evadi_ricetta_paziente'/></h3>
                             <hr>
                             <div class="container-fluid" align="center" id="cambiaMedico">
                                 <div class="form"  >
                                     <div class="form-toggle"></div>
                                     <div class="form-panel one">
                                         <div class="form-header">
-                                            <h1>Evadi ricetta</h1>
+                                            <h1><fmt:message key='Evadi_Ricetta'/></h1>
                                         </div>
                                         <div class="form-content">
                                             <form id="formEvadiRicetta" >
                                                 <div class="form-group">
                                                     <div class="container-fluid">
-                                                        <label for="idpaziente">Nome del paziente</label>
+                                                        <label for="idpaziente"><fmt:message key='Nome_del_Paziente'/></label>
                                                         <select class="select2EvadiRicetta" type="text" id="idpaziente" name="idpaziente" required="required"></select>
                                                     </div>
                                                     <div class="container-fluid" style="padding-top: 1rem">
-                                                        <label for="idricetta">Nome del farmaco</label>
+                                                        <label for="idricetta"><fmt:message key='Nome_del_farmaco'/></label>
                                                         <select class="select2EvadiRicetta" type="text" id="idricetta" name="idricetta" required="required"></select>
                                                     </div>
                                                 </div>
-                                                <input required="true" id="idPagato" type="checkbox"> Ticket di <fmt:formatNumber value="<%=RicettaDAO.PREZZO_TICKET%>" type="currency" currencyCode="EUR"/> pagato<br>
+                                                <input required="true" id="idPagato" type="checkbox"> <fmt:message key='Ticket_di'/> <fmt:formatNumber value="<%=RicettaDAO.PREZZO_TICKET%>" type="currency" currencyCode="EUR"/> <fmt:message key='pagato'/><br>
                                                 <div class="form-group">
-                                                    <button id="btnEvadiRicetta" type="submit">Evadi</button>
+                                                    <button id="btnEvadiRicetta" type="submit"><fmt:message key='Evadi'/></button>
                                                 </div>
                                             </form>
                                         </div>
@@ -341,34 +341,34 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12">
-                            <h3>Gestione password</h3>
+                            <h3><fmt:message key='Gestione_password'/></h3>
                             <hr>
                             <div class="container-fluid" align="center">
                                 <div class="form"  >
                                     <div class="form-toggle"></div>
                                     <div class="form-panel one">
                                         <div class="form-header">
-                                            <h1>Cambia password</h1>
+                                            <h1><fmt:message key='Cambia Password'/></h1>
                                         </div>
                                         <div class="form-content">
                                             <div class="alert alert-warning" role="alert" id="messaggioCambioPw"></div>
                                             <form id="formCambiaPassword" >
                                                 <div class="form-group">
                                                     <div class="container-fluid" style="padding-top: 1rem">
-                                                        <label for="vecchiaPassword">Vecchia password</label>
+                                                        <label for="vecchiaPassword"><fmt:message key='Vecchia_password'/></label>
                                                         <input class="inputCambiaPassword" type="password" id="vecchiaPassword" name="vecchiaPassword" required="required"/>
                                                     </div>
                                                     <div class="container-fluid" style="padding-top: 1rem">
-                                                        <label for="nuovaPassword">Nuova password</label>
+                                                        <label for="nuovaPassword"><fmt:message key='Nuova_password'/></label>
                                                         <input class="inputCambiaPassword" type="password" id="nuovaPassword" name="nuovaPassword" required="required"/>
                                                     </div>
                                                     <div class="container-fluid" style="padding-top: 1rem">
-                                                        <label for="ripetiPassword">Ripeti nuova password</label>
+                                                        <label for="ripetiPassword"><fmt:message key='Ripeti'/></label>
                                                         <input class="inputCambiaPassword" type="password" id="ripetiPassword" name="ripetiPassword" required="required"/>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <button id ="btnCambiaPassword" type="submit">Procedi</button>
+                                                    <button id ="btnCambiaPassword" type="submit"><fmt:message key='Procedi'/></button>
                                                 </div>
                                             </form>
                                         </div>
