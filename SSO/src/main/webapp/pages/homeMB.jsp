@@ -338,7 +338,7 @@
                 loadingButton("#btnPrescriviVisita",labelLoadingButtons)
                 event.preventDefault(); //prevent default action
                 let urlPrescVisita = baseUrl + '/api/pazienti/'+$('#idmedicobaseVisitaSpec').val()+'/visitespecialistiche'
-                let formData = "idmedicobase=${sessionScope.utente.id}&idvisita="+$("#idvisita").val() //Encode form elements for submission
+                let formData = "idmedicobase=${sessionScope.utente.id}&idvisita="+$("#idvisita").val(); //Encode form elements for submission
                 $.ajax({
                     url : urlPrescVisita,
                     type: "POST",

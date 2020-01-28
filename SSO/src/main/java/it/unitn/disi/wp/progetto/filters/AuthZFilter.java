@@ -67,11 +67,11 @@ public class AuthZFilter implements Filter {
 
             try {
                 if (checkRole(field, utente, (HttpServletRequest) request)) {
-                    System.out.println("Utente autorizzato ad accedere alla risorsa " + field);
+                    System.out.println("Utente " + utente.getId() + " autorizzato ad accedere alla risorsa " + field);
                     chain.doFilter(request, response);
                 }
                 else {
-                    System.out.println("Utente non autorizzato ad accedere alla risorsa " + field + ". Redirect alla suo homePage");
+                    System.out.println("Utente " + utente.getId() + " non autorizzato ad accedere alla risorsa " + field + ". Redirect alla suo homePage");
                     //httpResponse.sendRedirect(httpRequest.getContextPath() + Utilities.getMainPageFromRole(utente.getRuolo()));
 
                     if(field.startsWith("api/")) { //la richiesta è verso un'API

@@ -13,6 +13,13 @@ public class SetSectionServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String selectedSection = request.getParameter("selectedSection");
         HttpSession session = request.getSession(false);
-        session.setAttribute("selectedSection", selectedSection);
+        if(session != null) {
+            if(selectedSection != null) {
+                session.setAttribute("selectedSection", selectedSection);
+            }
+            else {
+                session.setAttribute("selectedSection", "");
+            }
+        }
     }
 }

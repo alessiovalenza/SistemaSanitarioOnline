@@ -46,9 +46,9 @@
             break;
         case "ricette":
             break;
-        case "visita":
+        case "visiteBase":
             break;
-        case "mappe":
+        case "visiteSpecialistiche":
             break;
         case "cambiaPassword":
             break;
@@ -124,11 +124,8 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css"></link>
     <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 
-
-
     <!-- Utils JS -->
     <script src="../scripts/utils.js"></script>
-
 
     <script>
         let components = new Set();
@@ -220,29 +217,32 @@
             initCambioPassword("#formCambiaPassword", "#vecchiaPassword", "#nuovaPassword", "#ripetiPassword", ${sessionScope.utente.id},
                 "#btnCambiaPassword", "messaggioCambioPw", labelWrongPw, labelMismatch, labelBtnPw);
 
+            let labelCambiaMed = document.getElementById("btnCambiaMedico").innerHTML;
             $("#formPutCambiaMedico").submit(function(event){
                 loadingButton("#btnCambiaMedico",labelLoadingButtons)
                 event.preventDefault(); //prevent default action
-                let form_data = $(this).serialize(); //Encode form elements for submission
+                let formData = "idmedicobase="+$("#idmedicobase").val(); //Encode form elements for submission
                 let url = baseUrl + '/api/pazienti/' + ${sessionScope.utente.id} + '/medicobase'
 
                 $.ajax({
                     url : url,
                     type: "PUT",
-                    data : form_data,
+                    data : formData,
                     success: function (data) {
-                        // alert("va")
-
                         $('#idmedicobase').val(null).trigger("change")
-                        successButton("#btnCambiaMedico",labelSuccessButtons)
-                    }.data,
+                        successButton("#btnCambiaMedico", labelSuccessButtons);
+                    },
                     complete: function(){
                     },
                     error: function(xhr, status, error) {
-                        errorButton("#btnCambiaMedico",labelErrorButtons)
-                        alert(xhr.responseText);
+                        errorButton("#btnCambiaMedico",labelErrorButtons);
+                        console.log(xhr.responseText);
+                        //alert(xhr.responseText);
                     }
                 });
+            });
+            $("#idmedicobase").on("change", function () {
+                resetButton("#btnCambiaMedico", labelCambiaMed);
             });
 
             $("#medicoControl").click(function(){
@@ -271,7 +271,7 @@
                         $("#codiceFiscaleMedico").html(cf);
                     },
                     error: function(xhr, status, error) {
-                        console.log("errore");
+                        console.log(xhr.responseText);
                     }
                 });
 
@@ -312,6 +312,9 @@
                             }
                             return returnData;
                         },
+                        "error": function(xhr, status, error) {
+                            console.log("errore");
+                        }
                     },
                     "columns": [
                         { "data": "nomeEsame" },
@@ -352,10 +355,17 @@
                                     'nomeMedicoBase': json[i].medicoBase == undefined ? "" : json[i].medicoBase.nome,
                                     'prescrizione': prescrizione,
                                     'erogazione': erogazione,
-                                    'esito': json[i].esito
+                                    'esito': json[i].esito,
+                                    'downloadRicevuta': "<a href='${baseUrl}/docs/ricevute?tipo=esame&id=" + String(json[i].id) + "'>" +
+                                        "<img style='width: 30px; height: 30px;'" +
+                                        "src='${baseUrl}/assets/img/pdf.png'/>" +
+                                        "</a>"
                                 });
                             }
                             return returnData;
+                        },
+                        "error": function(xhr, status, error) {
+                            console.log("errore");
                         }
                     },
                     "columns": [
@@ -365,7 +375,8 @@
                         { "data": "cognomeMedicoBase" },
                         { "data": "prescrizione" },
                         { "data": "erogazione" },
-                        { "data": "esito" }
+                        { "data": "esito" },
+                        { "data": "downloadRicevuta"}
                     ]
                 } );
             });
@@ -401,6 +412,9 @@
                         return {
                             results: myResults
                         };
+                    },
+                    error: function(xhr, status, error) {
+                        console.log("errore");
                     }
                 }
             });
@@ -431,12 +445,17 @@
                             for(let i=0;i< json.length; i++) {
                                 let emissione = new Date(json[i].emissione);
                                 emissione=emissione.toLocaleDateString("${fn:replace(language, '_', '-')}",options);
+                                console.log("aaaaaaaaaaa " + json[i].id);
                                 returnData.push({
                                     'farmacoNome': json[i].farmaco.nome,
                                     'farmacoDescrizione': json[i].farmaco.descrizione,
                                     'medicoBaseCognome': json[i].medicoBase.cognome,
                                     'medicoBaseNome': json[i].medicoBase.nome,
-                                    'emissione': emissione
+                                    'emissione': emissione,
+                                    'downloadRicetta': "<a href='${baseUrl}/docs/ricette?id=" + String(json[i].id) + "'>" +
+                                        "<img style='width: 30px; height: 30px;'" +
+                                        "src='${baseUrl}/assets/img/pdf.png'/>" +
+                                        "</a>"
                                 });
                             }
                             return returnData;
@@ -451,7 +470,8 @@
                         { "data": "farmacoDescrizione" },
                         { "data": "medicoBaseNome" },
                         { "data": "medicoBaseCognome" },
-                        { "data": "emissione" }
+                        { "data": "emissione" },
+                        { "data": "downloadRicetta"}
                     ]
                 } );
 
@@ -486,7 +506,11 @@
                                     'medicoBaseCognome': json[i].medicoBase.cognome,
                                     'medicoBaseNome': json[i].medicoBase.nome,
                                     'emissione': emissione,
-                                    'evasione': evasione
+                                    'evasione': evasione,
+                                    'downloadRicevuta': "<a href='${baseUrl}/docs/ricevute?tipo=ricetta&id=" + String(json[i].id) + "'>" +
+                                        "<img style='width: 30px; height: 30px;'" +
+                                        "src='${baseUrl}/assets/img/pdf.png'/>" +
+                                        "</a>"
                                 });
                             }
                             return returnData;
@@ -502,7 +526,8 @@
                         { "data": "medicoBaseNome" },
                         { "data": "medicoBaseCognome" },
                         { "data": "emissione" },
-                        { "data": "evasione" }
+                        { "data": "evasione" },
+                        { "data": "downloadRicevuta"}
                     ]
                 } );
 
@@ -593,7 +618,11 @@
                                     'medicoBaseNome': json[i].medicoBase.nome,
                                     'prescrizione': prescrizione,
                                     'erogazione': erogazione,
-                                    'anamnesi': json[i].anamnesi
+                                    'anamnesi': json[i].anamnesi,
+                                    'downloadRicevuta': "<a href='${baseUrl}/docs/ricevute?tipo=visita&id=" + String(json[i].id) + "'>" +
+                                        "<img style='width: 30px; height: 30px;'" +
+                                        "src='${baseUrl}/assets/img/pdf.png'/>" +
+                                        "</a>"
                                 });
                             }
                             return returnData;
@@ -611,7 +640,8 @@
                         { "data": "medicoBaseCognome" },
                         { "data": "prescrizione" },
                         { "data": "erogazione" },
-                        { "data": "anamnesi" }
+                        { "data": "anamnesi" },
+                        { "data": "downloadRicevuta"}
                     ]
                 } );
 
@@ -708,10 +738,13 @@
                                 type: "GET",
                                 url: baseUrl + "/api/pazienti/"+ ${sessionScope.utente.id} +"/ricette?evaseonly=false&nonevaseonly=true",
                                 success: function (data) {
-                                    //if (data[0] && distance <= 2000) {
+                                    if (data[0] && distance <= 2000) {
                                         notifyMe();
                                         $(sendEmail());
-                                    //}
+                                    }
+                                },
+                                error: function(xhr, status, error) {
+                                    console.log("errore");
                                 }
                             });
 
@@ -737,7 +770,7 @@
             $('#ricetteControl').click(() => showComponent('ricette'));
             $('#visiteBaseControl').click(() => showComponent('visiteBase'));
             $('#visiteSpecialisticheControl').click(() => showComponent('visiteSpecialistiche'));
-            $('#mappeControl').click(() => showComponent('mappe'));
+            //$('#mappeControl').click(() => showComponent('mappe'));
             $('#cambiaPasswordControl').click(() => showComponent('cambiaPassword'));
 
             document.getElementById("${sectionToShow}Control").click();
@@ -956,6 +989,7 @@
                             <th><fmt:message key="prescrizione"/></th>
                             <th><fmt:message key="ero"/></th>
                             <th><fmt:message key="esito"/></th>
+                            <th>Ricevuta</th>
                         </tr>
                         </thead>
                     </table>
@@ -963,6 +997,21 @@
             </div>
 
             <div id="ricette" class="component tool">
+                <h2><fmt:message key="ricnevas"/></h2>
+                <div class="container-fluid">
+                    <table id="ricetteNonEvase" class="table table-striped table-hover ">
+                        <thead>
+                        <tr>
+                            <th><fmt:message key="nomefar"/></th>
+                            <th><fmt:message key="desfar"/></th>
+                            <th><fmt:message key="nomemb"/></th>
+                            <th><fmt:message key="cognomemb"/></th>
+                            <th><fmt:message key="prescrizione"/></th>
+                            <th>PDF</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
                 <h2><fmt:message key="ricev"/></h2>
                 <div class="container-fluid">
                     <table id="ricetteEvase" class="table table-striped table-hover ">
@@ -974,26 +1023,13 @@
                             <th><fmt:message key="cognomemb"/></th>
                             <th><fmt:message key="prescrizione"/></th>
                             <th><fmt:message key="evas"/></th>
+                            <th>Ricevuta</th>
                         </tr>
                         </thead>
                     </table>
                 </div>
                 <br/>
                 <br/>
-                <h2><fmt:message key="ricnevas"/></h2>
-                <div class="container-fluid">
-                    <table id="ricetteNonEvase" class="table table-striped table-hover ">
-                        <thead>
-                        <tr>
-                            <th><fmt:message key="nomefar"/></th>
-                            <th><fmt:message key="desfar"/></th>
-                            <th><fmt:message key="nomemb"/></th>
-                            <th><fmt:message key="cognomemb"/></th>
-                            <th><fmt:message key="prescrizione"/></th>
-                        </tr>
-                        </thead>
-                    </table>
-                </div>
             </div>
 
             <div id="visiteBase" class="component tool">
@@ -1013,24 +1049,6 @@
             </div>
 
             <div id="visiteSpecialistiche" class="component tool">
-                <h2><fmt:message key="visspecero"/></h2>
-                <div class="container-fluid">
-                    <table id="visiteSpecialisticheErogate" class="table table-striped table-hover ">
-                        <thead>
-                        <tr>
-                            <th><fmt:message key="nomevis"/></th>
-                            <th><fmt:message key="nomems"/></th>
-                            <th><fmt:message key="cognomems"/></th>
-                            <th><fmt:message key="nomemb"/></th>
-                            <th><fmt:message key="cognomemb"/></th>
-                            <th><fmt:message key="prescrizione"/></th>
-                            <th><fmt:message key="ero"/></th>
-                            <th><fmt:message key="anamn"/></th>
-                        </tr>
-                        </thead>
-                    </table>
-                </div>
-                <br/><br/>
                 <h2><fmt:message key="visspecnero"/></h2>
                 <div class="container-fluid">
                     <table id="visiteSpecialisticheNonErogate" class="table table-striped table-hover ">
@@ -1044,6 +1062,25 @@
                         </thead>
                     </table>
                 </div>
+                <h2><fmt:message key="visspecero"/></h2>
+                <div class="container-fluid">
+                    <table id="visiteSpecialisticheErogate" class="table table-striped table-hover ">
+                        <thead>
+                        <tr>
+                            <th><fmt:message key="nomevis"/></th>
+                            <th><fmt:message key="nomems"/></th>
+                            <th><fmt:message key="cognomems"/></th>
+                            <th><fmt:message key="nomemb"/></th>
+                            <th><fmt:message key="cognomemb"/></th>
+                            <th><fmt:message key="prescrizione"/></th>
+                            <th><fmt:message key="ero"/></th>
+                            <th><fmt:message key="anamn"/></th>
+                            <th>Ricevuta</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+                <br/><br/>
             </div>
 
             <div id="medico" class="tool component">

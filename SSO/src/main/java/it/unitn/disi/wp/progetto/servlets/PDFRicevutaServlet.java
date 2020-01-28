@@ -71,258 +71,264 @@ public class PDFRicevutaServlet extends HttpServlet {
             throw new SSOServletException(HttpServletResponse.SC_BAD_REQUEST, "The type must be either \"ricetta\" or \"esame\" or \"visita\"");
         }
 
-        long id = Long.parseLong(idStr);
-        HttpSession session = request.getSession(false);
-
         try {
-            if(checkBadRequest(tipo, id)) {
-                throw new SSOServletException(HttpServletResponse.SC_NOT_FOUND, "Id not found");
+            long id = Long.parseLong(idStr);
+
+            HttpSession session = request.getSession(false);
+
+            try {
+                if(checkBadRequest(tipo, id)) {
+                    throw new SSOServletException(HttpServletResponse.SC_NOT_FOUND, "Id not found");
+                }
+
+                if (session != null && session.getAttribute("utente") != null && !checkAuthZ(tipo, id, (Utente) session.getAttribute("utente"))) {
+                    throw new SSOServletException(HttpServletResponse.SC_FORBIDDEN, "You are trying to access someone else's data");
+                }
+
+                response.setContentType("application/pdf");
+                String fileName = "ricevuta_" + tipo + "_" + id + ".pdf";
+                response.addHeader("Content-Disposition", "inline; filename=" + fileName);
+
+                PdfDocument pdfDocument = new PdfDocument(new PdfWriter(response.getOutputStream()));
+                Document document = new Document(pdfDocument);
+
+                PdfFont font = PdfFontFactory.createFont(StandardFonts.HELVETICA);
+                document.setFont(font);
+
+                Paragraph header = new Paragraph();
+                Text headerText = new Text("Sistema sanitario nazionale - Repubblica Italiana");
+                headerText.setHorizontalAlignment(HorizontalAlignment.CENTER);
+                headerText.setFontSize(24);
+                headerText.setBold();
+                header.add(headerText);
+
+                document.add(header);
+
+                Paragraph subtitle = new Paragraph();
+                Text subtitleText = new Text("Ricevuta fiscale per pagamento ticket " + tipo);
+                subtitleText.setHorizontalAlignment(HorizontalAlignment.CENTER);
+                subtitleText.setFontSize(16);
+                headerText.setBold();
+                subtitleText.setFontColor(ColorConstants.DARK_GRAY);
+                subtitle.add(subtitleText);
+
+                document.add(subtitle);
+
+                UtenteView paziente;
+                float[] colWidths = {100, 200};
+                Table table;
+
+                switch (tipo) {
+                    case RICETTA:
+                        Ricetta ricetta = ricettaDAO.getByPrimaryKey(id);
+
+                        if(ricetta.getEvasione() == null) {
+                            throw new SSOServletException(HttpServletResponse.SC_BAD_REQUEST, "You can have a ricevuta only for a ricettta that you already paid for");
+                        }
+
+                        paziente = ricetta.getPaziente();
+
+                        table = new Table(colWidths).useAllAvailableWidth();
+
+                        table.addCell(new Cell().add(new Paragraph(new Text("Cognome e nome dell'assitito").setBold()))
+                                .setBackgroundColor(ColorConstants.LIGHT_GRAY)
+                                .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                                .setHorizontalAlignment(HorizontalAlignment.LEFT)
+                                .setHeight(24));
+                        table.addCell(new Cell().add(new Paragraph(new Text(paziente.getCognome() + " " + paziente.getNome())))
+                                .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                                .setHorizontalAlignment(HorizontalAlignment.RIGHT));
+
+                        table.addCell(new Cell().add(new Paragraph(new Text("Codice fiscale dell'assitito").setBold()))
+                                .setBackgroundColor(ColorConstants.LIGHT_GRAY)
+                                .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                                .setHorizontalAlignment(HorizontalAlignment.LEFT)
+                                .setHeight(24));
+                        table.addCell(new Cell().add(new Paragraph(new Text(paziente.getCodiceFiscale())))
+                                .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                                .setHorizontalAlignment(HorizontalAlignment.RIGHT));
+
+                        table.addCell(new Cell().add(new Paragraph(new Text("Farmaco evaso").setBold()))
+                                .setBackgroundColor(ColorConstants.LIGHT_GRAY)
+                                .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                                .setHorizontalAlignment(HorizontalAlignment.LEFT)
+                                .setHeight(24));
+                        table.addCell(new Cell().add(new Paragraph(new Text(ricetta.getFarmaco().getNome())))
+                                .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                                .setHorizontalAlignment(HorizontalAlignment.RIGHT));
+
+                        table.addCell(new Cell().add(new Paragraph(new Text("Prezzo ticket").setBold()))
+                                .setBackgroundColor(ColorConstants.LIGHT_GRAY)
+                                .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                                .setHorizontalAlignment(HorizontalAlignment.LEFT)
+                                .setHeight(24));
+                        table.addCell(new Cell().add(new Paragraph(new Text(String.format("€ %.2f", Double.parseDouble(getServletContext().getInitParameter("ticketricetta"))))))
+                                .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                                .setHorizontalAlignment(HorizontalAlignment.RIGHT));
+
+                        table.addCell(new Cell().add(new Paragraph(new Text("Data evasione").setBold()))
+                                .setBackgroundColor(ColorConstants.LIGHT_GRAY)
+                                .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                                .setHorizontalAlignment(HorizontalAlignment.LEFT)
+                                .setHeight(24));
+                        table.addCell(new Cell().add(new Paragraph(new Text(ricetta.getEvasione().toString())))
+                                .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                                .setHorizontalAlignment(HorizontalAlignment.RIGHT));
+
+                        table.addCell(new Cell().add(new Paragraph(new Text("Beneficiario").setBold()))
+                                .setBackgroundColor(ColorConstants.LIGHT_GRAY)
+                                .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                                .setHorizontalAlignment(HorizontalAlignment.LEFT)
+                                .setHeight(24));
+                        table.addCell(new Cell().add(new Paragraph(new Text(ricetta.getFarmacia().getNome())))
+                                .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                                .setHorizontalAlignment(HorizontalAlignment.RIGHT));
+
+                        document.add(table);
+                        break;
+                    case ESAME:
+                        EsamePrescritto esame = esameDAO.getByPrimaryKey(id);
+                        paziente = esame.getPaziente();
+
+                        if(esame.getErogazione() == null) {
+                            throw new SSOServletException(HttpServletResponse.SC_BAD_REQUEST, "You can have a ricevuta only for an esame prescritto that you already paid for");
+                        }
+
+                        table = new Table(colWidths).useAllAvailableWidth();
+
+                        table.addCell(new Cell().add(new Paragraph(new Text("Cognome e nome dell'assitito").setBold()))
+                                .setBackgroundColor(ColorConstants.LIGHT_GRAY)
+                                .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                                .setHorizontalAlignment(HorizontalAlignment.LEFT)
+                                .setHeight(24));
+                        table.addCell(new Cell().add(new Paragraph(new Text(paziente.getCognome() + " " + paziente.getNome())))
+                                .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                                .setHorizontalAlignment(HorizontalAlignment.RIGHT));
+
+                        table.addCell(new Cell().add(new Paragraph(new Text("Codice fiscale dell'assitito").setBold()))
+                                .setBackgroundColor(ColorConstants.LIGHT_GRAY)
+                                .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                                .setHorizontalAlignment(HorizontalAlignment.LEFT)
+                                .setHeight(24));
+                        table.addCell(new Cell().add(new Paragraph(new Text(paziente.getCodiceFiscale())))
+                                .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                                .setHorizontalAlignment(HorizontalAlignment.RIGHT));
+
+                        table.addCell(new Cell().add(new Paragraph(new Text("Esame erogato").setBold()))
+                                .setBackgroundColor(ColorConstants.LIGHT_GRAY)
+                                .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                                .setHorizontalAlignment(HorizontalAlignment.LEFT)
+                                .setHeight(24));
+                        table.addCell(new Cell().add(new Paragraph(new Text(esame.getEsame().getNome())))
+                                .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                                .setHorizontalAlignment(HorizontalAlignment.RIGHT));
+
+                        table.addCell(new Cell().add(new Paragraph(new Text("Prezzo ticket").setBold()))
+                                .setBackgroundColor(ColorConstants.LIGHT_GRAY)
+                                .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                                .setHorizontalAlignment(HorizontalAlignment.LEFT)
+                                .setHeight(24));
+                        table.addCell(new Cell().add(new Paragraph(new Text(String.format("€ %.2f", Double.parseDouble(getServletContext().getInitParameter("ticketesame"))))))
+                                .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                                .setHorizontalAlignment(HorizontalAlignment.RIGHT));
+
+                        table.addCell(new Cell().add(new Paragraph(new Text("Data evasione").setBold()))
+                                .setBackgroundColor(ColorConstants.LIGHT_GRAY)
+                                .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                                .setHorizontalAlignment(HorizontalAlignment.LEFT)
+                                .setHeight(24));
+                        table.addCell(new Cell().add(new Paragraph(new Text(esame.getErogazione().toString())))
+                                .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                                .setHorizontalAlignment(HorizontalAlignment.RIGHT));
+
+                        table.addCell(new Cell().add(new Paragraph(new Text("Beneficiario").setBold()))
+                                .setBackgroundColor(ColorConstants.LIGHT_GRAY)
+                                .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                                .setHorizontalAlignment(HorizontalAlignment.LEFT)
+                                .setHeight(24));
+                        table.addCell(new Cell().add(new Paragraph(new Text("SSP " + paziente.getProv())))
+                                .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                                .setHorizontalAlignment(HorizontalAlignment.RIGHT));
+
+                        document.add(table);
+                        break;
+                    case VISITA:
+                        VisitaMedicoSpecialista visita = visitaDAO.getByPrimaryKey(id);
+                        paziente = visita.getPaziente();
+
+                        if(visita.getErogazione() == null) {
+                            throw new SSOServletException(HttpServletResponse.SC_BAD_REQUEST, "You can have a ricevuta only for a visita specialistica that you already paid for");
+                        }
+
+                        table = new Table(colWidths).useAllAvailableWidth();
+
+                        table.addCell(new Cell().add(new Paragraph(new Text("Cognome e nome dell'assitito").setBold()))
+                                .setBackgroundColor(ColorConstants.LIGHT_GRAY)
+                                .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                                .setHorizontalAlignment(HorizontalAlignment.LEFT)
+                                .setHeight(24));
+                        table.addCell(new Cell().add(new Paragraph(new Text(paziente.getCognome() + " " + paziente.getNome())))
+                                .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                                .setHorizontalAlignment(HorizontalAlignment.RIGHT));
+
+                        table.addCell(new Cell().add(new Paragraph(new Text("Codice fiscale dell'assitito").setBold()))
+                                .setBackgroundColor(ColorConstants.LIGHT_GRAY)
+                                .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                                .setHorizontalAlignment(HorizontalAlignment.LEFT)
+                                .setHeight(24));
+                        table.addCell(new Cell().add(new Paragraph(new Text(paziente.getCodiceFiscale())))
+                                .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                                .setHorizontalAlignment(HorizontalAlignment.RIGHT));
+
+                        table.addCell(new Cell().add(new Paragraph(new Text("Visita erogata").setBold()))
+                                .setBackgroundColor(ColorConstants.LIGHT_GRAY)
+                                .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                                .setHorizontalAlignment(HorizontalAlignment.LEFT)
+                                .setHeight(24));
+                        table.addCell(new Cell().add(new Paragraph(new Text(visita.getVisita().getNome())))
+                                .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                                .setHorizontalAlignment(HorizontalAlignment.RIGHT));
+
+                        table.addCell(new Cell().add(new Paragraph(new Text("Prezzo ticket").setBold()))
+                                .setBackgroundColor(ColorConstants.LIGHT_GRAY)
+                                .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                                .setHorizontalAlignment(HorizontalAlignment.LEFT)
+                                .setHeight(24));
+                        table.addCell(new Cell().add(new Paragraph(new Text(String.format("€ %.2f", Double.parseDouble(getServletContext().getInitParameter("ticketvisita"))))))
+                                .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                                .setHorizontalAlignment(HorizontalAlignment.RIGHT));
+
+                        table.addCell(new Cell().add(new Paragraph(new Text("Data evasione").setBold()))
+                                .setBackgroundColor(ColorConstants.LIGHT_GRAY)
+                                .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                                .setHorizontalAlignment(HorizontalAlignment.LEFT)
+                                .setHeight(24));
+                        table.addCell(new Cell().add(new Paragraph(new Text(visita.getErogazione().toString())))
+                                .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                                .setHorizontalAlignment(HorizontalAlignment.RIGHT));
+
+                        table.addCell(new Cell().add(new Paragraph(new Text("Beneficiario").setBold()))
+                                .setBackgroundColor(ColorConstants.LIGHT_GRAY)
+                                .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                                .setHorizontalAlignment(HorizontalAlignment.LEFT)
+                                .setHeight(24));
+                        table.addCell(new Cell().add(new Paragraph(new Text("SSP " + paziente.getProv())))
+                                .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                                .setHorizontalAlignment(HorizontalAlignment.RIGHT));
+
+                        document.add(table);
+                        break;
+                }
+
+                document.close();
             }
-
-            if (session != null && session.getAttribute("utente") != null && !checkAuthZ(tipo, id, (Utente) session.getAttribute("utente"))) {
-                throw new SSOServletException(HttpServletResponse.SC_FORBIDDEN, "You are trying to access someone else's data");
+            catch (DAOException e) {
+                throw new SSOServletException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                        e.getMessage() + " - Errors occurred when accessing storage system");
             }
-
-            response.setContentType("application/pdf");
-            String fileName = "ricevuta_" + tipo + "_" + id + ".pdf";
-            response.addHeader("Content-Disposition", "inline; filename=" + fileName);
-
-            PdfDocument pdfDocument = new PdfDocument(new PdfWriter(response.getOutputStream()));
-            Document document = new Document(pdfDocument);
-
-            PdfFont font = PdfFontFactory.createFont(StandardFonts.HELVETICA);
-            document.setFont(font);
-
-            Paragraph header = new Paragraph();
-            Text headerText = new Text("Sistema sanitario nazionale - Repubblica Italiana");
-            headerText.setHorizontalAlignment(HorizontalAlignment.CENTER);
-            headerText.setFontSize(24);
-            headerText.setBold();
-            header.add(headerText);
-
-            document.add(header);
-
-            Paragraph subtitle = new Paragraph();
-            Text subtitleText = new Text("Ricevuta fiscale per pagamento ticket " + tipo);
-            subtitleText.setHorizontalAlignment(HorizontalAlignment.CENTER);
-            subtitleText.setFontSize(16);
-            headerText.setBold();
-            subtitleText.setFontColor(ColorConstants.DARK_GRAY);
-            subtitle.add(subtitleText);
-
-            document.add(subtitle);
-
-            UtenteView paziente;
-            float[] colWidths = {100, 200};
-            Table table;
-
-            switch (tipo) {
-                case RICETTA:
-                    Ricetta ricetta = ricettaDAO.getByPrimaryKey(id);
-
-                    if(ricetta.getEvasione() == null) {
-                        throw new SSOServletException(HttpServletResponse.SC_BAD_REQUEST, "You can have a ricevuta only for a ricettta that you already paid for");
-                    }
-
-                    paziente = ricetta.getPaziente();
-
-                    table = new Table(colWidths).useAllAvailableWidth();
-
-                    table.addCell(new Cell().add(new Paragraph(new Text("Cognome e nome dell'assitito").setBold()))
-                            .setBackgroundColor(ColorConstants.LIGHT_GRAY)
-                            .setVerticalAlignment(VerticalAlignment.MIDDLE)
-                            .setHorizontalAlignment(HorizontalAlignment.LEFT)
-                            .setHeight(24));
-                    table.addCell(new Cell().add(new Paragraph(new Text(paziente.getCognome() + " " + paziente.getNome())))
-                            .setVerticalAlignment(VerticalAlignment.MIDDLE)
-                            .setHorizontalAlignment(HorizontalAlignment.RIGHT));
-
-                    table.addCell(new Cell().add(new Paragraph(new Text("Codice fiscale dell'assitito").setBold()))
-                            .setBackgroundColor(ColorConstants.LIGHT_GRAY)
-                            .setVerticalAlignment(VerticalAlignment.MIDDLE)
-                            .setHorizontalAlignment(HorizontalAlignment.LEFT)
-                            .setHeight(24));
-                    table.addCell(new Cell().add(new Paragraph(new Text(paziente.getCodiceFiscale())))
-                            .setVerticalAlignment(VerticalAlignment.MIDDLE)
-                            .setHorizontalAlignment(HorizontalAlignment.RIGHT));
-
-                    table.addCell(new Cell().add(new Paragraph(new Text("Farmaco evaso").setBold()))
-                            .setBackgroundColor(ColorConstants.LIGHT_GRAY)
-                            .setVerticalAlignment(VerticalAlignment.MIDDLE)
-                            .setHorizontalAlignment(HorizontalAlignment.LEFT)
-                            .setHeight(24));
-                    table.addCell(new Cell().add(new Paragraph(new Text(ricetta.getFarmaco().getNome())))
-                            .setVerticalAlignment(VerticalAlignment.MIDDLE)
-                            .setHorizontalAlignment(HorizontalAlignment.RIGHT));
-
-                    table.addCell(new Cell().add(new Paragraph(new Text("Prezzo ticket").setBold()))
-                            .setBackgroundColor(ColorConstants.LIGHT_GRAY)
-                            .setVerticalAlignment(VerticalAlignment.MIDDLE)
-                            .setHorizontalAlignment(HorizontalAlignment.LEFT)
-                            .setHeight(24));
-                    table.addCell(new Cell().add(new Paragraph(new Text(String.format("€ %.2f", Double.parseDouble(getServletContext().getInitParameter("ticketricetta"))))))
-                            .setVerticalAlignment(VerticalAlignment.MIDDLE)
-                            .setHorizontalAlignment(HorizontalAlignment.RIGHT));
-
-                    table.addCell(new Cell().add(new Paragraph(new Text("Data evasione").setBold()))
-                            .setBackgroundColor(ColorConstants.LIGHT_GRAY)
-                            .setVerticalAlignment(VerticalAlignment.MIDDLE)
-                            .setHorizontalAlignment(HorizontalAlignment.LEFT)
-                            .setHeight(24));
-                    table.addCell(new Cell().add(new Paragraph(new Text(ricetta.getEvasione().toString())))
-                            .setVerticalAlignment(VerticalAlignment.MIDDLE)
-                            .setHorizontalAlignment(HorizontalAlignment.RIGHT));
-
-                    table.addCell(new Cell().add(new Paragraph(new Text("Beneficiario").setBold()))
-                            .setBackgroundColor(ColorConstants.LIGHT_GRAY)
-                            .setVerticalAlignment(VerticalAlignment.MIDDLE)
-                            .setHorizontalAlignment(HorizontalAlignment.LEFT)
-                            .setHeight(24));
-                    table.addCell(new Cell().add(new Paragraph(new Text(ricetta.getFarmacia().getNome())))
-                            .setVerticalAlignment(VerticalAlignment.MIDDLE)
-                            .setHorizontalAlignment(HorizontalAlignment.RIGHT));
-
-                    document.add(table);
-                    break;
-                case ESAME:
-                    EsamePrescritto esame = esameDAO.getByPrimaryKey(id);
-                    paziente = esame.getPaziente();
-
-                    if(esame.getErogazione() == null) {
-                        throw new SSOServletException(HttpServletResponse.SC_BAD_REQUEST, "You can have a ricevuta only for an esame prescritto that you already paid for");
-                    }
-
-                    table = new Table(colWidths).useAllAvailableWidth();
-
-                    table.addCell(new Cell().add(new Paragraph(new Text("Cognome e nome dell'assitito").setBold()))
-                            .setBackgroundColor(ColorConstants.LIGHT_GRAY)
-                            .setVerticalAlignment(VerticalAlignment.MIDDLE)
-                            .setHorizontalAlignment(HorizontalAlignment.LEFT)
-                            .setHeight(24));
-                    table.addCell(new Cell().add(new Paragraph(new Text(paziente.getCognome() + " " + paziente.getNome())))
-                            .setVerticalAlignment(VerticalAlignment.MIDDLE)
-                            .setHorizontalAlignment(HorizontalAlignment.RIGHT));
-
-                    table.addCell(new Cell().add(new Paragraph(new Text("Codice fiscale dell'assitito").setBold()))
-                            .setBackgroundColor(ColorConstants.LIGHT_GRAY)
-                            .setVerticalAlignment(VerticalAlignment.MIDDLE)
-                            .setHorizontalAlignment(HorizontalAlignment.LEFT)
-                            .setHeight(24));
-                    table.addCell(new Cell().add(new Paragraph(new Text(paziente.getCodiceFiscale())))
-                            .setVerticalAlignment(VerticalAlignment.MIDDLE)
-                            .setHorizontalAlignment(HorizontalAlignment.RIGHT));
-
-                    table.addCell(new Cell().add(new Paragraph(new Text("Esame erogato").setBold()))
-                            .setBackgroundColor(ColorConstants.LIGHT_GRAY)
-                            .setVerticalAlignment(VerticalAlignment.MIDDLE)
-                            .setHorizontalAlignment(HorizontalAlignment.LEFT)
-                            .setHeight(24));
-                    table.addCell(new Cell().add(new Paragraph(new Text(esame.getEsame().getNome())))
-                            .setVerticalAlignment(VerticalAlignment.MIDDLE)
-                            .setHorizontalAlignment(HorizontalAlignment.RIGHT));
-
-                    table.addCell(new Cell().add(new Paragraph(new Text("Prezzo ticket").setBold()))
-                            .setBackgroundColor(ColorConstants.LIGHT_GRAY)
-                            .setVerticalAlignment(VerticalAlignment.MIDDLE)
-                            .setHorizontalAlignment(HorizontalAlignment.LEFT)
-                            .setHeight(24));
-                    table.addCell(new Cell().add(new Paragraph(new Text(String.format("€ %.2f", Double.parseDouble(getServletContext().getInitParameter("ticketesame"))))))
-                            .setVerticalAlignment(VerticalAlignment.MIDDLE)
-                            .setHorizontalAlignment(HorizontalAlignment.RIGHT));
-
-                    table.addCell(new Cell().add(new Paragraph(new Text("Data evasione").setBold()))
-                            .setBackgroundColor(ColorConstants.LIGHT_GRAY)
-                            .setVerticalAlignment(VerticalAlignment.MIDDLE)
-                            .setHorizontalAlignment(HorizontalAlignment.LEFT)
-                            .setHeight(24));
-                    table.addCell(new Cell().add(new Paragraph(new Text(esame.getErogazione().toString())))
-                            .setVerticalAlignment(VerticalAlignment.MIDDLE)
-                            .setHorizontalAlignment(HorizontalAlignment.RIGHT));
-
-                    table.addCell(new Cell().add(new Paragraph(new Text("Beneficiario").setBold()))
-                            .setBackgroundColor(ColorConstants.LIGHT_GRAY)
-                            .setVerticalAlignment(VerticalAlignment.MIDDLE)
-                            .setHorizontalAlignment(HorizontalAlignment.LEFT)
-                            .setHeight(24));
-                    table.addCell(new Cell().add(new Paragraph(new Text("SSP " + paziente.getProv())))
-                            .setVerticalAlignment(VerticalAlignment.MIDDLE)
-                            .setHorizontalAlignment(HorizontalAlignment.RIGHT));
-
-                    document.add(table);
-                    break;
-                case VISITA:
-                    VisitaMedicoSpecialista visita = visitaDAO.getByPrimaryKey(id);
-                    paziente = visita.getPaziente();
-
-                    if(visita.getErogazione() == null) {
-                        throw new SSOServletException(HttpServletResponse.SC_BAD_REQUEST, "You can have a ricevuta only for a visita specialistica that you already paid for");
-                    }
-
-                    table = new Table(colWidths).useAllAvailableWidth();
-
-                    table.addCell(new Cell().add(new Paragraph(new Text("Cognome e nome dell'assitito").setBold()))
-                            .setBackgroundColor(ColorConstants.LIGHT_GRAY)
-                            .setVerticalAlignment(VerticalAlignment.MIDDLE)
-                            .setHorizontalAlignment(HorizontalAlignment.LEFT)
-                            .setHeight(24));
-                    table.addCell(new Cell().add(new Paragraph(new Text(paziente.getCognome() + " " + paziente.getNome())))
-                            .setVerticalAlignment(VerticalAlignment.MIDDLE)
-                            .setHorizontalAlignment(HorizontalAlignment.RIGHT));
-
-                    table.addCell(new Cell().add(new Paragraph(new Text("Codice fiscale dell'assitito").setBold()))
-                            .setBackgroundColor(ColorConstants.LIGHT_GRAY)
-                            .setVerticalAlignment(VerticalAlignment.MIDDLE)
-                            .setHorizontalAlignment(HorizontalAlignment.LEFT)
-                            .setHeight(24));
-                    table.addCell(new Cell().add(new Paragraph(new Text(paziente.getCodiceFiscale())))
-                            .setVerticalAlignment(VerticalAlignment.MIDDLE)
-                            .setHorizontalAlignment(HorizontalAlignment.RIGHT));
-
-                    table.addCell(new Cell().add(new Paragraph(new Text("Visita erogata").setBold()))
-                            .setBackgroundColor(ColorConstants.LIGHT_GRAY)
-                            .setVerticalAlignment(VerticalAlignment.MIDDLE)
-                            .setHorizontalAlignment(HorizontalAlignment.LEFT)
-                            .setHeight(24));
-                    table.addCell(new Cell().add(new Paragraph(new Text(visita.getVisita().getNome())))
-                            .setVerticalAlignment(VerticalAlignment.MIDDLE)
-                            .setHorizontalAlignment(HorizontalAlignment.RIGHT));
-
-                    table.addCell(new Cell().add(new Paragraph(new Text("Prezzo ticket").setBold()))
-                            .setBackgroundColor(ColorConstants.LIGHT_GRAY)
-                            .setVerticalAlignment(VerticalAlignment.MIDDLE)
-                            .setHorizontalAlignment(HorizontalAlignment.LEFT)
-                            .setHeight(24));
-                    table.addCell(new Cell().add(new Paragraph(new Text(String.format("€ %.2f", Double.parseDouble(getServletContext().getInitParameter("ticketvisita"))))))
-                            .setVerticalAlignment(VerticalAlignment.MIDDLE)
-                            .setHorizontalAlignment(HorizontalAlignment.RIGHT));
-
-                    table.addCell(new Cell().add(new Paragraph(new Text("Data evasione").setBold()))
-                            .setBackgroundColor(ColorConstants.LIGHT_GRAY)
-                            .setVerticalAlignment(VerticalAlignment.MIDDLE)
-                            .setHorizontalAlignment(HorizontalAlignment.LEFT)
-                            .setHeight(24));
-                    table.addCell(new Cell().add(new Paragraph(new Text(visita.getErogazione().toString())))
-                            .setVerticalAlignment(VerticalAlignment.MIDDLE)
-                            .setHorizontalAlignment(HorizontalAlignment.RIGHT));
-
-                    table.addCell(new Cell().add(new Paragraph(new Text("Beneficiario").setBold()))
-                            .setBackgroundColor(ColorConstants.LIGHT_GRAY)
-                            .setVerticalAlignment(VerticalAlignment.MIDDLE)
-                            .setHorizontalAlignment(HorizontalAlignment.LEFT)
-                            .setHeight(24));
-                    table.addCell(new Cell().add(new Paragraph(new Text("SSP " + paziente.getProv())))
-                            .setVerticalAlignment(VerticalAlignment.MIDDLE)
-                            .setHorizontalAlignment(HorizontalAlignment.RIGHT));
-
-                    document.add(table);
-                    break;
-            }
-
-            document.close();
         }
-        catch (DAOException e) {
-            throw new SSOServletException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-                    e.getMessage() + " - Errors occurred when accessing storage system");
+        catch (NumberFormatException e) {
+            throw new SSOServletException(HttpServletResponse.SC_BAD_REQUEST, "You must specify an id");
         }
     }
 
