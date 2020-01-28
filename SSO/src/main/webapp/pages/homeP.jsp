@@ -908,30 +908,29 @@
                                     </div>
                                     <div style="clear: both; padding-top: 0.5rem">
                                         <hr>
-                                        <h5 style="float: left"><b><fmt:message key="nome"/></b>:  </h5>
-                                        <h5 align="right">${sessionScope.utente.nome}</h5>
+                                        <h5 class="profileFields" style="float: left"><b><fmt:message key="nome"/></b>:  </h5>
+                                        <h5 class="profileFields" align="right">${sessionScope.utente.nome}</h5>
                                     </div>
                                     <hr>
-                                    <div style="clear: both">
-                                        <h5 style="float: left"><b><fmt:message key="cognome"/></b>:  </h5>
-                                        <h5 align="right">${sessionScope.utente.cognome}</h5>
+                                    <div  style="clear: both">
+                                        <h5 class="profileFields" style="float: left"><b><fmt:message key="cognome"/></b>:  </h5>
+                                        <h5 class="profileFields" align="right">${sessionScope.utente.cognome}</h5>
                                     </div>
                                     <hr>
-                                    <div style="clear: both">
-                                        <h5 style="float: left"><b><fmt:message key="sesso"/></b>:  </h5>
-                                        <h5 align="right">${sessionScope.utente.sesso}</h5>
+                                    <div class="profileFields" style="clear: both">
+                                        <h5 class="profileFields"  style="float: left"><b><fmt:message key="sesso"/></b>:  </h5>
+                                        <h5 class="profileFields" align="right">${sessionScope.utente.sesso}</h5>
                                     </div>
                                     <hr>
-                                    <div style="clear: both">
-                                        <h5 style="float: left"><b><fmt:message key="codfis"/></b>:  </h5>
-                                        <h5 align="right">${sessionScope.utente.codiceFiscale}</h5>
+                                    <div class="profileFields" style="clear: both">
+                                        <h5 class="profileFields" style="float: left"><b><fmt:message key="codfis"/></b>:  </h5>
+                                        <h5 class="profileFields" align="right">${sessionScope.utente.codiceFiscale}</h5>
                                     </div>
                                     <hr>
-                                    <div style="clear: both">
-                                        <h5 style="float: left"><b><fmt:message key="datanas"/></b>:  </h5>
-                                        <h5 align="right"><fmt:formatDate value="${sessionScope.utente.dataNascita}"/></h5>
+                                    <div class="profileFields" style="clear: both">
+                                        <h5 class="profileFields" style="float: left"><b><fmt:message key="datanas"/></b>:  </h5>
+                                        <h5 class="profileFields" align="right"><fmt:formatDate value="${sessionScope.utente.dataNascita}"/></h5>
                                     </div>
-                                    <hr>
                                 </div>
                             </div>
                         </div>
