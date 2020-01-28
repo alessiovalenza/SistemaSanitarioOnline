@@ -1,26 +1,25 @@
 <%@ page import="java.util.Locale" %>
 <%@ page import="java.util.Enumeration" %>
-<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java"%>
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java" %>
 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="fn" uri = "http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <%
-    String languageSession = (String)session.getAttribute("language");
-    String languageParam = (String)request.getParameter("language");
+    String languageSession = (String) session.getAttribute("language");
+    String languageParam = (String) request.getParameter("language");
 
-    if(languageParam != null) {
+    if (languageParam != null) {
         session.setAttribute("language", languageParam);
-    }
-    else if(languageSession == null) {
+    } else if (languageSession == null) {
         Enumeration<Locale> locales = request.getLocales();
 
         boolean found = false;
         Locale matchingLocale = null;
-        while(locales.hasMoreElements() && !found) {
+        while (locales.hasMoreElements() && !found) {
             Locale locale = locales.nextElement();
-            if(locale.getLanguage().equals("it") ||
+            if (locale.getLanguage().equals("it") ||
                     locale.getLanguage().equals("en") ||
                     locale.getLanguage().equals("fr")) {
                 found = true;
@@ -32,12 +31,12 @@
     }
 %>
 
-<c:set var="language" value="${sessionScope.language}" scope="page" />
+<c:set var="language" value="${sessionScope.language}" scope="page"/>
 <c:set var="baseUrl" value="<%=request.getContextPath()%>"/>
-<c:set var="url" value="${baseUrl}/login.jsp?language=" scope="page" />
+<c:set var="url" value="${baseUrl}/login.jsp?language=" scope="page"/>
 
-<fmt:setLocale value="${language}" />
-<fmt:setBundle basename="labels" />
+<fmt:setLocale value="${language}"/>
+<fmt:setBundle basename="labels"/>
 
 <!DOCTYPE html>
 <html>
@@ -60,18 +59,16 @@
 </head>
 
 <body>
-    <div id="holder">
-        <header>
-            <nav class="navbar-expand-md sticky-top"
-            style="background-color: #1565c0;padding: 11px; border-style: groove; border-width: 0px;border-color:lightgray">
-                <div class="container-fluid"><img src="assets/img/logo_repubblica_colori.png"
-                    style="height: 42px;padding: 0px;margin: 0px;">
-                    <a class="navbar-brand" href="index.jsp"
-                       style="padding: 3px;color: rgb(255,255,255);">
-                        <fmt:message key="Ministero_della_salute"/>
-                    </a>
-                </div>
-                <div class="sidebar-lang" float="top" align="right" style="color: white;">
+<div id="holder">
+    <header>
+        <nav id="navTop" class="navbar-expand-md sticky-top"
+             style="background-color: #1565c0;">
+            <div class="container-fluid">
+                <img id="logoMin" src="assets/img/logo_repubblica_colori.png">
+                <a id="linkLandPag" class="navbar-brand" href="index.jsp">
+                    <fmt:message key="Ministero_della_salute"/>
+                </a>
+                <div id="selLang" class="sidebar-lang" style="color: white;">
                     <c:choose>
                         <c:when test="${!fn:startsWith(language, 'it')}">
                             <a href="${url}it_IT" style="color: white;">italiano</a>
@@ -97,39 +94,40 @@
                         </c:otherwise>
                     </c:choose>
                 </div>
-            </nav>
-        </header>
-        <div id="body">
-    <div class="container-fluid">
-        <div class="wrapper fadeInDown">
-            <div id="formContent">
-                <div class="alert alert-warning" role="alert">
-                    ${error}
-                </div>
-                <p>${msg}</p>
-                <form name="loginForm" action="LoginServlet" method="post">
-                    <input type="email" id="email" class="fadeIn second" name="email" placeholder="Email" required>
-                    <input type="password" id="password" class="fadeIn third" name="password" placeholder="Password"
-                        required>
-                    <input type="submit" class="fadeIn fourth" value="Log In"><br />
-                    <label for="checkbox" class="fadeIn fourth">Remember Me</label>
-                    <input type="checkbox" class="fadeIn fourth" name="remember_me" id="checkbox">
-                </form>
+            </div>
+        </nav>
+    </header>
+    <div id="body">
+        <div class="container-fluid">
+            <div class="wrapper fadeInDown">
+                <div id="formContent">
+                    <div class="alert alert-warning" role="alert">
+                        ${error}
+                    </div>
+                    <p>${msg}</p>
+                    <form name="loginForm" action="LoginServlet" method="post">
+                        <input type="email" id="email" class="fadeIn second" name="email" placeholder="Email" required>
+                        <input type="password" id="password" class="fadeIn third" name="password" placeholder="Password"
+                               required>
+                        <input type="submit" class="fadeIn fourth" value="Log In"><br/>
+                        <label for="checkbox" class="fadeIn fourth">Remember Me</label>
+                        <input type="checkbox" class="fadeIn fourth" name="remember_me" id="checkbox">
+                    </form>
 
-                <div id="formFooter">
-                    <a class="underlineHover" href="sendEmail.jsp"><fmt:message key="Forgot_Password?"/></a>
-                </div>
+                    <div id="formFooter">
+                        <a class="underlineHover" href="sendEmail.jsp"><fmt:message key="Forgot_Password?"/></a>
+                    </div>
 
+                </div>
             </div>
         </div>
+
     </div>
 
-        </div>
-
-        <footer>
-            <fmt:message key="footer"/>
-        </footer>
-    </div>
+    <footer>
+        <fmt:message key="footer"/>
+    </footer>
+</div>
 
 
 </body>

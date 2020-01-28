@@ -67,17 +67,15 @@
 <body style="background-color:#1e88e5">
     <div id="holder">
         <header>
-            <nav class="navbar-expand-md sticky-top "
-                 style="background-color: #1565c0;padding: 11px;border-style: groove; border-width: 0pt; border-color:lightgray">
+            <nav id="navTop" class="navbar-expand-md sticky-top "
+                 >
                 <div class="container-fluid">
-                    <img src="${baseUrl}/assets/img/logo_repubblica_colori.png"
-                                                  style="height: 42px;padding: 0px;margin: 0px;">
-                    <a class="navbar-brand" href="index.jsp"
-                       style="padding: 3px;color: rgb(255,255,255);">
+                    <img id="logoMin" src="${baseUrl}/assets/img/logo_repubblica_colori.png">
+                    <a id="linkLandPag" class="navbar-brand" href="index.jsp">
                         <fmt:message key="ministero_della_salute"/>
                     </a>
 
-                    <div class="sidebar-lang" float="top" align="right" style="color: white;">
+                    <div id="selLang" class="sidebar-lang">
                         <c:choose>
                             <c:when test="${!fn:startsWith(language, 'it')}">
                                 <a href="${url}it_IT" style="color: white;">italiano</a>

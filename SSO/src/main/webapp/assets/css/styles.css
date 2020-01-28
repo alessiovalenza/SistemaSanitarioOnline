@@ -1,35 +1,66 @@
 @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
-body, html{
+
+body, html {
     height: 100%;
-    font-family: 'Roboto','Poppins', sans-serif;
+    font-family: 'Roboto', 'Poppins', sans-serif;
 }
 
-#holder{
+#holder {
     min-height: 100%;
-    position:relative;
+    position: relative;
 }
 
-#body{
-    /*padding-bottom: 0pt;*/     /* height of footer */
+#body {
+    /*padding-bottom: 0pt;*/ /* height of footer */
     border-bottom: transparent;
     border-bottom-width: 40pt;
 }
-#container-table{
-    overflow-x:auto;
+
+#container-table {
+    overflow-x: auto;
 }
 
-footer{
+footer {
     height: 40pt;
-    width:100%;
+    width: 100%;
     position: absolute;
     bottom: 0;
     left: 0;
-    color: rgb(255,255,255);
+    color: rgb(255, 255, 255);
     background-color: #1565c0;
     font-size: 1vmax;
     border-style: groove;
     border-width: 0pt;
     line-height: 40pt;
     text-align: center;
+}
 
+#navTop {
+    height: 40pt;
+    background-color: #1565c0;
+}
+
+#linkLandPag {
+    color: rgb(255, 255, 255);
+    float: left;
+    height: 38pt;
+    padding: 1pt;
+    line-height: 40pt;
+}
+
+#logoMin {
+    height: 38pt;
+    padding-top: 1pt;
+    padding-bottom: 1pt;
+    padding-right: 1pt;
+    /*padding: 0px;margin: 0px;*/
+    float: left;
+    line-height: 40pt;
+}
+
+#selLang {
+    color: white;
+    float: right;
+    height: 40pt;
+    line-height: 40pt;
 }
