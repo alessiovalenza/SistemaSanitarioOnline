@@ -232,7 +232,7 @@
                     },
                     error: function(xhr, status, error) {
                         errorButton("#btnEvadiRicetta",labelErrorButtons)
-                        alert(xhr.responseText);
+                        //alert(xhr.responseText);
                     }
                 });
             });
