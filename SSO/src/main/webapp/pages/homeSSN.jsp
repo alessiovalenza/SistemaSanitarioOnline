@@ -235,19 +235,19 @@
                                 <div class="form-toggle"></div>
                                 <div class="form-panel one">
                                     <div class="form-header">
-                                        <h1>Seleziona il periodo</h1>
+                                        <h1><fmt:message key="Seleziona_perdiodo"/></h1>
                                     </div>
                                     <div class="form-content">
                                         <div class="alert alert-warning" role="alert" id="messaggioReport"></div>
                                         <form id="formScaricaReport" action="../docs/reportnazionale" method="GET">
                                             <div class="form-group">
                                                 <div class="container-fluid" style="padding-top: 1rem">
-                                                    <label for="fromReport">Dal giorno<fmt:message key="Dal_giorno"/></label>
+                                                    <label for="fromReport"><fmt:message key="Dal_giorno"/></label>
                                                     <input class="inputReport" type="date" id="fromReport" name="fromDay" required="required"/>
                                                     <br>
                                                 </div>
                                                 <div class="container-fluid" style="padding-top: 1rem">
-                                                    <label for="toReport">Al giorno<fmt:message key="Al giorno"/></label>
+                                                    <label for="toReport"><fmt:message key="Al giorno"/></label>
                                                     <input class="inputReport" type="date" id="toReport" name="toDay" required="required"/>
                                                 </div>
                                             </div>
@@ -276,7 +276,7 @@
                                 <div class="form-toggle"></div>
                                 <div class="form-panel one">
                                     <div class="form-header">
-                                        <h1>Cambia password<fmt:message key="Scarica"/></h1>
+                                        <h1><fmt:message key="Cambia Password"/></h1>
                                     </div>
                                     <div class="form-content">
                                         <div class="alert alert-warning" role="alert" id="messaggioCambioPw"></div>
