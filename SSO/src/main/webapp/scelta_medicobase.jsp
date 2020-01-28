@@ -107,8 +107,6 @@
                     </a>
                 </div>
 
-                <br>
-
                 <div class="col-md-6">
                     <a href="medicobase?ruolo=p">
                         <div class="card">
