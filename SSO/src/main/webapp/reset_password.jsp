@@ -7,6 +7,9 @@
 <%@ taglib prefix="fn" uri = "http://java.sun.com/jsp/jstl/functions"%>
 
 <%
+    request.setCharacterEncoding("utf-8");
+    response.setCharacterEncoding("utf-8");
+
     String languageSession = (String)session.getAttribute("language");
     String languageParam = (String)request.getParameter("language");
 
@@ -124,8 +127,15 @@
             <div class="col-md-12" align="center">
                 <div class="container-fluid" align="center" style="max-width: 600px">
                     <h5><fmt:message key="Inserisci_la_nuova_password"/></h5>
+                    <div class="alert alert-warning" role="alert" id="messaggioPw" style="visibility: hidden">
+                        <c:choose>
+                            <c:when test="${not empty msg}"><fmt:message key="${msg}"/></c:when>
+                            <c:otherwise></c:otherwise>
+                        </c:choose>
+                    </div>
+                    <hr>
+                    <br>
                     <form action="passreset" method="post">
-                        <div class="alert alert-warning" role="alert" id="messaggioPw" style="visibility: hidden"></div>
                         <div class="form-group">
                             <label for="new_password"><fmt:message key="Nuova_password"/></label>
                             <input type="password" class="form-control" name="new_password" id = "new_password">
