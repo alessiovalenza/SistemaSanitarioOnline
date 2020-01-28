@@ -613,34 +613,34 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
-                        <h3>Gestione credenziali</h3>
+                        <h3><fmt:message key='Gestione_credenziali'/></h3>
                         <hr>
                         <div class="container-fluid" align="center">
                             <div class="form"  >
                                 <div class="form-toggle"></div>
                                 <div class="form-panel one">
                                     <div class="form-header">
-                                        <h1>Cambia password</h1>
+                                        <h1><fmt:message key='Cambia Password'/></h1>
                                     </div>
                                     <div class="form-content">
                                         <div class="alert alert-warning" role="alert" id="messaggioCambioPw"></div>
                                         <form id="formCambiaPassword" >
                                             <div class="form-group">
                                                 <div class="container-fluid" style="padding-top: 1rem">
-                                                    <label for="vecchiaPassword">Vecchia password</label>
+                                                    <label for="vecchiaPassword"><fmt:message key='Vecchia_password'/></label>
                                                     <input class="inputCambiaPassword" type="password" id="vecchiaPassword" name="vecchiaPassword" required="required"/>
                                                 </div>
                                                 <div class="container-fluid" style="padding-top: 1rem">
-                                                    <label for="nuovaPassword">Nuova password</label>
+                                                    <label for="nuovaPassword"><fmt:message key='Nuova_password'/></label>
                                                     <input class="inputCambiaPassword" type="password" id="nuovaPassword" name="nuovaPassword" required="required"/>
                                                 </div>
                                                 <div class="container-fluid" style="padding-top: 1rem">
-                                                    <label for="ripetiPassword">Ripeti nuova password</label>
+                                                    <label for="ripetiPassword"><fmt:message key='Ripeti'/></label>
                                                     <input class="inputCambiaPassword" type="password" id="ripetiPassword" name="ripetiPassword" required="required"/>
                                                 </div>
                                             </div>
                                             <div class="form-group container">
-                                                <button id ="btnCambiaPassword" type="submit">Procedi</button>
+                                                <button id ="btnCambiaPassword" type="submit"><fmt:message key='Procedi'/></button>
                                             </div>
                                         </form>
                                     </div>
