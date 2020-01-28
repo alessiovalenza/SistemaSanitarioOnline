@@ -67,7 +67,7 @@ public class AuthZFilter implements Filter {
 
             try {
                 if (checkRole(field, utente, (HttpServletRequest) request)) {
-                    System.out.println("Utente " + utente.getId() + " autorizzato ad accedere alla risorsa " + field);
+                    System.out.println("Utente " + utente.getId() + " (ruolo "+ utente.getRuolo() + ") autorizzato ad accedere alla risorsa " + field);
                     chain.doFilter(request, response);
                 }
                 else {

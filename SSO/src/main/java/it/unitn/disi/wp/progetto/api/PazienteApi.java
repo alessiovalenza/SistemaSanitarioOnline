@@ -287,6 +287,8 @@ public class PazienteApi extends Api {
 
                     HttpSession session = request.getSession(false);
                     if (session != null) {
+                        Utente pazienteOriginale = (Utente)session.getAttribute("utente");
+                        pazienteUpdated.setRuolo(pazienteOriginale.getRuolo());
                         session.setAttribute("utente", pazienteUpdated);
                     }
 
