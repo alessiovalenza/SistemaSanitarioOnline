@@ -525,7 +525,6 @@ function initFormSchedaPaz(basePathScheda, extension, fmtDateCode, urlLangDataTa
                 { "data": "anamnesi" }
             ]
         } );
-
         $("#visiteBasePazienteScheda tbody").on("click", ".anamnesiColumn", function () {
             let data = table.row( this ).data();
             alert(data.anamnesi);
@@ -574,6 +573,9 @@ function initFormSchedaPaz(basePathScheda, extension, fmtDateCode, urlLangDataTa
                     //alert(xhr.responseText);
                 }
             },
+            "columnDefs": [
+                { className: "anamnesiColumn", targets: 7 }
+            ],
             "columns": [
                 { "data": "visitaNome" },
                 { "data": "medicoSpecialistaNome" },
@@ -584,6 +586,10 @@ function initFormSchedaPaz(basePathScheda, extension, fmtDateCode, urlLangDataTa
                 { "data": "erogazione" },
                 { "data": "anamnesi" }
             ]
+        } );
+        $("#visiteSpecialisticheErogatePazienteScheda tbody").on("click", ".anamnesiColumn", function () {
+            let data = table.row( this ).data();
+            alert(data.anamnesi);
         } );
 
         $('#visiteSpecialisticheNonErogatePazienteScheda').DataTable().destroy()
@@ -771,6 +777,9 @@ function initFormSchedaPaz(basePathScheda, extension, fmtDateCode, urlLangDataTa
                     //alert(xhr.responseText);
                 }
             },
+            "columnDefs": [
+                { className: "anamnesiColumn", targets: 6 }
+            ],
             "columns": [
                 { "data": "nomeEsame" },
                 { "data": "descrizioneEsame" },
@@ -780,6 +789,10 @@ function initFormSchedaPaz(basePathScheda, extension, fmtDateCode, urlLangDataTa
                 { "data": "erogazione" },
                 { "data": "esito" }
             ]
+        } );
+        $("#esamiErogatiPazienteScheda tbody").on("click", ".anamnesiColumn", function () {
+            let data = table.row( this ).data();
+            alert(data.esito);
         } );
 
         $('#esamiNonErogatiPazienteScheda').DataTable().destroy()

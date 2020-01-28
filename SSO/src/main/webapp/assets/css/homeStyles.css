@@ -244,7 +244,7 @@ table{
 }
 
 .anamnesiColumn {
-    max-width: 300px;
+    width: 30000000px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -415,13 +415,6 @@ only screen and (max-width: 760px),
 }
 select2 {
     width:100%!important;
-}
-
-.anamnesiColumn {
-    max-width: 300px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
 }
 
 /* taken from w3school, from here... */
