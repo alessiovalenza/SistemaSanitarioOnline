@@ -1,26 +1,25 @@
 <%@ page import="java.util.Locale" %>
 <%@ page import="java.util.Enumeration" %>
-<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java"%>
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java" %>
 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="fn" uri = "http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <%
-    String languageSession = (String)session.getAttribute("language");
-    String languageParam = (String)request.getParameter("language");
+    String languageSession = (String) session.getAttribute("language");
+    String languageParam = (String) request.getParameter("language");
 
-    if(languageParam != null) {
+    if (languageParam != null) {
         session.setAttribute("language", languageParam);
-    }
-    else if(languageSession == null) {
+    } else if (languageSession == null) {
         Enumeration<Locale> locales = request.getLocales();
 
         boolean found = false;
         Locale matchingLocale = null;
-        while(locales.hasMoreElements() && !found) {
+        while (locales.hasMoreElements() && !found) {
             Locale locale = locales.nextElement();
-            if(locale.getLanguage().equals("it") ||
+            if (locale.getLanguage().equals("it") ||
                     locale.getLanguage().equals("en") ||
                     locale.getLanguage().equals("fr")) {
                 found = true;
@@ -32,12 +31,12 @@
     }
 %>
 
-<c:set var="language" value="${sessionScope.language}" scope="page" />
+<c:set var="language" value="${sessionScope.language}" scope="page"/>
 <c:set var="baseUrl" value="<%=request.getContextPath()%>"/>
-<c:set var="url" value="${baseUrl}/sendEmail.jsp?language=" scope="page" />
+<c:set var="url" value="${baseUrl}/sendEmail.jsp?language=" scope="page"/>
 
-<fmt:setLocale value="${language}" />
-<fmt:setBundle basename="labels" />
+<fmt:setLocale value="${language}"/>
+<fmt:setBundle basename="labels"/>
 
 <!DOCTYPE html>
 <html>
@@ -65,32 +64,32 @@
                 <a id="linkLandPag" class="navbar-brand" href="index.jsp">
                     <fmt:message key="ministero_della_salute"/>
                 </a>
-            </div>
-            <div id="selLang" class="sidebar-lang" >
-                <c:choose>
-                    <c:when test="${!fn:startsWith(language, 'it')}">
-                        <a href="${url}it_IT" style="color: white;">italiano</a>
-                    </c:when>
-                    <c:otherwise>
-                        <b>italiano</b>
-                    </c:otherwise>
-                </c:choose>
-                <c:choose>
-                    <c:when test="${!fn:startsWith(language, 'en')}">
-                        <a href="${url}en_EN" style="color: white;">english</a>
-                    </c:when>
-                    <c:otherwise>
-                        <b>english</b>
-                    </c:otherwise>
-                </c:choose>
-                <c:choose>
-                    <c:when test="${!fn:startsWith(language, 'fr')}">
-                        <a href="${url}fr_FR" style="color: white;">français</a>
-                    </c:when>
-                    <c:otherwise>
-                        <b>français</b>
-                    </c:otherwise>
-                </c:choose>
+                <div id="selLang" class="sidebar-lang">
+                    <c:choose>
+                        <c:when test="${!fn:startsWith(language, 'it')}">
+                            <a href="${url}it_IT" style="color: white;">italiano</a>
+                        </c:when>
+                        <c:otherwise>
+                            <b>italiano</b>
+                        </c:otherwise>
+                    </c:choose>
+                    <c:choose>
+                        <c:when test="${!fn:startsWith(language, 'en')}">
+                            <a href="${url}en_EN" style="color: white;">english</a>
+                        </c:when>
+                        <c:otherwise>
+                            <b>english</b>
+                        </c:otherwise>
+                    </c:choose>
+                    <c:choose>
+                        <c:when test="${!fn:startsWith(language, 'fr')}">
+                            <a href="${url}fr_FR" style="color: white;">français</a>
+                        </c:when>
+                        <c:otherwise>
+                            <b>français</b>
+                        </c:otherwise>
+                    </c:choose>
+                </div>
             </div>
         </nav>
     </header>
