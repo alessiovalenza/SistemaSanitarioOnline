@@ -129,9 +129,9 @@
 
     <script>
         let components = new Set();
-        const labelLoadingButtons = "loading";
-        const labelSuccessButtons = "success";
-        const labelErrorButtons = "error";
+        const labelLoadingButtons = "<fmt:message key='Loading'/>";
+        const labelSuccessButtons = "<fmt:message key='Succed'/>";
+        const labelErrorButtons = "<fmt:message key='Error'/>";
         let baseUrl = "<%=request.getContextPath()%>";
 
         $(document).ready(function(){
@@ -1145,21 +1145,21 @@
                                             <form id="formCambiaPassword" >
                                                 <div class="form-group">
                                                     <div class="container-fluid" style="padding-top: 1rem">
-                                                        <label for="vecchiaPassword">Vecchia password<fmt:message key='Vecchia_password'/></label>
+                                                        <label for="vecchiaPassword"><fmt:message key='Vecchia_password'/></label>
                                                         <input class="inputCambiaPassword" type="password" id="vecchiaPassword" name="vecchiaPassword" required="required"/>
                                                     </div>
                                                     <div class="container-fluid" style="padding-top: 1rem">
-                                                        <label for="nuovaPassword">Nuova password<fmt:message key='Nuova_password'/></label>
+                                                        <label for="nuovaPassword"><fmt:message key='Nuova_password'/></label>
                                                         <input class="inputCambiaPassword" type="password" id="nuovaPassword" name="nuovaPassword" required="required"/>
                                                     </div>
                                                     <div class="container-fluid" style="padding-top: 1rem">
-                                                        <label for="ripetiPassword">Ripeti nuova password<fmt:message key='Ripeti'/></label>
+                                                        <label for="ripetiPassword"><fmt:message key='Ripeti'/></label>
                                                         <input class="inputCambiaPassword" type="password" id="ripetiPassword" name="ripetiPassword" required="required"/>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                 <div class="form-group container">
-                                                    <button id ="btnCambiaPassword" type="submit">Procedi<fmt:message key='Procedi'/></button>
+                                                    <button id ="btnCambiaPassword" type="submit"><fmt:message key='Procedi'/></button>
                                                 </div>
                                             </form>
                                         </div>

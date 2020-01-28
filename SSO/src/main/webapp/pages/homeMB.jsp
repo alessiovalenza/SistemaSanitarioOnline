@@ -131,9 +131,9 @@
         let components = new Set();
         let baseUrl = "<%=request.getContextPath()%>";
 
-        const labelLoadingButtons = "loading";
-        const labelSuccessButtons = "success";
-        const labelErrorButtons = "error";
+        const labelLoadingButtons = "<fmt:message key='Loading'/>";
+        const labelSuccessButtons = "<fmt:message key='Succed'/>";
+        const labelErrorButtons = "<fmt:message key='Error'/>";
         let labelAlertFoto = "Puoi caricare file solo con estensione .jpeg/.jpg";
 
         $(document).ready(function () {

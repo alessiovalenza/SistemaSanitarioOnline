@@ -124,9 +124,9 @@
         let components = new Set();
         let baseUrl = "<%=request.getContextPath()%>";
 
-        const labelLoadingButtons = "loading";
-        const labelSuccessButtons = "success";
-        const labelErrorButtons = "error";
+        const labelLoadingButtons = "<fmt:message key='Loading'/>";
+        const labelSuccessButtons = "<fmt:message key='Succed'/>";
+        const labelErrorButtons = "<fmt:message key='Error'/>";
 
         $(document).ready(function() {
             $('#dismiss, .overlay').on('click', function () {
@@ -243,8 +243,8 @@
                             prescrizione=prescrizione.toLocaleDateString("${fn:replace(language, '_', '-')}");
                             myResults.push({
                                 'id': item.id,
-                                'text': item.visita.nome + " prescritta da " +
-                                    item.medicoBase.nome + " " + item.medicoBase.cognome +" il " + prescrizione
+                                'text': item.visita.nome + " <fmt:message key='prescritta da'/> " +
+                                    item.medicoBase.nome + " " + item.medicoBase.cognome +" <fmt:message key='il'/> " + prescrizione
                             });
                         });
                         return {
