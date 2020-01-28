@@ -128,21 +128,38 @@ public class AuthZFilter implements Filter {
     private boolean checkMB(String url, List<String> urlPatterns, Utente utente, HttpServletRequest request) throws DAOException {
         boolean res = false;
 
+        /*
+            medicobase[/]?
+            pages/homeMB[\S]*
+            api/general/[\S]*
+         */
         if(url.matches(urlPatterns.get(0)) || url.matches(urlPatterns.get(1)) || url.matches(urlPatterns.get(2))) {
             res = true;
         }
+
+        /*
+            api/utenti/([\d]+)/password[/]?
+         */
         if(!res && url.matches(urlPatterns.get(3))) {
             long idUrl = Long.parseLong(url.replaceAll(urlPatterns.get(3), "$1"));
             if(utente.getId() == idUrl) {
                 res = true;
             }
         }
+
+        /*
+            api/medicibase/([\d]+)/pazienti[/]?
+         */
         if(!res && url.matches(urlPatterns.get(4))) {
             long idUrl = Long.parseLong(url.replaceAll(urlPatterns.get(4), "$1"));
             if(utente.getId() == idUrl) {
                 res = true;
             }
         }
+
+        /*
+            api/pazienti/([\d]+)[\S]*
+         */
         if(!res && url.matches(urlPatterns.get(5))) {
             long idUrl = Long.parseLong(url.replaceAll(urlPatterns.get(5), "$1"));
             Utente paziente = utenteDAO.getByPrimaryKey(idUrl);
@@ -155,6 +172,10 @@ public class AuthZFilter implements Filter {
                 }
             }
         }
+
+        /*
+            api/utenti/([\d]+)/foto[/]?
+         */
         if(!res && url.matches(urlPatterns.get(6))) {
             long idUrl = Long.parseLong(url.replaceAll(urlPatterns.get(6), "$1"));
             Utente paziente = utenteDAO.getByPrimaryKey(idUrl);
@@ -165,6 +186,10 @@ public class AuthZFilter implements Filter {
                 res = true;
             }
         }
+
+        /*
+            foto/([\d]+)/([\d]+).jpeg[/]?
+         */
         if(!res && url.matches(urlPatterns.get(7))) {
             long idUrl = Long.parseLong(url.replaceAll(urlPatterns.get(7), "$1"));
             if(idUrl == utente.getId()) {
@@ -177,6 +202,10 @@ public class AuthZFilter implements Filter {
                 }
             }
         }
+
+        /*
+            scelta_medicobase[\S]*
+         */
         if(!res && url.matches(urlPatterns.get(8))) {
             res = true;
         }
@@ -187,25 +216,46 @@ public class AuthZFilter implements Filter {
     private boolean checkMS(String url, List<String> urlPatterns, Utente utente, HttpServletRequest request) throws DAOException {
         boolean res = false;
 
+        /*
+            medicospecialista[/]?
+            pages/homeMS[\S]*
+            api/general/[\S]*
+         */
         if(url.matches(urlPatterns.get(0)) || url.matches(urlPatterns.get(1)) || url.matches(urlPatterns.get(2))) {
             res = true;
         }
+
+        /*
+            api/utenti/([\d]+)/password[/]?
+         */
         if(!res && url.matches(urlPatterns.get(3))) {
             long idUrl = Long.parseLong(url.replaceAll(urlPatterns.get(3), "$1"));
             if(utente.getId() == idUrl) {
                 res = true;
             }
         }
+
+        /*
+            api/pazienti[\S]*
+         */
         if(!res && url.matches(urlPatterns.get(4))) {
             if(request.getMethod().equals("GET") && !url.matches(Arrays.asList(context.getInitParameter(Utilities.MEDICO_BASE_RUOLO).split("[\\n\\t ]+")).get(4))) {
                 res = true;
             }
         }
+
+        /*
+            api/pazienti/([\d]+)/visitespecialistiche/([\d]+)[/]?
+         */
         if(!res && url.matches(urlPatterns.get(5))) {
             if(request.getMethod().equals("PUT")) {
                 res = true;
             }
         }
+
+        /*
+            api/utenti/([\d]+)/foto[/]?
+         */
         if(!res && url.matches(urlPatterns.get(6))) {
             long idUrl = Long.parseLong(url.replaceAll(urlPatterns.get(6), "$1"));
             if(request.getMethod().equals("GET")) {
@@ -215,9 +265,17 @@ public class AuthZFilter implements Filter {
                 res = true;
             }
         }
+
+        /*
+            foto/([\d]+)/([\d]+).jpeg[/]?
+         */
         if(!res && url.matches(urlPatterns.get(7))) {
             res = true;
         }
+
+        /*
+            scelta_medicospec[\S]*
+         */
         if(!res && url.matches(urlPatterns.get(8))) {
             res = true;
         }
@@ -228,55 +286,99 @@ public class AuthZFilter implements Filter {
     private boolean checkP(String url, List<String> urlPatterns, Utente utente, HttpServletRequest request) throws DAOException {
         boolean res = false;
 
+        /*
+            paziente[/]?
+            pages/homeP[\S]*
+            docs/ricevute[/]?
+            docs/ricette[/]?
+         */
         if(url.matches(urlPatterns.get(0)) || url.matches(urlPatterns.get(1)) ||
                 url.matches(urlPatterns.get(2)) || url.matches(urlPatterns.get(3))) {
             res = true;
         }
+
+        /*
+            api/general/[\S]*
+         */
         if(!res && url.matches(urlPatterns.get(4))) {
             res = true;
         }
+
+        /*
+            api/utenti/([\d]+)/password[/]?
+         */
         if(!res && url.matches(urlPatterns.get(5))) {
             long idUrl = Long.parseLong(url.replaceAll(urlPatterns.get(5), "$1"));
             if(utente.getId() == idUrl) {
                 res = true;
             }
         }
+
+        /*
+            api/pazienti/([\d]+)[\S]*
+         */
         if(!res && url.matches(urlPatterns.get(6))) {
             long idUrl = Long.parseLong(url.replaceAll(urlPatterns.get(6), "$1"));
             if(idUrl == utente.getId() && request.getMethod().equals("GET")) {
                 res = true;
             }
         }
+
+        /*
+            api/pazienti/([\d]+)/medicobase[/]?
+         */
         if(!res && url.matches(urlPatterns.get(7))) {
             long idUrl = Long.parseLong(url.replaceAll(urlPatterns.get(7), "$1"));
             if(idUrl == utente.getId() && request.getMethod().equals("PUT")) {
                 res = true;
             }
         }
+
+        /*
+            api/utenti/([\d]+)/foto[/]?
+         */
         if(!res && url.matches(urlPatterns.get(8))) {
             long idUrl = Long.parseLong(url.replaceAll(urlPatterns.get(8), "$1"));
             if(utente.getId() == idUrl) {
                 res = true;
             }
         }
+
+        /*
+            foto/([\d]+)/([\d]+).jpeg[/]?
+         */
         if(!res && url.matches(urlPatterns.get(9))) {
             long idUrl = Long.parseLong(url.replaceAll(urlPatterns.get(9), "$1"));
             if(idUrl == utente.getId()) {
                 res = true;
             }
         }
+
+        /*
+            mappe[\S]*
+         */
         if(!res && url.matches(urlPatterns.get(10))) {
             res = true;
         }
+
+        /*
+            medicobase[/]?
+            scelta_medicobase[\S]*
+         */
         if(!res && (url.matches(urlPatterns.get(11)) || url.matches(urlPatterns.get(12)))) {
-            Utente acutalUtente = utenteDAO.getByPrimaryKey(utente.getId());
-            if(acutalUtente.getRuolo().equals(Utilities.MEDICO_BASE_RUOLO)) {
+            Utente actualUtente = utenteDAO.getByPrimaryKey(utente.getId());
+            if(actualUtente.getRuolo().equals(Utilities.MEDICO_BASE_RUOLO)) {
                 res = true;
             }
         }
+
+        /*
+            medicospecialista[/]?
+            scelta_medicospec[\S]*
+         */
         if(!res && (url.matches(urlPatterns.get(13)) || url.matches(urlPatterns.get(14)))) {
-            Utente acutalUtente = utenteDAO.getByPrimaryKey(utente.getId());
-            if(acutalUtente.getRuolo().equals(Utilities.MEDICO_SPECIALISTA_RUOLO)) {
+            Utente actualUtente = utenteDAO.getByPrimaryKey(utente.getId());
+            if(actualUtente.getRuolo().equals(Utilities.MEDICO_SPECIALISTA_RUOLO)) {
                 res = true;
             }
         }
@@ -287,19 +389,37 @@ public class AuthZFilter implements Filter {
     private boolean checkF(String url, List<String> urlPatterns, Utente utente, HttpServletRequest request) throws DAOException {
         boolean res = false;
 
+        /*
+            farmacia[/]?
+            pages/homeF[\S]*
+            api/general/[\S]*
+            api/pazienti/([\d]+)[/]?
+         */
         if(url.matches(urlPatterns.get(0)) || url.matches(urlPatterns.get(1)) ||
                 url.matches(urlPatterns.get(2))|| url.matches(urlPatterns.get(6))) {
             res = true;
         }
+
+        /*
+            api/pazienti[/]?
+         */
         if(!res && url.matches(urlPatterns.get(4)) && !url.matches(Arrays.asList(context.getInitParameter(Utilities.MEDICO_BASE_RUOLO).split("[\\n\\t ]+")).get(4))) {
             res = true;
         }
+
+        /*
+            api/utenti/([\d]+)/password[/]?
+         */
         if(!res && url.matches(urlPatterns.get(3))) {
             long idUrl = Long.parseLong(url.replaceAll(urlPatterns.get(3), "$1"));
             if(utente.getId() == idUrl) {
                 res = true;
             }
         }
+
+        /*
+            api/pazienti/([\d]+)/ricette[\S]*
+         */
         if(!res && url.matches(urlPatterns.get(5))) {
             if(request.getMethod().equals("PUT")) {
                 res = true;
@@ -308,6 +428,10 @@ public class AuthZFilter implements Filter {
                 res = true;
             }
         }
+
+        /*
+            foto/([\d]+)/([\d]+).jpeg[/]?
+         */
         if(!res && url.matches(urlPatterns.get(7))) {
             res = true;
         }
@@ -318,19 +442,38 @@ public class AuthZFilter implements Filter {
     private boolean checkSSP(String url, List<String> urlPatterns, Utente utente, HttpServletRequest request) throws DAOException {
         boolean res = false;
 
+        /*
+            ssp[/]?
+            pages/homeSSP[\S]*
+            api/general/[\S]*
+            docs/reportprov[/]?
+            api/pazienti/([\d]+)[/]?
+         */
         if(url.matches(urlPatterns.get(0)) || url.matches(urlPatterns.get(1)) ||
                 url.matches(urlPatterns.get(2)) || url.matches(urlPatterns.get(3)) || url.matches(urlPatterns.get(8))) {
             res = true;
         }
+
+        /*
+            api/pazienti[/]?
+         */
         if(!res && url.matches(urlPatterns.get(5)) && !url.matches(Arrays.asList(context.getInitParameter(Utilities.MEDICO_BASE_RUOLO).split("[\\n\\t ]+")).get(4))) {
             res = true;
         }
+
+        /*
+            api/utenti/([\d]+)/password[/]?
+         */
         if(!res && url.matches(urlPatterns.get(4))) {
             long idUrl = Long.parseLong(url.replaceAll(urlPatterns.get(4), "$1"));
             if(utente.getId() == idUrl) {
                 res = true;
             }
         }
+
+        /*
+            api/pazienti/([\d]+)/esamiprescritti[\S]*
+         */
         if(!res && url.matches(urlPatterns.get(6))) {
             if(request.getMethod().equals("PUT") || request.getMethod().equals("GET")) {
                 long idUrl = Long.parseLong(url.replaceAll(urlPatterns.get(6), "$1"));
@@ -340,9 +483,17 @@ public class AuthZFilter implements Filter {
                 }
             }
         }
+
+        /*
+            api/pazienti/richiamo[\S]*
+         */
         if(!res && url.matches(urlPatterns.get(7))) {
             res = true;
         }
+
+        /*
+            foto/([\d]+)/([\d]+).jpeg[/]?
+         */
         if(!res && url.matches(urlPatterns.get(9))) {
             long idUrl = Long.parseLong(url.replaceAll(urlPatterns.get(9), "$1"));
             Utente paziente = utenteDAO.getByPrimaryKey(idUrl);
@@ -357,10 +508,20 @@ public class AuthZFilter implements Filter {
     private boolean checkSSN(String url, List<String> urlPatterns, Utente utente, HttpServletRequest request) throws DAOException {
         boolean res = false;
 
+        /*
+            ssn[/]?
+            pages/homeSSN[\S]*
+            api/general/[\S]*
+            docs/reportnazionale[/]?
+         */
         if(url.matches(urlPatterns.get(0)) || url.matches(urlPatterns.get(1)) ||
                 url.matches(urlPatterns.get(2)) || url.matches(urlPatterns.get(3))) {
             res = true;
         }
+
+        /*
+            api/utenti/([\d]+)/password[/]?
+         */
         if(!res && url.matches(urlPatterns.get(4))) {
             long idUrl = Long.parseLong(url.replaceAll(urlPatterns.get(4), "$1"));
             if(utente.getId() == idUrl) {

@@ -87,7 +87,10 @@ function manageNavbar() {
     }
 }
 
-function initSelect2Pazienti(idSelect, idProvincia, langCode, labelCerca) {
+function initSelect2Pazienti(idSelect, msgId, idProvincia, langCode, labelCerca, labelTooMany) {
+    document.getElementById(msgId).style.visibility ="hidden";
+    document.getElementById(msgId).textContent = "";
+
     $(idSelect).select2({
         placeholder: labelCerca,
         language: langCode,
@@ -116,8 +119,16 @@ function initSelect2Pazienti(idSelect, idProvincia, langCode, labelCerca) {
                     results: myResults
                 };
             },
+            success: function(data) {
+                document.getElementById(msgId).style.visibility ="hidden";
+                document.getElementById(msgId).textContent = "";
+            },
             error: function(xhr, status, error) {
                 console.log(xhr.responseText);
+                if(xhr.status == 309) {
+                    document.getElementById(msgId).style.visibility ="visible";
+                    document.getElementById(msgId).textContent = labelTooMany;
+                }
                 //alert(xhr.responseText);
             }
         }

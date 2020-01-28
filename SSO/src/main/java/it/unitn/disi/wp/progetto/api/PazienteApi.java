@@ -34,12 +34,18 @@ public class PazienteApi extends Api {
             List<UtenteView> utentiView;
 
             utenti = utenteDAO.getUsersBySuggestion(term == null ? "" : term, idProvincia);
-            utentiView = new ArrayList<>();
-            for (Utente utente : utenti) {
-                utentiView.add(Utilities.fromUtenteToUtenteView(utente));
+
+            if(utenti.size() <= MAX_RESULTS) {
+                utentiView = new ArrayList<>();
+                for (Utente utente : utenti) {
+                    utentiView.add(Utilities.fromUtenteToUtenteView(utente));
+                }
+                String jsonResult = gson.toJson(utentiView);
+                res = Response.ok(jsonResult).build();
             }
-            String jsonResult = gson.toJson(utentiView);
-            res = Response.ok(jsonResult).build();
+            else {
+                throw new ApiException(TOO_MANY_RESULTS, "Please type more characters to lower the number of matches");
+            }
         } catch (DAOFactoryException e) {
             throw new ApiException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
                     e.getMessage() + " - Impossible to get dao interface for storage system");

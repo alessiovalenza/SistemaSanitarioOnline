@@ -173,6 +173,8 @@
                 </c:otherwise>
             </c:choose>
 
+            let labelTooMany = "Troppi elementi corrispondenti alla ricerca. Scrivi più caratteri per affinarla";
+
             let labelMismatch = "<fmt:message key='Controlla'/>";
             let labelWrongPw = "<fmt:message key='Riprova'/>";
             let labelBtnPw = document.getElementById("btnCambiaPassword").innerHTML;
@@ -184,7 +186,7 @@
             initSelect2General("esami", "#idesameRichiamo2", langSelect2, labelCercaEsami);
 
             let labelCercaPaz = "Cerca pazienti";
-            initSelect2Pazienti("#idPaziente", "${sessionScope.utente.prov}", langSelect2, labelCercaPaz);
+            initSelect2Pazienti("#idPaziente", "messaggioCercaPaz", "${sessionScope.utente.prov}", langSelect2, labelCercaPaz, labelTooMany);
             let labelCercaEsamiPresc = "Cerca esami prescritti";
             let erogatori={};
             $("#idEsame").select2({
@@ -467,6 +469,7 @@
                                         <h1><fmt:message key='Eroga_esame'/></h1>
                                     </div>
                                     <div class="form-content">
+                                        <div class="alert alert-warning" role="alert" id="messaggioCercaPaz"></div>
                                         <form id="formErogaEsame" >
                                             <div class="form-group">
                                                 <div class="container-fluid">

@@ -13,12 +13,16 @@
     if (languageParam != null) {
         session.setAttribute("language", languageParam);
     } else if (languageSession == null) {
+
         Enumeration<Locale> locales = request.getLocales();
 
         boolean found = false;
         Locale matchingLocale = null;
         while (locales.hasMoreElements() && !found) {
             Locale locale = locales.nextElement();
+
+            //System.out.println("locale language: " + locale.getLanguage());
+
             if (locale.getLanguage().equals("it") ||
                     locale.getLanguage().equals("en") ||
                     locale.getLanguage().equals("fr")) {

@@ -195,6 +195,8 @@
                 </c:otherwise>
             </c:choose>
 
+            let labelTooMany = "Troppi elementi corrispondenti alla ricerca. Scrivi più caratteri per affinarla";
+
             let basePathCarousel = "${baseUrl}<%=File.separator + Utilities.USER_IMAGES_FOLDER + File.separator%>${sessionScope.utente.id}<%=File.separator%>";
             let extension = ".<%=Utilities.USER_IMAGE_EXT%>";
             initCarousel(${sessionScope.utente.id}, "carouselInnerProfilo", basePathCarousel, extension);
@@ -211,7 +213,7 @@
                 "#btnCambiaPassword", "messaggioCambioPw", labelWrongPw, labelMismatch, labelBtnPw);
 
             let labelCercaPaz = "<fmt:message key='Cerca_pazienti'/>";
-            initSelect2Pazienti("#idpazienteErogaVisitaSpec", null, langSelect2, labelCercaPaz);
+            initSelect2Pazienti("#idpazienteErogaVisitaSpec", "messaggioCercaEroga", null, langSelect2, labelCercaPaz, labelTooMany);
             let labelCercaVisitaSpec = "<fmt:message key='Cerca_visita_specialistica'/>";
             $("#idvisitaErogaVisitaSpec").select2({
                 placeholder: labelCercaVisitaSpec,
@@ -295,7 +297,7 @@
                 $("#idPagato").prop("checked",false);
             });
 
-            initSelect2Pazienti("#idpazienteScheda", null, langSelect2, labelCercaPaz);
+            initSelect2Pazienti("#idpazienteScheda", "messaggioCercaScheda", null, langSelect2, labelCercaPaz, labelTooMany);
             let basePathScheda = "${baseUrl}/<%=Utilities.USER_IMAGES_FOLDER%>/";
             initFormSchedaPaz(basePathScheda, extension, "${fn:replace(language, '_', '-')}", urlLangDataTable);
 
@@ -465,6 +467,7 @@
                                             <h1><fmt:message key='Eroga_visita'/></h1>
                                         </div>
                                         <div class="form-content">
+                                            <div class="alert alert-warning" role="alert" id="messaggioCercaEroga"></div>
                                             <form id="formErogaVisitaSpec" >
                                                 <div class="form-group">
                                                     <div class="container-fluid">
@@ -500,6 +503,7 @@
             <div id="schedaPaz" class="tool component  container-fluid" >
                 <h3><fmt:message key="selpaz"/></h3>
                 <hr>
+                <div class="alert alert-warning" role="alert" id="messaggioCercaScheda"></div>
                 <form id="formScheda" class="container" style="max-width: 200px" >
                     <div class="row">
                         <div class="form-group">

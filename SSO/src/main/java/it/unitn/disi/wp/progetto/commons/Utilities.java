@@ -45,6 +45,9 @@ public class Utilities {
     //salt per i token
     public final static long TOKEN_SALT = 69696969;
 
+    public final static int MAX_RESULTS = 100;
+    public final static int TOO_MANY_RESULTS = 309;
+
     public static void sendEmail(List<Email> emails) {
         System.out.println("Sto per inviare una email");
         final String host = "smtp.gmail.com";

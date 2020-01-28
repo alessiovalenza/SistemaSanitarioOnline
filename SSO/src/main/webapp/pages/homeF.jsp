@@ -167,6 +167,8 @@
             </c:otherwise>
             </c:choose>
 
+            let labelTooMany = "Troppi elementi corrispondenti alla ricerca. Scrivi più caratteri per affinarla";
+
             let labelMismatch = "<fmt:message key='Controlla'/>";
             let labelWrongPw = "<fmt:message key='Riprova'/>";
             let labelBtnPw = document.getElementById("btnCambiaPassword").innerHTML;
@@ -174,7 +176,7 @@
                 "#btnCambiaPassword", "messaggioCambioPw", labelWrongPw, labelMismatch, labelBtnPw);
 
             let labelCercaPaz = "<fmt:message key='Cerca_pazienti'/>";
-            initSelect2Pazienti("#idpaziente", null, langSelect2, labelCercaPaz);
+            initSelect2Pazienti("#idpaziente", "messaggioCercaPaz", null, langSelect2, labelCercaPaz, labelTooMany);
             let labelCercaRicette = "<fmt:message key='Cerca_ricetta'/>";
             $("#idricetta").select2({
                 placeholder: labelCercaRicette,
@@ -197,10 +199,13 @@
                     },
                     processResults: function (data) {
                         var myResults = [];
+                        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
                         $.each(data, function (index, item) {
+                            let emissione = new Date(item.emissione);
+                            emissione=emissione.toLocaleDateString("${fn:replace(language, '_', '-')}");
                             myResults.push({
                                 'id': item.id,
-                                'text': item.farmaco.nome+" "+item.farmaco.descrizione +", prescritta da "+item.medicoBase.nome+" "+item.medicoBase.cognome+" il "+item.emissione
+                                'text': item.farmaco.nome+" "+item.farmaco.descrizione +", prescritta da "+item.medicoBase.nome+" "+item.medicoBase.cognome+" il "+emissione
                             });
                         });
                         return {
@@ -324,6 +329,7 @@
                                             <h1><fmt:message key='Evadi_Ricetta'/></h1>
                                         </div>
                                         <div class="form-content">
+                                            <div class="alert alert-warning" role="alert" id="messaggioCercaPaz"></div>
                                             <form id="formEvadiRicetta" >
                                                 <div class="form-group">
                                                     <div class="container-fluid">
