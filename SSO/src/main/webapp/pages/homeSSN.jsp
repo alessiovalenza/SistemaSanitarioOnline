@@ -123,12 +123,28 @@
                 $('.overlay').removeClass('active');
             });
 
-            $('.componentControl, .overlay').on('click', function () {
+
+
+            $('.componentControl ,.overlay').on('click', function () {
                 // hide sidebar
                 $('#sidebar').removeClass('active');
                 // hide overlay
                 $('.overlay').removeClass('active');
             });
+
+            // $('#content ,.overlay').on('click', function () {
+            //     if ($("#sidebarCollapse").is(':visible')){
+            //         // hide sidebar
+            //         $('#sidebar').removeClass('active');
+            //         // hide overlay
+            //         $('.overlay').removeClass('active');
+            //     }
+            //
+            // });
+
+            // if ($('#sidebar').hasClass('active')){
+            //
+            // }
 
             $('#sidebarCollapse').on('click', function () {
                 // open sidebar
@@ -137,7 +153,19 @@
                 $('.overlay').addClass('active');
                 $('.collapse.in').toggleClass('in');
                 $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+                setTimeout(function(){$('#content').delay(10).trigger('sidebar_visible')},1000);
             });
+
+            $('#content').on("sidebar_visible",function () {
+                $('#content ,.overlay').on('click', function () {
+                    // hide sidebar
+                    $('#sidebar').removeClass('active');
+                    // hide overlay
+                    $('.overlay').removeClass('active');
+                    $(this).unbind("click")
+                });
+
+            })
 
             let labelMismatch = "La controlla di aver scritto correttamente la nuova password";
             let labelWrongPw = "Password vecchia non corretta. Riprova";
