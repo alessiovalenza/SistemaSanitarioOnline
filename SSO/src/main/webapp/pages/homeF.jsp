@@ -310,6 +310,16 @@
 
         <!-- Page Content  -->
         <div id="content">
+
+            <div class="container">
+                <button type="button" id="sidebarCollapse" class="btn btn-info">
+                    <i class="fas fa-align-left"></i>
+                    <span>Toggle Sidebar</span>
+                </button>
+            </div>
+            <br>
+
+
             <div id="evadiRicetta" class="tool component">
                 <div class="container">
                     <div class="row">
@@ -336,8 +346,10 @@
                                                     </div>
                                                 </div>
                                                 <input required="true" id="idPagato" type="checkbox"> <fmt:message key='Ticket_di'/> <fmt:formatNumber value="<%=RicettaDAO.PREZZO_TICKET%>" type="currency" currencyCode="EUR"/> <fmt:message key='pagato'/><br>
-                                                <div class="form-group">
-                                                    <button id="btnEvadiRicetta" type="submit"><fmt:message key='Evadi'/></button>
+                                                <div class="form-group" >
+                                                    <div class="container"style="padding-top: 1rem" >
+                                                        <button id="btnEvadiRicetta" type="submit"><fmt:message key='Evadi'/></button>
+                                                    </div>
                                                 </div>
                                             </form>
                                         </div>
@@ -380,8 +392,10 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
+                                                    <div class="container" >
                                                     <button id ="btnCambiaPassword" type="submit"><fmt:message key='Procedi'/></button>
-                                                </div>
+                                                    </div>
+                                                    </div>
                                             </form>
                                         </div>
                                     </div>
