@@ -158,7 +158,19 @@
                 $('.overlay').addClass('active');
                 $('.collapse.in').toggleClass('in');
                 $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+                setTimeout(function(){$('#content').delay(10).trigger('sidebar_visible')},1000);
             });
+
+            $('#content').on("sidebar_visible",function () {
+                $('#content ,.overlay').on('click', function () {
+                    // hide sidebar
+                    $('#sidebar').removeClass('active');
+                    // hide overlay
+                    $('.overlay').removeClass('active');
+                    $(this).unbind("click")
+                });
+
+            })
 
             let langSelect2;
             <c:choose>
@@ -192,7 +204,7 @@
                 </c:otherwise>
             </c:choose>
 
-            let labelCercaPaz = "Cerca pazienti";
+            let labelCercaPaz = "<fmt:message key='Cerca_pazienti'/>";
 
             initSelect2PazientiByMB("#idmedicobaseVisita", ${sessionScope.utente.id}, langSelect2, labelCercaPaz);
 
@@ -204,15 +216,15 @@
 
             initSelect2PazientiByMB("#idpazienteScheda", ${sessionScope.utente.id}, langSelect2, labelCercaPaz);
 
-            let labelCercaFarm = "Cerca farmaci";
+            let labelCercaFarm = "<fmt:message key='Cerca_farmaci'/>";
 
             initSelect2General("farmaci", "#idfarmaco", langSelect2, labelCercaFarm);
 
-            let labelCercaEsami = "Cerca esami";
+            let labelCercaEsami = "<fmt:message key='Cerca_esami'/>";
 
             initSelect2General("esami", "#idesame", langSelect2, labelCercaEsami);
 
-            let labelCercaVisite = "Cerca visite";
+            let labelCercaVisite = "<fmt:message key='Cerca_visite'/>";
 
             initSelect2General("visite", "#idvisita", langSelect2, labelCercaVisite);
 
@@ -948,7 +960,7 @@
                                                     </div>
                                                     <div class="container-fluid" style="padding-top: 1rem">
                                                         <label for="anamnesi"><fmt:message key="anamn"/></label>
-                                                        <textarea placeholder="Scrivi l'anamnesi..." class="inputErogaVisita textAreaAnamnesi" type="text" id="anamnesi" name="anamnesi" required="required"></textarea>
+                                                        <textarea placeholder="<fmt:message key='Scrivi_anamnesi'/>..." class="inputErogaVisita textAreaAnamnesi" type="text" id="anamnesi" name="anamnesi" required="required"></textarea>
                                                     </div>
                                                 </div>
                                                 <div class="form-group container">
