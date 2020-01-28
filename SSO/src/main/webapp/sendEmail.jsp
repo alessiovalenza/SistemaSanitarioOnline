@@ -98,7 +98,18 @@
             <div class="row">
                 <div class="col-md-12" align="center">
                     <div class="container-fluid" align="center" style="max-width: 600px">
-                        <p>${msg}</p>
+                        <div class="alert alert-warning" role="alert" style="background-color: white; border-color: white">
+                            <c:choose>
+                                <c:when test="${not empty error}"><fmt:message key="${error}"/></c:when>
+                                <c:otherwise></c:otherwise>
+                            </c:choose>
+                        </div>
+                        <p>
+                            <c:choose>
+                                <c:when test="${not empty msg}"><fmt:message key="${msg}"/></c:when>
+                                <c:otherwise></c:otherwise>
+                            </c:choose>
+                        </p>
                         <h5><fmt:message key="Inserisci_la_tua_email"/></h5>
                         <hr>
                         <br>
