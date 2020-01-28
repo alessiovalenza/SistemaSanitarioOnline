@@ -642,7 +642,7 @@
             <div id="pazienti" class="container-fluid component">
                 <h3><fmt:message key='Visualizza_parco'/></h3>
                 <hr>
-                <div class="container-fluid">
+                <div class="container-fluid" style="padding-left: 0;padding-right: 0">
                     <table id="tablePazienti" class="table table-striped table-hover responsive nowrap display" style="width:100%">
                         <thead>
                         <tr>
@@ -675,7 +675,7 @@
                 </form>
                 <br>
 
-                <div id="schedaPaziente" class="container-fluid">
+                <div id="schedaPaziente" class="container-fluid" style="padding-left: 0;padding-right: 0">
                     <div class="text-center">
                         <div data-interval="false" id="carouselPazienteControls" class="carousel slide"
                              data-ride="carousel">
@@ -695,7 +695,7 @@
                         </div>
                     </div>
                     <h5><fmt:message key="datipaz"/></h5>
-                    <div class="container-fluid">
+                    <div class="container-fluid" style="padding-left: 0;padding-right: 0">
                         <table id="dataPazienteScheda" class="table table-striped table-hover ">
                             <thead>
                             <tr>
@@ -712,7 +712,7 @@
                     </div>
                     <br/>
                     <h5><fmt:message key="visbas"/></h5>
-                    <div class="container-fluid">
+                    <div class="container-fluid" style="padding-left: 0;padding-right: 0">
                         <table id="visiteBasePazienteScheda" class="table table-striped table-hover ">
                             <thead>
                             <tr>
@@ -727,7 +727,7 @@
 
                     <br/>
                     <h5><fmt:message key="ricev"/></h5>
-                    <div class="container-fluid">
+                    <div class="container-fluid" style="padding-left: 0;padding-right: 0">
                         <table id="ricetteEvasePazienteScheda" class="table table-striped table-hover ">
                             <thead>
                             <tr>
@@ -743,7 +743,7 @@
                     </div>
                     <br/>
                     <h5><fmt:message key="ricnevas"/></h5>
-                    <div class="container-fluid">
+                    <div class="container-fluid" style="padding-left: 0;padding-right: 0">
                         <table id="ricetteNonEvasePazienteScheda" class="table table-striped table-hover ">
                             <thead>
                             <tr>
@@ -758,7 +758,7 @@
                     </div>
                     <br/>
                     <h5><fmt:message key="esero"/></h5>
-                    <div class="container-fluid">
+                    <div class="container-fluid" style="padding-left: 0;padding-right: 0">
                         <table id="esamiErogatiPazienteScheda" class="table table-striped table-hover ">
                             <thead>
                             <tr>
@@ -775,7 +775,7 @@
                     </div>
                     <br/>
                     <h5><fmt:message key="esnero"/></h5>
-                    <div class="container-fluid">
+                    <div class="container-fluid" style="padding-left: 0;padding-right: 0">
                         <table id="esamiNonErogatiPazienteScheda" class="table table-striped table-hover ">
                             <thead>
                             <tr>
@@ -790,7 +790,7 @@
                     </div>
                     <br/>
                     <h5><fmt:message key="visspecero"/></h5>
-                    <div class="container-fluid">
+                    <div class="container-fluid" style="padding-left: 0;padding-right: 0">
                         <table id="visiteSpecialisticheErogatePazienteScheda" class="table table-striped table-hover ">
                             <thead>
                             <tr>
@@ -808,7 +808,7 @@
                     </div>
                     <br/>
                     <h5><fmt:message key="visspecnero"/></h5>
-                    <div class="container-fluid">
+                    <div class="container-fluid" style="padding-left: 0;padding-right: 0">
                         <table id="visiteSpecialisticheNonErogatePazienteScheda" class="table table-striped table-hover ">
                             <thead>
                             <tr>
@@ -1006,8 +1006,10 @@
                                                         <input class="inputCambiaPassword" type="password" id="ripetiPassword" name="ripetiPassword" required="required"/>
                                                     </div>
                                                 </div>
-                                                <div class="form-group container">
+                                                <div class="form-group">
+                                                <div class=" container">
                                                     <button id ="btnCambiaPassword" type="submit"><fmt:message key='Procedi'/></button>
+                                                </div>
                                                 </div>
                                             </form>
                                         </div>

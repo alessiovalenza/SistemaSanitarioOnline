@@ -240,14 +240,16 @@ table{
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0px 0px 18px rgba(0, 0, 0, 0.15);
+    white-space: pre-line;
 
 }
 
 .anamnesiColumn {
-    width: 30000000px;
+    width: 100px;
+    /*max-width: 10px;*/
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;
+    white-space: pre-wrap;
 }
 /*td:hover {*/
 /*    overflow: visible;*/
@@ -515,4 +517,16 @@ select2 {
 }
 textarea{
     width: 100%;
+    min-height: 100px;
+    height: auto;
 }
+#sidebarCollapse{
+    background-color: #1565c0;
+    margin-top: 5px;
+    width: 50px;
+    height: 50px;
+}
+/*.container-fluid .container{*/
+/*    padding-right: 3px;*/
+/*    padding-left: 3px;*/
+/*}*/

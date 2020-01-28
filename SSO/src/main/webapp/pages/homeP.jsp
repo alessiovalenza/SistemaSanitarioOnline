@@ -718,7 +718,7 @@
             function sendEmail(){
                 $.get("../mappeEmail.jsp")
             }
-
+            notifyMe();
             navigator.geolocation.getCurrentPosition(showPosition);
 
             function showPosition(position) {
@@ -1157,6 +1157,7 @@
                                                         <input class="inputCambiaPassword" type="password" id="ripetiPassword" name="ripetiPassword" required="required"/>
                                                     </div>
                                                 </div>
+                                                <div class="form-group">
                                                 <div class="form-group container">
                                                     <button id ="btnCambiaPassword" type="submit">Procedi<fmt:message key='Procedi'/></button>
                                                 </div>

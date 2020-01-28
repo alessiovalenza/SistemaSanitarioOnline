@@ -500,7 +500,7 @@
                 </div>
             </div>
 
-            <div id="schedaPaz" class="tool component  container-fluid" >
+            <div id="schedaPaz" class="tool component  container-fluid"  style="padding-left: 0;padding-right: 0">
                 <h3><fmt:message key="selpaz"/></h3>
                 <hr>
                 <div class="alert alert-warning" role="alert" id="messaggioCercaScheda"></div>
@@ -509,7 +509,7 @@
                         <div class="form-group">
                             <label  class="col-sm" for="idpazienteScheda"><fmt:message key="nomepaz"/></label>
                             <select class="col-sm" style="max-width: 200px" type="text" id="idpazienteScheda" name="idpazienteScheda" required="required"></select>
-                            <button class="col-sm" class="bottone" style="margin-top: 1em" type="submit"><fmt:message key="cerca"/></button>
+                            <button class="col-sm" id="btnScheda" class="bottone" style="margin-top: 1em" type="submit"><fmt:message key="cerca"/></button>
                         </div>
                     </div>
                 </form>
@@ -533,7 +533,7 @@
                         </div>
                     </div>
                     <h5><fmt:message key="datipaz"/></h5>
-                    <div class="container-fluid">
+                    <div class="container-fluid" style="padding-left: 0;padding-right: 0">
                         <table id="dataPazienteScheda" class="table table-striped table-hover ">
                             <thead>
                             <tr>
@@ -550,7 +550,7 @@
                     </div>
                     <br/>
                     <h5><fmt:message key="visbas"/></h5>
-                    <div class="container-fluid">
+                    <div class="container-fluid" style="padding-left: 0;padding-right: 0">
                         <table id="visiteBasePazienteScheda" class="table table-striped table-hover ">
                             <thead>
                             <tr>
@@ -565,7 +565,7 @@
 
                     <br/>
                     <h5><fmt:message key="ricev"/></h5>
-                    <div class="container-fluid">
+                    <div class="container-fluid" style="padding-left: 0;padding-right: 0">
                         <table id="ricetteEvasePazienteScheda" class="table table-striped table-hover ">
                             <thead>
                             <tr>
@@ -581,7 +581,7 @@
                     </div>
                     <br/>
                     <h5><fmt:message key="ricnevas"/></h5>
-                    <div class="container-fluid">
+                    <div class="container-fluid" style="padding-left: 0;padding-right: 0">
                         <table id="ricetteNonEvasePazienteScheda" class="table table-striped table-hover ">
                             <thead>
                             <tr>
@@ -596,7 +596,7 @@
                     </div>
                     <br/>
                     <h5><fmt:message key="esero"/></h5>
-                    <div class="container-fluid">
+                    <div class="container-fluid" style="padding-left: 0;padding-right: 0">
                         <table id="esamiErogatiPazienteScheda" class="table table-striped table-hover ">
                             <thead>
                             <tr>
@@ -613,7 +613,7 @@
                     </div>
                     <br/>
                     <h5><fmt:message key="esnero"/></h5>
-                    <div class="container-fluid">
+                    <div class="container-fluid" style="padding-left: 0;padding-right: 0">
                         <table id="esamiNonErogatiPazienteScheda" class="table table-striped table-hover ">
                             <thead>
                             <tr>
@@ -628,7 +628,7 @@
                     </div>
                     <br/>
                     <h5><fmt:message key="visspecero"/></h5>
-                    <div class="container-fluid">
+                    <div class="container-fluid" style="padding-left: 0;padding-right: 0">
                         <table id="visiteSpecialisticheErogatePazienteScheda" class="table table-striped table-hover ">
                             <thead>
                             <tr>
@@ -646,7 +646,7 @@
                     </div>
                     <br/>
                     <h5><fmt:message key="visspecnero"/></h5>
-                    <div class="container-fluid">
+                    <div class="container-fluid" style="padding-left: 0;padding-right: 0">
                         <table id="visiteSpecialisticheNonErogatePazienteScheda" class="table table-striped table-hover ">
                             <thead>
                             <tr>
@@ -692,8 +692,10 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
+                                                    <div class=" container">
                                                     <button id ="btnCambiaPassword" type="submit"><fmt:message key='Procedi'/></button>
-                                                </div>
+                                                    </div>
+                                                    </div>
                                             </form>
                                         </div>
                                     </div>
