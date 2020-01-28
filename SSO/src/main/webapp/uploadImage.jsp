@@ -26,7 +26,7 @@
   </head>
   <body>
 
-    <h1>Choose a file</h1>
+    <h1><fmt:message key='Choose_a_file'/></h1>
     <!-- File input field -->
     <!--<form action="#" method="POST" enctype="multipart/form-data" role="form" id="formUpload">
       <input type="file" name="foto" id="foto" onchange="return fileValidation()"/><br>
@@ -34,7 +34,7 @@
     </form>-->
     <form action="#" id="formUpload" method="POST" role="form" enctype="multipart/form-data">
       <input type="file" name="foto" id="foto" onchange="return fileValidation()"/><br>
-      <button type="submit">Submit </button>
+      <button type="submit"><fmt:message key='Submit'/> </button>
     </form>
 
     <!-- Image preview -->

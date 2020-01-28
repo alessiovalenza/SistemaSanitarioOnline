@@ -22,7 +22,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
     <head>
-        <title>Mail</title>
+        <title><fmt:message key="Email"/></title>
     </head>
     <body>
         <%@ page import="static it.unitn.disi.wp.progetto.commons.Utilities.sendEmail"%>
