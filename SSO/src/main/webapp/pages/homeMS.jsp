@@ -354,16 +354,16 @@
 
             <ul class="list-unstyled components">
                 <li>
-                    <a href="#" class="componentControl" id="erogaVisitaSpecControl">Eroga visita<fmt:message key='Eroga_visita'/></a>
+                    <a href="#" class="componentControl" id="erogaVisitaSpecControl"><fmt:message key='Eroga_visita'/></a>
                 </li>
                 <li>
-                    <a href="#" class="componentControl" id="schedaPazControl">Visualizza scheda paziente<fmt:message key='Visualizza_scheda_paziente'/></a>
+                    <a href="#" class="componentControl" id="schedaPazControl"><fmt:message key='Visualizza_scheda_paziente'/></a>
                 </li>
                 <li>
                     <a href="#" class="componentControl" id="profiloControl"><fmt:message key="profilo"/></a>
                 </li>
                 <li>
-                    <a href="#" class="componentControl" id="cambiaPasswordControl">Cambia password<fmt:message key='Cambia Password'/></a>
+                    <a href="#" class="componentControl" id="cambiaPasswordControl"><fmt:message key='Cambia Password'/></a>
                 </li>
                 <li>
                     <a href="../logout?forgetme=0"><fmt:message key='Log_out'/></a>
