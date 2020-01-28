@@ -172,7 +172,7 @@
                     langSelect2 = "fr";
                 </c:when>
                 <c:otherwise>
-                    langSelect2 = "en";
+                    langSelect2 = "it";
                 </c:otherwise>
             </c:choose>
 
@@ -188,7 +188,7 @@
                     urlLangDataTable = "https://cdn.datatables.net/plug-ins/1.10.20/i18n/French.json";
                 </c:when>
                 <c:otherwise>
-                    urlLangDataTable = "https://cdn.datatables.net/plug-ins/1.10.20/i18n/English.json";
+                    urlLangDataTable = "https://cdn.datatables.net/plug-ins/1.10.20/i18n/Italian.json";
                 </c:otherwise>
             </c:choose>
 
