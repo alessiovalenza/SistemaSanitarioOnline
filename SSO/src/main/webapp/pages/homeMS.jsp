@@ -63,7 +63,7 @@
 <html>
 
 <head>
-    <title>Dashboard Medico Specialista</title>
+    <title><fmt:message key='Dashboard_MS'/></title>
 
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -163,7 +163,7 @@
                     langSelect2 = "fr";
                 </c:when>
                 <c:otherwise>
-                    langSelect2 = "en";
+                    langSelect2 = "it";
                 </c:otherwise>
             </c:choose>
 
@@ -179,7 +179,7 @@
                     urlLangDataTable = "https://cdn.datatables.net/plug-ins/1.10.20/i18n/French.json";
                 </c:when>
                 <c:otherwise>
-                    urlLangDataTable = "https://cdn.datatables.net/plug-ins/1.10.20/i18n/English.json";
+                    urlLangDataTable = "https://cdn.datatables.net/plug-ins/1.10.20/i18n/Italian.json";
                 </c:otherwise>
             </c:choose>
 
@@ -192,15 +192,15 @@
 
             initAvatar(${sessionScope.utente.id}, "avatarImg", basePathCarousel, extension);
 
-            let labelMismatch = "La controlla di aver scritto correttamente la nuova password";
-            let labelWrongPw = "Password vecchia non corretta. Riprova";
+            let labelMismatch = "<fmt:message key='Controlla'/>";
+            let labelWrongPw = "<fmt:message key='Riprova'/>";
             let labelBtnPw = document.getElementById("btnCambiaPassword").innerHTML;
             initCambioPassword("#formCambiaPassword", "#vecchiaPassword", "#nuovaPassword", "#ripetiPassword", ${sessionScope.utente.id},
                 "#btnCambiaPassword", "messaggioCambioPw", labelWrongPw, labelMismatch, labelBtnPw);
 
-            let labelCercaPaz = "Cerca pazienti";
+            let labelCercaPaz = "<fmt:message key='Cerca_pazienti'/>";
             initSelect2Pazienti("#idpazienteErogaVisitaSpec", null, langSelect2, labelCercaPaz);
-            let labelCercaVisitaSpec = "Cerca visita specialistica";
+            let labelCercaVisitaSpec = "<fmt:message key='Cerca_visita_specialistica'/>";
             $("#idvisitaErogaVisitaSpec").select2({
                 placeholder: labelCercaVisitaSpec,
                 language: langSelect2,
@@ -342,22 +342,22 @@
 
             <ul class="list-unstyled components">
                 <li>
-                    <a href="#" class="componentControl" id="erogaVisitaSpecControl">Eroga visita</a>
+                    <a href="#" class="componentControl" id="erogaVisitaSpecControl">Eroga visita<fmt:message key='Eroga_visita'/></a>
                 </li>
                 <li>
-                    <a href="#" class="componentControl" id="schedaPazControl">Visualizza scheda paziente</a>
+                    <a href="#" class="componentControl" id="schedaPazControl">Visualizza scheda paziente<fmt:message key='Visualizza_scheda_paziente'/></a>
                 </li>
                 <li>
                     <a href="#" class="componentControl" id="profiloControl"><fmt:message key="profilo"/></a>
                 </li>
                 <li>
-                    <a href="#" class="componentControl" id="cambiaPasswordControl">Cambia password</a>
+                    <a href="#" class="componentControl" id="cambiaPasswordControl">Cambia password<fmt:message key='Cambia Password'/></a>
                 </li>
                 <li>
-                    <a href="../logout?forgetme=0">Log out</a>
+                    <a href="../logout?forgetme=0"><fmt:message key='Log_out'/></a>
                 </li>
                 <li>
-                    <a href="../logout?forgetme=1">Cambia account</a>
+                    <a href="../logout?forgetme=1"><fmt:message key='Cambia_account'/></a>
                 </li>
             </ul>
         </nav>
@@ -443,36 +443,36 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12">
-                            <h3>Eroga una visita specialistica</h3>
+                            <h3><fmt:message key='Eroga_visita_specialistica'/></h3>
                             <hr>
                             <div class="container-fluid" align="center">
                                 <div class="form"  >
                                     <div class="form-toggle"></div>
                                     <div class="form-panel one">
                                         <div class="form-header">
-                                            <h1>Eroga visita</h1>
+                                            <h1><fmt:message key='Eroga_visita'/></h1>
                                         </div>
                                         <div class="form-content">
                                             <form id="formErogaVisitaSpec" >
                                                 <div class="form-group">
                                                     <div class="container-fluid">
-                                                        <label for="idpazienteErogaVisitaSpec">Paziente</label>
+                                                        <label for="idpazienteErogaVisitaSpec"><fmt:message key='Paziente'/></label>
                                                         <select class="select2ErogaVisitaSpec" type="text" id="idpazienteErogaVisitaSpec" name="idpazienteErogaVisitaSpec" required="required"></select>
                                                         <br>
                                                     </div>
                                                     <div class="container-fluid" style="padding-top: 1rem">
-                                                        <label for="idvisitaErogaVisitaSpec">Visita specialistica</label>
+                                                        <label for="idvisitaErogaVisitaSpec"><fmt:message key='Visita_specialistica'/></label>
                                                         <select class="select2ErogaVisitaSpec" type="text" id="idvisitaErogaVisitaSpec" name="idvisitaErogaVisitaSpec" required="required"></select>
                                                     </div>
                                                     <div class="container-fluid" style="padding-top: 1rem">
-                                                        <label for="anamnesi">Anamnesi</label>
+                                                        <label for="anamnesi"><fmt:message key='Anamnesi'/></label>
                                                         <textarea placeholder="Scrivi l'anamnesi..." class="textAreaAnamnesi" type="text" id="anamnesi" name="anamnesi" required="required"></textarea>
                                                     </div>
                                                 </div>
-                                                <input required="true" id="idPagato" type="checkbox"> Ticket di <fmt:formatNumber value="<%=VisitaMedicoSpecialistaDAO.PREZZO_TICKET%>" type="currency" currencyCode="EUR"/> pagato<br>
+                                                <input required="true" id="idPagato" type="checkbox"><fmt:message key='Ticket_di'/> <fmt:formatNumber value="<%=VisitaMedicoSpecialistaDAO.PREZZO_TICKET%>" type="currency" currencyCode="EUR"/> <fmt:message key='pagato'/><br>
                                                 <div class="form-group">
                                                     <div class="container"style="padding-top: 1rem" >
-                                                            <button id="btnErogaVisitaSpec" type="submit">Eroga</button>
+                                                            <button id="btnErogaVisitaSpec" type="submit"><fmt:message key='Eroga'/></button>
                                                     </div>
                                                 </div>
                                             </form>
@@ -649,34 +649,34 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12">
-                            <h3>Gestione password</h3>
+                            <h3><fmt:message key='Gestione_password'/></h3>
                             <hr>
                             <div class="container-fluid" align="center">
                                 <div class="form"  >
                                     <div class="form-toggle"></div>
                                     <div class="form-panel one">
                                         <div class="form-header">
-                                            <h1>Cambia password</h1>
+                                            <h1><fmt:message key='Cambia Password'/></h1>
                                         </div>
                                         <div class="form-content">
                                             <div class="alert alert-warning" role="alert" id="messaggioCambioPw"></div>
                                             <form id="formCambiaPassword" >
                                                 <div class="form-group">
                                                     <div class="container-fluid" style="padding-top: 1rem">
-                                                        <label for="vecchiaPassword">Vecchia password</label>
+                                                        <label for="vecchiaPassword"><fmt:message key='Vecchia_password'/></label>
                                                         <input class="inputCambiaPassword" type="password" id="vecchiaPassword" name="vecchiaPassword" required="required"/>
                                                     </div>
                                                     <div class="container-fluid" style="padding-top: 1rem">
-                                                        <label for="nuovaPassword">Nuova password</label>
+                                                        <label for="nuovaPassword"><fmt:message key='Nuova_password'/></label>
                                                         <input class="inputCambiaPassword" type="password" id="nuovaPassword" name="nuovaPassword" required="required"/>
                                                     </div>
                                                     <div class="container-fluid" style="padding-top: 1rem">
-                                                        <label for="ripetiPassword">Ripeti nuova password</label>
+                                                        <label for="ripetiPassword"><fmt:message key='Ripeti'/></label>
                                                         <input class="inputCambiaPassword" type="password" id="ripetiPassword" name="ripetiPassword" required="required"/>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <button id ="btnCambiaPassword" type="submit">Procedi</button>
+                                                    <button id ="btnCambiaPassword" type="submit"><fmt:message key='Procedi'/></button>
                                                 </div>
                                             </form>
                                         </div>

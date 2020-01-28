@@ -57,7 +57,7 @@
 <html>
 
 <head>
-    <title>Dashboard SSN</title>
+    <title><fmt:message key="Dashboard_SSN"/></title>
 
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -116,6 +116,28 @@
         const labelErrorButtons = "error";
 
         $(document).ready(function() {
+            $('#dismiss, .overlay').on('click', function () {
+                // hide sidebar
+                $('#sidebar').removeClass('active');
+                // hide overlay
+                $('.overlay').removeClass('active');
+            });
+
+            $('.componentControl, .overlay').on('click', function () {
+                // hide sidebar
+                $('#sidebar').removeClass('active');
+                // hide overlay
+                $('.overlay').removeClass('active');
+            });
+
+            $('#sidebarCollapse').on('click', function () {
+                // open sidebar
+                $('#sidebar').addClass('active');
+                // fade in the overlay
+                $('.overlay').addClass('active');
+                $('.collapse.in').toggleClass('in');
+                $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+            });
 
             let labelMismatch = "La controlla di aver scritto correttamente la nuova password";
             let labelWrongPw = "Password vecchia non corretta. Riprova";
@@ -146,7 +168,7 @@
             <img class="avatar" alt="Avatar" src="../assets/img/logo_repubblica_colori.png"
                  data-holder-rendered="true">
             <br/><br/>
-            <h5>Servizio sanitario nazionale</h5>
+            <h5><fmt:message key="Servizio_sanitario_nazionale"/></h5>
             <br>
             <div class="sidebar-lang">
                 <c:choose>
@@ -178,16 +200,16 @@
 
         <ul class="list-unstyled components">
             <li>
-                <a href="#"class="componentControl" id="reportControl">Report</a>
+                <a href="#"class="componentControl" id="reportControl"><fmt:message key="Report"/></a>
             </li>
             <li>
-                <a href="#" class="componentControl" id="cambiaPasswordControl">Cambia password</a>
+                <a href="#" class="componentControl" id="cambiaPasswordControl"><fmt:message key="Cambia Password"/></a>
             </li>
             <li>
-                <a href="../logout?forgetme=0">Log out</a>
+                <a href="../logout?forgetme=0"><fmt:message key="Log_out"/></a>
             </li>
             <li>
-                <a href="../logout?forgetme=1">Cambia account</a>
+                <a href="../logout?forgetme=1"><fmt:message key="Cambia_account"/></a>
             </li>
         </ul>
     </nav>
@@ -220,18 +242,18 @@
                                         <form id="formScaricaReport" action="../docs/reportnazionale" method="GET">
                                             <div class="form-group">
                                                 <div class="container-fluid" style="padding-top: 1rem">
-                                                    <label for="fromReport">Dal giorno</label>
+                                                    <label for="fromReport">Dal giorno<fmt:message key="Dal_giorno"/></label>
                                                     <input class="inputReport" type="date" id="fromReport" name="fromDay" required="required"/>
                                                     <br>
                                                 </div>
                                                 <div class="container-fluid" style="padding-top: 1rem">
-                                                    <label for="toReport">Al giorno</label>
+                                                    <label for="toReport">Al giorno<fmt:message key="Al giorno"/></label>
                                                     <input class="inputReport" type="date" id="toReport" name="toDay" required="required"/>
                                                 </div>
                                             </div>
                                             <div class="form-group container">
                                                 <button id ="btnReport" type="submit"
-                                                        onclick="return checkReport('#fromReport', '#toReport', 'messaggioReport', '#btnReport', 'Il periodo selezione non è valido', 'Scarica')">Scarica</button>
+                                                        onclick="return checkReport('#fromReport', '#toReport', 'messaggioReport', '#btnReport', 'Il periodo selezione non è valido', 'Scarica')"><fmt:message key="Scarica"/></button>
                                             </div>
                                         </form>
                                     </div>
@@ -247,34 +269,34 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
-                        <h3>Gestione credenziali</h3>
+                        <h3><fmt:message key="Gestione_credenziali"/></h3>
                         <hr>
                         <div class="container-fluid" align="center">
                             <div class="form"  >
                                 <div class="form-toggle"></div>
                                 <div class="form-panel one">
                                     <div class="form-header">
-                                        <h1>Cambia password</h1>
+                                        <h1>Cambia password<fmt:message key="Scarica"/></h1>
                                     </div>
                                     <div class="form-content">
                                         <div class="alert alert-warning" role="alert" id="messaggioCambioPw"></div>
                                         <form id="formCambiaPassword" >
                                             <div class="form-group">
                                                 <div class="container-fluid" style="padding-top: 1rem">
-                                                    <label for="vecchiaPassword">Vecchia password</label>
+                                                    <label for="vecchiaPassword"><fmt:message key="Vecchia_password"/></label>
                                                     <input class="inputCambiaPassword" type="password" id="vecchiaPassword" name="vecchiaPassword" required="required"/>
                                                 </div>
                                                 <div class="container-fluid" style="padding-top: 1rem">
-                                                    <label for="nuovaPassword">Nuova password</label>
+                                                    <label for="nuovaPassword"><fmt:message key="Nuova_password"/></label>
                                                     <input class="inputCambiaPassword" type="password" id="nuovaPassword" name="nuovaPassword" required="required"/>
                                                 </div>
                                                 <div class="container-fluid" style="padding-top: 1rem">
-                                                    <label for="ripetiPassword">Ripeti nuova password</label>
+                                                    <label for="ripetiPassword"><fmt:message key="Ripeti"/></label>
                                                     <input class="inputCambiaPassword" type="password" id="ripetiPassword" name="ripetiPassword" required="required"/>
                                                 </div>
                                             </div>
                                             <div class="form-group container">
-                                                <button id ="btnCambiaPassword" type="submit">Procedi</button>
+                                                <button id ="btnCambiaPassword" type="submit"><fmt:message key="Procedi"/></button>
                                             </div>
                                         </form>
                                     </div>
