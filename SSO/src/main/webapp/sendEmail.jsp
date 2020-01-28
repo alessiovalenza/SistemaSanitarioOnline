@@ -7,6 +7,9 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <%
+    request.setCharacterEncoding("utf-8");
+    response.setCharacterEncoding("utf-8");
+
     String languageSession = (String) session.getAttribute("language");
     String languageParam = (String) request.getParameter("language");
 
