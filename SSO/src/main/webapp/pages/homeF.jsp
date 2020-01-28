@@ -151,7 +151,7 @@
             langSelect2 = "fr";
             </c:when>
             <c:otherwise>
-            langSelect2 = "en";
+            langSelect2 = "it";
             </c:otherwise>
             </c:choose>
 
