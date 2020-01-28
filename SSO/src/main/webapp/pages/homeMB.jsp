@@ -192,7 +192,7 @@
                 </c:otherwise>
             </c:choose>
 
-            let labelCercaPaz = "Cerca pazienti";
+            let labelCercaPaz = "<fmt:message key='Cerca_pazienti'/>";
 
             initSelect2PazientiByMB("#idmedicobaseVisita", ${sessionScope.utente.id}, langSelect2, labelCercaPaz);
 
@@ -204,15 +204,15 @@
 
             initSelect2PazientiByMB("#idpazienteScheda", ${sessionScope.utente.id}, langSelect2, labelCercaPaz);
 
-            let labelCercaFarm = "Cerca farmaci";
+            let labelCercaFarm = "<fmt:message key='Cerca_farmaci'/>";
 
             initSelect2General("farmaci", "#idfarmaco", langSelect2, labelCercaFarm);
 
-            let labelCercaEsami = "Cerca esami";
+            let labelCercaEsami = "<fmt:message key='Cerca_esami'/>";
 
             initSelect2General("esami", "#idesame", langSelect2, labelCercaEsami);
 
-            let labelCercaVisite = "Cerca visite";
+            let labelCercaVisite = "<fmt:message key='Cerca_visite'/>";
 
             initSelect2General("visite", "#idvisita", langSelect2, labelCercaVisite);
 
@@ -948,7 +948,7 @@
                                                     </div>
                                                     <div class="container-fluid" style="padding-top: 1rem">
                                                         <label for="anamnesi"><fmt:message key="anamn"/></label>
-                                                        <textarea placeholder="Scrivi l'anamnesi..." class="inputErogaVisita textAreaAnamnesi" type="text" id="anamnesi" name="anamnesi" required="required"></textarea>
+                                                        <textarea placeholder="<fmt:message key='Scrivi_anamnesi'/>..." class="inputErogaVisita textAreaAnamnesi" type="text" id="anamnesi" name="anamnesi" required="required"></textarea>
                                                     </div>
                                                 </div>
                                                 <div class="form-group container">

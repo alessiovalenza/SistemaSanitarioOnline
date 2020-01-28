@@ -414,7 +414,7 @@
                 <a href="#"class="componentControl" id="reportControl">Report</a>
             </li>
             <li>
-                <a href="#" class="componentControl" id="richiamo1Control">Richiamo</a>
+                <a href="#" class="componentControl" id="richiamo1Control">Richiamo<fmt:message key='Richiamo'/></a>
             </li>
             <li>
                 <a href="#" class="componentControl" id="richiamo2Control">Richiama chi è già stato richiamato</a>

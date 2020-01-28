@@ -42,7 +42,7 @@
 <html>
 
 <head>
-    <title>Login</title>
+    <title><fmt:message key="Login"/></title>
 
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -110,7 +110,7 @@
                         <input type="password" id="password" class="fadeIn third" name="password" placeholder="Password"
                                required>
                         <input type="submit" class="fadeIn fourth" value="Log In"><br/>
-                        <label for="checkbox" class="fadeIn fourth">Remember Me</label>
+                        <label for="checkbox" class="fadeIn fourth"><fmt:message key="Ricordami"/></label>
                         <input type="checkbox" class="fadeIn fourth" name="remember_me" id="checkbox">
                     </form>
 
