@@ -50,6 +50,8 @@
             break;
         case "mappe":
             break;
+        case "cambiaPassword":
+            break;
         default:
             session.setAttribute("selectedSection", "profilo");
             break;
@@ -59,7 +61,7 @@
 <c:set var="language" value="${sessionScope.language}" scope="page" />
 <c:set var="sectionToShow" value="${sessionScope.selectedSection}" scope="page" />
 <c:set var="baseUrl" value="<%=request.getContextPath()%>"/>
-<c:set var="url" value="${baseUrl}/pages/homeMB.jsp?language=" scope="page" />
+<c:set var="url" value="${baseUrl}/pages/homeP.jsp?language=" scope="page" />
 
 <fmt:setLocale value="${language}" />
 <fmt:setBundle basename="labels" />
@@ -137,6 +139,28 @@
 
         $(document).ready(function(){
 
+            $('#dismiss, .overlay').on('click', function () {
+                // hide sidebar
+                $('#sidebar').removeClass('active');
+                // hide overlay
+                $('.overlay').removeClass('active');
+            });
+            $('.componentControl, .overlay').on('click', function () {
+                // hide sidebar
+                $('#sidebar').removeClass('active');
+                // hide overlay
+                $('.overlay').removeClass('active');
+            });
+
+            $('#sidebarCollapse').on('click', function () {
+                // open sidebar
+                $('#sidebar').addClass('active');
+                // fade in the overlay
+                $('.overlay').addClass('active');
+                $('.collapse.in').toggleClass('in');
+                $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+            });
+
             let langSelect2;
             <c:choose>
             <c:when test="${fn:startsWith(language, 'it')}">
@@ -171,23 +195,18 @@
 
             let basePathCarousel = "${baseUrl}/<%=Utilities.USER_IMAGES_FOLDER%>/${sessionScope.utente.id}/";
             let extension = ".<%=Utilities.USER_IMAGE_EXT%>";
+            initCarousel(${sessionScope.utente.id}, "carouselInnerProfilo", basePathCarousel, extension);
+
+            let labelUpload = document.getElementById("btnUploadFoto").innerHTML;
+            initUploadFoto("#formUploadFoto", ${sessionScope.utente.id}, "#btnUploadFoto", labelUpload);
 
             initAvatar(${sessionScope.utente.id}, "avatarImg", basePathCarousel, extension);
 
-            populateComponents();
-            hideComponents();
-            $('#profilo').show();
-            $('#profiloControl').click(() => showComponent('profilo'));
-            $('#medicoControl').click(() => showComponent('medico'));
-            $('#cambiaMedicoControl').click(() => showComponent('cambiaMedico'));
-            $('#esamiControl').click(() => showComponent('esami'));
-            $('#ricetteControl').click(() => showComponent('ricette'));
-            $('#visiteBaseControl').click(() => showComponent('visiteBase'));
-            $('#visiteSpecialisticheControl').click(() => showComponent('visiteSpecialistiche'));
-            $('#mappeControl').click(() => showComponent('mappe'));
-
-            document.getElementById("${sectionToShow}Control").click();
-
+            let labelMismatch = "La controlla di aver scritto correttamente la nuova password";
+            let labelWrongPw = "Password vecchia non corretta. Riprova";
+            let labelBtnPw = document.getElementById("btnCambiaPassword").innerHTML;
+            initCambioPassword("#formCambiaPassword", "#vecchiaPassword", "#nuovaPassword", "#ripetiPassword", ${sessionScope.utente.id},
+                "#btnCambiaPassword", "messaggioCambioPw", labelWrongPw, labelMismatch, labelBtnPw);
 
             $("#formPutCambiaMedico").submit(function(event){
                 loadingButton("#btnCambiaMedico",labelLoadingButtons)
@@ -215,34 +234,40 @@
             });
 
             $("#medicoControl").click(function(){
-                let url = baseUrl + '/api/pazienti/${sessionScope.utente.id}/medicobase'
+                let url = baseUrl + '/api/pazienti/${sessionScope.utente.id}/medicobase';
                 $.ajax({
                     type: "GET",
                     url: url,
-                    // dataType: 'jsonp',
-                    // contentType: "text/html",
-                    // crossDomain:'true',
                     success: function (data) {
+                        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+
                         let fields = data;
+
                         let nome = fields["nome"];
                         let cognome = fields["cognome"];
+                        let email = fields["email"];
                         let sesso = fields["sesso"];
+                        let cf = fields["codiceFiscale"];
+                        let dataNascita = new Date(fields["dataNascita"]);
+                        dataNascita = dataNascita.toLocaleDateString("${fn:replace(language, '_', '-')}",options);
+
                         $("#nomeMedico").html(nome);
                         $("#cognomeMedico").html(cognome);
                         $("#sessoMedico").html(sesso);
-
+                        $("#emailMedico").html(email);
+                        $("#dataNascitaMedico").html(dataNascita);
+                        $("#codiceFiscaleMedico").html(cf);
                     },
                     error: function(xhr, status, error) {
-
                         console.log("errore");
                     }
-
                 });
+
             });
 
             $("#esamiControl").click(function(){
-                $('#esamiErogati').DataTable().destroy()
-                $('#esamiNonErogati').DataTable().destroy()
+                $('#esamiErogati').DataTable().destroy();
+                $('#esamiNonErogati').DataTable().destroy();
                 let urlEsamiNonErogati = baseUrl + "/api/pazienti/${sessionScope.utente.id}/esamiprescritti?erogationly=false&nonerogationly=true";
                 $('#esamiNonErogati').DataTable( {
                     "autoWidth": false,
@@ -337,6 +362,7 @@
 
             $("#idmedicobase").select2({
                 placeholder: 'Cerca Medici',
+                language: langSelect2,
                 width: '100%',
                 allowClear: true,
                 ajax: {
@@ -689,101 +715,183 @@
                 });
             }
 
+            populateComponents();
+            hideComponents();
+
+            $('#profiloControl').click(() => showComponent('profilo'));
+            $('#medicoControl').click(() => showComponent('medico'));
+            $('#cambiaMedicoControl').click(() => showComponent('cambiaMedico'));
+            $('#esamiControl').click(() => showComponent('esami'));
+            $('#ricetteControl').click(() => showComponent('ricette'));
+            $('#visiteBaseControl').click(() => showComponent('visiteBase'));
+            $('#visiteSpecialisticheControl').click(() => showComponent('visiteSpecialistiche'));
+            $('#mappeControl').click(() => showComponent('mappe'));
+            $('#cambiaPasswordControl').click(() => showComponent('cambiaPassword'));
+
+            document.getElementById("${sectionToShow}Control").click();
         });
 
     </script>
 </head>
 
 <body>
-
-
-<div class="wrapper">
-    <!-- Sidebar  -->
-    <nav id="sidebar">
-        <div id="dismiss">
-            <i class="fas fa-arrow-left"></i>
-        </div>
-        <div class="sidebar-header">
-            <img class="avatar" id="avatarImg" data-holder-rendered="true">
-            <h4>${sessionScope.utente.nome} ${sessionScope.utente.cognome}</h4>
-            <br>
-            <div class="sidebar-lang">
-                <c:choose>
-                    <c:when test="${!fn:startsWith(language, 'it')}">
-                        <a href="${url}it_IT">italiano</a>
-                    </c:when>
-                    <c:otherwise>
-                        <b>italiano</b>
-                    </c:otherwise>
-                </c:choose>
-                <c:choose>
-                    <c:when test="${!fn:startsWith(language, 'en')}">
-                        <a href="${url}en_EN">english</a>
-                    </c:when>
-                    <c:otherwise>
-                        <b>english</b>
-                    </c:otherwise>
-                </c:choose>
-                <c:choose>
-                    <c:when test="${!fn:startsWith(language, 'fr')}">
-                        <a href="${url}fr_FR">français</a>
-                    </c:when>
-                    <c:otherwise>
-                        <b>français</b>
-                    </c:otherwise>
-                </c:choose>
+    <div class="wrapper">
+        <!-- Sidebar  -->
+        <nav id="sidebar">
+            <div id="dismiss">
+                <i class="fas fa-arrow-left"></i>
             </div>
-        </div>
+            <div class="sidebar-header">
+                <img class="avatar" id="avatarImg" data-holder-rendered="true">
+                <h4>${sessionScope.utente.nome} ${sessionScope.utente.cognome}</h4>
+                <br>
+                <div class="sidebar-lang">
+                    <c:choose>
+                        <c:when test="${!fn:startsWith(language, 'it')}">
+                            <a href="${url}it_IT">italiano</a>
+                        </c:when>
+                        <c:otherwise>
+                            <b>italiano</b>
+                        </c:otherwise>
+                    </c:choose>
+                    <c:choose>
+                        <c:when test="${!fn:startsWith(language, 'en')}">
+                            <a href="${url}en_EN">english</a>
+                        </c:when>
+                        <c:otherwise>
+                            <b>english</b>
+                        </c:otherwise>
+                    </c:choose>
+                    <c:choose>
+                        <c:when test="${!fn:startsWith(language, 'fr')}">
+                            <a href="${url}fr_FR">français</a>
+                        </c:when>
+                        <c:otherwise>
+                            <b>français</b>
+                        </c:otherwise>
+                    </c:choose>
+                </div>
+            </div>
 
-        <ul class="list-unstyled components">
-            <li>
-                <a href="#" class="componentControl" id="profiloControl">Profilo</a>
-            </li>
-            <li>
-                <a href="#" class="componentControl" id="medicoControl">Visualizza medico di base</a>
-            </li>
-            <li>
-                <a href="#" class="componentControl" id="cambiaMedicoControl">Cambia medico di base</a>
-            </li>
-            <li>
-                <a href="#"  class="componentControl" id ="esamiControl">Visualizza esami</a>
-            </li>
-            <li>
-                <a href="#" class="componentControl" id ="ricetteControl">Visualizza ricette</a>
-            </li>
-            <li>
-                <a href="#" class="componentControl" id ="visiteBaseControl">Visualizza visite base</a>
-            </li>
-            <li>
-                <a href="#" class="componentControl" id ="visiteSpecialisticheControl">Visualizza visite specialistiche</a>
-            </li>
-            <li>
-                <a href="../mappe.jsp" target="_blank" class="componentControl" id="mappeControl">Visualizza mappe</a>
-            </li>
-            <li>
-                <a href="../logout?forgetme=0">Log out</a>
-            </li>
-            <li>
-                <a href="../logout?forgetme=1">Cambia account</a>
-            </li>
+            <ul class="list-unstyled components">
+                <li>
+                    <a href="#" class="componentControl" id="medicoControl">Visualizza medico di base</a>
+                </li>
+                <li>
+                    <a href="#" class="componentControl" id="cambiaMedicoControl">Cambia medico di base</a>
+                </li>
+                <li>
+                    <a href="#"  class="componentControl" id ="esamiControl">Visualizza esami</a>
+                </li>
+                <li>
+                    <a href="#" class="componentControl" id ="ricetteControl">Visualizza ricette</a>
+                </li>
+                <li>
+                    <a href="#" class="componentControl" id ="visiteBaseControl">Visualizza visite base</a>
+                </li>
+                <li>
+                    <a href="#" class="componentControl" id ="visiteSpecialisticheControl">Visualizza visite specialistiche</a>
+                </li>
+                <li>
+                    <a href="../mappe.jsp" target="_blank" class="componentControl" id="mappeControl">Visualizza mappe</a>
+                </li>
+                <li>
+                    <a href="#" class="componentControl" id="profiloControl">Profilo</a>
+                </li>
+                <li>
+                    <a href="#" class="componentControl" id="cambiaPasswordControl">Cambia password</a>
+                </li>
+                <li>
+                    <a href="../logout?forgetme=0">Log out</a>
+                </li>
+                <li>
+                    <a href="../logout?forgetme=1">Cambia account</a>
+                </li>
 
-        </ul>
-    </nav>
+            </ul>
+        </nav>
 
         <!-- Page Content  -->
         <div id="content">
 
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <div class="container-fluid">
+            <div class="container">
+                <button type="button" id="sidebarCollapse" class="btn btn-info">
+                    <i class="fas fa-align-left"></i>
+                    <span>Toggle Sidebar</span>
+                </button>
+            </div>
+            <br>
 
-                    <button type="button" id="sidebarCollapse" class="btn btn-info">
-                        <i class="fas fa-align-left"></i>
-                        <span>Toggle Sidebar</span>
-                    </button>
-                </div>
-            </nav>
             <div class="container-fluid tool component" id="mappe">
                 <div id="mapContainer"></div>
+            </div>
+
+            <div id="profilo" class="tool component">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="text-center">
+                                    <div data-interval="false" id="carouselProfiloControls" class="carousel slide"
+                                         data-ride="carousel">
+                                        <div id="carouselInnerProfilo" class="carousel-inner">
+
+                                        </div>
+                                        <a class="carousel-control-prev" href="#carouselProfiloControls" role="button"
+                                           data-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                        <a class="carousel-control-next" href="#carouselProfiloControls" role="button"
+                                           data-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="card-body">
+                                    <div style="clear: both">
+                                        <form action="#" id="formUploadFoto" method="POST" role="form" enctype="multipart/form-data">
+                                            <div>
+                                                <input style="/*float: left;*/  max-width: 100%" class="btn btn-primary" type="file" id="fotoToUpload" name="foto"
+                                                       onchange="return fileValidation('fotoToUpload', 'btnUploadFoto', labelAlertFoto)"/>
+                                                <br>
+                                                <button style="/*float:right;*/ height: 35pt; background: grey;" class="btn btn-primary" type="submit" id="btnUploadFoto" disabled><fmt:message key="carica"/> </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div style="clear: both; padding-top: 0.5rem">
+                                        <hr>
+                                        <h5 style="float: left"><b><fmt:message key="nome"/></b>:  </h5>
+                                        <h5 align="right">${sessionScope.utente.nome}</h5>
+                                    </div>
+                                    <hr>
+                                    <div style="clear: both">
+                                        <h5 style="float: left"><b><fmt:message key="cognome"/></b>:  </h5>
+                                        <h5 align="right">${sessionScope.utente.cognome}</h5>
+                                    </div>
+                                    <hr>
+                                    <div style="clear: both">
+                                        <h5 style="float: left"><b><fmt:message key="sesso"/></b>:  </h5>
+                                        <h5 align="right">${sessionScope.utente.sesso}</h5>
+                                    </div>
+                                    <hr>
+                                    <div style="clear: both">
+                                        <h5 style="float: left"><b><fmt:message key="codfis"/></b>:  </h5>
+                                        <h5 align="right">${sessionScope.utente.codiceFiscale}</h5>
+                                    </div>
+                                    <hr>
+                                    <div style="clear: both">
+                                        <h5 style="float: left"><b><fmt:message key="datanas"/></b>:  </h5>
+                                        <h5 align="right"><fmt:formatDate value="${sessionScope.utente.dataNascita}"/></h5>
+                                    </div>
+                                    <hr>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="container-fluid tool component" align="center" id="cambiaMedico">
@@ -800,17 +908,17 @@
                                     <select type="text" id="idmedicobase" name="idmedicobase" required="true"></select>
                                     <span class="glyphicon glyphicon-ok"></span>
                                 </div>
-                            <div class="form-group">
-                                <button id ="btnCambiaMedico" type="submit">Cambia</button>
-                            </div>
-                        </form>
+                                <div class="form-group">
+                                    <button id ="btnCambiaMedico" type="submit">Cambia</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
             <div id="esami" class="tool component">
-                <h2>esami non erogati</h2>
+                <h2>Esami non erogati</h2>
                 <div class="container-fluid">
                     <table id="esamiNonErogati" class="table table-striped table-hover ">
                         <thead>
@@ -824,7 +932,7 @@
                         </thead>
                     </table>
                 </div>
-                <h2>esami erogati</h2>
+                <h2>Esami erogati</h2>
                 <div class="container-fluid">
                     <table id="esamiErogati" class="table table-striped table-hover ">
                         <thead>
@@ -843,7 +951,7 @@
             </div>
 
             <div id="ricette" class="component tool">
-                <h5><fmt:message key="ricev"/></h5>
+                <h2><fmt:message key="ricev"/></h2>
                 <div class="container-fluid">
                     <table id="ricetteEvase" class="table table-striped table-hover ">
                         <thead>
@@ -859,7 +967,8 @@
                     </table>
                 </div>
                 <br/>
-                <h5><fmt:message key="ricnevas"/></h5>
+                <br/>
+                <h2><fmt:message key="ricnevas"/></h2>
                 <div class="container-fluid">
                     <table id="ricetteNonEvase" class="table table-striped table-hover ">
                         <thead>
@@ -875,9 +984,8 @@
                 </div>
             </div>
 
-
             <div id="visiteBase" class="component tool">
-                <h5><fmt:message key="visbas"/></h5>
+                <h2><fmt:message key="visbas"/></h2>
                 <div class="container-fluid">
                     <table id="visiteBaseTable" class="table table-striped table-hover ">
                         <thead>
@@ -892,9 +1000,8 @@
                 </div>
             </div>
 
-
             <div id="visiteSpecialistiche" class="component tool">
-                <h5><fmt:message key="visspecero"/></h5>
+                <h2><fmt:message key="visspecero"/></h2>
                 <div class="container-fluid">
                     <table id="visiteSpecialisticheErogate" class="table table-striped table-hover ">
                         <thead>
@@ -911,8 +1018,8 @@
                         </thead>
                     </table>
                 </div>
-                <br/>
-                <h5><fmt:message key="visspecnero"/></h5>
+                <br/><br/>
+                <h2><fmt:message key="visspecnero"/></h2>
                 <div class="container-fluid">
                     <table id="visiteSpecialisticheNonErogate" class="table table-striped table-hover ">
                         <thead>
@@ -927,35 +1034,93 @@
                 </div>
             </div>
 
-        <div class="tool component" id="medico">
-            <div class="card" >
+            <div id="medico" class="tool component">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div style="clear: both; padding-top: 0.5rem">
+                                        <hr>
+                                        <h5 style="float: left"><b><fmt:message key="nome"/></b>:  </h5>
+                                        <h5 id="nomeMedico" align="right"></h5>
+                                    </div>
+                                    <hr>
+                                    <div style="clear: both">
+                                        <h5 style="float: left"><b><fmt:message key="cognome"/></b>:  </h5>
+                                        <h5 id="cognomeMedico" align="right"></h5>
+                                    </div>
+                                    <hr>
+                                    <div style="clear: both">
+                                        <h5 style="float: left"><b><fmt:message key="cognome"/></b>:  </h5>
+                                        <h5 id="emailMedico" align="right"></h5>
+                                    </div>
+                                    <hr>
+                                    <div style="clear: both">
+                                        <h5 style="float: left"><b><fmt:message key="datanas"/></b>:  </h5>
+                                        <h5 id="dataNascitaMedico" align="right"></h5>
+                                    </div>
+                                    <hr>
+                                    <div style="clear: both">
+                                        <h5 style="float: left"><b><fmt:message key="sesso"/></b>:  </h5>
+                                        <h5 id="sessoMedico" align="right"></h5>
+                                    </div>
+                                    <hr>
+                                    <div style="clear: both">
+                                        <h5 style="float: left"><b><fmt:message key="codfis"/></b>:  </h5>
+                                        <h5 id="codiceFiscaleMedico" align="right"></h5>
+                                    </div>
+                                    <hr>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-                <img src="3.jpeg" class="rounded mx-auto d-block">
-                <div class="card-body">
-                    <div style="clear: both; padding-top: 0.5rem">
-                        <h5 style="float: left">Nome:  </h5>
-                        <h5 align="right" id="nomeMedico"></h5>
+            <div id="cambiaPassword" class="tool component">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3><fmt:message key='Gestione_password'/></h3>
+                            <hr>
+                            <div class="container-fluid" align="center">
+                                <div class="form"  >
+                                    <div class="form-toggle"></div>
+                                    <div class="form-panel one">
+                                        <div class="form-header">
+                                            <h1>Cambia password</h1>
+                                        </div>
+                                        <div class="form-content">
+                                            <div class="alert alert-warning" role="alert" id="messaggioCambioPw"></div>
+                                            <form id="formCambiaPassword" >
+                                                <div class="form-group">
+                                                    <div class="container-fluid" style="padding-top: 1rem">
+                                                        <label for="vecchiaPassword">Vecchia password</label>
+                                                        <input class="inputCambiaPassword" type="password" id="vecchiaPassword" name="vecchiaPassword" required="required"/>
+                                                    </div>
+                                                    <div class="container-fluid" style="padding-top: 1rem">
+                                                        <label for="nuovaPassword">Nuova password</label>
+                                                        <input class="inputCambiaPassword" type="password" id="nuovaPassword" name="nuovaPassword" required="required"/>
+                                                    </div>
+                                                    <div class="container-fluid" style="padding-top: 1rem">
+                                                        <label for="ripetiPassword">Ripeti nuova password</label>
+                                                        <input class="inputCambiaPassword" type="password" id="ripetiPassword" name="ripetiPassword" required="required"/>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group container">
+                                                    <button id ="btnCambiaPassword" type="submit">Procedi</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <hr>
-                    <div style="clear: both">
-                        <h5 style="float: left">Cognome:  </h5>
-                        <h5 align="right" id="cognomeMedico"></h5>
-                    </div>
-                    <hr>
-
-                    <div style="clear: both">
-                        <h5 style="float: left">Sesso:  </h5>
-                        <h5 align="right" id="sessoMedico"></h5>
-                    </div>
-                    <hr>
                 </div>
             </div>
         </div>
-
-
     </div>
-
-</div>
 </body>
-
 </html>
