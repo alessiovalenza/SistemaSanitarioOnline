@@ -63,7 +63,7 @@
 <html>
 
 <head>
-    <title>Dashboard SSP</title>
+    <title>Dashboard SSP<fmt:message key='Dashboard_SSP'/></title>
 
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -161,8 +161,8 @@
                 </c:otherwise>
             </c:choose>
 
-            let labelMismatch = "La controlla di aver scritto correttamente la nuova password";
-            let labelWrongPw = "Password vecchia non corretta. Riprova";
+            let labelMismatch = "<fmt:message key='Controlla'/>";
+            let labelWrongPw = "<fmt:message key='Riprova'/>";
             let labelBtnPw = document.getElementById("btnCambiaPassword").innerHTML;
             initCambioPassword("#formCambiaPassword", "#vecchiaPassword", "#nuovaPassword", "#ripetiPassword", ${sessionScope.utente.id},
                 "#btnCambiaPassword", "messaggioCambioPw", labelWrongPw, labelMismatch, labelBtnPw);
@@ -376,7 +376,7 @@
             <img class="avatar" alt="Avatar" src="../assets/img/logo_repubblica_colori.png"
                  data-holder-rendered="true">
             <br/><br/>
-            <h5>Servizio sanitario provinciale</h5> <h3 id="nomeProvincia"></h3>
+            <h5><fmt:message key='Servizio_sanitario_provinciale'/></h5> <h3 id="nomeProvincia"></h3>
             <br>
             <div class="sidebar-lang">
                 <c:choose>
@@ -408,25 +408,25 @@
 
         <ul class="list-unstyled components">
             <li>
-                <a href="#" class="componentControl" id="erogaEsameControl">Eroga esame</a>
+                <a href="#" class="componentControl" id="erogaEsameControl"><fmt:message key='Eroga_esame'/></a>
             </li>
             <li>
-                <a href="#"class="componentControl" id="reportControl">Report</a>
+                <a href="#"class="componentControl" id="reportControl"><fmt:message key='Report'/></a>
             </li>
             <li>
-                <a href="#" class="componentControl" id="richiamo1Control">Richiamo<fmt:message key='Richiamo'/></a>
+                <a href="#" class="componentControl" id="richiamo1Control"><fmt:message key='Richiamo'/></a>
             </li>
             <li>
-                <a href="#" class="componentControl" id="richiamo2Control">Richiama chi è già stato richiamato</a>
+                <a href="#" class="componentControl" id="richiamo2Control"><fmt:message key='Richiama_again'/></a>
             </li>
             <li>
-                <a href="#" class="componentControl" id="cambiaPasswordControl">Cambia password</a>
+                <a href="#" class="componentControl" id="cambiaPasswordControl"><fmt:message key='Cambia Password'/></a>
             </li>
             <li>
-                <a href="../logout?forgetme=0">Log out</a>
+                <a href="../logout?forgetme=0"><fmt:message key='Log_out'/></a>
             </li>
             <li>
-                <a href="../logout?forgetme=1">Cambia account</a>
+                <a href="../logout?forgetme=1"><fmt:message key='Cambia_account'/></a>
             </li>
         </ul>
     </nav>
@@ -445,34 +445,34 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
-                        <h3>Eroga un esame prescritto ad un paziente</h3>
+                        <h3><fmt:message key='Eroga_un_esame'/></h3>
                         <hr>
                         <div class="container-fluid" align="center">
                             <div class="form"  >
                                 <div class="form-toggle"></div>
                                 <div class="form-panel one">
                                     <div class="form-header">
-                                        <h1>Eroga esame</h1>
+                                        <h1><fmt:message key='Eroga_esame'/></h1>
                                     </div>
                                     <div class="form-content">
                                         <form id="formErogaEsame" >
                                             <div class="form-group">
                                                 <div class="container-fluid">
-                                                    <label for="idPaziente">Nome del paziente</label>
+                                                    <label for="idPaziente"><fmt:message key='Nome_del_Paziente'/></label>
                                                     <select class="inputErogaEsame" type="text" id="idPaziente" name="idpaziente" required="required"></select>
                                                 </div>
                                                 <div class="container-fluid" style="padding-top: 1rem">
-                                                    <label for="idEsame">Nome dell'esame</label>
+                                                    <label for="idEsame"><fmt:message key='Nome_del_esame'/></label>
                                                     <select class="inputErogaEsame" type="text" id="idEsame" name="idesame" required="required"></select>
                                                 </div>
                                                 <div class="container-fluid" style="padding-top: 1rem;">
-                                                    <label for="esito">Esito</label>
+                                                    <label for="esito"><fmt:message key='Esito'/></label>
                                                     <textarea placeholder="Scrivi l'esito..." class="inputErogaEsame" type="text" id="esito" name="esito" required="required"></textarea>
                                                 </div>
                                             </div>
-                                            <input required="true" id="idPagato" type="checkbox">Ticket di <fmt:formatNumber value="<%=EsamePrescrittoDAO.PREZZO_TICKET%>" type="currency" currencyCode="EUR"/> pagato<br>
+                                            <input required="true" id="idPagato" type="checkbox"><fmt:message key='Ticket_di'/> <fmt:formatNumber value="<%=EsamePrescrittoDAO.PREZZO_TICKET%>" type="currency" currencyCode="EUR"/> <fmt:message key='pagato'/><br>
                                             <div class="form-group container" style="padding-top: 1rem">
-                                                <button id="btnErogaEsame" type="submit">Eroga</button>
+                                                <button id="btnErogaEsame" type="submit"><fmt:message key='Eroga'/></button>
                                             </div>
                                         </form>
                                     </div>
@@ -488,33 +488,33 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
-                        <h3>Scarica report</h3>
+                        <h3><fmt:message key='Scarica_il_report'/></h3>
                         <hr>
                         <div class="container-fluid" align="center">
                             <div class="form"  >
                                 <div class="form-toggle"></div>
                                 <div class="form-panel one">
                                     <div class="form-header">
-                                        <h1>Seleziona il periodo</h1>
+                                        <h1><fmt:message key='Seleziona_perdiodo'/></h1>
                                     </div>
                                     <div class="form-content">
                                         <div class="alert alert-warning" role="alert" id="messaggioReport"></div>
                                         <form id="formScaricaReport" action="../docs/reportprov" method="GET">
                                             <div class="form-group">
                                                 <div class="container-fluid" style="padding-top: 1rem">
-                                                    <label for="fromReport">Dal giorno</label>
+                                                    <label for="fromReport"><fmt:message key='Dal_giorno'/></label>
                                                     <input class="inputReport" type="date" id="fromReport" name="fromDay" required="required"/>
                                                     <br>
                                                 </div>
                                                 <div class="container-fluid" style="padding-top: 1rem">
-                                                    <label for="toReport">Al giorno</label>
+                                                    <label for="toReport"><fmt:message key='Al giorno'/></label>
                                                     <input class="inputReport" type="date" id="toReport" name="toDay" required="required"/>
                                                 </div>
                                                 <input type="hidden" name="idprovincia" value="${sessionScope.utente.prov}"/>
                                             </div>
                                             <div class="form-group container">
                                                 <button id ="btnReport" type="submit"
-                                                        onclick="return checkReport('#fromReport', '#toReport', 'messaggioReport', '#btnReport', 'Il periodo selezione non è valido', 'Scarica')">Scarica</button>
+                                                        onclick="return checkReport('#fromReport', '#toReport', 'messaggioReport', '#btnReport', 'Il periodo selezione non è valido', 'Scarica')"><fmt:message key='Scarica'/></button>
                                             </div>
                                         </form>
                                     </div>
@@ -530,35 +530,35 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
-                        <h3>Effetua un richiamo per range di età</h3>
+                        <h3><fmt:message key='Effetua_un_richiamo_per_ range_di_età'/></h3>
                         <hr>
                         <div class="container-fluid" align="center">
                             <div class="form"  >
                                 <div class="form-toggle"></div>
                                 <div class="form-panel one">
                                     <div class="form-header">
-                                        <h1>Effetua richiamo</h1>
+                                        <h1><fmt:message key='Effettua_richiamo'/></h1>
                                     </div>
                                     <div class="form-content">
                                         <div class="alert alert-warning" role="alert" id="messaggioRichiamo1"></div>
                                         <form id="formRichiamo1" >
                                             <div class="form-group">
                                                 <div class="container-fluid">
-                                                    <label for="infetaRichiamo1">Limite inferiore di età</label>
+                                                    <label for="infetaRichiamo1"><fmt:message key='Limte_inf'/></label>
                                                     <input class="inputRichiamo1" type="number" min="0" id="infetaRichiamo1" name="infeta" required="required"></input>
                                                     <br>
                                                 </div>
                                                 <div class="container-fluid" style="padding-top: 1rem">
-                                                    <label for="supetaRichiamo1">Limite superiore di età</label>
+                                                    <label for="supetaRichiamo1"><fmt:message key='Limite_sup'/></label>
                                                     <input class="inputRichiamo1" type="number" min="0" id="supetaRichiamo1" name="supeta" required="required"></input>
                                                 </div>
                                                 <div class="container-fluid" style="padding-top: 1rem">
-                                                    <label for="idesameRichiamo1">Esame</label>
+                                                    <label for="idesameRichiamo1"><fmt:message key='Esame'/></label>
                                                     <select class="inputRichiamo1" type="text" id="idesameRichiamo1" name="idesame" required="required"></select>
                                                 </div>
                                             </div>
                                             <div class="form-group container">
-                                                <button id ="btnRichiamo1" type="submit">Richiama</button>
+                                                <button id ="btnRichiamo1" type="submit"><fmt:message key='Richiama'/></button>
                                             </div>
                                         </form>
                                     </div>
@@ -574,30 +574,30 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
-                        <h3>Effetua un richiamo per chi è già stato richiamato in passato</h3>
+                        <h3><fmt:message key='Richiama_again_2'/></h3>
                         <hr>
                         <div class="container-fluid" align="center">
                             <div class="form"  >
                                 <div class="form-toggle"></div>
                                 <div class="form-panel one">
                                     <div class="form-header">
-                                        <h1>Effetua un richiamo</h1>
+                                        <h1><fmt:message key='Effettua_un_richiamo'/></h1>
                                     </div>
                                     <div class="form-content">
                                         <form id="formRichiamo2">
                                             <div class="form-group">
                                                 <div class="container-fluid">
-                                                    <label for="infetaRichiamo2">Limite inferiore di età</label>
+                                                    <label for="infetaRichiamo2"><fmt:message key='Limte_inf'/></label>
                                                     <input class="inputRichiamo2" type="number" min="0" id="infetaRichiamo2" name="infeta" required="required"/>
                                                     <br>
                                                 </div>
                                                 <div class="container-fluid" style="padding-top: 1rem">
-                                                    <label for="idesameRichiamo2">Esame</label>
+                                                    <label for="idesameRichiamo2"><fmt:message key='Esame'/></label>
                                                     <select class="inputRichiamo2" type="text" id="idesameRichiamo2" name="idesame" required="required"></select>
                                                 </div>
                                             </div>
                                             <div class="form-group container">
-                                                <button id ="btnRichiamo2" type="submit">Richiama</button>
+                                                <button id ="btnRichiamo2" type="submit"><fmt:message key='Richiama'/></button>
                                             </div>
                                         </form>
                                     </div>
