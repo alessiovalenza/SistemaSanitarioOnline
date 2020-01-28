@@ -63,4 +63,52 @@ footer {
     float: right;
     height: 40pt;
     line-height: 40pt;
+    padding-right: 2pt;
+}
+
+#SSN {
+    text-shadow: 1px 1px black;
+    font-size: 4vw;
+}
+
+#welcome {
+    text-shadow: 1px 1px black;
+    font-size: 2vw;
+}
+
+#welBtn {
+    box-shadow: 1pt 1pt black;
+    font-size: 2vw;
+    width: 30%;
+    background-color: #1e88e5
+}
+
+@media screen and (max-width: 768px ) {
+    #selLang {
+        font-size: 6pt;
+    }
+}
+
+@media screen and (max-width: 768px ) {
+    #linkLandPag {
+        font-size: 12pt;
+    }
+}
+
+@media screen and (max-width: 768px ) {
+    #SSN {
+        font-size: 13pt;
+    }
+}
+
+@media screen and (max-width: 768px ) {
+    #welcome {
+        font-size: 9pt;
+    }
+}
+
+@media screen and (max-width: 768px ) {
+    #welBtn {
+        font-size: 7pt;
+    }
 }

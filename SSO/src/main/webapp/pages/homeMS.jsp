@@ -149,7 +149,19 @@
                 $('.overlay').addClass('active');
                 $('.collapse.in').toggleClass('in');
                 $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+                setTimeout(function(){$('#content').delay(10).trigger('sidebar_visible')},1000);
             });
+
+            $('#content').on("sidebar_visible",function () {
+                $('#content ,.overlay').on('click', function () {
+                    // hide sidebar
+                    $('#sidebar').removeClass('active');
+                    // hide overlay
+                    $('.overlay').removeClass('active');
+                    $(this).unbind("click")
+                });
+
+            })
 
             let langSelect2;
             <c:choose>
