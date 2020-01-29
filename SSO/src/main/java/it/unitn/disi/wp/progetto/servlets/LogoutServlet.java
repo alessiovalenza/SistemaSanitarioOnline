@@ -1,5 +1,6 @@
 package it.unitn.disi.wp.progetto.servlets;
 
+import it.unitn.disi.wp.progetto.commons.Utilities;
 import it.unitn.disi.wp.progetto.persistence.dao.TokenRememberMeDAO;
 import it.unitn.disi.wp.progetto.persistence.dao.UtenteDAO;
 import it.unitn.disi.wp.progetto.persistence.dao.exceptions.DAOException;
@@ -57,7 +58,8 @@ public class LogoutServlet extends HttpServlet {
             try {
                 DAOFactory daoFactory = (DAOFactory) super.getServletContext().getAttribute("daoFactory");
                 TokenRememberMeDAO tokenRememberMeDAO = daoFactory.getDAO(TokenRememberMeDAO.class);
-                tokenRememberMeDAO.deleteTokenByUtente(idUtente);
+                //tokenRememberMeDAO.deleteTokenByUtente(idUtente);
+                tokenRememberMeDAO.deleteToken(Utilities.sha512(rememberMeCookie.getValue()));
             }
             catch (DAOFactoryException e) {
                 throw new SSOServletException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
