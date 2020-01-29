@@ -447,7 +447,6 @@
                             for(let i=0;i< json.length; i++) {
                                 let emissione = new Date(json[i].emissione);
                                 emissione=emissione.toLocaleDateString("${fn:replace(language, '_', '-')}",options);
-                                console.log("aaaaaaaaaaa " + json[i].id);
                                 returnData.push({
                                     'farmacoNome': json[i].farmaco.nome,
                                     'farmacoDescrizione': json[i].farmaco.descrizione,
@@ -720,45 +719,61 @@
                 $.get("../mappeEmail.jsp")
             }
 
-            navigator.geolocation.getCurrentPosition(showPosition);
+            var coordinates = {
+                lat: 44.73914,
+                lng: 10.61476
+            };
 
-            function showPosition(position) {
-                $.ajax({
-                    type: "GET",
-                    url: "https://places.sit.ls.hereapi.com/places/v1/discover/search"+
-                        "?app_id=eXyeKXjLMDyo92pFfzNf"+
-                        "&app_code=QuU-fH5ZjNfHHzf2IZHEkg"+
-                        "&at="+ position.coords.latitude + "," + position.coords.longitude +
-                        "&q=pharmacies"+
-                        "&pretty",
-                    success: function (data) {
-                        if (data.results && data.results.items) {
+            let send = false;
 
-                            var distance = data.results.items[0].distance;
-                            $.ajax({
-                                type: "GET",
-                                url: baseUrl + "/api/pazienti/"+ ${sessionScope.utente.id} +"/ricette?evaseonly=false&nonevaseonly=true",
-                                success: function (data) {
-                                    if (data[0] && distance <= 2000) {
-                                        notifyMe();
-                                        $(sendEmail());
+            navigator.geolocation.watchPosition(showPosition);
+
+            function showPosition(event) {
+                if (!send) {
+
+                    coordinates = {
+                        lat: event.coords.latitude,
+                        lng: event.coords.longitude
+                    };
+
+                    $.ajax({
+                        type: "GET",
+                        url: "https://places.sit.ls.hereapi.com/places/v1/discover/search"+
+                            "?app_id=eXyeKXjLMDyo92pFfzNf"+
+                            "&app_code=QuU-fH5ZjNfHHzf2IZHEkg"+
+                            "&at="+ event.coords.latitude + "," + event.coords.longitude +
+                            "&q=pharmacies"+
+                            "&pretty",
+                        success: function (data) {
+                            if (data.results && data.results.items) {
+
+                                var distance = data.results.items[0].distance;
+                                $.ajax({
+                                    type: "GET",
+                                    url: baseUrl + "/api/pazienti/"+ ${sessionScope.utente.id} +"/ricette?evaseonly=false&nonevaseonly=true",
+                                    success: function (data) {
+                                        if (data[0] && distance <= 2000) {
+                                            notifyMe();
+                                            $(sendEmail());
+                                            send = true;
+                                        }
+                                    },
+                                    error: function(xhr, status, error) {
+                                        console.log("errore");
                                     }
-                                },
-                                error: function(xhr, status, error) {
-                                    console.log("errore");
-                                }
-                            });
+                                });
 
-                        } else {
-                            onError(data);
+                            } else {
+                                onError(data);
+                            }
+                        },
+                        error: function(xhr, status, error) {
+
+                            console.log("errore" + xhr.responseText);
                         }
-                    },
-                    error: function(xhr, status, error) {
 
-                        console.log("errore" + xhr.responseText);
-                    }
-
-                });
+                    });
+                }
             }
 
             populateComponents();
