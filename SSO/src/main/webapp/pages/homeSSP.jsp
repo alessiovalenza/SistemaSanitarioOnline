@@ -182,13 +182,13 @@
             initCambioPassword("#formCambiaPassword", "#vecchiaPassword", "#nuovaPassword", "#ripetiPassword", ${sessionScope.utente.id},
                 "#btnCambiaPassword", "messaggioCambioPw", labelWrongPw, labelMismatch, labelBtnPw);
 
-            let labelCercaEsami = "Cerca esami";
+            let labelCercaEsami = "<fmt:message key='Cerca_esami'/>";
             initSelect2General("esami", "#idesameRichiamo1", langSelect2, labelCercaEsami);
             initSelect2General("esami", "#idesameRichiamo2", langSelect2, labelCercaEsami);
 
-            let labelCercaPaz = "Cerca pazienti";
+            let labelCercaPaz = "<fmt:message key='Cerca_pazienti'/>";
             initSelect2Pazienti("#idPaziente", "messaggioCercaPaz", "${sessionScope.utente.prov}", langSelect2, labelCercaPaz, labelTooMany);
-            let labelCercaEsamiPresc = "Cerca esami prescritti";
+            let labelCercaEsamiPresc = "<fmt:message key='Cerca_esami_prescritti'/>";
             let erogatori={};
             $("#idEsame").select2({
                 placeholder: labelCercaEsamiPresc,
@@ -483,7 +483,7 @@
                                                 </div>
                                                 <div class="container-fluid" style="padding-top: 1rem;">
                                                     <label for="esito"><fmt:message key='Esito'/></label>
-                                                    <textarea placeholder="Scrivi l'esito..." class="inputErogaEsame" type="text" id="esito" name="esito" required="required"></textarea>
+                                                    <textarea placeholder="<fmt:message key='Scrivi_esito'/>..." class="inputErogaEsame" type="text" id="esito" name="esito" required="required"></textarea>
                                                 </div>
                                             </div>
                                             <input required="true" id="idPagato" type="checkbox"><fmt:message key='Ticket_di'/> <fmt:formatNumber value="<%=EsamePrescrittoDAO.PREZZO_TICKET%>" type="currency" currencyCode="EUR"/> <fmt:message key='pagato'/><br>
