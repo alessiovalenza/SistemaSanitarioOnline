@@ -1090,33 +1090,33 @@
                                 <div class="card-body">
                                     <div style="clear: both; padding-top: 0.5rem">
                                         <hr>
-                                        <h5 style="float: left"><b><fmt:message key="nome"/></b>:  </h5>
-                                        <h5 id="nomeMedico" align="right"></h5>
+                                        <h5 class="profileFields" style="float: left"><b><fmt:message key="nome"/></b>:  </h5>
+                                        <h5 class="profileFields" id="nomeMedico" align="right"></h5>
                                     </div>
                                     <hr>
                                     <div style="clear: both">
-                                        <h5 style="float: left"><b><fmt:message key="cognome"/></b>:  </h5>
-                                        <h5 id="cognomeMedico" align="right"></h5>
+                                        <h5 class="profileFields" style="float: left"><b><fmt:message key="cognome"/></b>:  </h5>
+                                        <h5 class="profileFields" id="cognomeMedico" align="right"></h5>
                                     </div>
                                     <hr>
                                     <div style="clear: both">
-                                        <h5 style="float: left"><b><fmt:message key="cognome"/></b>:  </h5>
-                                        <h5 id="emailMedico" align="right"></h5>
+                                        <h5 class="profileFields" style="float: left"><b><fmt:message key="cognome"/></b>:  </h5>
+                                        <h5 class="profileFields" id="emailMedico" align="right"></h5>
                                     </div>
                                     <hr>
                                     <div style="clear: both">
-                                        <h5 style="float: left"><b><fmt:message key="datanas"/></b>:  </h5>
-                                        <h5 id="dataNascitaMedico" align="right"></h5>
+                                        <h5 class="profileFields" style="float: left"><b><fmt:message key="datanas"/></b>:  </h5>
+                                        <h5 class="profileFields" id="dataNascitaMedico" align="right"></h5>
                                     </div>
                                     <hr>
                                     <div style="clear: both">
-                                        <h5 style="float: left"><b><fmt:message key="sesso"/></b>:  </h5>
-                                        <h5 id="sessoMedico" align="right"></h5>
+                                        <h5 class="profileFields" style="float: left"><b><fmt:message key="sesso"/></b>:  </h5>
+                                        <h5 class="profileFields" id="sessoMedico" align="right"></h5>
                                     </div>
                                     <hr>
                                     <div style="clear: both">
-                                        <h5 style="float: left"><b><fmt:message key="codfis"/></b>:  </h5>
-                                        <h5 id="codiceFiscaleMedico" align="right"></h5>
+                                        <h5 class="profileFields" style="float: left"><b><fmt:message key="codfis"/></b>:  </h5>
+                                        <h5 class="profileFields" id="codiceFiscaleMedico" align="right"></h5>
                                     </div>
                                     <hr>
                                 </div>
