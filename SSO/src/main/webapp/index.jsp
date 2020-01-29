@@ -179,6 +179,8 @@
             </div>
         </div>
     </div>
+    <br>
+    <br>
     <footer>
         <fmt:message key="footer"/>
     </footer>
