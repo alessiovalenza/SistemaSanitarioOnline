@@ -257,7 +257,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
-                        <h3>Scarica report</h3>
+                        <h3><fmt:message key="Scarica_il_report"/></h3>
                         <hr>
                         <div class="container-fluid" align="center">
                             <div class="form"  >
