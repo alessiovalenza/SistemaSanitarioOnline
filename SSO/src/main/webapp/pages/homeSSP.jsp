@@ -54,7 +54,7 @@
 
 <c:set var="language" value="${sessionScope.language}" scope="page" />
 <c:set var="sectionToShow" value="${sessionScope.selectedSection}" scope="page" />
-<c:set var="url" value="http://localhost:8080/SSO_war_exploded/pages/homeSSP.jsp?language=" scope="page" />
+<c:set var="url" value="${baseUrl}/pages/homeSSP.jsp?language=" scope="page" />
 
 <fmt:setLocale value="${language}" />
 <fmt:setBundle basename="labels" />
