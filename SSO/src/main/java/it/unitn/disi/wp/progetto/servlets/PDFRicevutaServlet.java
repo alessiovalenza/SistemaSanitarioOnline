@@ -233,7 +233,8 @@ public class PDFRicevutaServlet extends HttpServlet {
                                 .setVerticalAlignment(VerticalAlignment.MIDDLE)
                                 .setHorizontalAlignment(HorizontalAlignment.LEFT)
                                 .setHeight(24));
-                        table.addCell(new Cell().add(new Paragraph(new Text(String.format("€ %.2f", Double.parseDouble(getServletContext().getInitParameter("ticketesame"))))))
+                        Double prezzo = (esame.getMedicoBase() == null ? 0.00 : EsamePrescrittoDAO.PREZZO_TICKET);
+                        table.addCell(new Cell().add(new Paragraph(new Text(String.format("€ %.2f", prezzo))))
                                 .setVerticalAlignment(VerticalAlignment.MIDDLE)
                                 .setHorizontalAlignment(HorizontalAlignment.RIGHT));
 
