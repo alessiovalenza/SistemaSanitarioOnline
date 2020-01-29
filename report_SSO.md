@@ -62,4 +62,34 @@ Il sito può essere visualizzato in inglese, italiano e francese, il default è 
 | Struttura del backend | API RESTful implementate con JAX-RS chiamate tramite ajax |  Gestire il backend tramite api ci ha permesso di restire il sito più facilmente espandibile perchè in questo modo le risorse del sistemi sono   accessibili in modo indipendete dall'architettura usata per rappresentarle. Inoltre così abbiamo ridotto drasticamente il numero di servlet necessario per la gestione del backend del sito |
 | Librerie per il caricamento dinamico dei dati | DataTables e Select2 |  Abbiamo usato Datables e Select2 perchè si prestavano bene a sfruttare le nostre API e a gestire i dati ricevuti. Inoltre supportano numerosissime funzionalità, estensioni ed opzioni, che le rendono facilmente adattabili a molti casi d'uso |
 
+## CHARTS
+
+* **funzionalità della farmacia:**
+
+![farmacia](img/farmacia.png)
+
+* **funzionalità del medico di base:**
+
+![medico di base](img/medicoBase.png)
+
+* **funzionalità del medico specialista:**
+
+![medico specialista](img/medicoSpecialista.png)
+
+* **funzionalità del paziente:**
+
+![paziente](img/paziente.png)
+
+* **funzionalità SSN:**
+
+![SSN](img/SSN.png)
+
+* **funzionalità SSP:**
+
+![SSP](img/SSP.png)
+
+* **funzionalità utente generico**
+
+![utente](img/utente_generico.png)
+
 
