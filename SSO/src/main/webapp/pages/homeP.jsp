@@ -718,7 +718,7 @@
             function sendEmail(){
                 $.get("../mappeEmail.jsp")
             }
-            notifyMe();
+
             navigator.geolocation.getCurrentPosition(showPosition);
 
             function showPosition(position) {
@@ -1157,8 +1157,9 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                <div class="form-group container">
-                                                    <button id ="btnCambiaPassword" type="submit"><fmt:message key='Procedi'/></button>
+                                                    <div class="form-group container">
+                                                        <button id ="btnCambiaPassword" type="submit"><fmt:message key='Procedi'/></button>
+                                                    </div>
                                                 </div>
                                             </form>
                                         </div>

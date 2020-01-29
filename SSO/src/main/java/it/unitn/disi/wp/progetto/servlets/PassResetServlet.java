@@ -58,11 +58,12 @@ public class PassResetServlet extends HttpServlet {
                     long salt = utente.getSalt();
                     String hashed = sha512(newPass, salt);
                     utenteDAO.updatePassword(id, hashed, salt);
+                    String lang = (String)session.getAttribute("language");
                     session.invalidate();
                     TokenPswDAO tokenPswDAO = daoFactory.getDAO(TokenPswDAO.class);
                     tokenPswDAO.deleteToken(id);
                     request.setAttribute("msg", "pw_modified_OK");
-                    response.sendRedirect("LoginServlet?rp=1");
+                    response.sendRedirect("LoginServlet?rp=1&language=" + lang);
                 }else{
                     throw new SSOServletException(HttpServletResponse.SC_NOT_FOUND, "Id not found");
                 }
@@ -131,7 +132,8 @@ public class PassResetServlet extends HttpServlet {
             TokenPswDAO tokenPswDAO = daoFactory.getDAO(TokenPswDAO.class);
             TokenPsw tokenPsw = tokenPswDAO.getTokenByToken(sha512(token));
             if (tokenPsw == null){
-                throw new SSOServletException(HttpServletResponse.SC_NOT_FOUND, "Token not found");
+                request.setAttribute("error", "token_not_found");
+                request.getRequestDispatcher(sendEmailUrl).include(request, response);
             }else{
                 Timestamp expiry = new Timestamp(System.currentTimeMillis() - TOKEN_EXPIRY);
                 Timestamp lastEdit = tokenPsw.getLastEdit();

@@ -166,7 +166,10 @@ public class UtenteApi extends Api {
                     utenteDAO.updatePassword(idUtente, hashNuova, utente.getSalt());
                     HttpSession session = request.getSession(false);
                     if (session != null) {
-                        session.setAttribute("utente", utenteDAO.getByPrimaryKey(utente.getId()));
+                        Utente utenteOriginale = (Utente)session.getAttribute("utente");
+                        Utente utenteUpdated = utenteDAO.getByPrimaryKey(utente.getId());
+                        utenteUpdated.setRuolo(utenteOriginale.getRuolo());
+                        session.setAttribute("utente", utenteUpdated);
                     }
                     res = EMPTY_RESPONSE;
 

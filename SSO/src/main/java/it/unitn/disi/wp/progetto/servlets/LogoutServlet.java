@@ -27,9 +27,11 @@ public class LogoutServlet extends HttpServlet {
         int forgetme = arg == null ? 0 : Integer.valueOf(arg);
         long idUtente = -1;
 
+        String lang = null;
         HttpSession s = request.getSession(false);
         if (request.isRequestedSessionIdValid() && s != null) {
             idUtente = ((Utente) s.getAttribute("utente")).getId();
+            lang = (String)s.getAttribute("language");
             s.invalidate();
             System.out.println("Sessione Invalidata");
         }
@@ -46,7 +48,7 @@ public class LogoutServlet extends HttpServlet {
         }
 
         System.out.println("logged out");
-        response.sendRedirect(request.getContextPath() + LANDING_URL);
+        response.sendRedirect(request.getContextPath() + LANDING_URL + (lang != null ? "?language=" + lang : ""));
     }
 
     protected void deleteRememberMe(HttpServletRequest request, HttpServletResponse response, long idUtente) throws ServletException, IOException{

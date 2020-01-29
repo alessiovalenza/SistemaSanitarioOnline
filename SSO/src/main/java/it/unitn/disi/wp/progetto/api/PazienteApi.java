@@ -294,8 +294,10 @@ public class PazienteApi extends Api {
                     HttpSession session = request.getSession(false);
                     if (session != null) {
                         Utente pazienteOriginale = (Utente)session.getAttribute("utente");
-                        pazienteUpdated.setRuolo(pazienteOriginale.getRuolo());
-                        session.setAttribute("utente", pazienteUpdated);
+                        if(pazienteOriginale.getId() == paziente.getId()) {
+                            pazienteUpdated.setRuolo(pazienteOriginale.getRuolo());
+                            session.setAttribute("utente", pazienteUpdated);
+                        }
                     }
 
                     String jsonResult = gson.toJson(Utilities.fromUtenteToUtenteView(pazienteUpdated));
