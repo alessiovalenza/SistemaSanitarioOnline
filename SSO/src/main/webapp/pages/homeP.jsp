@@ -905,7 +905,7 @@
                                     <div style="clear: both">
                                         <form action="#" id="formUploadFoto" method="POST" role="form" enctype="multipart/form-data">
                                             <div class="row">
-                                                <input style="/*float: left;*/  width: auto" class="btn btn-primary float-left" type="file" id="fotoToUpload" name="foto"
+                                                <input style="/*float: left;*/  max-width: 100%" class="btn btn-primary float-left" type="file" id="fotoToUpload" name="foto"
                                                        onchange="return fileValidation('fotoToUpload', 'btnUploadFoto', labelAlertFoto)"/>
                                                 <div class="col-sm" style="width: 100%;min-width: 10px"></div>
                                                 <button style="width: auto; height: 35pt; background: grey;" class="btn btn-primary float-right"  type="submit" id="btnUploadFoto" disabled><fmt:message key="carica"/> </button>
