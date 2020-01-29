@@ -54,6 +54,7 @@
 
 <c:set var="language" value="${sessionScope.language}" scope="page" />
 <c:set var="sectionToShow" value="${sessionScope.selectedSection}" scope="page" />
+<c:set var="baseUrl" value="<%=request.getContextPath()%>"/>
 <c:set var="url" value="${baseUrl}/pages/homeSSP.jsp?language=" scope="page" />
 
 <fmt:setLocale value="${language}" />
