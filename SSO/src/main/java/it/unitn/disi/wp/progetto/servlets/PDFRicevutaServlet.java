@@ -29,6 +29,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 @WebServlet(name = "PDFDetrazioneServlet", urlPatterns = {"/docs/ricevute"})
 public class PDFRicevutaServlet extends HttpServlet {
@@ -118,6 +120,9 @@ public class PDFRicevutaServlet extends HttpServlet {
                 float[] colWidths = {100, 200};
                 Table table;
 
+                String pattern = "dd/MM/yyyy";
+                DateFormat dateFormat = new SimpleDateFormat(pattern);
+
                 switch (tipo) {
                     case RICETTA:
                         Ricetta ricetta = ricettaDAO.getByPrimaryKey(id);
@@ -171,7 +176,7 @@ public class PDFRicevutaServlet extends HttpServlet {
                                 .setVerticalAlignment(VerticalAlignment.MIDDLE)
                                 .setHorizontalAlignment(HorizontalAlignment.LEFT)
                                 .setHeight(24));
-                        table.addCell(new Cell().add(new Paragraph(new Text(ricetta.getEvasione().toString())))
+                        table.addCell(new Cell().add(new Paragraph(new Text(dateFormat.format(ricetta.getEvasione()))))
                                 .setVerticalAlignment(VerticalAlignment.MIDDLE)
                                 .setHorizontalAlignment(HorizontalAlignment.RIGHT));
 
@@ -232,12 +237,12 @@ public class PDFRicevutaServlet extends HttpServlet {
                                 .setVerticalAlignment(VerticalAlignment.MIDDLE)
                                 .setHorizontalAlignment(HorizontalAlignment.RIGHT));
 
-                        table.addCell(new Cell().add(new Paragraph(new Text("Data evasione").setBold()))
+                        table.addCell(new Cell().add(new Paragraph(new Text("Data erogazione").setBold()))
                                 .setBackgroundColor(ColorConstants.LIGHT_GRAY)
                                 .setVerticalAlignment(VerticalAlignment.MIDDLE)
                                 .setHorizontalAlignment(HorizontalAlignment.LEFT)
                                 .setHeight(24));
-                        table.addCell(new Cell().add(new Paragraph(new Text(esame.getErogazione().toString())))
+                        table.addCell(new Cell().add(new Paragraph(new Text(dateFormat.format(esame.getErogazione()))))
                                 .setVerticalAlignment(VerticalAlignment.MIDDLE)
                                 .setHorizontalAlignment(HorizontalAlignment.RIGHT));
 
@@ -298,12 +303,12 @@ public class PDFRicevutaServlet extends HttpServlet {
                                 .setVerticalAlignment(VerticalAlignment.MIDDLE)
                                 .setHorizontalAlignment(HorizontalAlignment.RIGHT));
 
-                        table.addCell(new Cell().add(new Paragraph(new Text("Data evasione").setBold()))
+                        table.addCell(new Cell().add(new Paragraph(new Text("Data erogazione").setBold()))
                                 .setBackgroundColor(ColorConstants.LIGHT_GRAY)
                                 .setVerticalAlignment(VerticalAlignment.MIDDLE)
                                 .setHorizontalAlignment(HorizontalAlignment.LEFT)
                                 .setHeight(24));
-                        table.addCell(new Cell().add(new Paragraph(new Text(visita.getErogazione().toString())))
+                        table.addCell(new Cell().add(new Paragraph(new Text(dateFormat.format(visita.getErogazione()))))
                                 .setVerticalAlignment(VerticalAlignment.MIDDLE)
                                 .setHorizontalAlignment(HorizontalAlignment.RIGHT));
 

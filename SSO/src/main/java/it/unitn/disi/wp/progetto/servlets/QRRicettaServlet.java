@@ -31,6 +31,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 @WebServlet(name = "QRRicettaServlet", urlPatterns = {"/docs/ricette"})
 public class QRRicettaServlet extends HttpServlet {
@@ -159,12 +161,15 @@ public class QRRicettaServlet extends HttpServlet {
                         .setVerticalAlignment(VerticalAlignment.MIDDLE)
                         .setHorizontalAlignment(HorizontalAlignment.RIGHT));
 
+                String pattern = "dd/MM/yyyy";
+                DateFormat dateFormat = new SimpleDateFormat(pattern);
+
                 table.addCell(new Cell().add(new Paragraph(new Text("Data prescrizione").setBold()))
                         .setBackgroundColor(ColorConstants.LIGHT_GRAY)
                         .setVerticalAlignment(VerticalAlignment.MIDDLE)
                         .setHorizontalAlignment(HorizontalAlignment.LEFT)
                         .setHeight(24));
-                table.addCell(new Cell().add(new Paragraph(new Text(ricetta.getEmissione().toString())))
+                table.addCell(new Cell().add(new Paragraph(dateFormat.format(ricetta.getEmissione())))
                         .setVerticalAlignment(VerticalAlignment.MIDDLE)
                         .setHorizontalAlignment(HorizontalAlignment.RIGHT));
 

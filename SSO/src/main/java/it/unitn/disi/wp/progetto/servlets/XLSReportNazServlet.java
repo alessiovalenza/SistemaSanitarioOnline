@@ -119,7 +119,7 @@ public class XLSReportNazServlet extends HttpServlet {
             cell.setCellValue(report.getCognomeMedico());
 
             cell = row.createCell(4);
-            cell.setCellValue(report.getSpesa());
+            cell.setCellValue(String.format("%.2f", report.getSpesa()));
         }
 
 /*
