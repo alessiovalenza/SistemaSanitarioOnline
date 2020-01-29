@@ -315,6 +315,11 @@ only screen and (max-width: 760px),
 
 
 @media (max-width: 768px) {
+    .profileFields{
+        font-size: 6pt;
+    }
+
+
     #sidebar {
         margin-left: -250px;
     }

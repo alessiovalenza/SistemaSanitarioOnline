@@ -261,7 +261,7 @@
                         let sesso = fields["sesso"];
                         let cf = fields["codiceFiscale"];
                         let dataNascita = new Date(fields["dataNascita"]);
-                        dataNascita = dataNascita.toLocaleDateString("${fn:replace(language, '_', '-')}",options);
+                        dataNascita = dataNascita.toLocaleDateString("${fn:replace(language, '_', '-')}");
 
                         $("#nomeMedico").html(nome);
                         $("#cognomeMedico").html(cognome);
@@ -1106,7 +1106,7 @@
                                     </div>
                                     <hr>
                                     <div style="clear: both">
-                                        <h5 class="profileFields" style="float: left"><b><fmt:message key="cognome"/></b>:  </h5>
+                                        <h5 class="profileFields" style="float: left"><b><fmt:message key="email"/></b>:  </h5>
                                         <h5 class="profileFields" id="emailMedico" align="right"></h5>
                                     </div>
                                     <hr>
@@ -1124,7 +1124,6 @@
                                         <h5 class="profileFields" style="float: left"><b><fmt:message key="codfis"/></b>:  </h5>
                                         <h5 class="profileFields" id="codiceFiscaleMedico" align="right"></h5>
                                     </div>
-                                    <hr>
                                 </div>
                             </div>
                         </div>
