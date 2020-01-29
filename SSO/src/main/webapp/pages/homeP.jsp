@@ -237,7 +237,6 @@
                     error: function(xhr, status, error) {
                         errorButton("#btnCambiaMedico",labelErrorButtons);
                         console.log(xhr.responseText);
-                        //alert(xhr.responseText);
                     }
                 });
             });
@@ -356,7 +355,7 @@
                                     'prescrizione': prescrizione,
                                     'erogazione': erogazione,
                                     'esito': json[i].esito,
-                                    'downloadRicevuta': "<a href='${baseUrl}/docs/ricevute?tipo=esame&id=" + String(json[i].id) + "'>" +
+                                    'downloadRicevuta': "<a target='_blank' href='${baseUrl}/docs/ricevute?tipo=esame&id=" + String(json[i].id) + "'>" +
                                         "<img style='width: 30px; height: 30px;'" +
                                         "src='${baseUrl}/assets/img/pdf.png'/>" +
                                         "</a>"
@@ -455,7 +454,7 @@
                                     'medicoBaseCognome': json[i].medicoBase.cognome,
                                     'medicoBaseNome': json[i].medicoBase.nome,
                                     'emissione': emissione,
-                                    'downloadRicetta': "<a href='${baseUrl}/docs/ricette?id=" + String(json[i].id) + "'>" +
+                                    'downloadRicetta': "<a target='_blank' href='${baseUrl}/docs/ricette?id=" + String(json[i].id) + "'>" +
                                         "<img style='width: 30px; height: 30px;'" +
                                         "src='${baseUrl}/assets/img/pdf.png'/>" +
                                         "</a>"
@@ -465,7 +464,6 @@
                         },
                         "error": function(xhr, status, error) {
                             console.log(xhr.responseText);
-                            //alert(xhr.responseText);
                         }
                     },
                     "columns": [
@@ -510,7 +508,7 @@
                                     'medicoBaseNome': json[i].medicoBase.nome,
                                     'emissione': emissione,
                                     'evasione': evasione,
-                                    'downloadRicevuta': "<a href='${baseUrl}/docs/ricevute?tipo=ricetta&id=" + String(json[i].id) + "'>" +
+                                    'downloadRicevuta': "<a target='_blank' href='${baseUrl}/docs/ricevute?tipo=ricetta&id=" + String(json[i].id) + "'>" +
                                         "<img style='width: 30px; height: 30px;'" +
                                         "src='${baseUrl}/assets/img/pdf.png'/>" +
                                         "</a>"
@@ -520,7 +518,6 @@
                         },
                         "error": function(xhr, status, error) {
                             console.log(xhr.responseText);
-                            //alert(xhr.responseText);
                         }
                     },
                     "columns": [
@@ -622,7 +619,7 @@
                                     'prescrizione': prescrizione,
                                     'erogazione': erogazione,
                                     'anamnesi': json[i].anamnesi,
-                                    'downloadRicevuta': "<a href='${baseUrl}/docs/ricevute?tipo=visita&id=" + String(json[i].id) + "'>" +
+                                    'downloadRicevuta': "<a target='_blank' href='${baseUrl}/docs/ricevute?tipo=visita&id=" + String(json[i].id) + "'>" +
                                         "<img style='width: 30px; height: 30px;'" +
                                         "src='${baseUrl}/assets/img/pdf.png'/>" +
                                         "</a>"
@@ -632,7 +629,6 @@
                         },
                         "error": function(xhr, status, error) {
                             console.log(xhr.responseText);
-                            //alert(xhr.responseText);
                         }
                     },
                     "columnDefs": [
@@ -685,7 +681,6 @@
                         },
                         "error": function(xhr, status, error) {
                             console.log(xhr.responseText);
-                            //alert(xhr.responseText);
                         }
                     },
                     "columns": [
@@ -776,7 +771,6 @@
             $('#ricetteControl').click(() => showComponent('ricette'));
             $('#visiteBaseControl').click(() => showComponent('visiteBase'));
             $('#visiteSpecialisticheControl').click(() => showComponent('visiteSpecialistiche'));
-            //$('#mappeControl').click(() => showComponent('mappe'));
             $('#cambiaPasswordControl').click(() => showComponent('cambiaPassword'));
 
             document.getElementById("${sectionToShow}Control").click();
