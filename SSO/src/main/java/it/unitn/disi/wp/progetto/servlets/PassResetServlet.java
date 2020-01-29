@@ -3,11 +3,13 @@ package it.unitn.disi.wp.progetto.servlets;
 import it.unitn.disi.wp.progetto.commons.Email;
 import it.unitn.disi.wp.progetto.commons.Utilities;
 import it.unitn.disi.wp.progetto.persistence.dao.TokenPswDAO;
+import it.unitn.disi.wp.progetto.persistence.dao.TokenRememberMeDAO;
 import it.unitn.disi.wp.progetto.persistence.dao.UtenteDAO;
 import it.unitn.disi.wp.progetto.persistence.dao.exceptions.DAOException;
 import it.unitn.disi.wp.progetto.persistence.dao.exceptions.DAOFactoryException;
 import it.unitn.disi.wp.progetto.persistence.dao.factories.DAOFactory;
 import it.unitn.disi.wp.progetto.persistence.entities.TokenPsw;
+import it.unitn.disi.wp.progetto.persistence.entities.TokenRememberMe;
 import it.unitn.disi.wp.progetto.persistence.entities.Utente;
 import it.unitn.disi.wp.progetto.servlets.exceptions.SSOServletException;
 
@@ -59,9 +61,13 @@ public class PassResetServlet extends HttpServlet {
                     String hashed = sha512(newPass, salt);
                     utenteDAO.updatePassword(id, hashed, salt);
                     String lang = (String)session.getAttribute("language");
+
                     session.invalidate();
                     TokenPswDAO tokenPswDAO = daoFactory.getDAO(TokenPswDAO.class);
                     tokenPswDAO.deleteToken(id);
+                    TokenRememberMeDAO tokenRememberMeDAO = daoFactory.getDAO(TokenRememberMeDAO.class);
+                    tokenRememberMeDAO.deleteTokenByUtente(id);
+
                     request.setAttribute("msg", "pw_modified_OK");
                     response.sendRedirect("LoginServlet?rp=1&language=" + lang);
                 }else{
@@ -141,6 +147,7 @@ public class PassResetServlet extends HttpServlet {
                 if(lastEdit.compareTo(expiry) >= 0) {
                     long id = tokenPsw.getIdUtente();
                     System.out.println("Token trovato, corrisponde all'id: " + id);
+
                     HttpSession session = request.getSession();
                     session.setAttribute("id", id);
                     request.setAttribute("token", token);

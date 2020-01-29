@@ -139,11 +139,11 @@
                         <form action="passreset" method="post">
                             <div class="form-group">
                                 <label for="new_password"><fmt:message key="Nuova_password"/></label>
-                                <input type="password" class="form-control" name="new_password" id = "new_password">
+                                <input type="password" class="form-control" name="new_password" id = "new_password" required="required">
                             </div>
                             <div class="form-group">
                                 <label for="repeat_password"><fmt:message key="Riscrivi_la_nuova_password"/></label>
-                                <input type="password" class="form-control" name="repeat_password" id = "repeat_password">
+                                <input type="password" class="form-control" name="repeat_password" id = "repeat_password" required="required">
                             </div>
 
                             <button type="submit" class="btn btn-primary" onclick="return checkPassword()"><fmt:message key="Submit"/></button>
