@@ -1095,7 +1095,6 @@
                             <div class="card">
                                 <div class="card-body">
                                     <div style="clear: both; padding-top: 0.5rem">
-                                        <hr>
                                         <h5 class="profileFields" style="float: left"><b><fmt:message key="nome"/></b>:  </h5>
                                         <h5 class="profileFields" id="nomeMedico" align="right"></h5>
                                     </div>
