@@ -24,6 +24,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -146,11 +148,14 @@ public class XLSReportProvServlet extends HttpServlet {
         cell_titoli.setCellValue("FARMACIA");
         cell_titoli.setCellStyle(background);
 
+        String pattern = "dd/MM/yyyy";
+        DateFormat dateFormat = new SimpleDateFormat(pattern);
+
         for (ElemReportProv report : listReport) {
             Row row = sheet.createRow(++rowCount);
 
             Cell cell = row.createCell(0);
-            cell.setCellValue(report.getEmissione());
+            cell.setCellValue(dateFormat.format(report.getEmissione()));
 
             cell = row.createCell(1);
             cell.setCellValue(report.getCfMedico());
@@ -174,7 +179,7 @@ public class XLSReportProvServlet extends HttpServlet {
             cell.setCellValue(report.getFarmaco());
 
             cell = row.createCell(8);
-            cell.setCellValue(report.getPrezzo());
+            cell.setCellValue(String.format("%.2f", report.getPrezzo()));
 
             cell = row.createCell(9);
             cell.setCellValue(report.getFarmacia());
