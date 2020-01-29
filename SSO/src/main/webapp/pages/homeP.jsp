@@ -364,6 +364,9 @@
                             }
                             return returnData;
                         },
+                        "columnDefs": [
+                            { className: "anamnesiColumn", targets: 6 }
+                        ],
                         "error": function(xhr, status, error) {
                             console.log("errore");
                         }
@@ -632,6 +635,9 @@
                             //alert(xhr.responseText);
                         }
                     },
+                    "columnDefs": [
+                        { className: "anamnesiColumn", targets: 7 }
+                    ],
                     "columns": [
                         { "data": "visitaNome" },
                         { "data": "medicoSpecialistaNome" },

@@ -245,7 +245,7 @@ table{
 }
 
 .anamnesiColumn {
-    width: 100px;
+    width: 100%;
     /*max-width: 10px;*/
     overflow: hidden;
     text-overflow: ellipsis;
