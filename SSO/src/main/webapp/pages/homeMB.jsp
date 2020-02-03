@@ -417,7 +417,7 @@
                                         'codiceFiscale': json[i].paziente.codiceFiscale,
                                         'sesso': json[i].paziente.sesso,
                                         'email': json[i].paziente.email,
-                                        'dataUltimaVisitaBase': "Ancora nessuna visita",
+                                        'dataUltimaVisitaBase': "<fmt:message key="nessuna_visita"/>",
                                         'getDataUltimaRicetta':  ricetta,
                                     })
                                 }
@@ -435,7 +435,7 @@
                                         'sesso': json[i].paziente.sesso,
                                         'email': json[i].paziente.email,
                                         'dataUltimaVisitaBase':  visita,
-                                        'getDataUltimaRicetta': "Ancora nessuna ricetta",
+                                        'getDataUltimaRicetta': "<fmt:message key="nessuna_ricetta"/>",
                                     })
                                 }
                                 if (json[i].dataUltimaVisitaBase == undefined && json[i].getDataUltimaRicetta == undefined){
@@ -449,15 +449,15 @@
                                         'codiceFiscale': json[i].paziente.codiceFiscale,
                                         'sesso': json[i].paziente.sesso,
                                         'email': json[i].paziente.email,
-                                        'dataUltimaVisitaBase': "Ancora nessuna visita",
-                                        'getDataUltimaRicetta': "Ancora nessuna ricetta",
+                                        'dataUltimaVisitaBase': "<fmt:message key="nessuna_visita"/>",
+                                        'getDataUltimaRicetta': "<fmt:message key="nessuna_ricetta"/>",
                                     })
                                 }
                             }
                             return returnData;
                         },
                         "error": function(xhr, status, error) {
-                            alert(xhr.responseText);
+                            //alert(xhr.responseText);
                         }
                     },
                     "columns": [

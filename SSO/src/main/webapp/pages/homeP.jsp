@@ -752,7 +752,7 @@
                                     type: "GET",
                                     url: baseUrl + "/api/pazienti/"+ ${sessionScope.utente.id} +"/ricette?evaseonly=false&nonevaseonly=true",
                                     success: function (data) {
-                                        if (data[0] && distance <= 2000) {
+                                        if (data[0] && distance <= 200) {
                                             notifyMe();
                                             $(sendEmail());
                                             send = true;
