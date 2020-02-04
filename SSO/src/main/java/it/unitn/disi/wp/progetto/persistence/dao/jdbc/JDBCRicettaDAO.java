@@ -37,13 +37,13 @@ public class JDBCRicettaDAO extends JDBCDAO<Ricetta, Long> implements RicettaDAO
         String soloNonEvaseStm = " AND r.evasione IS NULL";
 
         if(soloNonEvase) {
-            statement = tutteStm + soloNonEvaseStm + ";";
+            statement = tutteStm + soloNonEvaseStm + " ORDER BY r.emissione DESC;";
         }
         else if(soloEvase) {
-            statement = tutteStm + soloEvaseStm + ";";
+            statement = tutteStm + soloEvaseStm + " ORDER BY r.emissione DESC;";
         }
         else {
-            statement = tutteStm + ";";
+            statement = tutteStm + " ORDER BY r.emissione DESC;";
         }
 
         try (PreparedStatement stm = CON.prepareStatement(statement)){

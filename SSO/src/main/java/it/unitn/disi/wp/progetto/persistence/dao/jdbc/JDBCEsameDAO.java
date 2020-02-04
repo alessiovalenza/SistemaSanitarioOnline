@@ -82,7 +82,8 @@ public class JDBCEsameDAO  extends JDBCDAO<Esame, Long> implements EsameDAO {
         }
 
         //è vulnerabile a SQL injection?
-        try (PreparedStatement stm = CON.prepareStatement("SELECT * FROM esame WHERE lower(nome) LIKE lower(?);")) {
+        try (PreparedStatement stm = CON.prepareStatement("SELECT * FROM esame WHERE lower(nome) LIKE lower(?) " +
+                "ORDER BY nome;")) {
             stm.setString(1, "%"+suggestion+"%"); // 1-based indexing
 
             try (ResultSet rs = stm.executeQuery()) {

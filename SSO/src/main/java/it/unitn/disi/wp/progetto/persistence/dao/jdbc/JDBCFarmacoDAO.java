@@ -83,7 +83,8 @@ public class JDBCFarmacoDAO extends JDBCDAO<Farmaco, Long> implements FarmacoDAO
         }
 
         //è vulnerabile a SQL injection?
-        try (PreparedStatement stm = CON.prepareStatement("SELECT * FROM farmaco WHERE lower(nome) LIKE lower(?);")) {
+        try (PreparedStatement stm = CON.prepareStatement("SELECT * FROM farmaco WHERE lower(nome) LIKE lower(?) " +
+                "ORDER BY nome;")) {
             stm.setString(1, "%"+suggestion+"%"); // 1-based indexing
 
             try (ResultSet rs = stm.executeQuery()) {

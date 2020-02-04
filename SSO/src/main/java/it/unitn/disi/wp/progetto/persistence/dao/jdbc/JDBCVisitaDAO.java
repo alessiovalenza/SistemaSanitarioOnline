@@ -87,7 +87,8 @@ public class JDBCVisitaDAO extends JDBCDAO<Visita, Long> implements VisitaDAO {
         }
 
         //è vulnerabile a SQL injection?
-        try (PreparedStatement stm = CON.prepareStatement("SELECT * FROM visita WHERE lower(nome) LIKE lower(?);")) {
+        try (PreparedStatement stm = CON.prepareStatement("SELECT * FROM visita WHERE lower(nome) LIKE lower(?) " +
+                "ORDER BY nome;")) {
             stm.setString(1, "%"+suggestion+"%"); // 1-based indexing
 
             try (ResultSet rs = stm.executeQuery()) {

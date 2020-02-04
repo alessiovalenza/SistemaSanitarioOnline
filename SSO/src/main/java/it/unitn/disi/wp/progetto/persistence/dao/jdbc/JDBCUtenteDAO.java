@@ -70,7 +70,8 @@ public class JDBCUtenteDAO extends JDBCDAO<Utente, Long> implements UtenteDAO {
         try (PreparedStatement stm = CON.prepareStatement("SELECT * FROM utente " +
                 "WHERE medicobase = ?" +
                 "AND (lower(cognome || ' ' || nome) LIKE lower(?) OR lower(nome || ' ' || cognome) LIKE lower(?)" +
-                     "OR lower(email) LIKE lower(?) OR lower(codicefiscale) LIKE lower(?));")) {
+                     "OR lower(email) LIKE lower(?) OR lower(codicefiscale) LIKE lower(?)) " +
+                "ORDER BY nome, cognome;")) {
             stm.setLong(1, id); // 1-based indexing
             stm.setString(2, suggestion + "%");
             stm.setString(3, suggestion + "%");
@@ -149,7 +150,8 @@ public class JDBCUtenteDAO extends JDBCDAO<Utente, Long> implements UtenteDAO {
         try (PreparedStatement stm = CON.prepareStatement("SELECT * FROM utente " +
                 "WHERE (lower(cognome || ' ' || nome) LIKE lower(?) OR lower(nome || ' ' || cognome) LIKE lower(?) " +
                 "OR lower(email) LIKE lower(?) OR lower(codicefiscale) LIKE lower(?)) " +
-                "AND (ruolo = 'p' OR ruolo = 'mb' OR ruolo = 'ms')" + (provincia != null ? " AND idprovincia = ?" : "") + ";")) {
+                "AND (ruolo = 'p' OR ruolo = 'mb' OR ruolo = 'ms')" + (provincia != null ? " AND idprovincia = ?" : "") + " " +
+                "ORDER BY nome, cognome;")) {
             stm.setString(1, suggestion+"%"); // 1-based indexing
             stm.setString(2, suggestion+"%"); // 1-based indexing
             stm.setString(3, suggestion+"%"); // 1-based indexing
@@ -185,10 +187,10 @@ public class JDBCUtenteDAO extends JDBCDAO<Utente, Long> implements UtenteDAO {
         //è vulnerabile a SQL injection?
         try (PreparedStatement stm = CON.prepareStatement("SELECT * FROM utente " +
                 "WHERE (lower(cognome || ' ' || nome) LIKE lower(?) OR lower(nome || ' ' || cognome) LIKE lower(?)) " +
-                "AND idprovincia = ? AND ruolo = 'mb';")) {
+                "AND idprovincia = ? AND ruolo = 'mb' ORDER BY nome, cognome;")) {
             stm.setString(1, suggestion + "%"); // 1-based indexing
             stm.setString(2, suggestion + "%"); // 1-based indexing
-            stm.setString(3, provincia);
+            stm.setString(3, provincia); // 1-based indexing
 
             try (ResultSet rs = stm.executeQuery()) {
                 while(rs.next()){
@@ -233,7 +235,8 @@ public class JDBCUtenteDAO extends JDBCDAO<Utente, Long> implements UtenteDAO {
                 "WHERE p.medicobase = ? " +
                 "AND (lower(p.cognome || ' ' || p.nome) LIKE lower(?) OR lower(p.nome || ' ' || p.cognome) LIKE lower(?) " +
                 "OR lower(p.email) LIKE lower(?) OR lower(p.codicefiscale) LIKE lower(?)) " +
-                "GROUP BY p.id, p.email, p.idprovincia, p.ruolo, p.nome, p.cognome, p.sesso, p.datanascita, p.luogonascita, p.codicefiscale, p.medicobase;")) {
+                "GROUP BY p.id, p.email, p.idprovincia, p.ruolo, p.nome, p.cognome, p.sesso, p.datanascita, p.luogonascita, p.codicefiscale, p.medicobase " +
+                "ORDER BY p.nome, p.cognome;")) {
             stm.setLong(1, idMedicoBase); // 1-based indexing
             stm.setString(2, suggestion + "%");
             stm.setString(3, suggestion + "%");

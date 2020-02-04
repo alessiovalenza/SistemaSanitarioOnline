@@ -37,13 +37,13 @@ public class JDBCEsamePrescrittoDAO extends JDBCDAO<EsamePrescritto, Long> imple
         String soloNonErogatiStm = " AND ep.erogazione IS NULL";
 
         if(soloNonErogati) {
-            statement = tuttiStm + soloNonErogatiStm + ";";
+            statement = tuttiStm + soloNonErogatiStm + " ORDER BY ep.prescrizione DESC;";
         }
         else if(soloErogati) {
-            statement = tuttiStm + soloErogatiStm + ";";
+            statement = tuttiStm + soloErogatiStm + " ORDER BY ep.prescrizione DESC;";
         }
         else {
-            statement = tuttiStm + ";";
+            statement = tuttiStm + " ORDER BY ep.prescrizione DESC;";
         }
 
         try (PreparedStatement stm = CON.prepareStatement(statement)) {

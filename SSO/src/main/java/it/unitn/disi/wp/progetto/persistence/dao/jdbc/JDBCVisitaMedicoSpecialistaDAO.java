@@ -76,13 +76,13 @@ public class JDBCVisitaMedicoSpecialistaDAO extends JDBCDAO<VisitaMedicoSpeciali
         String soloNonErogateStm = " AND v.erogazione IS NULL";
 
         if(soloNonErogate) {
-            statement = tutteStm + soloNonErogateStm + ";";
+            statement = tutteStm + soloNonErogateStm + " ORDER BY v.prescrizione DESC;";
         }
         else if(soloErogate) {
-            statement = tutteStm + soloErogateStm + ";";
+            statement = tutteStm + soloErogateStm + " ORDER BY v.prescrizione DESC;";
         }
         else {
-            statement = tutteStm + ";";
+            statement = tutteStm + " ORDER BY v.prescrizione DESC;";
         }
 
         try (PreparedStatement stm = CON.prepareStatement(statement)){

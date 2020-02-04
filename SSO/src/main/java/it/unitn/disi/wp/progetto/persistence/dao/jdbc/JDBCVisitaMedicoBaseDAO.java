@@ -39,7 +39,8 @@ public class JDBCVisitaMedicoBaseDAO extends JDBCDAO<VisitaMedicoBase, Long> imp
 
         try (PreparedStatement stm = CON.prepareStatement("SELECT * FROM visita_base v " +
                 "JOIN utente m ON v.medicobase = m.id " +
-                "JOIN utente p ON v.paziente = p.id WHERE v.paziente = ?")){
+                "JOIN utente p ON v.paziente = p.id WHERE v.paziente = ? " +
+                "ORDER BY v.erogazione DESC;")){
             stm.setLong(1, id); // 1-based indexing
 
             try (ResultSet rs = stm.executeQuery()) {

@@ -64,7 +64,7 @@
 <html>
 
 <head>
-    <title>Dashboard SSP<fmt:message key='Dashboard_SSP'/></title>
+    <title><fmt:message key='Dashboard_SSP'/></title>
 
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
