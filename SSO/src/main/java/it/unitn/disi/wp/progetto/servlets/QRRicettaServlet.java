@@ -79,11 +79,12 @@ public class QRRicettaServlet extends HttpServlet {
                 File fileQR = new File(getServletContext().getRealPath(File.separator + Utilities.TEMP_FOLDER + File.separator + (Utilities.tempFileCount++) + ".jpg"));
                 FileOutputStream streamQR = new FileOutputStream(fileQR);
 
-                String content = ricetta.getMedicoBase().getId() + "-" +
+                /*String content = ricetta.getMedicoBase().getId() + "-" +
                         ricetta.getPaziente().getCodiceFiscale() + "-" +
                         ricetta.getEmissione() + "-" +
                         ricetta.getId() +"-" +
-                        ricetta.getFarmaco().getDescrizione();
+                        ricetta.getFarmaco().getDescrizione();*/
+                String content = "http://" + request.getRemoteHost() + ":" + request.getServerPort() + request.getContextPath() + "/pages/evadiQR.jsp?idricetta=" + id + "&idpaziente=" + ricetta.getPaziente().getId();
 
                 ByteArrayOutputStream qrOut = QRCode.from(content).to(ImageType.JPG).stream();
                 qrOut.writeTo(streamQR);

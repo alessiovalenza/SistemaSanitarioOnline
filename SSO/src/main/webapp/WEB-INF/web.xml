@@ -249,6 +249,7 @@
       api/pazienti/([\d]+)/ricette[\S]*
       api/pazienti/([\d]+)[/]?
       foto/([\d]+)/([\d]+).jpeg[/]?
+      pages/evadiQR[\S]*
     </param-value>
   </context-param>
 

@@ -396,7 +396,7 @@ public class AuthZFilter implements Filter {
             api/pazienti/([\d]+)[/]?
          */
         if(url.matches(urlPatterns.get(0)) || url.matches(urlPatterns.get(1)) ||
-                url.matches(urlPatterns.get(2))|| url.matches(urlPatterns.get(6))) {
+                url.matches(urlPatterns.get(2))|| url.matches(urlPatterns.get(6)) || url.matches(urlPatterns.get(8))) {
             res = true;
         }
 
