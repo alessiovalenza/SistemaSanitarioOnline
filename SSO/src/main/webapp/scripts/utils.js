@@ -300,13 +300,14 @@ function fileValidation(fotoId, buttonId, labelEstensioneAlert){
     if(!allowedExtensions.exec(filePath)){
         alert(labelEstensioneAlert);
         fileInput.value = null;
+        document.getElementById(buttonId).disabled = true;
         return false;
     } else {
         document.getElementById(buttonId).disabled = false;
     }
 }
 
-function initUploadFoto(formId, idUtente, popupId, labelBtn) {
+function initUploadFoto(formId, idUtente, popupId, labelBtn, fotoId, buttonId) {
     $(formId).submit(function(e){
         loadingButton(popupId,labelLoadingButtons)
         e.preventDefault();
@@ -318,7 +319,7 @@ function initUploadFoto(formId, idUtente, popupId, labelBtn) {
             contentType : false,
             processData : false,
             success: function() {
-                successButton(popupId,labelSuccessButtons)
+                successButton(popupId,labelSuccessButtons);
                 //alert("Immagine aggiunta con successo!");
             },
             error: function(xhr, status, error) {
@@ -331,6 +332,8 @@ function initUploadFoto(formId, idUtente, popupId, labelBtn) {
 
     $("#fotoToUpload").click(function () {
         resetButton("#btnUploadFoto", labelBtn);
+        document.getElementById(buttonId).disabled = true;
+        document.getElementById(fotoId).value = null;
     });
 }
 

@@ -133,6 +133,7 @@
         const labelSuccessButtons = "<fmt:message key='Succed'/>";
         const labelErrorButtons = "<fmt:message key='Error'/>";
         let baseUrl = "<%=request.getContextPath()%>";
+        let labelAlertFoto = "<fmt:message key='solo_jpg'/>";
 
         $(document).ready(function(){
 
@@ -207,7 +208,7 @@
             initCarousel(${sessionScope.utente.id}, "carouselInnerProfilo", basePathCarousel, extension);
 
             let labelUpload = document.getElementById("btnUploadFoto").innerHTML;
-            initUploadFoto("#formUploadFoto", ${sessionScope.utente.id}, "#btnUploadFoto", labelUpload);
+            initUploadFoto("#formUploadFoto", ${sessionScope.utente.id}, "#btnUploadFoto", labelUpload, "fotoToUpload", "btnUploadFoto");
 
             initAvatar(${sessionScope.utente.id}, "avatarImg", basePathCarousel, extension);
 
@@ -917,7 +918,7 @@
                                                 <input style="/*float: left;*/  max-width: 100%" class="btn btn-primary float-left" type="file" id="fotoToUpload" name="foto"
                                                        onchange="return fileValidation('fotoToUpload', 'btnUploadFoto', labelAlertFoto)"/>
                                                 <div class="col-sm" style="width: 100%;min-width: 10px"></div>
-                                                <button style="width: auto; height: 35pt; background: grey;" class="btn btn-primary float-right"  type="submit" id="btnUploadFoto" disabled><fmt:message key="carica"/> </button>
+                                                <button style="width: auto; height: 35pt;" class="btn btn-primary float-right"  type="submit" id="btnUploadFoto" disabled><fmt:message key="carica"/> </button>
                                             </div>
                                         </form>
                                     </div>
