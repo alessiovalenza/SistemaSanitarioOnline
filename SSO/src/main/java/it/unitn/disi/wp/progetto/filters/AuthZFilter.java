@@ -394,6 +394,7 @@ public class AuthZFilter implements Filter {
             pages/homeF[\S]*
             api/general/[\S]*
             api/pazienti/([\d]+)[/]?
+            pages/evadiQR[\S]*
          */
         if(url.matches(urlPatterns.get(0)) || url.matches(urlPatterns.get(1)) ||
                 url.matches(urlPatterns.get(2))|| url.matches(urlPatterns.get(6)) || url.matches(urlPatterns.get(8))) {
